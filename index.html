@@ -1760,7 +1760,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '4.8', fecha: '2026-07-18' };
+  const APP_VERSION = { num: '4.9', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -5231,8 +5231,8 @@
   }
 
   document.getElementById('btnCreateLote').addEventListener('click', ()=>{
-    const serie = document.getElementById('newLoteSerie').value.trim();
-    if(!serie){ toast('Ingresa el número de serie del lote'); return; }
+    const serie = document.getElementById('newLoteSerie').value.trim().replace(/-+$/,''); // un prefijo suelto ("020-") no es serie
+    if(!serie || !serie.includes('-')){ toast('Completa el número de serie del taco (ej. 020-010139)'); return; }
     if(data.lotes.some(l=>l.serie===serie)){ toast('Ya existe un lote con esa serie'); return; }
     // Color e inicio son OBLIGATORIOS (observación física del taco): sin ellos no se crea.
     const color = document.getElementById('newLoteColor').value;
@@ -5267,6 +5267,7 @@
     // kiosco se compran varios tacos seguidos del mismo sitio y antes había que reescribirlos.
     const serieInput = document.getElementById('newLoteSerie');
     serieInput.value = '';
+    precargarPrefijoSerie(); // deja listo "020-" (o el del juego) para el taco siguiente
     const sugerida = sugerirSerieSiguiente(serie);
     serieInput.placeholder = sugerida ? ('siguiente de la tira: ' + sugerida) : 'ej. 020-019033-003';
     serieInput.dataset.sugerida = sugerida || '';
@@ -5492,9 +5493,41 @@
   // A) Botón "Siguiente de la tira": si el último taco del juego activo permite deducir
   // la serie siguiente (cadenas 010183→84→85), un toque crea el lote con TODO heredado
   // (punto, ciudad, modo y descuento — la vía sancionada de herencia) y cae al grid.
+  // Prefijo de tirada del juego ACTIVO (el bloque que nunca cambia entre tacos del mismo
+  // juego): 13-Suerte→020, Chanchito→040, 777→034, Super Pares→021. Se deduce de los datos,
+  // NO se fija a mano: si un juego estrena tirada, el prefijo se actualiza solo cuando esa
+  // tirada pasa a ser la dominante. Devuelve '' si el juego aún no tiene lotes.
+  function prefijoTiradaJuego(){
+    const lotesJ = getLotesDelJuegoActivo();
+    if(!lotesJ.length) return '';
+    const cont = {};
+    lotesJ.forEach(l=>{ const t = getTiradaSerie(l.serie); if(t && t!=='sin-tirada') cont[t] = (cont[t]||0)+1; });
+    const top = Object.entries(cont).sort((a,b)=>b[1]-a[1])[0];
+    return top ? top[0]+'-' : '';
+  }
+  // Deja el campo de serie listo con el prefijo, para teclear solo el número que cambia.
+  // Nunca pisa lo que el usuario ya escribió.
+  function precargarPrefijoSerie(){
+    const inp = document.getElementById('newLoteSerie');
+    if(!inp) return;
+    const actual = inp.value.trim();
+    // Solo se escribe si el campo está vacío o contiene ÚNICAMENTE un prefijo suelto
+    // (p. ej. quedó "020-" y cambiaste a Chanchito → debe pasar a "040-"). Si hay una
+    // serie a medio teclear, no se toca nada.
+    const esSoloPrefijo = /^\d{2,4}-?$/.test(actual);
+    if(actual !== '' && !esSoloPrefijo) return;
+    const pref = prefijoTiradaJuego();
+    if(pref && actual !== pref){
+      inp.value = pref;
+      try{ inp.setSelectionRange(pref.length, pref.length); }catch(e){}
+      inp.dispatchEvent(new Event('input', {bubbles:true})); // refresca paridad/sugerencia
+    }
+  }
+
   function renderLoteQuickCreate(){
     const wrap = document.getElementById('loteRapidoWrap');
     if(!wrap) return;
+    precargarPrefijoSerie();
     const lotesJ = getLotesDelJuegoActivo();
     if(!lotesJ.length){ wrap.innerHTML=''; renderLoteChipsCtx(); return; }
     const ultimo = lotesJ.slice().sort((a,b)=>rgLoteTime(b)-rgLoteTime(a))[0];
