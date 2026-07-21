@@ -1694,6 +1694,30 @@
         </select>
         <span class="field-help" id="modalLoteModoHelp" style="display:block; margin-top:5px;"></span>
       </div>
+      <div id="modalLoteExtraWrap" style="display:none; flex-direction:column; gap:12px;">
+        <div class="grid">
+          <div class="field">
+            <label for="modalLoteColor">Color del taco</label>
+            <select id="modalLoteColor" style="width:100%;">
+              <option value="">— sin registrar —</option>
+              <option value="gris">Gris</option>
+              <option value="plomo">Plomo</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="modalLoteInicio">Inicia en</label>
+            <input type="text" id="modalLoteInicio" inputmode="numeric" placeholder="ej. 001" style="width:100%; font-family:'Courier New',monospace;">
+          </div>
+        </div>
+        <div class="field">
+          <label for="modalLoteDescuento">Descuento del vendedor (%)</label>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" inputmode="decimal" id="modalLoteDescuento" placeholder="0" style="width:80px; font-family:'Courier New',monospace;">
+            <span id="modalLoteDescuentoHelp" style="font-size:12px; color:var(--silver-dark); line-height:1.35;"></span>
+          </div>
+          <span class="field-help" style="display:block; margin-top:5px;">Al cambiarlo se <strong>recalcula el costo de todos los boletos</strong> de este taco (y con él su ROI y break-even). Déjalo vacío o en 0 para volver al precio de lista.</span>
+        </div>
+      </div>
     </div>
     <div id="modalBoletoFormWrap" style="display:none; flex-direction:column; gap:12px; margin:14px 0;">
       <div class="grid">
@@ -1760,7 +1784,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '4.9', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '5.0', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -3214,6 +3238,11 @@
     const loteModoWrap = document.getElementById('modalLoteModoWrap');
     const loteModoEl = document.getElementById('modalLoteModo');
     const loteModoHelpEl = document.getElementById('modalLoteModoHelp');
+    const loteExtraWrap = document.getElementById('modalLoteExtraWrap');
+    const loteColorEl = document.getElementById('modalLoteColor');
+    const loteInicioEl = document.getElementById('modalLoteInicio');
+    const loteDescEl = document.getElementById('modalLoteDescuento');
+    const loteDescHelpEl = document.getElementById('modalLoteDescuentoHelp');
 
     const boletoFormWrap = document.getElementById('modalBoletoFormWrap');
     const boletoFechaEl = document.getElementById('modalBoletoFecha');
@@ -3263,6 +3292,34 @@
       }
       // Modo de compra: solo se muestra al editar (initial.modo definido). Ayuda dinámica que
       // explica el efecto sobre el gasto según cuántas posiciones faltan por registrar.
+      // Extras de edición (color, inicio, descuento): solo al EDITAR un lote existente.
+      // initial.extra viene con los valores actuales; si no viene, el bloque no se muestra.
+      if(loteExtraWrap){
+        if(!initial.extra){
+          loteExtraWrap.style.display = 'none';
+        } else {
+          loteExtraWrap.style.display = 'flex';
+          loteColorEl.value = initial.extra.color || '';
+          loteInicioEl.value = initial.extra.inicioNum || '';
+          loteDescEl.value = initial.extra.descuento > 0 ? String(initial.extra.descuento) : '';
+          const costoBase = initial.extra.costoBase || 2;
+          const nB = initial.extra.nBoletos || 0;
+          const pintarAyudaDesc = ()=>{
+            const p = parseFloat(String(loteDescEl.value).replace(',','.')) || 0;
+            if(!(p > 0)){
+              loteDescHelpEl.textContent = `Sin descuento: ${fmt(costoBase)} por boleto (precio de lista).`;
+              loteDescHelpEl.style.color = 'var(--silver-dark)';
+              return;
+            }
+            if(p >= 100){ loteDescHelpEl.textContent = 'El descuento debe ser menor a 100.'; loteDescHelpEl.style.color = 'var(--stamp)'; return; }
+            const nuevo = costoConDescuento(costoBase, p);
+            loteDescHelpEl.textContent = `${fmt(nuevo)} por boleto · recalcula ${nB} boleto(s) · ahorro ${fmt((costoBase - nuevo) * nB)}`;
+            loteDescHelpEl.style.color = '#065F46';
+          };
+          pintarAyudaDesc();
+          loteDescEl.oninput = pintarAyudaDesc;
+        }
+      }
       if(loteModoWrap && loteModoEl){
         if(initial.modo === undefined){
           loteModoWrap.style.display = 'none';
@@ -3414,7 +3471,10 @@
       confirmBtn.onclick = ()=>{
         if(options.loteForm){
           close({ serie: loteSerieEl.value, punto: lotePuntoEl.value, ciudad: getLoteCiudadValue(),
-                  modo: (options.loteForm.modo !== undefined ? loteModoEl.value : undefined) });
+                  modo: (options.loteForm.modo !== undefined ? loteModoEl.value : undefined),
+                  color: (options.loteForm.extra ? loteColorEl.value : undefined),
+                  inicioNum: (options.loteForm.extra ? String(loteInicioEl.value||'').trim() : undefined),
+                  descuento: (options.loteForm.extra ? String(loteDescEl.value||'').trim() : undefined) });
         } else if(options.boletoForm){
           const premioVal = parseFloat(boletoPremioEl.value) || 0;
           const cobradoVal = premioVal > 0 && boletoCobradoEl.checked;
@@ -6171,7 +6231,11 @@
           title: 'Editar lote',
           body,
           loteForm: { serie: lote.serie, punto: lote.punto, ciudad: lote.ciudad, modo: modoActual,
-                      modoInfo: { tamano: tamanoL, pendientes: pendientesL, costoUnidad: (getJuego(lote.juegoId)?.costoDefecto) ?? 2 } },
+                      modoInfo: { tamano: tamanoL, pendientes: pendientesL, costoUnidad: (getJuego(lote.juegoId)?.costoDefecto) ?? 2 },
+                      extra: { color: lote.color || '', inicioNum: lote.inicioNum || '',
+                               descuento: getDescuentoLote(lote),
+                               costoBase: (getJuego(lote.juegoId)?.costoDefecto) ?? 2,
+                               nBoletos: nBoletosActuales } },
           confirmLabel: 'Guardar cambios'
         });
         if(result === false) return; // cancelado
@@ -6214,12 +6278,52 @@
             : ' · ahora cuenta solo lo que registres (boletos sueltos)';
         }
         if(nuevoModo) lote.modo = nuevoModo; // persiste el modo (deja de ser inferido)
+
+        // ---- Color e inicio: metadata física, no tocan ningún cálculo ----
+        let extrasMsg = '';
+        if(result.color !== undefined){
+          if(result.color) lote.color = result.color; else delete lote.color;
+        }
+        if(result.inicioNum !== undefined){
+          const ini = String(result.inicioNum).trim();
+          if(ini){
+            if(!/^\d{1,3}$/.test(ini)){ toast('«Inicia en» debe ser un número (ej. 001)'); return; }
+            lote.inicioNum = ini.padStart(3,'0');
+          } else delete lote.inicioNum;
+        }
+
+        // ---- Descuento: SÍ toca el dinero. Recalcula el costo de cada boleto del taco.
+        // Se usa costoNominal (precio de lista) como base para que aplicar/quitar/cambiar el
+        // porcentaje varias veces nunca acumule error: siempre se parte del nominal.
+        let descMsg = '';
+        if(result.descuento !== undefined){
+          const pctTxt = String(result.descuento).replace(',','.').trim();
+          const pctNuevo = pctTxt === '' ? 0 : parseFloat(pctTxt);
+          if(isNaN(pctNuevo) || pctNuevo < 0 || pctNuevo >= 100){ toast('El descuento debe estar entre 0 y 99'); return; }
+          const pctPrev = getDescuentoLote(lote);
+          if(Math.abs(pctNuevo - pctPrev) > 0.0001){
+            if(pctNuevo > 0) lote.descuento = pctNuevo; else delete lote.descuento;
+            let nRecalc = 0, deltaTotal = 0;
+            data.records.forEach(r=>{
+              if(String(r.loteId) !== String(lote.id)) return;
+              const nominal = (r.costoNominal != null) ? r.costoNominal : (r.costo || 0);
+              const nuevo = pctNuevo > 0 ? costoConDescuento(nominal, pctNuevo) : nominal;
+              deltaTotal += (r.costo || 0) - nuevo;
+              if(pctNuevo > 0) r.costoNominal = nominal; else delete r.costoNominal; // sin descuento no hace falta el nominal
+              r.costo = nuevo;
+              nRecalc++;
+            });
+            descMsg = pctNuevo > 0
+              ? ` · descuento ${pctNuevo}% aplicado a ${nRecalc} boleto(s) (ahorro ${fmt(Math.max(0,deltaTotal))})`
+              : ` · descuento retirado en ${nRecalc} boleto(s) (vuelven al precio de lista)`;
+          }
+        }
         lote.actualizadoEn = new Date().toISOString();
 
         save(); render();
         toast((boletosActualizados > 0
           ? `Lote actualizado · ${boletosActualizados} boleto(s) sincronizado(s)`
-          : 'Lote actualizado') + modoMsg);
+          : 'Lote actualizado') + modoMsg + descMsg);
       });
     });
   }
