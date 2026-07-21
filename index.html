@@ -574,6 +574,24 @@
             <label>Paridad detectada</label>
             <div id="newLoteParidadPreview" style="padding:9px 10px; border:1px solid var(--silver); background:var(--paper-dark); font-family:'Courier New',monospace; font-weight:700; text-transform:uppercase; font-size:13px; color:var(--silver-dark);">—</div>
           </div>
+          <div class="field" style="min-width:120px;">
+            <label for="newLoteColor">Color del taco <span style="color:var(--stamp);">*</span></label>
+            <select id="newLoteColor">
+              <option value="">— elige —</option>
+              <option value="gris">Gris</option>
+              <option value="plomo">Plomo</option>
+            </select>
+          </div>
+          <div class="field" style="min-width:120px;">
+            <label for="newLoteInicio">Inicia en <span style="color:var(--stamp);">*</span></label>
+            <select id="newLoteInicio">
+              <option value="">— elige —</option>
+              <option value="001">001</option>
+              <option value="003">003</option>
+              <option value="__otro__">Otro…</option>
+            </select>
+            <input type="text" id="newLoteInicioOtro" inputmode="numeric" placeholder="ej. 002" style="display:none; margin-top:4px; width:80px; font-family:'Courier New',monospace;">
+          </div>
           <button class="btn-primary" id="btnCreateLote">+ Crear lote</button>
         </div>
         <div id="loteChipsCtx" style="display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin:8px 0 6px;"></div>
@@ -1742,7 +1760,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '4.7', fecha: '2026-07-17' };
+  const APP_VERSION = { num: '4.8', fecha: '2026-07-18' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -5216,6 +5234,12 @@
     const serie = document.getElementById('newLoteSerie').value.trim();
     if(!serie){ toast('Ingresa el número de serie del lote'); return; }
     if(data.lotes.some(l=>l.serie===serie)){ toast('Ya existe un lote con esa serie'); return; }
+    // Color e inicio son OBLIGATORIOS (observación física del taco): sin ellos no se crea.
+    const color = document.getElementById('newLoteColor').value;
+    const inicioSel = document.getElementById('newLoteInicio').value;
+    const inicioNum = inicioSel==='__otro__' ? document.getElementById('newLoteInicioOtro').value.trim() : inicioSel;
+    if(!color){ toast('⚠ Indica el COLOR del taco (gris o plomo) — sin eso no se crea'); document.getElementById('newLoteColor').focus(); return; }
+    if(!inicioNum || !/^\d{1,3}$/.test(inicioNum)){ toast('⚠ Indica con qué numeración INICIA el taco (ej. 001 o 003)'); document.getElementById(inicioSel==='__otro__'?'newLoteInicioOtro':'newLoteInicio').focus(); return; }
     const paridad = autoParidad(serie) || 'impar';
     const modo = document.getElementById('newLoteModo').value;
     const punto = document.getElementById('newLotePunto').value.trim();
@@ -5229,6 +5253,10 @@
     // Solo se escribe el campo si de verdad hay descuento: un lote sin rebaja queda idéntico
     // a los 53 que ya existen, sin campos nuevos que ensucien el respaldo.
     if(descuento > 0) lote.descuento = descuento;
+    // Color e inicio: siempre presentes en lotes nuevos (validados arriba). Los lotes
+    // anteriores a v4.8 no los tienen y simplemente no muestran los tags.
+    lote.color = color;
+    lote.inicioNum = inicioNum.padStart(3,'0');
     data.lotes.push(lote);
     // Recordar el contexto de esta compra para el siguiente taco de la misma visita.
     setCtxCompra({punto, ciudad, modo, serie, juegoId: juego.id, fecha: todayStr(), descuento});
@@ -5434,6 +5462,14 @@
     // "Igual" incluye el descuento: es la misma compra al mismo vendedor.
     const dBase = getDescuentoLote(base);
     document.getElementById('newLoteDescuento').value = dBase > 0 ? String(dBase) : '';
+    // Color e inicio: el siguiente taco de la MISMA tira comparte características físicas.
+    // Si el taco base no las tiene (anterior a v4.8), la validación pedirá elegirlas.
+    if(base.color) document.getElementById('newLoteColor').value = base.color;
+    if(base.inicioNum){
+      const selIni = document.getElementById('newLoteInicio'), otroIni = document.getElementById('newLoteInicioOtro');
+      if(['001','003'].includes(base.inicioNum)){ selIni.value = base.inicioNum; otroIni.style.display='none'; }
+      else { selIni.value='__otro__'; otroIni.style.display=''; otroIni.value = base.inicioNum; }
+    }
     renderCostoPreview();
     const sig = sugerirSerieSiguiente(base.serie);
     const inp = document.getElementById('newLoteSerie');
@@ -5482,14 +5518,20 @@
     const selC = v('newLoteCiudad');
     const ciudad = selC==='__otro__' ? (v('newLoteCiudadOtro')||'Otra ciudad') : selC;
     const desc = parseFloat(v('newLoteDescuento'))||0;
+    const colorV = v('newLoteColor');
+    const iniSel = v('newLoteInicio');
+    const iniV = iniSel==='__otro__' ? v('newLoteInicioOtro') : iniSel;
+    // req=true: campo OBLIGATORIO — si falta se pinta en rojo, no en gris punteado.
     const chips = [
-      ['newLoteModo', modo, true],
-      ['newLoteDescuento', desc>0?`🏷️ −${desc}%`:'sin descuento', desc>0],
-      ['newLotePunto', v('newLotePunto')||'sin punto', !!v('newLotePunto')],
-      ['newLoteCiudad', ciudad||'sin ciudad', !!ciudad],
+      ['newLoteColor', colorV?('🎨 '+(colorV==='plomo'?'Plomo':'Gris')):'⚠ elige color', !!colorV, true],
+      ['newLoteInicio', iniV?('⇢ inicia '+iniV):'⚠ elige inicio', !!iniV, true],
+      ['newLoteModo', modo, true, false],
+      ['newLoteDescuento', desc>0?`🏷️ −${desc}%`:'sin descuento', desc>0, false],
+      ['newLotePunto', v('newLotePunto')||'sin punto', !!v('newLotePunto'), false],
+      ['newLoteCiudad', ciudad||'sin ciudad', !!ciudad, false],
     ];
     cont.innerHTML = `<span style="font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--silver-dark);">Se guardará con:</span>` +
-      chips.map(([id,txt,activo])=>`<button type="button" class="btn-ghost lote-chip-ctx" data-campo="${id}" title="Tocar para cambiar" style="font-size:11.5px; padding:3px 10px;${activo?'':' color:var(--silver-dark); border-style:dashed;'}">${escapeHtml(txt)} ✎</button>`).join('');
+      chips.map(([id,txt,activo,req])=>`<button type="button" class="btn-ghost lote-chip-ctx" data-campo="${id}" title="Tocar para cambiar" style="font-size:11.5px; padding:3px 10px;${activo?'':(req?' color:var(--stamp); border-color:var(--stamp); font-weight:700;':' color:var(--silver-dark); border-style:dashed;')}">${escapeHtml(txt)} ✎</button>`).join('');
     cont.querySelectorAll('.lote-chip-ctx').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const det = document.getElementById('loteAjustes');
@@ -5500,10 +5542,15 @@
     });
   }
   // Los chips se refrescan al cambiar cualquier campo de ajustes, y Enter en la serie crea.
-  ['newLoteModo','newLoteDescuento','newLotePunto','newLoteCiudad','newLoteCiudadOtro'].forEach(id=>{
+  ['newLoteModo','newLoteDescuento','newLotePunto','newLoteCiudad','newLoteCiudadOtro','newLoteColor','newLoteInicio','newLoteInicioOtro'].forEach(id=>{
     const elC = document.getElementById(id);
     elC?.addEventListener('input', renderLoteChipsCtx);
     elC?.addEventListener('change', renderLoteChipsCtx);
+  });
+  // "Inicia en: Otro…" despliega el campo numérico libre.
+  document.getElementById('newLoteInicio')?.addEventListener('change', (e)=>{
+    const otro = document.getElementById('newLoteInicioOtro');
+    if(otro){ otro.style.display = e.target.value==='__otro__' ? '' : 'none'; if(e.target.value==='__otro__') otro.focus(); }
   });
   document.getElementById('newLoteSerie')?.addEventListener('keydown', (e)=>{
     if(e.key==='Enter'){ e.preventDefault(); document.getElementById('btnCreateLote')?.click(); }
@@ -5913,6 +5960,7 @@
         <td style="padding:6px 8px; font-family:monospace; font-weight:600;">${escapeHtml(l.serie)}${desc}</td>
         <td style="padding:6px 8px; font-family:monospace; color:var(--silver-dark);">${escapeHtml(getTiradaSerie(l.serie))}</td>
         <td style="padding:6px 8px; text-transform:uppercase; font-size:11px;">${escapeHtml(l.paridad||'')}</td>
+        <td style="padding:6px 8px; font-size:11px; white-space:nowrap;">${l.color?(l.color==='plomo'?'Plomo':'Gris'):'—'}${l.inicioNum?` <span style="font-family:monospace; color:var(--silver-dark);">⇢${escapeHtml(l.inicioNum)}</span>`:''}</td>
         <td style="padding:6px 8px; text-align:right;">${pct}%</td>
         <td style="padding:6px 8px; text-align:center; color:${estadoColor}; font-weight:600;">${estadoTxt}</td>
         <td style="padding:6px 8px; text-align:right; color:${roiColor}; font-weight:600;">${roiTxt}</td>
@@ -5921,7 +5969,7 @@
     }).join('');
     list.innerHTML = `<div class="table-wrap" style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:12.5px;">
       <thead><tr style="background:var(--paper-dark); border-bottom:2px solid var(--silver-dark); text-align:left;">
-        <th style="padding:6px 8px;">Serie</th><th style="padding:6px 8px;">Tirada</th><th style="padding:6px 8px;">Par.</th>
+        <th style="padding:6px 8px;">Serie</th><th style="padding:6px 8px;">Tirada</th><th style="padding:6px 8px;">Par.</th><th style="padding:6px 8px;">Color·Inicio</th>
         <th style="padding:6px 8px; text-align:right;">Rev.</th><th style="padding:6px 8px; text-align:center;">Premios</th>
         <th style="padding:6px 8px; text-align:right;">ROI</th><th style="padding:6px 8px;">Creado</th></tr></thead>
       <tbody>${filas}</tbody></table></div>`;
@@ -6014,6 +6062,8 @@
         <button class="edit-btn lote-clone-btn" data-id="${l.id}" title="Clonar lote (hereda punto de venta y ciudad)">⧉</button>
         <span style="font-size:10.5px; color:var(--silver-dark); text-transform:uppercase;">${l.paridad}</span>
         <span style="font-size:10px; padding:1px 6px; border-radius:4px; background:var(--silver); color:var(--ink-mid); white-space:nowrap;" title="Tirada / plantilla de imprenta">T·${escapeHtml(tirada)}</span>
+        ${l.color ? `<span style="font-size:10px; padding:1px 6px; border-radius:4px; background:${l.color==='plomo'?'#4A4A52':'#C9D3D9'}; color:${l.color==='plomo'?'#E8ECEF':'#1C1B19'}; font-weight:700; white-space:nowrap;" title="Color físico del taco">${l.color==='plomo'?'PLOMO':'GRIS'}</span>` : ''}
+        ${l.inicioNum ? `<span style="font-size:10px; padding:1px 6px; border-radius:4px; background:var(--silver); color:var(--ink-mid); font-family:'Courier New',monospace; white-space:nowrap;" title="Numeración con la que inicia la tira">⇢ ${escapeHtml(l.inicioNum)}</span>` : ''}
         ${getDescuentoLote(l)>0 ? `<span style="font-size:10px; padding:1px 6px; border-radius:4px; background:#D1FAE5; color:#065F46; font-weight:700; white-space:nowrap;" title="Comprado con ${getDescuentoLote(l)}% de descuento: ${fmt(costoUnitarioLote(l))} por boleto en vez de ${fmt(getJuego(l.juegoId)?.costoDefecto ?? 2)}. Ahorro en este taco: ${fmt(ahorroDeLote(l))}.">🏷️ −${getDescuentoLote(l)}%</span>` : ''}
         ${matchBadge}
         <div class="lbar"><div class="lbar-fill" style="width:${pct}%;"></div></div>
