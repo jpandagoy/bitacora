@@ -727,6 +727,36 @@
             <label for="loteFiltroPunto">Punto de venta</label>
             <select id="loteFiltroPunto"><option value="">Todos</option></select>
           </div>
+          <div class="field">
+            <label for="loteFiltroColor">Color del taco</label>
+            <select id="loteFiltroColor">
+              <option value="">Todos</option>
+              <option value="gris">Gris</option>
+              <option value="plomo">Plomo</option>
+              <option value="__sin__">Sin registrar</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="loteFiltroInicio">Inicia en</label>
+            <select id="loteFiltroInicio"><option value="">Todos</option></select>
+          </div>
+          <div class="field">
+            <label for="loteFiltroDesc">Descuento</label>
+            <select id="loteFiltroDesc">
+              <option value="">Todos</option>
+              <option value="con">Solo con descuento</option>
+              <option value="sin">Solo sin descuento</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="loteFiltroPremMin">$ Premios del lote (rango)</label>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <input type="text" inputmode="decimal" id="loteFiltroPremMin" placeholder="mín" style="width:80px; font-family:'Courier New',monospace;">
+              <span style="color:var(--silver-dark);">→</span>
+              <input type="text" inputmode="decimal" id="loteFiltroPremMax" placeholder="máx" style="width:80px; font-family:'Courier New',monospace;">
+            </div>
+            <span class="field-help">Ej. mín 100 para ver solo tacos que pagaron $100 o más.</span>
+          </div>
         </div>
         <!-- Filtro por fecha: se puede ordenar por fecha y por actividad, así que también hay
              que poder acotar por ellas. El selector elige QUÉ fecha se filtra. -->
@@ -1784,7 +1814,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '5.0', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '5.1', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -5819,6 +5849,11 @@
       paridad: document.getElementById('loteFiltroParidad')?.value || '',
       roi: document.getElementById('loteFiltroRoi')?.value || '',
       punto: document.getElementById('loteFiltroPunto')?.value || '',
+      color: document.getElementById('loteFiltroColor')?.value || '',
+      inicio: document.getElementById('loteFiltroInicio')?.value || '',
+      desc: document.getElementById('loteFiltroDesc')?.value || '',
+      premMin: parseFloat(String(document.getElementById('loteFiltroPremMin')?.value||'').replace(',','.')),
+      premMax: parseFloat(String(document.getElementById('loteFiltroPremMax')?.value||'').replace(',','.')),
       fechaCampo: document.getElementById('loteFechaCampo')?.value || 'creado',
       fechaDesde: document.getElementById('loteFechaDesde')?.value || '',
       fechaHasta: document.getElementById('loteFechaHasta')?.value || ''
@@ -5933,7 +5968,12 @@
     if(key==='fecha')    return loteFechaVal(l);
     if(key==='roi')      { const ri=loteRoiInfo(l); return ri.roi===null ? -Infinity : ri.roi; }
     if(key==='revelado') return c.total>0 ? c.revealed/c.total : 0;
+    // OJO: 'premios' es el CONTEO de boletos premiados (13, 14, 15…), no el dinero.
+    // Para ordenar por dinero está 'montoPremios' — antes no existía y por eso un taco con
+    // un premio de $10.000 quedaba debajo de otro con más premios pequeños.
     if(key==='premios')  return c.paid;
+    if(key==='montoPremios') return loteRoiInfo(l).premios || 0;
+    if(key==='gasto')    return loteRoiInfo(l).gasto || 0;
     if(key==='serie')    return l.serie;
     return 0;
   }
@@ -5946,7 +5986,8 @@
   }
   function renderLoteSortBar(){
     const bar = document.getElementById('loteSortBar'); if(!bar) return;
-    const cols = [['actividad','Actualización'],['fecha','Fecha'],['roi','ROI'],['revelado','% revelado'],['premios','Premios'],['serie','Serie']];
+    const cols = [['actividad','Actualización'],['fecha','Fecha'],['roi','ROI'],['revelado','% revelado'],
+                  ['premios','N.º premios'],['montoPremios','$ Premios'],['gasto','$ Gasto'],['serie','Serie']];
     bar.innerHTML = '<span class="field-help" style="font-weight:600; margin-right:2px;">Ordenar:</span>' +
       cols.map(([k,lbl])=>{
         const active = loteSort.key===k;
@@ -6008,6 +6049,17 @@
     const puntos = Array.from(new Set(data.lotes.map(l=>l.punto).filter(Boolean))).sort();
     sel.innerHTML = '<option value="">Todos</option>' + puntos.map(p=>`<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`).join('');
     if(puntos.includes(prev)) sel.value = prev;
+    // "Inicia en": las opciones salen de los datos (001, 003, y las que aparezcan).
+    const selI = document.getElementById('loteFiltroInicio');
+    if(selI){
+      const prevI = selI.value;
+      const inis = Array.from(new Set(data.lotes.map(l=>l.inicioNum).filter(Boolean))).sort();
+      const haySin = data.lotes.some(l=>!l.inicioNum);
+      selI.innerHTML = '<option value="">Todos</option>'
+        + inis.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('')
+        + (haySin ? '<option value="__sin__">Sin registrar</option>' : '');
+      if(prevI && (inis.includes(prevI) || prevI==='__sin__')) selI.value = prevI;
+    }
   }
 
   // Vista de la lista de lotes: 'tarjetas' (por defecto, la de siempre) o 'tabla' (compacta).
@@ -6056,16 +6108,33 @@
         <td style="padding:6px 8px; font-size:11px; white-space:nowrap;">${l.color?(l.color==='plomo'?'Plomo':'Gris'):'—'}${l.inicioNum?` <span style="font-family:monospace; color:var(--silver-dark);">⇢${escapeHtml(l.inicioNum)}</span>`:''}</td>
         <td style="padding:6px 8px; text-align:right;">${pct}%</td>
         <td style="padding:6px 8px; text-align:center; color:${estadoColor}; font-weight:600;">${estadoTxt}</td>
+        <td style="padding:6px 8px; text-align:right; font-family:'Courier New',monospace;">${fmt(roi.premios||0)}</td>
         <td style="padding:6px 8px; text-align:right; color:${roiColor}; font-weight:600;">${roiTxt}</td>
         <td style="padding:6px 8px; font-size:11px; color:var(--silver-dark); white-space:nowrap;">${loteFechaEsExacta(l)?'':'~'}${fechaCorta(loteFechaVal(l))}</td>
       </tr>`;
     }).join('');
+    // Encabezados CLICABLES: la tabla se ordena por la columna que toques (y alterna
+    // asc/desc), usando el mismo estado loteSort que las tarjetas. Los filtros de arriba
+    // ya venían aplicados en `visibles` — la tabla siempre muestra el resultado filtrado.
+    const th = (lbl, key, align)=>{
+      const activo = key && loteSort.key===key;
+      const flecha = activo ? (loteSort.dir==='asc'?' ▲':' ▼') : '';
+      return `<th style="padding:6px 8px; text-align:${align||'left'}; ${key?'cursor:pointer; user-select:none;':''} ${activo?'color:#1565C0;':''}" ${key?`class="lote-th-sort" data-sortkey="${key}" title="Ordenar por ${escapeHtml(lbl)}"`:''}>${escapeHtml(lbl)}${flecha}</th>`;
+    };
     list.innerHTML = `<div class="table-wrap" style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:12.5px;">
-      <thead><tr style="background:var(--paper-dark); border-bottom:2px solid var(--silver-dark); text-align:left;">
-        <th style="padding:6px 8px;">Serie</th><th style="padding:6px 8px;">Tirada</th><th style="padding:6px 8px;">Par.</th><th style="padding:6px 8px;">Color·Inicio</th>
-        <th style="padding:6px 8px; text-align:right;">Rev.</th><th style="padding:6px 8px; text-align:center;">Premios</th>
-        <th style="padding:6px 8px; text-align:right;">ROI</th><th style="padding:6px 8px;">Creado</th></tr></thead>
+      <thead><tr style="background:var(--paper-dark); border-bottom:2px solid var(--silver-dark);">
+        ${th('Serie','serie')}${th('Tirada')}${th('Par.')}${th('Color·Inicio')}
+        ${th('Rev.','revelado','right')}${th('Premios','premios','center')}
+        ${th('$ Premios','montoPremios','right')}${th('ROI','roi','right')}${th('Creado','fecha')}</tr></thead>
       <tbody>${filas}</tbody></table></div>`;
+    list.querySelectorAll('.lote-th-sort').forEach(h=>{
+      h.addEventListener('click', ()=>{
+        const k = h.dataset.sortkey;
+        if(loteSort.key===k) loteSort.dir = loteSort.dir==='asc'?'desc':'asc';
+        else { loteSort.key=k; loteSort.dir = (k==='serie') ? 'asc' : 'desc'; }
+        renderLoteList();
+      });
+    });
     list.querySelectorAll('.lote-trow').forEach(row=>{
       row.addEventListener('click', ()=>{
         activeLoteId = (data.lotes.find(l=>String(l.id)===row.dataset.id)||{}).id || null;
@@ -6100,6 +6169,26 @@
         if(filters.roi === 'positivo' && !(roiInfo.roi !== null && roiInfo.roi >= 0)) return false;
         if(filters.roi === 'negativo' && !(roiInfo.roi !== null && roiInfo.roi < 0)) return false;
       }
+      // Filtros nuevos — TODOS se combinan con los anteriores en Y lógico (condición compuesta):
+      // p. ej. "completos + par + gris + inicia 001 + con descuento + premios ≥ $100".
+      if(filters.color){
+        if(filters.color === '__sin__'){ if(l.color) return false; }
+        else if(l.color !== filters.color) return false;
+      }
+      if(filters.inicio){
+        if(filters.inicio === '__sin__'){ if(l.inicioNum) return false; }
+        else if(l.inicioNum !== filters.inicio) return false;
+      }
+      if(filters.desc){
+        const d = getDescuentoLote(l);
+        if(filters.desc === 'con' && !(d > 0)) return false;
+        if(filters.desc === 'sin' && d > 0) return false;
+      }
+      if(isFinite(filters.premMin) || isFinite(filters.premMax)){
+        const pr = loteRoiInfo(l).premios || 0;
+        if(isFinite(filters.premMin) && pr < filters.premMin) return false;
+        if(isFinite(filters.premMax) && pr > filters.premMax) return false;
+      }
       if(!loteEnRangoFecha(l, filters)) return false;
       return true;
     });
@@ -6107,7 +6196,8 @@
     sincronizarChipsFecha();
 
     const hayFiltroFecha = !!(filters.fechaDesde || filters.fechaHasta);
-    const hayFiltro = !!(filters.search || filters.estado || filters.paridad || filters.roi || filters.punto || hayFiltroFecha);
+    const hayFiltro = !!(filters.search || filters.estado || filters.paridad || filters.roi || filters.punto
+      || filters.color || filters.inicio || filters.desc || isFinite(filters.premMin) || isFinite(filters.premMax) || hayFiltroFecha);
     renderLoteTotales(visibles, hayFiltro);
 
     if(summary){
@@ -6115,8 +6205,22 @@
       const rangoTxt = hayFiltroFecha
         ? ` · por ${campoTxt} entre ${filters.fechaDesde || '—'} y ${filters.fechaHasta || 'hoy'}`
         : '';
+      // Resumen de la condición COMPUESTA: se listan todos los criterios activos, para que
+      // quede claro que se combinan en Y lógico (y por qué salen tan pocos lotes).
+      const criterios = [];
+      if(filters.search)  criterios.push(`serie ~ «${filters.search}»`);
+      if(filters.estado)  criterios.push(filters.estado==='completo'?'completos':'en curso');
+      if(filters.paridad) criterios.push(filters.paridad);
+      if(filters.roi)     criterios.push(filters.roi==='positivo'?'ROI ≥ 0':'ROI < 0');
+      if(filters.punto)   criterios.push(filters.punto);
+      if(filters.color)   criterios.push(filters.color==='__sin__'?'sin color':filters.color);
+      if(filters.inicio)  criterios.push(filters.inicio==='__sin__'?'sin inicio':'inicia '+filters.inicio);
+      if(filters.desc)    criterios.push(filters.desc==='con'?'con descuento':'sin descuento');
+      if(isFinite(filters.premMin) || isFinite(filters.premMax)){
+        criterios.push(`$ premios ${isFinite(filters.premMin)?'≥ '+fmt(filters.premMin):''}${(isFinite(filters.premMin)&&isFinite(filters.premMax))?' y ':''}${isFinite(filters.premMax)?'≤ '+fmt(filters.premMax):''}`);
+      }
       summary.textContent = hayFiltro
-        ? `${visibles.length} de ${lotesDelJuego.length} lote(s) coinciden con el filtro${rangoTxt}`
+        ? `${visibles.length} de ${lotesDelJuego.length} lote(s) · ${criterios.join(' + ')}${rangoTxt}`
         : `${lotesDelJuego.length} lote(s) en total`;
     }
 
@@ -6333,6 +6437,10 @@
   document.getElementById('loteFiltroParidad').addEventListener('change', ()=> renderLoteList());
   document.getElementById('loteFiltroRoi').addEventListener('change', ()=> renderLoteList());
   document.getElementById('loteFiltroPunto').addEventListener('change', ()=> renderLoteList());
+  ['loteFiltroColor','loteFiltroInicio','loteFiltroDesc'].forEach(id=>
+    document.getElementById(id)?.addEventListener('change', ()=> renderLoteList()));
+  ['loteFiltroPremMin','loteFiltroPremMax'].forEach(id=>
+    document.getElementById(id)?.addEventListener('input', ()=> renderLoteList()));
   // ---- Filtro por fecha (chips de rango rápido + rango manual) ----
   document.querySelectorAll('.lf-chip').forEach(b=>
     b.addEventListener('click', ()=> aplicarRangoChip(b.dataset.rango)));
@@ -6346,6 +6454,9 @@
     document.getElementById('loteFiltroParidad').value = '';
     document.getElementById('loteFiltroRoi').value = '';
     document.getElementById('loteFiltroPunto').value = '';
+    ['loteFiltroColor','loteFiltroInicio','loteFiltroDesc','loteFiltroPremMin','loteFiltroPremMax'].forEach(id=>{
+      const e = document.getElementById(id); if(e) e.value = '';
+    });
     document.getElementById('loteFechaDesde').value = '';
     document.getElementById('loteFechaHasta').value = '';
     document.getElementById('loteFechaCampo').value = 'creado';
