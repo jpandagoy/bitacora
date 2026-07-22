@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.3', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.4', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -1912,6 +1912,14 @@
   const RETENCION_TASA = 0.14;     // 14%
   const COBRO_GYE_UMBRAL = 2002;   // premios > $2,002 solo se cobran en Guayaquil
   const CADUCIDAD_DIAS = 30;       // el derecho a cobro caduca a los 30 días
+  // DINERO RECIBIDO: un premio ≥ $500 se cobra con el 14% de retención de ley (un $10.000
+  // deja $8.600 en la mano). Todo lo que mide DINERO —ROI, saldo neto, premios totales, EV,
+  // cobros— usa este neto, para no inflar la percepción de ganancia. Lo estructural (validar
+  // que el monto sea oficial de la tabla, los chips de denominación, la forma de la
+  // distribución) sigue usando el valor de CARA del boleto, que es lo que el boleto imprime.
+  function premioNeto(p){ p = Number(p)||0; return p >= RETENCION_UMBRAL ? Math.round(p*(1-RETENCION_TASA)*100)/100 : p; }
+  // Suma de premios NETOS de una lista de records (helper reutilizable).
+  function sumaPremiosNetos(recs){ return (recs||[]).reduce((a,r)=>a + premioNeto(r.premio||0), 0); }
   // ================================================================================
   // TABLA DE PREMIOS POR JUEGO
   // ================================================================================
@@ -2286,7 +2294,7 @@
     const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1).toISOString().split('T')[0];
     const recs = data.records.filter(r => r.fecha >= primerDia && r.fecha <= todayStr());
     const gasto = recs.reduce((a,r) => a + (r.costo||0), 0);
-    const premios = recs.reduce((a,r) => a + (r.premio||0), 0);
+    const premios = recs.reduce((a,r) => a + premioNeto(r.premio), 0); // neto de retención
     return premios - gasto;
   }
 
@@ -2572,7 +2580,7 @@
     criterios.forEach(c => acum[c] = {gasto:0, premios:0});
     recs.forEach(r => {
       const c = r.criterio || 'sin-criterio';
-      acum[c].gasto += r.costo; acum[c].premios += r.premio;
+      acum[c].gasto += r.costo; acum[c].premios += premioNeto(r.premio);
       const roi = acum[c].gasto > 0 ? (acum[c].premios - acum[c].gasto) / acum[c].gasto * 100 : 0;
       serie[c].push(roi);
     });
@@ -3116,9 +3124,9 @@
 
     // --- Totales de control (informativos, no fallan) ---
     const gasto = recs.reduce((a,r)=>a+(r.costo||0),0);
-    const premios = recs.reduce((a,r)=>a+((r.premio||0)>0?r.premio:0),0);
+    const premios = recs.reduce((a,r)=>a+premioNeto(r.premio),0); // neto: refleja lo cobrable
     const sinCobrar = recs.filter(r=>(r.premio||0)>0 && !r.cobrado);
-    const montoSinCobrar = sinCobrar.reduce((a,r)=>a+r.premio,0);
+    const montoSinCobrar = sinCobrar.reduce((a,r)=>a+premioNeto(r.premio),0);
 
     const errores = checks.filter(c=>!c.ok && c.nivel==='error');
     const avisos  = checks.filter(c=>!c.ok && c.nivel==='aviso');
@@ -4316,7 +4324,7 @@
       // Agrupado por lote (acordeón). Los boletos dentro de cada lote se ordenan según histSort.
       contenido = gruposVisibles.map(g=>{
         const gasto = g.boletos.reduce((a,r)=>a+r.costo,0);
-        const premios = g.boletos.reduce((a,r)=>a+r.premio,0);
+        const premios = g.boletos.reduce((a,r)=>a+premioNeto(r.premio),0);
         const roi = gasto>0 ? ((premios-gasto)/gasto*100) : 0;
         const isExpanded = histExpanded.has(g.key) || hayFiltroActivo;
         const filas = g.boletos.slice().sort(histCompare).map(r=>histRowHtml(r, null)).join('');
@@ -4449,7 +4457,7 @@
     // cuenta el taco entero, no solo los boletos revelados). Antes sumaba solo r.costo y por eso
     // el total no cuadraba con el de la pestaña Inicio.
     const gasto = getLotesDelJuegoActivo().reduce((a,l)=>a+gastoDeLote(l),0);
-    const premios = records.reduce((a,r)=>a+r.premio,0);
+    const premios = records.reduce((a,r)=>a+premioNeto(r.premio),0);
     const neto = premios - gasto;
     const roi = gasto>0 ? (neto/gasto*100) : 0;
     document.getElementById('mTotal').textContent = n;
@@ -5913,7 +5921,7 @@
   function loteRoiInfo(lote){
     const boletos = data.records.filter(r=>String(r.loteId)===String(lote.id));
     const gasto = gastoDeLote(lote);
-    const premios = boletos.reduce((a,r)=>a+r.premio,0);
+    const premios = sumaPremiosNetos(boletos); // NETO: refleja lo que de verdad se cobra
     const neto = premios - gasto;
     const roi = gasto>0 ? (neto/gasto*100) : null;
     return {n: boletos.length, gasto, premios, neto, roi};
@@ -7077,7 +7085,7 @@
 
     const wins = records.filter(r=>r.resultado==='gano');
     const hitRate = wins.length/n;
-    const avgPrizeWinners = wins.length ? wins.reduce((a,r)=>a+r.premio,0)/wins.length : 0;
+    const avgPrizeWinners = wins.length ? wins.reduce((a,r)=>a+premioNeto(r.premio),0)/wins.length : 0;
 
     document.getElementById('sHitRate').textContent = (hitRate*100).toFixed(1) + '% (' + wins.length + ' de ' + n + ')';
     document.getElementById('sAvgPrize').textContent = wins.length ? fmt(avgPrizeWinners) : '—';
@@ -7835,7 +7843,7 @@
       if(!groups[label]) groups[label] = {n:0, paid:0, gasto:0, premios:0};
       groups[label].n++;
       groups[label].gasto += r.costo;
-      groups[label].premios += r.premio;
+      groups[label].premios += premioNeto(r.premio);
       if(r.resultado==='gano') groups[label].paid++;
     });
     const keys = Object.keys(groups);
@@ -7981,7 +7989,7 @@
       const f = r.fecha || '—';
       if(!byDate[f]) byDate[f] = {gasto:0, premios:0};
       byDate[f].gasto += r.costo;
-      byDate[f].premios += r.premio;
+      byDate[f].premios += premioNeto(r.premio);
     });
     const fechas = Object.keys(byDate).sort();
     let accGasto=0, accPremios=0;
@@ -8049,7 +8057,7 @@
     const recordsRep = getRecordsDelJuegoActivo();
     const n = recordsRep.length;
     const gasto = getLotesDelJuegoActivo().reduce((a,l)=>a+gastoDeLote(l),0); // consistente con Inicio/Boletos
-    const premios = recordsRep.reduce((a,r)=>a+r.premio,0);
+    const premios = recordsRep.reduce((a,r)=>a+premioNeto(r.premio),0);
     const neto = premios - gasto;
     const roi = gasto>0 ? (neto/gasto*100) : 0;
     document.getElementById('repBoletos').textContent = n;
@@ -8078,7 +8086,7 @@
       if(key === 'lote_completo') return; // excluir carga masiva
       let label = key.startsWith('otro:') ? 'Otro: '+key.slice(5) : (key==='sin_clasificar' ? 'Sin clasificar' : (CRITERIO_LABELS[key]||key));
       if(!groups[label]) groups[label] = {n:0, gasto:0, premios:0};
-      groups[label].n++; groups[label].gasto+=r.costo; groups[label].premios+=r.premio;
+      groups[label].n++; groups[label].gasto+=r.costo; groups[label].premios+=premioNeto(r.premio);
     });
     const elegibles = Object.entries(groups).filter(([k,g])=>g.n>=5).map(([k,g])=>({label:k, n:g.n, roi: g.gasto>0?((g.premios-g.gasto)/g.gasto*100):0}));
     const repCriterio = document.getElementById('repCriterioVerdict');
@@ -8400,9 +8408,9 @@
     let ganado=0, cobrado=0, nCobrados=0;
     const diasCobro = {};
     premiados.forEach(r=>{
-      ganado += r.premio;
+      ganado += premioNeto(r.premio);
       if(r.cobrado){
-        cobrado += r.premio; nCobrados++;
+        cobrado += premioNeto(r.premio); nCobrados++;
         const dc = r.fechaCobro || r.fecha;
         if(dc) diasCobro[dc] = (diasCobro[dc]||0) + r.premio;
       }
@@ -8459,7 +8467,7 @@
     afectados.forEach(r=>{ r.cobrado=true; r.fechaCobro=todayStr(); });
     try{ if(navigator.vibrate) navigator.vibrate(30); }catch(e){}
     save(); render();
-    toastUndo(`✓ ${afectados.length} premio(s) cobrados${etiqueta?' · '+etiqueta:''} (${fmt(afectados.reduce((s,r)=>s+r.premio,0))})`, ()=>{
+    toastUndo(`✓ ${afectados.length} premio(s) cobrados${etiqueta?' · '+etiqueta:''} (${fmt(afectados.reduce((s,r)=>s+premioNeto(r.premio),0))})`, ()=>{
       prev.forEach(p=>{ p.r.cobrado=p.cobrado; p.r.fechaCobro=p.fechaCobro; });
       save(); render();
     });
@@ -8521,12 +8529,12 @@
     const premiadosJuego = premiadosAll.filter(r=>lotesJuegoSet.has(String(r.loteId)));
     const pendAll = premiadosAll.filter(r=>!r.cobrado);
     const pendJuego = premiadosJuego.filter(r=>!r.cobrado);
-    const pendJuegoTotal = pendJuego.reduce((s,r)=>s+r.premio,0);
-    const ganadoJuego = premiadosJuego.reduce((s,r)=>s+r.premio,0);
+    const pendJuegoTotal = pendJuego.reduce((s,r)=>s+premioNeto(r.premio),0);
+    const ganadoJuego = premiadosJuego.reduce((s,r)=>s+premioNeto(r.premio),0);
     const pctHist = ganadoJuego>0 ? (ganadoJuego-pendJuegoTotal)/ganadoJuego*100 : 100;
     const edadDe = r=> r.fecha ? Math.max(0, diasEntre(r.fecha, hoy)) : 0;
     const ag = { d0:{g:0,n:0}, d7:{g:0,n:0}, d8:{g:0,n:0} };
-    pendJuego.forEach(r=>{ const a=edadDe(r); const b = a<=0?ag.d0:(a<=7?ag.d7:ag.d8); b.g+=r.premio; b.n++; });
+    pendJuego.forEach(r=>{ const a=edadDe(r); const b = a<=0?ag.d0:(a<=7?ag.d7:ag.d8); b.g+=premioNeto(r.premio); b.n++; });
     const conFechasC = premiadosJuego.filter(r=>r.cobrado && r.fecha && r.fechaCobro);
     const dCobro = conFechasC.map(r=>Math.max(0, diasEntre(r.fecha, r.fechaCobro))).sort((a,b)=>a-b);
     const medCobro = dCobro.length ? dCobro[Math.floor(dCobro.length/2)] : null;
@@ -8534,13 +8542,13 @@
 
     // Aviso de otros juegos: solo informa, no mezcla.
     const pendOtros = pendAll.filter(r=>!lotesJuegoSet.has(String(r.loteId)));
-    const otrosTotal = pendOtros.reduce((s,r)=>s+r.premio,0);
+    const otrosTotal = pendOtros.reduce((s,r)=>s+premioNeto(r.premio),0);
     const porJuegoOtros = {};
     let otrosMaxEdad = 0;
     pendOtros.forEach(r=>{
       const j = juegoDeRec(r); const k = j ? j.nombre : '(sin juego)';
       (porJuegoOtros[k] = porJuegoOtros[k] || {g:0, emoji:(j&&j.emoji)||'🎟️'});
-      porJuegoOtros[k].g += r.premio;
+      porJuegoOtros[k].g += premioNeto(r.premio);
       otrosMaxEdad = Math.max(otrosMaxEdad, edadDe(r));
     });
     const otrosStrip = otrosTotal>0 ? `
@@ -8563,7 +8571,7 @@
         <div style="background:${pendJuegoTotal>0?'#FEF3C7':'#D1FAE5'}; border:2px solid ${pendJuegoTotal>0?'#B45309':'#065F46'}; border-radius:12px; padding:12px 14px;">
           <div style="font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:${pendJuegoTotal>0?'#92400E':'#065F46'};">${ambitoEmoji} ${escapeHtml(ambitoNombre)} · por cobrar</div>
           <div style="font-size:28px; font-weight:800; font-family:'Courier New',monospace; margin:2px 0; color:#1C1B19;">${fmt(pendJuegoTotal)}</div>
-          ${esGlobal && pendJuego.length ? `<div style="display:flex; gap:5px; flex-wrap:wrap;">${(()=>{ const pj={}; pendJuego.forEach(r=>{ const j=juegoDeRec(r); const k=j?j.nombre:'(sin juego)'; (pj[k]=pj[k]||{g:0,n:0,emoji:(j&&j.emoji)||'🎟️'}); pj[k].g+=r.premio; pj[k].n++; }); return Object.entries(pj).sort((a,b)=>b[1].g-a[1].g).map(([n,x])=>`<span style="font-size:11px; background:rgba(255,255,255,.55); color:#1C1B19; border-radius:6px; padding:2px 8px;">${x.emoji} ${escapeHtml(n)} · <strong>${fmt(x.g)}</strong> (${x.n})</span>`).join(''); })()}</div>`
+          ${esGlobal && pendJuego.length ? `<div style="display:flex; gap:5px; flex-wrap:wrap;">${(()=>{ const pj={}; pendJuego.forEach(r=>{ const j=juegoDeRec(r); const k=j?j.nombre:'(sin juego)'; (pj[k]=pj[k]||{g:0,n:0,emoji:(j&&j.emoji)||'🎟️'}); pj[k].g+=premioNeto(r.premio); pj[k].n++; }); return Object.entries(pj).sort((a,b)=>b[1].g-a[1].g).map(([n,x])=>`<span style="font-size:11px; background:rgba(255,255,255,.55); color:#1C1B19; border-radius:6px; padding:2px 8px;">${x.emoji} ${escapeHtml(n)} · <strong>${fmt(x.g)}</strong> (${x.n})</span>`).join(''); })()}</div>`
             : `<div style="font-size:12px; color:${pendJuegoTotal>0?'#92400E':'#065F46'};">${pendJuego.length ? pendJuego.length+' boleto(s) pendiente(s)' : '🎉 Nada pendiente en este ámbito.'}</div>`}
         </div>
         <div style="background:var(--paper-dark); border-radius:12px; padding:12px 14px;">
@@ -8595,7 +8603,7 @@
       recs.sort((a,b)=>(a.posicion||0)-(b.posicion||0));
       const fechaMin = recs.map(r=>r.fecha).filter(Boolean).sort()[0] || hoy;
       return { lid, serie: l?l.serie:('lote '+lid), emoji:(j&&j.emoji)||'🎟️', jn: j?j.nombre:'—',
-        recs, sub: recs.reduce((s,r)=>s+r.premio,0), edad: Math.max(0, diasEntre(fechaMin, hoy)) };
+        recs, sub: recs.reduce((s,r)=>s+premioNeto(r.premio),0), edad: Math.max(0, diasEntre(fechaMin, hoy)) };
     }).sort((a,b)=> b.edad-a.edad || b.sub-a.sub);
     const conRetAll = pendJuego.filter(r=>r.premio>=RETENCION_UMBRAL);
     const netoAll = pendJuego.reduce((s,r)=>s+cobroNeto(r.premio),0);
@@ -8644,11 +8652,11 @@
     const desde = cobroFiltro.desde || rango.min;
     const hasta = cobroFiltro.hasta || rango.max;
     const enRango = R.premiados.filter(r=> (r.fecha||'') >= desde && (r.fecha||'') <= hasta);
-    const ganado = enRango.reduce((s,r)=>s+r.premio,0);
+    const ganado = enRango.reduce((s,r)=>s+premioNeto(r.premio),0);
     const cobradosR = enRango.filter(r=>r.cobrado);
     const pendientesR = enRango.filter(r=>!r.cobrado);
-    const cobrado = cobradosR.reduce((s,r)=>s+r.premio,0);
-    const pendiente = pendientesR.reduce((s,r)=>s+r.premio,0);
+    const cobrado = cobradosR.reduce((s,r)=>s+premioNeto(r.premio),0);
+    const pendiente = pendientesR.reduce((s,r)=>s+premioNeto(r.premio),0);
     const pct = ganado>0 ? Math.round(cobrado/ganado*100) : 0;
     const totalDias = Math.max(0, diasEntre(rango.min, rango.max));
     const idxDesde = Math.min(totalDias, Math.max(0, diasEntre(rango.min, desde)));
@@ -8710,8 +8718,8 @@
     enRango.forEach(r=>{
       const k = cobroBucketKey(r.fecha || hoy);
       (buckets[k] = buckets[k] || {n:0, g:0, c:0, p:0, recs:[]});
-      const b = buckets[k]; b.n++; b.g += r.premio;
-      if(r.cobrado) b.c += r.premio; else b.p += r.premio;
+      const b = buckets[k]; b.n++; b.g += premioNeto(r.premio);
+      if(r.cobrado) b.c += premioNeto(r.premio); else b.p += premioNeto(r.premio);
       b.recs.push(r);
     });
     const keysAll = Object.keys(buckets).sort((a,b)=>b.localeCompare(a));
@@ -8753,8 +8761,8 @@
       const l = loteById[String(r.loteId)];
       const k = l ? l.serie : ('lote '+r.loteId);
       (porLoteRango[k] = porLoteRango[k] || {n:0, g:0, c:0, p:0});
-      const b = porLoteRango[k]; b.n++; b.g += r.premio;
-      if(r.cobrado) b.c += r.premio; else b.p += r.premio;
+      const b = porLoteRango[k]; b.n++; b.g += premioNeto(r.premio);
+      if(r.cobrado) b.c += premioNeto(r.premio); else b.p += premioNeto(r.premio);
     });
     const denomRango = {};
     enRango.forEach(r=>{ (denomRango[r.premio] = denomRango[r.premio] || {n:0, p:0}); denomRango[r.premio].n++; if(!r.cobrado) denomRango[r.premio].p++; });
@@ -8771,7 +8779,7 @@
           <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--silver-dark); margin-bottom:6px;">Por juego (en el rango)</div>
           <div class="table-wrap"><table>
             <thead><tr><th>Juego</th><th>Premios</th><th>Ganado</th><th>Cobrado</th><th>Sin cobrar</th></tr></thead>
-            <tbody>${(()=>{ const pj={}; enRango.forEach(r=>{ const j=juegoDeRec(r); const k=j?j.nombre:'(sin juego)'; (pj[k]=pj[k]||{emoji:(j&&j.emoji)||'🎟️',n:0,g:0,c:0,p:0}); const b=pj[k]; b.n++; b.g+=r.premio; if(r.cobrado)b.c+=r.premio; else b.p+=r.premio; }); return Object.entries(pj).sort((a,b)=>b[1].g-a[1].g).map(([n,x])=>`<tr><td>${x.emoji} ${escapeHtml(n)}</td><td>${x.n}</td><td style="font-weight:700;">${fmt(x.g)}</td><td style="color:var(--ok);">${fmt(x.c)}</td><td style="color:${x.p>0?'var(--stamp)':'var(--silver-dark)'};">${fmt(x.p)}</td></tr>`).join(''); })()}</tbody>
+            <tbody>${(()=>{ const pj={}; enRango.forEach(r=>{ const j=juegoDeRec(r); const k=j?j.nombre:'(sin juego)'; (pj[k]=pj[k]||{emoji:(j&&j.emoji)||'🎟️',n:0,g:0,c:0,p:0}); const b=pj[k]; b.n++; b.g+=premioNeto(r.premio); if(r.cobrado)b.c+=premioNeto(r.premio); else b.p+=premioNeto(r.premio); }); return Object.entries(pj).sort((a,b)=>b[1].g-a[1].g).map(([n,x])=>`<tr><td>${x.emoji} ${escapeHtml(n)}</td><td>${x.n}</td><td style="font-weight:700;">${fmt(x.g)}</td><td style="color:var(--ok);">${fmt(x.c)}</td><td style="color:${x.p>0?'var(--stamp)':'var(--silver-dark)'};">${fmt(x.p)}</td></tr>`).join(''); })()}</tbody>
           </table></div>
         </div>` : ''}
         <div>
@@ -8846,7 +8854,7 @@
         const recsL = premiadosAll.filter(r=>String(r.loteId)===String(l.id));
         if(!recsL.length) return;
         const pendL = recsL.filter(r=>!r.cobrado).sort((a,b)=>(a.posicion||0)-(b.posicion||0));
-        const gL = recsL.reduce((s,r)=>s+r.premio,0), pL = pendL.reduce((s,r)=>s+r.premio,0);
+        const gL = recsL.reduce((s,r)=>s+premioNeto(r.premio),0), pL = pendL.reduce((s,r)=>s+premioNeto(r.premio),0);
         const fMin = pendL.map(r=>r.fecha).filter(Boolean).sort()[0] || null;
         conPremios.push({l, recsL, pendL, gL, pL, edad: fMin ? Math.max(0, diasEntre(fMin, hoy)) : 0});
       });
@@ -9106,7 +9114,7 @@
     const recordsPdf = getRecordsDelJuegoActivo();
     const n = recordsPdf.length;
     const gasto = getLotesDelJuegoActivo().reduce((a,l)=>a+gastoDeLote(l),0); // consistente con Inicio/Boletos
-    const premios = recordsPdf.reduce((a,r)=>a+r.premio,0);
+    const premios = recordsPdf.reduce((a,r)=>a+premioNeto(r.premio),0);
     const neto = premios - gasto;
     const roi = gasto>0 ? (neto/gasto*100) : 0;
 
@@ -11913,7 +11921,7 @@
     const configurado = getJuegoParams(juego.id).valorPremio || 5;
     const costoU = juego.costoDefecto || 2;
     if(recs.length < 5){ el.innerHTML=''; return; }
-    const avgReal = recs.reduce((a,r)=>a+r.premio,0)/recs.length;
+    const avgReal = recs.reduce((a,r)=>a+premioNeto(r.premio),0)/recs.length;
     const dif = Math.abs(avgReal - configurado)/configurado;
     if(dif < 0.1){
       el.innerHTML = `<div style="font-size:11.5px; color:var(--silver-dark); margin-bottom:12px;">Premio promedio real ${fmt(avgReal)} ≈ configurado ${fmt(configurado)} — el break-even (${(costoU/configurado*100).toFixed(0)}%) está calibrado.</div>`;
@@ -12277,7 +12285,7 @@
       const gastCompleto = lotesCompletos.length * tamanoLote * costoPorBoleto;
       let premCompleto = 0;
       data.records.forEach(r=>{
-        if(lotesCompletos.some(l=>String(l.id)===String(r.loteId))) premCompleto+=r.premio||0;
+        if(lotesCompletos.some(l=>String(l.id)===String(r.loteId))) premCompleto+=premioNeto(r.premio)||0;
       });
       const roiC = gastCompleto>0 ? ((premCompleto-gastCompleto)/gastCompleto*100) : 0;
       vsCompleto = `<div class="note" style="margin-top:10px;">
@@ -12918,15 +12926,15 @@
       const loteIds = new Set(lotes.map(l=>String(l.id)));
       const recs = data.records.filter(r=>r.loteId && loteIds.has(String(r.loteId)));
       const gasto = lotes.reduce((a,l)=>a+gastoDeLote(l),0);
-      const premios = recs.reduce((a,r)=>a+r.premio,0);
+      const premios = recs.reduce((a,r)=>a+premioNeto(r.premio),0);
       const gano = recs.filter(r=>r.resultado==='gano').length;
-      const porCobrar = recs.filter(r=>r.premio>0 && !r.cobrado).reduce((a,r)=>a+r.premio,0);
+      const porCobrar = recs.filter(r=>r.premio>0 && !r.cobrado).reduce((a,r)=>a+premioNeto(r.premio),0);
       return { j, nLotes:lotes.length, nBoletos:recs.length, gasto, premios, neto:premios-gasto,
                roi: gasto>0?(premios-gasto)/gasto*100:null, tasa: recs.length?gano/recs.length*100:0, porCobrar };
     }).filter(x=>x.nBoletos>0 || x.nLotes>0);
     // boletos sin lote (por si acaso)
     const orphan = data.records.filter(r=>!r.loteId || !loteIdsAll.has(String(r.loteId)));
-    const T = { gasto:orphan.reduce((a,r)=>a+(r.costo||0),0), premios:orphan.reduce((a,r)=>a+(r.premio||0),0), nBoletos:orphan.length, nLotes:0, porCobrar:0 };
+    const T = { gasto:orphan.reduce((a,r)=>a+(r.costo||0),0), premios:orphan.reduce((a,r)=>a+premioNeto(r.premio),0), nBoletos:orphan.length, nLotes:0, porCobrar:0 };
     porJuego.forEach(x=>{ T.gasto+=x.gasto; T.premios+=x.premios; T.nBoletos+=x.nBoletos; T.nLotes+=x.nLotes; T.porCobrar+=x.porCobrar; });
     T.neto = T.premios - T.gasto; T.roi = T.gasto>0?(T.neto/T.gasto*100):null;
 
@@ -12955,7 +12963,7 @@
     (data.records||[]).forEach(r=>{
       const d = r.fecha; if(!d) return;
       (porDia[d] = porDia[d] || {g:0,p:0});
-      porDia[d].g += r.costo||0; porDia[d].p += r.premio||0;
+      porDia[d].g += r.costo||0; porDia[d].p += premioNeto(r.premio)||0;
     });
     const fechas = Object.keys(porDia).sort();
     let acc=0, pico=0, picoFecha=null, ddMax=0, diasPos=0, minAcc=0, minFecha=null;
@@ -13106,7 +13114,7 @@
     const loteIdSet = new Set(lotes.map(l=>String(l.id)));
     const gasto = lotes.reduce((a,l)=>a+gastoDeLote(l),0)
                 + recs.filter(r=>!loteIdSet.has(String(r.loteId))).reduce((a,r)=>a+(r.costo||0),0);
-    const premios = recs.reduce((a,r)=>a+r.premio,0);
+    const premios = recs.reduce((a,r)=>a+premioNeto(r.premio),0);
     const neto = premios - gasto;
     const roi = gasto>0 ? (neto/gasto*100) : 0;
     const tasa = recs.length>0 ? (recs.filter(r=>r.resultado==='gano').length/recs.length*100) : 0;
@@ -14000,7 +14008,7 @@
         if(!groups[k]) groups[k]={n:0,paid:0,gasto:0,premios:0};
         groups[k].n++;
         groups[k].gasto+=r.costo;
-        groups[k].premios+=r.premio;
+        groups[k].premios+=premioNeto(r.premio);
         if(r.resultado==='gano') groups[k].paid++;
       });
       const keys = Object.keys(groups);
@@ -14184,7 +14192,7 @@
       const punto=r.punto||'(sin punto)';
       const key=r.fecha+'||'+punto;
       (map[key]=map[key]||{fecha:r.fecha, punto, n:0, gasto:0, premios:0, ganados:0}).n++;
-      map[key].gasto+=r.costo||0; map[key].premios+=r.premio||0;
+      map[key].gasto+=r.costo||0; map[key].premios+=premioNeto(r.premio)||0;
       if((r.premio||0)>0) map[key].ganados++;
     });
     const sesiones=Object.values(map).sort((a,b)=> (a.fecha<b.fecha?1:a.fecha>b.fecha?-1:0)).slice(0,10);
