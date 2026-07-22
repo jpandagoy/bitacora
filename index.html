@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.2', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.3', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -1945,11 +1945,22 @@
   // primer toque en el grid grababa un premio que ese juego ni siquiera paga.
   function denomPorDefecto(juegoId){
     const D = getDenominaciones(juegoId);
+    // Denominación que aplica cada toque en el grid: el premio MÁS FRECUENTE observado en
+    // este juego (el que más se repite históricamente → el que casi siempre querrás marcar).
+    // En 13-Suerte eso es $2 (el 44% de los premios). Solo si aún no hay datos se cae al
+    // valorPremio configurado o al monto más bajo de la tabla.
+    const ids = new Set((data.lotes||[]).filter(l=>String(l.juegoId)===String(juegoId)).map(l=>String(l.id)));
+    const freq = {};
+    (data.records||[]).forEach(r=>{
+      if(!ids.has(String(r.loteId))) return;
+      const p = Math.round((Number(r.premio)||0)*100)/100;
+      if(p>0 && D.includes(p)) freq[p]=(freq[p]||0)+1;
+    });
+    const top = Object.entries(freq).sort((a,b)=>b[1]-a[1])[0];
+    if(top) return Number(top[0]);
     const v = getJuegoParams(juegoId).valorPremio;
     if(D.includes(v)) return v;
-    // El más frecuente de los ya observados; si no hay datos, el más bajo de la tabla.
-    const obs = premiosObservados(juegoId).filter(x=>D.includes(x));
-    return obs.length ? obs[0] : (D[0] ?? 5);
+    return D[0] ?? 2;
   }
   function premiosObservados(juegoId){
     const ids = new Set((data.lotes||[]).filter(l=>String(l.juegoId)===String(juegoId)).map(l=>String(l.id)));
@@ -5178,6 +5189,27 @@
     return sel;
   }
 
+  // Ciudad asociada a un punto de venta, deducida del historial (lotes + boletos). Si ese
+  // punto se usó con varias ciudades, gana la más frecuente. '' si no se conoce.
+  function _ciudadDePunto(punto){
+    if(!punto) return '';
+    const p = punto.trim().toLowerCase();
+    const cont = {};
+    const anota = (pt, ci) => { if(pt && ci && pt.trim().toLowerCase()===p) cont[ci]=(cont[ci]||0)+1; };
+    (data.lotes||[]).forEach(l=> anota(l.punto, l.ciudad));
+    (data.records||[]).forEach(r=> anota(r.punto, r.ciudad));
+    const top = Object.entries(cont).sort((a,b)=>b[1]-a[1])[0];
+    return top ? top[0] : '';
+  }
+  // Al elegir/escribir un punto de venta conocido, precarga su ciudad — pero solo si el campo
+  // de ciudad está vacío, para nunca pisar una elección manual del usuario.
+  function precargarCiudadPorPunto(){
+    const punto = (document.getElementById('newLotePunto')||{}).value || '';
+    if(getNewLoteCiudadValue()) return;            // ya hay ciudad: no tocar
+    const ciudad = _ciudadDePunto(punto);
+    if(ciudad){ setCiudadEnFormulario(ciudad); renderLoteChipsCtx(); }
+  }
+
   // Escribe una ciudad en el par select + "otro", que es la forma en que la guarda el formulario.
   function setCiudadEnFormulario(ciudad){
     const sel = document.getElementById('newLoteCiudad');
@@ -5712,6 +5744,9 @@
     elC?.addEventListener('input', renderLoteChipsCtx);
     elC?.addEventListener('change', renderLoteChipsCtx);
   });
+  // Mejora: al salir del campo de punto (o elegir uno del datalist), precarga su ciudad.
+  document.getElementById('newLotePunto')?.addEventListener('change', precargarCiudadPorPunto);
+  document.getElementById('newLotePunto')?.addEventListener('blur', precargarCiudadPorPunto);
   // "Inicia en: Otro…" despliega el campo numérico libre.
   document.getElementById('newLoteInicio')?.addEventListener('change', (e)=>{
     const otro = document.getElementById('newLoteInicioOtro');
