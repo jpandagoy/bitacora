@@ -1588,6 +1588,12 @@
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-export">
     <div class="section">
+      <div class="section-head"><span class="tag">☁</span><h2>Sincronización en la nube</h2><span class="hint">PC y teléfono, los mismos datos</span></div>
+      <div class="card">
+        <div id="syncPanel"></div>
+      </div>
+    </div>
+    <div class="section">
       <div class="section-head"><span class="tag">21</span><h2>Exportar / respaldar</h2></div>
       <div class="card">
         <div id="backupAlertWrap"></div>
@@ -1811,10 +1817,30 @@
   </div>
 </div>
 
+<!-- ================= SINCRONIZACIÓN EN LA NUBE (Firebase) ================= -->
+<!-- SDK compat (globales `firebase.*`), cargado desde el CDN de Google. La app SIGUE
+     funcionando sin internet: si estas cargas fallan, la sincronización simplemente no se
+     activa y todo opera en local como siempre (se detecta con window.firebase). -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+  // Config pública del proyecto (NO son secretos: identifican el proyecto; la seguridad real
+  // la dan las reglas de Firestore, que restringen cada dato a su dueño autenticado).
+  window.FIREBASE_CONFIG = {
+    apiKey: "AIzaSyALL0Z3p2QKFIT8ZwQnqY7HA-Yd6G64AjY",
+    authDomain: "bitacora-raspaditas.firebaseapp.com",
+    projectId: "bitacora-raspaditas",
+    storageBucket: "bitacora-raspaditas.firebasestorage.app",
+    messagingSenderId: "347332481609",
+    appId: "1:347332481609:web:18fcf252c11a573949e598"
+  };
+</script>
+
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '5.2', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.0', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -3199,6 +3225,8 @@
         clearTimeout(fsWriteDebounce);
         fsWriteDebounce = setTimeout(()=>{ escribirEnArchivo().catch(()=>{}); }, 3000);
       }
+      // Sincronización en la nube (si hay sesión): empuja lo que cambió, con debounce.
+      try{ if(typeof _syncSchedulePush==='function') _syncSchedulePush(); }catch(e){}
     }catch(e){
       toast('⚠️ No se pudo guardar (almacenamiento lleno o bloqueado). Exporta un respaldo JSON cuanto antes.');
     }
@@ -3815,6 +3843,7 @@
       ['renderSnapshotsList', ()=>renderSnapshotsList()],
       ['renderPanelSalud', ()=>renderPanelSalud()],
       ['renderAutoRespaldoEstado', ()=>renderAutoRespaldoEstado()],
+      ['renderSyncPanel', ()=>renderSyncPanel()],
     ],
   };
 
@@ -14287,7 +14316,188 @@
 
   // Gancho de depuración/verificación: expone el núcleo estadístico en consola
   // (no lo usa la UI; permite auditar los cálculos con datos reales desde DevTools).
+  // ================================================================================
+  // SINCRONIZACIÓN EN LA NUBE — offline-first, por entidad, con tombstones
+  // ================================================================================
+  // Filosofía: localStorage es la caché de trabajo; Firestore es la verdad compartida.
+  // Cada boleto/lote/juego se sincroniza como UN documento con `_lm` (last-modified, ms).
+  // Al guardar en local, se detecta qué cambió comparando contra la última copia enviada y
+  // solo eso se sube (diff), sin tocar NINGÚN punto de mutación de la app (solo engancha
+  // save()/load()). Los borrados viajan como tombstones {_deleted:true}. La resolución de
+  // conflictos es "gana el más reciente por _lm" a nivel de entidad — para un usuario solo,
+  // editar la misma cosa en dos teléfonos a la vez es prácticamente imposible.
+  const SYNC_COLS = ['juegos','lotes','records']; // orden: juegos→lotes→records (dependencias)
+  let _fb=null, _fbAuth=null, _fbDb=null, _fbUser=null, _syncOn=false, _syncApplying=false;
+  let _syncPushTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{}};
+  const _syncEl = id => document.getElementById(id);
+  function _syncStatus(txt, color){ const e=_syncEl('syncEstado'); if(e){ e.textContent=txt; e.style.color=color||'var(--silver-dark)'; } }
+
+  function syncDisponible(){ return !!(window.firebase && window.FIREBASE_CONFIG); }
+  function _syncInitApp(){
+    if(_fb) return true;
+    if(!syncDisponible()) return false;
+    try{
+      _fb = firebase.initializeApp(window.FIREBASE_CONFIG);
+      _fbAuth = firebase.auth();
+      _fbDb = firebase.firestore();
+      // Persistencia offline: la cola de escrituras sobrevive sin conexión y se envía al volver.
+      _fbDb.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+      _fbAuth.onAuthStateChanged(u=>{ _fbUser=u; if(u){ _syncArrancar(); } else { _syncDetener(); } renderSyncPanel(); });
+      return true;
+    }catch(e){ console.warn('[sync] init falló', e); return false; }
+  }
+
+  // ---- entidades: (colección -> array en data) y helpers de identidad ----
+  function _syncArr(col){ return data[col] || (data[col]=[]); }
+  function _syncEntJson(ent){ const c={...ent}; delete c._lm; return JSON.stringify(c); } // sin _lm para diffs estables
+  function _syncNow(){ return Date.now(); }
+
+  // ---- PUSH: sube lo que cambió respecto a lo último enviado ----
+  function _syncSchedulePush(){
+    if(!_syncOn || _syncApplying) return;
+    clearTimeout(_syncPushTimer);
+    _syncPushTimer = setTimeout(()=>{ _syncPushDirty().catch(e=>console.warn('[sync] push', e)); }, 1200);
+  }
+  async function _syncPushDirty(){
+    if(!_syncOn || !_fbUser) return;
+    const base = _fbDb.collection('users').doc(_fbUser.uid);
+    let batch = _fbDb.batch(), n=0, cambios=0;
+    const flush = async()=>{ if(n){ await batch.commit(); batch=_fbDb.batch(); n=0; } };
+    for(const col of SYNC_COLS){
+      const arr = _syncArr(col), vistos = new Set();
+      for(const ent of arr){
+        if(ent.id==null) continue;
+        const id=String(ent.id); vistos.add(id);
+        const js=_syncEntJson(ent);
+        if(_syncLastPushed[col][id] === js) continue;   // sin cambios
+        const lm = ent._lm || _syncNow(); ent._lm = lm;  // sella el momento del cambio
+        batch.set(base.collection(col).doc(_syncDocId(id)), {..._syncStripId(ent), _id:id, _lm:lm, _deleted:false});
+        _syncLastPushed[col][id]=js; cambios++; if(++n>=450) await flush();
+      }
+      // Tombstones: lo que estaba enviado y ya no está en local = borrado.
+      for(const id of Object.keys(_syncLastPushed[col])){
+        if(vistos.has(id)) continue;
+        batch.set(base.collection(col).doc(_syncDocId(id)), {_id:id, _lm:_syncNow(), _deleted:true});
+        delete _syncLastPushed[col][id]; cambios++; if(++n>=450) await flush();
+      }
+    }
+    await flush();
+    if(cambios){ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46'); }
+  }
+  // Firestore no acepta '/' ni ciertos caracteres en IDs de doc; los ids float viejos y los
+  // string nuevos se codifican de forma reversible-suficiente (solo para la ruta del doc).
+  function _syncDocId(id){ return encodeURIComponent(String(id)).replace(/\./g,'%2E').replace(/\//g,'%2F'); }
+  function _syncStripId(ent){ const c={...ent}; return c; }
+
+  // ---- PULL: aplica cambios remotos a local (por _lm, con tombstones) ----
+  function _syncArrancar(){
+    if(_syncOn) return;
+    _syncOn=true;
+    _syncStatus('Conectando…', '#1565C0');
+    const base=_fbDb.collection('users').doc(_fbUser.uid);
+    let primeras = 0;
+    SYNC_COLS.forEach(col=>{
+      const unsub = base.collection(col).onSnapshot(snap=>{
+        _syncApplying=true;
+        let toco=false;
+        snap.docChanges().forEach(ch=>{
+          const d=ch.doc.data(); const id=d._id!=null?String(d._id):decodeURIComponent(ch.doc.id);
+          const arr=_syncArr(col); const idx=arr.findIndex(e=>String(e.id)===id);
+          if(d._deleted){
+            if(idx>=0){ arr.splice(idx,1); toco=true; }
+            delete _syncLastPushed[col][id];
+            return;
+          }
+          const remoto={...d}; delete remoto._id; delete remoto._deleted;
+          const localEnt = idx>=0?arr[idx]:null;
+          const localLm = localEnt? (localEnt._lm||0) : -1;
+          if(!localEnt || (remoto._lm||0) >= localLm){
+            const nuevo={...remoto, id:_syncCoerceId(id, localEnt)};
+            if(idx>=0) arr[idx]=nuevo; else arr.push(nuevo);
+            _syncLastPushed[col][id]=_syncEntJson(nuevo);
+            toco=true;
+          }
+        });
+        if(toco){ try{ save(); }catch(e){} }
+        _syncApplying=false;
+        if(++primeras<=SYNC_COLS.length) _syncStatus('✓ Sincronizado', '#065F46');
+        try{ render(); }catch(e){}
+      }, err=>{ console.warn('[sync] snapshot', col, err); _syncStatus('⚠ Error de sync: '+err.code, 'var(--stamp)'); });
+      _syncUnsub.push(unsub);
+    });
+    renderSyncPanel();
+  }
+  // Conserva el tipo del id local si existe (float viejo vs string), para no romper rgIdTime.
+  function _syncCoerceId(idStr, localEnt){
+    if(localEnt) return localEnt.id;
+    if(/^\d+(\.\d+)?$/.test(idStr)) return parseFloat(idStr);
+    return idStr;
+  }
+  function _syncDetener(){
+    _syncUnsub.forEach(u=>{try{u();}catch(e){}}); _syncUnsub=[];
+    _syncOn=false; _syncLastPushed={juegos:{},lotes:{},records:{}};
+  }
+
+  // ---- Auth (correo/contraseña) ----
+  async function syncSignIn(email, pass){
+    if(!_syncInitApp()) { toast('La sincronización no está disponible (sin conexión al SDK).'); return; }
+    _syncStatus('Iniciando sesión…','#1565C0');
+    try{ await _fbAuth.signInWithEmailAndPassword(email, pass); toast('✓ Sesión iniciada — sincronizando'); }
+    catch(e){ _syncStatus('','#000'); toast('No se pudo iniciar sesión: '+_syncAuthMsg(e)); }
+  }
+  async function syncSignUp(email, pass){
+    if(!_syncInitApp()) { toast('La sincronización no está disponible (sin conexión al SDK).'); return; }
+    _syncStatus('Creando cuenta…','#1565C0');
+    try{ await _fbAuth.createUserWithEmailAndPassword(email, pass); toast('✓ Cuenta creada — sincronizando tus datos'); }
+    catch(e){ _syncStatus('','#000'); toast('No se pudo crear la cuenta: '+_syncAuthMsg(e)); }
+  }
+  async function syncSignOut(){ try{ await _fbAuth.signOut(); }catch(e){} toast('Sesión cerrada — sigues con tus datos en este dispositivo'); }
+  function _syncAuthMsg(e){
+    const m={'auth/invalid-email':'correo inválido','auth/missing-password':'falta la contraseña',
+      'auth/weak-password':'la contraseña debe tener 6+ caracteres','auth/email-already-in-use':'ese correo ya tiene cuenta (usa Iniciar sesión)',
+      'auth/invalid-credential':'correo o contraseña incorrectos','auth/wrong-password':'contraseña incorrecta','auth/user-not-found':'no existe esa cuenta (usa Crear cuenta)',
+      'auth/network-request-failed':'sin conexión a internet'};
+    return m[e.code] || e.code || e.message;
+  }
+
+  // ---- Panel de UI (pestaña Exportar) ----
+  function renderSyncPanel(){
+    const el=_syncEl('syncPanel'); if(!el) return;
+    if(!syncDisponible()){
+      el.innerHTML = '<p class="note" style="margin:0;">La sincronización necesita conexión a internet para cargar. Reconéctate y recarga la app.</p>';
+      return;
+    }
+    if(_fbUser){
+      const nRecs=(data.records||[]).length, nLotes=(data.lotes||[]).length;
+      el.innerHTML = `
+        <div style="background:#D1FAE5; border:1px solid #6EE7B7; border-radius:8px; padding:10px 14px; margin-bottom:10px;">
+          <div style="font-size:13px; color:#065F46;">☁ Sesión activa: <strong>${escapeHtml(_fbUser.email||'—')}</strong></div>
+          <div id="syncEstado" style="font-size:12px; margin-top:2px; color:#065F46;">✓ Sincronizado</div>
+        </div>
+        <p class="note" style="margin:0 0 8px;">Tus <strong>${nRecs}</strong> boletos y <strong>${nLotes}</strong> lotes se sincronizan solos con la nube. Inicia sesión con el MISMO correo en tu otro dispositivo y verás los mismos datos.</p>
+        <button class="btn-ghost" id="btnSyncOut" style="font-size:12px;">Cerrar sesión en este dispositivo</button>`;
+      _syncEl('btnSyncOut').addEventListener('click', syncSignOut);
+    } else {
+      el.innerHTML = `
+        <p class="note" style="margin:0 0 10px;">Inicia sesión (o crea una cuenta) con tu correo para que <strong>PC y teléfono compartan los mismos datos</strong> automáticamente. La primera vez sube lo que ya tienes en este dispositivo.</p>
+        <div class="grid" style="gap:8px;">
+          <div class="field"><label for="syncEmail">Correo</label><input type="email" id="syncEmail" placeholder="tucorreo@ejemplo.com" autocomplete="username"></div>
+          <div class="field"><label for="syncPass">Contraseña de sincronización</label><input type="password" id="syncPass" placeholder="mínimo 6 caracteres" autocomplete="current-password"></div>
+        </div>
+        <div class="btn-row" style="margin-top:8px;">
+          <button class="btn-primary" id="btnSyncIn" style="font-size:13px;">Iniciar sesión</button>
+          <button class="btn-ghost" id="btnSyncUp" style="font-size:13px;">Crear cuenta nueva</button>
+        </div>
+        <div id="syncEstado" style="font-size:12px; margin-top:8px;"></div>
+        <p class="field-help" style="margin-top:8px;">Esta contraseña es solo para sincronizar; puede ser distinta a la de tu Google. Guárdala: la necesitas en cada dispositivo.</p>`;
+      const val=()=>({e:(_syncEl('syncEmail').value||'').trim(), p:_syncEl('syncPass').value||''});
+      _syncEl('btnSyncIn').addEventListener('click', ()=>{ const {e,p}=val(); syncSignIn(e,p); });
+      _syncEl('btnSyncUp').addEventListener('click', ()=>{ const {e,p}=val(); syncSignUp(e,p); });
+    }
+  }
+
   window.__rg = { rigorGetData, rigorEB, rgProbLoteActivo, rgPosteriorT, rgPriorTotales,
+    syncSignIn, syncSignUp, syncSignOut, renderSyncPanel, get syncUser(){ return _fbUser; }, get syncOn(){ return _syncOn; },
     rgListaCompraFdr, rgPvalsPosicion, rgSuavizadoEspacial, runBacktestPolitica, renderPanelDecision,
     rgCurvaRacha, rgTestRachaCorta, rgEspacialCore, rgProbLoteEspacial, rgProbLote, loteCounts, getLotesDelJuegoActivo,
     goTab, getMejorTacoAhora, marcarRapidoLote, marcarRangoLote, renderLoteDetail, abrirModoCompra, renderModoCompra,
@@ -14360,6 +14570,9 @@
     }, 250);
   }
   try{ maybeShowOnboarding(); }catch(e){}
+  // Sincronización: inicializa Firebase (si el SDK cargó) para restaurar la sesión guardada.
+  // Si no hay internet/SDK, no pasa nada: la app funciona 100% en local como siempre.
+  try{ _syncInitApp(); renderSyncPanel(); }catch(e){ console.warn('[sync] no disponible', e); }
   const _vt = document.getElementById('appVersionTag');
   if(_vt) _vt.textContent = 'versión ' + APP_VERSION.num + ' · ' + APP_VERSION.fecha;
 })();
