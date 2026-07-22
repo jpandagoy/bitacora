@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.1', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.2', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -14356,38 +14356,42 @@
   function _syncSchedulePush(){
     if(!_syncOn || _syncApplying) return;
     clearTimeout(_syncPushTimer);
-    _syncPushTimer = setTimeout(()=>{ _syncPushDirty().catch(e=>console.warn('[sync] push', e)); }, 1200);
+    _syncPushTimer = setTimeout(()=>{ _syncPushDirty().catch(e=>{ console.warn('[sync] push', e); _syncStatus('⚠ Error al subir: '+(e.message||e.code), 'var(--stamp)'); }); }, 1200);
   }
   async function _syncPushDirty(){
     if(!_syncOn || !_fbUser) return;
     const base = _fbDb.collection('users').doc(_fbUser.uid);
-    let batch = _fbDb.batch(), n=0, cambios=0;
-    const flush = async()=>{ if(n){ await batch.commit(); batch=_fbDb.batch(); n=0; } };
+    let cambios=0;
+    // Cada entidad se guarda como UN campo de texto JSON (`j`). Así Firestore nunca tiene que
+    // serializar la estructura anidada de los lotes (posiciones, etc.) — un string no puede
+    // fallar. Se commitea colección por colección: si algo fallara en records, lotes ya
+    // quedaron guardados. Lotes de 400 (bajo el límite de 500 de Firestore).
     for(const col of SYNC_COLS){
       const arr = _syncArr(col), vistos = new Set();
+      let batch = _fbDb.batch(), n=0;
+      const flush = async()=>{ if(n){ await batch.commit(); batch=_fbDb.batch(); n=0; } };
       for(const ent of arr){
         if(ent.id==null) continue;
         const id=String(ent.id); vistos.add(id);
         const js=_syncEntJson(ent);
         if(_syncLastPushed[col][id] === js) continue;   // sin cambios
         const lm = ent._lm || _syncNow(); ent._lm = lm;  // sella el momento del cambio
-        batch.set(base.collection(col).doc(_syncDocId(id)), {..._syncStripId(ent), _id:id, _lm:lm, _deleted:false});
-        _syncLastPushed[col][id]=js; cambios++; if(++n>=450) await flush();
+        batch.set(base.collection(col).doc(_syncDocId(id)), {_id:id, _lm:lm, _deleted:false, j:js});
+        _syncLastPushed[col][id]=js; cambios++; if(++n>=400) await flush();
       }
       // Tombstones: lo que estaba enviado y ya no está en local = borrado.
       for(const id of Object.keys(_syncLastPushed[col])){
         if(vistos.has(id)) continue;
         batch.set(base.collection(col).doc(_syncDocId(id)), {_id:id, _lm:_syncNow(), _deleted:true});
-        delete _syncLastPushed[col][id]; cambios++; if(++n>=450) await flush();
+        delete _syncLastPushed[col][id]; cambios++; if(++n>=400) await flush();
       }
+      await flush();
     }
-    await flush();
     if(cambios){ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46'); }
   }
   // Firestore no acepta '/' ni ciertos caracteres en IDs de doc; los ids float viejos y los
   // string nuevos se codifican de forma reversible-suficiente (solo para la ruta del doc).
-  function _syncDocId(id){ return encodeURIComponent(String(id)).replace(/\./g,'%2E').replace(/\//g,'%2F'); }
-  function _syncStripId(ent){ const c={...ent}; return c; }
+  function _syncDocId(id){ return encodeURIComponent(String(id)).replace(/\./g,'%2E').replace(/\//g,'%2F').replace(/%/g,'_'); }
 
   // ---- PULL: aplica cambios remotos a local (por _lm, con tombstones) ----
   function _syncArrancar(){
@@ -14409,11 +14413,14 @@
             delete _syncLastPushed[col][id];
             return;
           }
-          const remoto={...d}; delete remoto._id; delete remoto._deleted;
+          // La entidad viene como texto JSON en `j` (formato robusto). Se parsea y se le
+          // pega el _lm del documento. El id ya viene dentro del JSON con su tipo correcto.
+          let nuevo; try{ nuevo = JSON.parse(d.j); }catch(e){ return; }
           const localEnt = idx>=0?arr[idx]:null;
           const localLm = localEnt? (localEnt._lm||0) : -1;
-          if(!localEnt || (remoto._lm||0) >= localLm){
-            const nuevo={...remoto, id:_syncCoerceId(id, localEnt)};
+          if(!localEnt || (d._lm||0) >= localLm){
+            nuevo._lm = d._lm;
+            if(nuevo.id==null) nuevo.id = _syncCoerceId(id, localEnt);
             if(idx>=0) arr[idx]=nuevo; else arr.push(nuevo);
             _syncLastPushed[col][id]=_syncEntJson(nuevo);
             toco=true;
