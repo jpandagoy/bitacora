@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.4', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.5', fecha: '2026-07-22' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -10060,9 +10060,12 @@
       .filter(l=> String(l.juegoId)===String(juegoId)
         && (!tirada || tirada==='__todas__' || getTiradaSerie(l.serie)===tirada))
       .map(l=>String(l.id)));
+    // NETO de retención: la distribución que alimenta el EV, el «V efectivo» y el Kelly usa
+    // los dólares que REALMENTE se reciben (un jackpot de $10.000 aporta $8.600 al valor
+    // esperado). Así el motor de decisión no sobreestima el premio de comprar.
     const montos = (data.records||[])
       .filter(r=> lotesIds.has(String(r.loteId)) && (r.premio||0) > 0)
-      .map(r=> Number(r.premio))
+      .map(r=> premioNeto(r.premio))
       .sort((a,b)=>a-b);
     const n = montos.length;
     if(!n) return null;
