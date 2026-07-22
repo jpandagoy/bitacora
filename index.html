@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.0', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '6.1', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -14328,7 +14328,7 @@
   // editar la misma cosa en dos teléfonos a la vez es prácticamente imposible.
   const SYNC_COLS = ['juegos','lotes','records']; // orden: juegos→lotes→records (dependencias)
   let _fb=null, _fbAuth=null, _fbDb=null, _fbUser=null, _syncOn=false, _syncApplying=false;
-  let _syncPushTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{}};
+  let _syncPushTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{}}, _syncInitialPushed=false;
   const _syncEl = id => document.getElementById(id);
   function _syncStatus(txt, color){ const e=_syncEl('syncEstado'); if(e){ e.textContent=txt; e.style.color=color||'var(--silver-dark)'; } }
 
@@ -14395,7 +14395,8 @@
     _syncOn=true;
     _syncStatus('Conectando…', '#1565C0');
     const base=_fbDb.collection('users').doc(_fbUser.uid);
-    let primeras = 0;
+    const primerasCols = new Set();
+    _syncInitialPushed = false;
     SYNC_COLS.forEach(col=>{
       const unsub = base.collection(col).onSnapshot(snap=>{
         _syncApplying=true;
@@ -14420,9 +14421,23 @@
         });
         if(toco){ try{ save(); }catch(e){} }
         _syncApplying=false;
-        if(++primeras<=SYNC_COLS.length) _syncStatus('✓ Sincronizado', '#065F46');
+        // SUBIDA INICIAL: cuando ya llegó la 1.ª foto de las 3 colecciones (y por tanto
+        // _syncLastPushed refleja lo que YA hay en la nube), se sube TODO lo local que aún
+        // no esté en la nube. Así el dispositivo que crea la cuenta sí sube sus datos, y
+        // fusionar dos dispositivos con datos nunca pierde nada ni pisa lo más reciente.
+        // Solo se hace cuando la foto viene del SERVIDOR (no del caché local), para no
+        // subir datos viejos antes de conocer el estado real de la nube.
+        if(!snap.metadata.fromCache) primerasCols.add(col);
+        if(!_syncInitialPushed && primerasCols.size >= SYNC_COLS.length){
+          _syncInitialPushed = true;
+          _syncStatus('Subiendo tus datos…', '#1565C0');
+          _syncPushDirty().then(()=>{ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46'); renderSyncPanel(); })
+                          .catch(e=>{ console.warn('[sync] push inicial', e); });
+        } else {
+          _syncStatus('✓ Sincronizado', '#065F46');
+        }
         try{ render(); }catch(e){}
-      }, err=>{ console.warn('[sync] snapshot', col, err); _syncStatus('⚠ Error de sync: '+err.code, 'var(--stamp)'); });
+      }, err=>{ console.warn('[sync] snapshot', col, err); _syncStatus('⚠ Error de sync: '+(err.code||err.message), 'var(--stamp)'); });
       _syncUnsub.push(unsub);
     });
     renderSyncPanel();
