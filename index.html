@@ -575,7 +575,7 @@
             <div id="newLoteParidadPreview" style="padding:9px 10px; border:1px solid var(--silver); background:var(--paper-dark); font-family:'Courier New',monospace; font-weight:700; text-transform:uppercase; font-size:13px; color:var(--silver-dark);">—</div>
           </div>
           <div class="field" style="min-width:120px;">
-            <label for="newLoteColor">Color del taco <span style="color:var(--stamp);">*</span></label>
+            <label for="newLoteColor">Color del taco <span id="newLoteColorReq" style="color:var(--stamp);">*</span></label>
             <select id="newLoteColor">
               <option value="">— elige —</option>
               <option value="gris">Gris</option>
@@ -583,7 +583,7 @@
             </select>
           </div>
           <div class="field" style="min-width:120px;">
-            <label for="newLoteInicio">Inicia en <span style="color:var(--stamp);">*</span></label>
+            <label for="newLoteInicio">Inicia en <span id="newLoteInicioReq" style="color:var(--stamp);">*</span></label>
             <select id="newLoteInicio">
               <option value="">— elige —</option>
               <option value="001">001</option>
@@ -1814,7 +1814,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '5.1', fecha: '2026-07-20' };
+  const APP_VERSION = { num: '5.2', fecha: '2026-07-20' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -5324,14 +5324,19 @@
     const serie = document.getElementById('newLoteSerie').value.trim().replace(/-+$/,''); // un prefijo suelto ("020-") no es serie
     if(!serie || !serie.includes('-')){ toast('Completa el número de serie del taco (ej. 020-010139)'); return; }
     if(data.lotes.some(l=>l.serie===serie)){ toast('Ya existe un lote con esa serie'); return; }
-    // Color e inicio son OBLIGATORIOS (observación física del taco): sin ellos no se crea.
+    const modo = document.getElementById('newLoteModo').value;
+    // Color e inicio: solo se pueden CONOCER si compraste el bloque completo. En boletos
+    // sueltos no ves la tira entera, así que exigirlos generaría datos falsos → son
+    // obligatorios SOLO en modo 'completo'; en sueltos quedan opcionales (si igual lo sabes,
+    // lo puedes anotar y se guarda).
+    const esCompleto = (modo === 'completo');
     const color = document.getElementById('newLoteColor').value;
     const inicioSel = document.getElementById('newLoteInicio').value;
     const inicioNum = inicioSel==='__otro__' ? document.getElementById('newLoteInicioOtro').value.trim() : inicioSel;
-    if(!color){ toast('⚠ Indica el COLOR del taco (gris o plomo) — sin eso no se crea'); document.getElementById('newLoteColor').focus(); return; }
-    if(!inicioNum || !/^\d{1,3}$/.test(inicioNum)){ toast('⚠ Indica con qué numeración INICIA el taco (ej. 001 o 003)'); document.getElementById(inicioSel==='__otro__'?'newLoteInicioOtro':'newLoteInicio').focus(); return; }
+    if(esCompleto && !color){ toast('⚠ Indica el COLOR del taco (gris o plomo) — obligatorio en bloque completo'); document.getElementById('newLoteColor').focus(); return; }
+    if(esCompleto && (!inicioNum || !/^\d{1,3}$/.test(inicioNum))){ toast('⚠ Indica con qué numeración INICIA el taco (ej. 001 o 003)'); document.getElementById(inicioSel==='__otro__'?'newLoteInicioOtro':'newLoteInicio').focus(); return; }
+    if(inicioNum && !/^\d{1,3}$/.test(inicioNum)){ toast('«Inicia en» debe ser un número (ej. 001)'); return; }
     const paridad = autoParidad(serie) || 'impar';
-    const modo = document.getElementById('newLoteModo').value;
     const punto = document.getElementById('newLotePunto').value.trim();
     const ciudad = getNewLoteCiudadValue();
     const juego = getJuegoActivo();
@@ -5345,8 +5350,10 @@
     if(descuento > 0) lote.descuento = descuento;
     // Color e inicio: siempre presentes en lotes nuevos (validados arriba). Los lotes
     // anteriores a v4.8 no los tienen y simplemente no muestran los tags.
-    lote.color = color;
-    lote.inicioNum = inicioNum.padStart(3,'0');
+    // Se escriben solo si hay valor: en boletos sueltos suelen ir vacíos y no deben
+    // ensuciar el registro con campos falsos.
+    if(color) lote.color = color;
+    if(inicioNum && /^\d{1,3}$/.test(inicioNum)) lote.inicioNum = inicioNum.padStart(3,'0');
     data.lotes.push(lote);
     // Recordar el contexto de esta compra para el siguiente taco de la misma visita.
     setCtxCompra({punto, ciudad, modo, serie, juegoId: juego.id, fecha: todayStr(), descuento});
@@ -5644,10 +5651,16 @@
     const colorV = v('newLoteColor');
     const iniSel = v('newLoteInicio');
     const iniV = iniSel==='__otro__' ? v('newLoteInicioOtro') : iniSel;
+    // Color e inicio solo son obligatorios en bloque completo (en sueltos no se conocen).
+    const reqExtra = v('newLoteModo') !== 'suelto';
+    // El asterisco de obligatorio aparece/desaparece con el modo.
+    const cReq = document.getElementById('newLoteColorReq'), iReq = document.getElementById('newLoteInicioReq');
+    if(cReq) cReq.style.display = reqExtra ? '' : 'none';
+    if(iReq) iReq.style.display = reqExtra ? '' : 'none';
     // req=true: campo OBLIGATORIO — si falta se pinta en rojo, no en gris punteado.
     const chips = [
-      ['newLoteColor', colorV?('🎨 '+(colorV==='plomo'?'Plomo':'Gris')):'⚠ elige color', !!colorV, true],
-      ['newLoteInicio', iniV?('⇢ inicia '+iniV):'⚠ elige inicio', !!iniV, true],
+      ['newLoteColor', colorV?('🎨 '+(colorV==='plomo'?'Plomo':'Gris')):(reqExtra?'⚠ elige color':'color (n/a en sueltos)'), !!colorV, reqExtra],
+      ['newLoteInicio', iniV?('⇢ inicia '+iniV):(reqExtra?'⚠ elige inicio':'inicio (n/a en sueltos)'), !!iniV, reqExtra],
       ['newLoteModo', modo, true, false],
       ['newLoteDescuento', desc>0?`🏷️ −${desc}%`:'sin descuento', desc>0, false],
       ['newLotePunto', v('newLotePunto')||'sin punto', !!v('newLotePunto'), false],
