@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.5', fecha: '2026-07-22' };
+  const APP_VERSION = { num: '6.6', fecha: '2026-07-23' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -6047,8 +6047,30 @@
     if(tRec && tRec > t) t = tRec;
     return t;
   }
+  // Premio más alto registrado en el lote (sobre TODOS sus boletos, completo o no) y cuántas
+  // veces se repite ese mismo monto. Valor de cara del boleto (no neteado): es "el mayor premio
+  // que salió", no una cifra contable. Memoizado por versión de datos para no recorrer records
+  // por cada lote en cada repintado.
+  let _premioMaxCache = null;
+  function _indicePremioMaxPorLote(){
+    if(_premioMaxCache && _premioMaxCache.v === _dataVersion) return _premioMaxCache.mapa;
+    const mapa = new Map();
+    (data.records||[]).forEach(r=>{
+      const p = Number(r.premio)||0;
+      if(p<=0) return;
+      const k = String(r.loteId);
+      const cur = mapa.get(k);
+      if(!cur || p > cur.max) mapa.set(k, {max:p, veces:1});
+      else if(p === cur.max) cur.veces++;
+    });
+    _premioMaxCache = {v:_dataVersion, mapa};
+    return mapa;
+  }
+  function lotePremioMax(l){ return _indicePremioMaxPorLote().get(String(l.id)) || {max:0, veces:0}; }
+  function loteNumSerie(l){ return Number(String(l.serie||'').split('-')[1]||'').valueOf() || 0; }
   function loteSortValue(l, key){
     const c = loteCounts(l);
+    if(key==='numlote')  return loteNumSerie(l);
     if(key==='actividad') return loteUltimaActividad(l);
     if(key==='fecha')    return loteFechaVal(l);
     if(key==='roi')      { const ri=loteRoiInfo(l); return ri.roi===null ? -Infinity : ri.roi; }
@@ -6072,7 +6094,7 @@
   function renderLoteSortBar(){
     const bar = document.getElementById('loteSortBar'); if(!bar) return;
     const cols = [['actividad','Actualización'],['fecha','Fecha'],['roi','ROI'],['revelado','% revelado'],
-                  ['premios','N.º premios'],['montoPremios','$ Premios'],['gasto','$ Gasto'],['serie','Serie']];
+                  ['premios','N.º premios'],['montoPremios','$ Premios'],['gasto','$ Gasto'],['numlote','N.º lote'],['serie','Serie']];
     bar.innerHTML = '<span class="field-help" style="font-weight:600; margin-right:2px;">Ordenar:</span>' +
       cols.map(([k,lbl])=>{
         const active = loteSort.key===k;
@@ -6086,7 +6108,7 @@
       ch.addEventListener('click', ()=>{
         const k=ch.dataset.sortkey;
         if(loteSort.key===k) loteSort.dir = loteSort.dir==='asc'?'desc':'asc';
-        else { loteSort.key=k; loteSort.dir = (k==='serie') ? 'asc' : 'desc'; }
+        else { loteSort.key=k; loteSort.dir = (k==='serie'||k==='numlote') ? 'asc' : 'desc'; }
         renderLoteList();
       });
     });
@@ -6216,7 +6238,7 @@
       h.addEventListener('click', ()=>{
         const k = h.dataset.sortkey;
         if(loteSort.key===k) loteSort.dir = loteSort.dir==='asc'?'desc':'asc';
-        else { loteSort.key=k; loteSort.dir = (k==='serie') ? 'asc' : 'desc'; }
+        else { loteSort.key=k; loteSort.dir = (k==='serie'||k==='numlote') ? 'asc' : 'desc'; }
         renderLoteList();
       });
     });
@@ -6348,6 +6370,14 @@
         ${l.inicioNum ? `<span style="font-size:10px; padding:1px 6px; border-radius:4px; background:var(--silver); color:var(--ink-mid); font-family:'Courier New',monospace; white-space:nowrap;" title="Numeración con la que inicia la tira">⇢ ${escapeHtml(l.inicioNum)}</span>` : ''}
         ${getDescuentoLote(l)>0 ? `<span style="font-size:10px; padding:1px 6px; border-radius:4px; background:#D1FAE5; color:#065F46; font-weight:700; white-space:nowrap;" title="Comprado con ${getDescuentoLote(l)}% de descuento: ${fmt(costoUnitarioLote(l))} por boleto en vez de ${fmt(getJuego(l.juegoId)?.costoDefecto ?? 2)}. Ahorro en este taco: ${fmt(ahorroDeLote(l))}.">🏷️ −${getDescuentoLote(l)}%</span>` : ''}
         ${matchBadge}
+        ${(()=>{
+          // TAG Opción A: premio más alto registrado en el lote (valor de cara) + veces que se repite.
+          const pm = lotePremioMax(l);
+          if(pm.max <= 0) return '';
+          const cnt = pm.veces > 1 ? `<span style="background:#4A1B0C;color:#F5C4B3;padding:0 5px;border-radius:8px;margin-left:3px;">×${pm.veces}</span>` : '';
+          const tit = `Premio más alto registrado en este lote: ${fmt(pm.max)}${pm.veces>1?` — se repite ${pm.veces} veces`:''} (valor de cara del boleto)`;
+          return `<span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#F0997B;color:#4A1B0C;font-weight:700;white-space:nowrap;" title="${escapeHtml(tit)}">🏆 Máx ${fmt(pm.max)}${cnt}</span>`;
+        })()}
         <div class="lbar"><div class="lbar-fill" style="width:${pct}%;"></div></div>
         <span class="lstat">${c.revealed}/${c.total} reveladas</span>
         ${(()=>{
