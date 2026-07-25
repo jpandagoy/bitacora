@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.6', fecha: '2026-07-23' };
+  const APP_VERSION = { num: '6.7', fecha: '2026-07-24' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -8245,13 +8245,22 @@
     </table></div>`;
   }
 
+  // ---- Estado del gráfico interactivo de rendimiento ----
+  let _rendRows = [], _rendNivel = 'dia';
+  let rendSeriesOff = { inv:false, gan:false, linea:false }; // series ocultadas por la leyenda
+  let rendHoverI = -1; // índice de columna resaltada (para persistir en re-render? no: efímero)
+
+  // Gráfico interactivo: barras Invertido/Ganado + línea de Neto acumulado, con tooltip al pasar
+  // el mouse (o tocar), crosshair, resaltado de columna, cuadrícula y ejes. El wiring de eventos
+  // lo hace wireRendChart() después de inyectar el HTML (los datos viven en _rendRows).
   function rendimientoChartSvg(rows, nivel){
     if(!rows.length) return '<p class="note" style="margin:0;">Sin datos suficientes para graficar.</p>';
-    const W=760, H=320, padL=55, padR=20, padT=20, padB=50;
+    _rendRows = rows; _rendNivel = nivel;
+    const W=760, H=340, padL=58, padR=54, padT=22, padB=54;
     const chartW = W-padL-padR, chartH = H-padT-padB;
     const n = rows.length;
     const barSlot = chartW/n;
-    const barW = Math.min(28, barSlot*0.32);
+    const barW = Math.max(4, Math.min(26, barSlot*0.30));
     const maxMonto = Math.max(1, ...rows.map(r=>Math.max(r.invertido, r.ganado)));
     const minAcum = Math.min(0, ...rows.map(r=>r.netoAcumulado));
     const maxAcum = Math.max(0, ...rows.map(r=>r.netoAcumulado));
@@ -8259,38 +8268,147 @@
     const yBar = v => padT + chartH - (v/maxMonto)*chartH;
     const yLine = v => padT + chartH - ((v-minAcum)/rangoAcum)*chartH;
     const xCenter = i => padL + barSlot*i + barSlot/2;
+    const baseY = padT+chartH;
 
-    const barsInvertido = rows.map((r,i)=>{
-      const x = xCenter(i)-barW-2, y = yBar(r.invertido), h = chartH+padT-y;
-      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="var(--stamp)" opacity="0.75" rx="2"/>`;
+    // Cuadrícula horizontal + eje $ izquierdo (montos).
+    const NG = 4;
+    let grid='', yAxisL='';
+    for(let g=0; g<=NG; g++){
+      const val = maxMonto*g/NG;
+      const yy = yBar(val);
+      grid += `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" stroke="var(--silver-dark)" stroke-width="0.5" opacity="0.18"/>`;
+      yAxisL += `<text x="${padL-8}" y="${(yy+3).toFixed(1)}" font-size="9" fill="var(--silver-dark)" text-anchor="end" font-family="'Courier New',monospace">${fmt(val)}</text>`;
+    }
+    // Eje derecho (neto acumulado): tope, cero y piso.
+    const yAxisR = [maxAcum, 0, minAcum].filter((v,i,a)=>a.indexOf(v)===i).map(v=>
+      `<text x="${W-padR+8}" y="${(yLine(v)+3).toFixed(1)}" font-size="9" fill="var(--gold)" text-anchor="start" font-family="'Courier New',monospace">${(v>=0?'+':'')}${fmt(v)}</text>`
+    ).join('');
+
+    // Mejor y peor periodo por neto (para marcarlos).
+    let iBest=0, iWorst=0;
+    rows.forEach((r,i)=>{ if(r.neto>rows[iBest].neto) iBest=i; if(r.neto<rows[iWorst].neto) iWorst=i; });
+
+    const barsInvertido = rendSeriesOff.inv ? '' : rows.map((r,i)=>{
+      const x = xCenter(i)-barW-1.5, y = yBar(r.invertido), h = baseY-y;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0,h).toFixed(1)}" fill="var(--stamp)" opacity="0.82" rx="2.5"/>`;
     }).join('');
-    const barsGanado = rows.map((r,i)=>{
-      const x = xCenter(i)+2, y = yBar(r.ganado), h = chartH+padT-y;
-      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${h.toFixed(1)}" fill="var(--ok)" opacity="0.85" rx="2"/>`;
+    const barsGanado = rendSeriesOff.gan ? '' : rows.map((r,i)=>{
+      const x = xCenter(i)+1.5, y = yBar(r.ganado), h = baseY-y;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(0,h).toFixed(1)}" fill="var(--ok)" opacity="0.9" rx="2.5"/>`;
     }).join('');
-    const linePoints = rows.map((r,i)=>`${xCenter(i).toFixed(1)},${yLine(r.netoAcumulado).toFixed(1)}`).join(' ');
-    const lineDots = rows.map((r,i)=>`<circle cx="${xCenter(i).toFixed(1)}" cy="${yLine(r.netoAcumulado).toFixed(1)}" r="3.5" fill="var(--gold)" stroke="var(--white)" stroke-width="1"/>`).join('');
+
+    let lineSvg='';
+    if(!rendSeriesOff.linea){
+      const linePoints = rows.map((r,i)=>`${xCenter(i).toFixed(1)},${yLine(r.netoAcumulado).toFixed(1)}`).join(' ');
+      const areaPts = `${padL},${baseY} ${linePoints} ${(W-padR).toFixed(1)},${baseY}`;
+      const lineDots = rows.map((r,i)=>`<circle cx="${xCenter(i).toFixed(1)}" cy="${yLine(r.netoAcumulado).toFixed(1)}" r="3" fill="var(--gold)" stroke="var(--paper)" stroke-width="1.2"/>`).join('');
+      lineSvg = `<polygon points="${areaPts}" fill="var(--gold)" opacity="0.08"/>
+        <polyline points="${linePoints}" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>${lineDots}`;
+    }
     const zeroY = yLine(0).toFixed(1);
     const labels = rows.map((r,i)=>{
       if(n>12 && i % Math.ceil(n/12) !== 0) return '';
-      return `<text x="${xCenter(i).toFixed(1)}" y="${H-14}" font-size="9" fill="var(--silver-dark)" text-anchor="middle" font-family="'Courier New',monospace">${formatPeriodoLabelRend(r.periodo, nivel)}</text>`;
+      return `<text x="${xCenter(i).toFixed(1)}" y="${H-16}" font-size="9" fill="var(--silver-dark)" text-anchor="middle" font-family="'Courier New',monospace">${formatPeriodoLabelRend(r.periodo, nivel)}</text>`;
     }).join('');
 
-    return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" style="display:block; max-width:100%; height:auto;">
-      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+chartH}" stroke="var(--silver-dark)" stroke-width="1"/>
-      <line x1="${padL}" y1="${padT+chartH}" x2="${W-padR}" y2="${padT+chartH}" stroke="var(--silver-dark)" stroke-width="1"/>
-      <line x1="${padL}" y1="${zeroY}" x2="${W-padR}" y2="${zeroY}" stroke="var(--silver-dark)" stroke-width="0.75" stroke-dasharray="3,3" opacity="0.5"/>
-      ${barsInvertido}${barsGanado}
-      <polyline points="${linePoints}" fill="none" stroke="var(--gold)" stroke-width="2"/>
-      ${lineDots}${labels}
-      <text x="${padL-6}" y="${padT+4}" font-size="9" fill="var(--silver-dark)" text-anchor="end" font-family="'Courier New',monospace">${fmt(maxMonto)}</text>
-      <text x="${padL-6}" y="${padT+chartH}" font-size="9" fill="var(--silver-dark)" text-anchor="end" font-family="'Courier New',monospace">$0</text>
-    </svg>
-    <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:11px; color:var(--ink-soft); margin-top:8px;">
-      <span style="display:flex; align-items:center; gap:5px;"><span style="width:11px; height:11px; background:var(--stamp); display:inline-block; opacity:0.75;"></span> Invertido</span>
-      <span style="display:flex; align-items:center; gap:5px;"><span style="width:11px; height:11px; background:var(--ok); display:inline-block; opacity:0.85;"></span> Ganado</span>
-      <span style="display:flex; align-items:center; gap:5px;"><span style="width:11px; height:11px; background:var(--gold); display:inline-block;"></span> Neto acumulado (línea)</span>
+    // Marcadores mejor/peor (solo si hay más de un periodo y difieren).
+    let marks='';
+    if(n>1 && iBest!==iWorst){
+      marks = `<text x="${xCenter(iBest).toFixed(1)}" y="${(yBar(Math.max(rows[iBest].invertido,rows[iBest].ganado))-6).toFixed(1)}" font-size="11" text-anchor="middle">▲</text>`;
+    }
+
+    // Zonas de hover (una por periodo, ancho completo del slot) + crosshair + columna resaltada.
+    const hoverZones = rows.map((r,i)=>{
+      const cx = xCenter(i);
+      const cyTop = Math.min(yBar(Math.max(r.invertido,r.ganado)), rendSeriesOff.linea?9e9:yLine(r.netoAcumulado));
+      return `<rect class="rend-hz" data-i="${i}" data-cx="${cx.toFixed(1)}" data-cy="${cyTop.toFixed(1)}" x="${(padL+barSlot*i).toFixed(1)}" y="${padT}" width="${barSlot.toFixed(1)}" height="${chartH.toFixed(1)}" fill="transparent" style="cursor:crosshair"/>`;
+    }).join('');
+
+    const leg = (on, color, txt, key)=>`<span class="rend-leg${on?'':' off'}" data-serie="${key}" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-size:11px; padding:3px 9px; border-radius:999px; border:1px solid var(--silver); user-select:none; opacity:${on?1:0.4}; ${on?'':'text-decoration:line-through;'}"><span style="width:11px; height:11px; border-radius:3px; background:${color}; display:inline-block;"></span>${txt}</span>`;
+
+    return `<div id="rendChartWrap" style="position:relative; width:100%;">
+      <svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block; height:auto; overflow:visible;">
+        ${grid}
+        <line class="rend-colhi" x1="0" y1="${padT}" x2="0" y2="${baseY}" stroke="var(--gold)" stroke-width="0" opacity="0"/>
+        <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${baseY}" stroke="var(--silver-dark)" stroke-width="1" opacity="0.5"/>
+        <line x1="${padL}" y1="${baseY}" x2="${W-padR}" y2="${baseY}" stroke="var(--silver-dark)" stroke-width="1" opacity="0.5"/>
+        <line x1="${padL}" y1="${zeroY}" x2="${W-padR}" y2="${zeroY}" stroke="var(--gold)" stroke-width="0.75" stroke-dasharray="4,3" opacity="0.4"/>
+        ${barsInvertido}${barsGanado}${lineSvg}${marks}
+        ${yAxisL}${yAxisR}${labels}
+        <line class="rend-cross" x1="0" y1="${padT}" x2="0" y2="${baseY}" stroke="var(--gold)" stroke-width="1" stroke-dasharray="3,3" opacity="0"/>
+        ${hoverZones}
+      </svg>
+      <div id="rendTip" class="rend-tip" style="position:absolute; display:none; pointer-events:none; z-index:20; min-width:170px; background:var(--paper); border:1px solid var(--gold); border-radius:10px; padding:9px 11px; box-shadow:0 8px 24px rgba(0,0,0,0.45); font-size:11.5px; color:var(--ink);"></div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center;">
+      ${leg(!rendSeriesOff.inv,'var(--stamp)','Invertido','inv')}
+      ${leg(!rendSeriesOff.gan,'var(--ok)','Ganado','gan')}
+      ${leg(!rendSeriesOff.linea,'var(--gold)','Neto acumulado','linea')}
+      <span style="font-size:10.5px; color:var(--silver-dark); margin-left:auto;">Pasa el mouse (o toca) una columna para ver sus valores</span>
     </div>`;
+  }
+
+  // Wiring del gráfico interactivo: tooltip, crosshair y columna resaltada. Se llama tras inyectar.
+  function wireRendChart(){
+    const wrap = document.getElementById('rendChartWrap'); if(!wrap) return;
+    const svg = wrap.querySelector('svg'); const tip = document.getElementById('rendTip');
+    const cross = wrap.querySelector('.rend-cross'); const colhi = wrap.querySelector('.rend-colhi');
+    const rows = _rendRows, nivel = _rendNivel;
+    const W=760, H=340, padL=58, padR=54, padT=22, padB=54;
+    const chartW=W-padL-padR, chartH=H-padT-padB, baseY=padT+chartH;
+    const n=rows.length, barSlot=chartW/n;
+
+    function tipHtml(r){
+      const netoCol = r.neto>=0 ? 'var(--ok)' : 'var(--stamp)';
+      const roiCol  = r.roi>=0 ? 'var(--ok)' : 'var(--stamp)';
+      const fila=(l,v,c)=>`<div style="display:flex; justify-content:space-between; gap:14px;"><span style="color:var(--silver-dark);">${l}</span><span style="font-weight:700;${c?'color:'+c+';':''}">${v}</span></div>`;
+      return `<div style="font-weight:700; margin-bottom:6px; color:var(--gold);">${formatPeriodoLabelRend(r.periodo, nivel)}</div>`+
+        fila('Invertido', fmt(r.invertido))+
+        fila('Ganado', fmt(r.ganado))+
+        fila('Neto', (r.neto>=0?'+':'')+fmt(r.neto), netoCol)+
+        fila('ROI', (r.roi>=0?'+':'')+r.roi.toFixed(1)+'%', roiCol)+
+        `<div style="height:1px; background:var(--silver); opacity:0.4; margin:5px 0;"></div>`+
+        fila('Comprados', r.comprados)+
+        fila('Con premio', r.conPremio)+
+        fila('Neto acum.', (r.netoAcumulado>=0?'+':'')+fmt(r.netoAcumulado), r.netoAcumulado>=0?'var(--ok)':'var(--stamp)');
+    }
+    function showAt(i, clientX){
+      const r = rows[i]; if(!r) return;
+      const rect = svg.getBoundingClientRect();
+      const sx = rect.width / W, sy = rect.height / H;
+      const cx = padL + barSlot*i + barSlot/2;
+      cross.setAttribute('x1', cx); cross.setAttribute('x2', cx); cross.setAttribute('opacity','0.55');
+      colhi.setAttribute('x1', cx); colhi.setAttribute('x2', cx);
+      colhi.setAttribute('stroke-width', (barSlot*sx>2? barSlot : 8).toFixed(1));
+      colhi.setAttribute('stroke-width', barSlot.toFixed(1));
+      colhi.setAttribute('opacity','0.08');
+      tip.innerHTML = tipHtml(r);
+      tip.style.display='block';
+      const tipW = tip.offsetWidth, tipH = tip.offsetHeight;
+      let left = cx*sx - tipW/2;
+      left = Math.max(2, Math.min(left, rect.width - tipW - 2));
+      let top = (padT+chartH*0.05)*sy - 6;
+      top = Math.max(2, Math.min(top, rect.height - tipH - 2));
+      tip.style.left = left.toFixed(0)+'px';
+      tip.style.top = top.toFixed(0)+'px';
+    }
+    function hide(){ tip.style.display='none'; cross.setAttribute('opacity','0'); colhi.setAttribute('opacity','0'); }
+
+    wrap.querySelectorAll('.rend-hz').forEach(z=>{
+      const i = parseInt(z.dataset.i,10);
+      z.addEventListener('mouseenter', e=> showAt(i, e.clientX));
+      z.addEventListener('mousemove',  e=> showAt(i, e.clientX));
+      z.addEventListener('mouseleave', hide);
+      z.addEventListener('touchstart', e=>{ showAt(i, e.touches[0].clientX); }, {passive:true});
+    });
+    wrap.addEventListener('mouseleave', hide);
+    // Leyenda: activar/desactivar series.
+    document.querySelectorAll('.rend-leg').forEach(lg=>{
+      lg.addEventListener('click', ()=>{
+        const k = lg.dataset.serie; rendSeriesOff[k] = !rendSeriesOff[k];
+        renderRendimientoContent();
+      });
+    });
   }
 
   function renderRendimientoSelector(){
@@ -8414,18 +8532,33 @@
     const totalConPremio = rows.reduce((s,r)=>s+r.conPremio,0);
     const roiGlobal = totalInvertido>0 ? (totalNeto/totalInvertido*100) : 0;
 
+    // Insight: mejor y peor periodo por neto (solo si hay más de uno).
+    let insight = '';
+    if(rows.length > 1){
+      let best=rows[0], worst=rows[0];
+      rows.forEach(r=>{ if(r.neto>best.neto) best=r; if(r.neto<worst.neto) worst=r; });
+      const tasaPrem = totalComprados>0 ? (totalConPremio/totalComprados*100) : 0;
+      insight = `<div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; font-size:11.5px;">
+        <span style="padding:5px 11px; border-radius:8px; background:rgba(0,200,83,0.12); border:1px solid var(--ok); color:var(--ink);">▲ Mejor: <strong>${formatPeriodoLabelRend(best.periodo, nivelParaMostrar)}</strong> · ${best.neto>=0?'+':''}${fmt(best.neto)}</span>
+        <span style="padding:5px 11px; border-radius:8px; background:rgba(255,82,82,0.12); border:1px solid var(--stamp); color:var(--ink);">▼ Peor: <strong>${formatPeriodoLabelRend(worst.periodo, nivelParaMostrar)}</strong> · ${worst.neto>=0?'+':''}${fmt(worst.neto)}</span>
+        <span style="padding:5px 11px; border-radius:8px; background:var(--paper-dark); border:1px solid var(--silver); color:var(--ink);">Tasa de premio: <strong>${tasaPrem.toFixed(1)}%</strong></span>
+      </div>`;
+    }
+
     content.innerHTML = `
-      <div class="metrics" style="margin-bottom:18px;">
+      <div class="metrics" style="margin-bottom:16px;">
         <div class="metric"><div class="num">${totalComprados}</div><div class="lbl">Boletos comprados</div></div>
         <div class="metric"><div class="num">${totalConPremio}</div><div class="lbl">Con premio</div></div>
         <div class="metric"><div class="num">${fmt(totalInvertido)}</div><div class="lbl">Invertido total</div></div>
         <div class="metric"><div class="num ${totalNeto>=0?'pos':'neg'}">${totalNeto>=0?'+':''}${fmt(totalNeto)}</div><div class="lbl">Neto (ROI ${roiGlobal>=0?'+':''}${roiGlobal.toFixed(1)}%)</div></div>
       </div>
+      ${insight}
       <p class="subhead">Curva de rendimiento</p>
       <div style="margin-bottom:18px;">${rendimientoChartSvg(rows, nivelParaMostrar)}</div>
       <p class="subhead">Detalle ${tituloDetalle}</p>
       ${rendimientoTableHtml(rows, nivelParaMostrar)}
     `;
+    wireRendChart();
   }
 
   // ======================================================
