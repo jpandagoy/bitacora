@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.7', fecha: '2026-07-24' };
+  const APP_VERSION = { num: '6.8', fecha: '2026-07-24' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -5871,7 +5871,19 @@
   }
 
   document.getElementById('bulkKbdApply').addEventListener('click', ()=> aplicarBulkKbd());
-  document.getElementById('bulkKbd').addEventListener('input', renderBulkKbdPreview);
+  // Sanea el modo teclado EN VIVO: solo se permiten dígitos, «@» (para el monto propio) y
+  // separadores (espacio, coma, punto y coma). Los montos del juego son SIEMPRE enteros, así
+  // que no se admiten letras, decimales ni símbolos. Se filtra al teclear y al pegar.
+  function sanearBulkKbd(s){ return String(s||'').replace(/[^0-9@ ,;]/g,''); }
+  document.getElementById('bulkKbd').addEventListener('input', (e)=>{
+    const limpio = sanearBulkKbd(e.target.value);
+    if(limpio !== e.target.value){
+      const pos = e.target.selectionStart - (e.target.value.length - limpio.length);
+      e.target.value = limpio;
+      try{ e.target.setSelectionRange(pos, pos); }catch(_){}
+    }
+    renderBulkKbdPreview();
+  });
   // Al salir del campo se aplica solo: es inequívocamente lo que quieres si escribiste algo.
   document.getElementById('bulkKbd').addEventListener('blur', ()=>{
     setTimeout(()=>{ if((document.getElementById('bulkKbd')?.value||'').trim()) aplicarBulkKbd(); }, 150);
@@ -8550,6 +8562,7 @@
         <div class="metric"><div class="num">${totalComprados}</div><div class="lbl">Boletos comprados</div></div>
         <div class="metric"><div class="num">${totalConPremio}</div><div class="lbl">Con premio</div></div>
         <div class="metric"><div class="num">${fmt(totalInvertido)}</div><div class="lbl">Invertido total</div></div>
+        <div class="metric"><div class="num">${fmt(totalGanado)}</div><div class="lbl">Ganado total</div></div>
         <div class="metric"><div class="num ${totalNeto>=0?'pos':'neg'}">${totalNeto>=0?'+':''}${fmt(totalNeto)}</div><div class="lbl">Neto (ROI ${roiGlobal>=0?'+':''}${roiGlobal.toFixed(1)}%)</div></div>
       </div>
       ${insight}
@@ -9664,13 +9677,33 @@
   // teclado numérico (inputmode="decimal") en su lugar, y este listener filtra cualquier
   // caracter que no sea dígito o un único punto decimal — el resto del código ya usa
   // parseFloat(), que interpreta ".50" correctamente como 0.5 sin necesidad del "0" inicial.
+  // Saneador numérico CENTRAL: se aplica a TODO input numérico de la app por delegación, así
+  // ninguno acepta letras ni basura, ahora ni cuando se agreguen campos nuevos. Dos modos:
+  //  • decimal (dinero, %, valores): dígitos + un único punto, máx 2 decimales.
+  //  • numérico entero (inputmode="numeric": posiciones, inicios): solo dígitos.
+  // Cubre data-money="1" e inputmode="decimal"/"numeric". El modo teclado tiene su propio
+  // saneador (permite «@» y separadores) y se excluye aquí.
   document.addEventListener('input', (e)=>{
-    if(e.target && e.target.dataset && e.target.dataset.money === '1'){
-      const cleaned = e.target.value.replace(/[^0-9.]/g, '');
+    const t = e.target;
+    if(!t || t.tagName !== 'INPUT' || t.id === 'bulkKbd') return;
+    const im = t.getAttribute('inputmode');
+    const esDinero = (t.dataset && t.dataset.money === '1') || im === 'decimal';
+    const esEntero = im === 'numeric';
+    if(!esDinero && !esEntero) return;
+    let sanitized;
+    if(esEntero){
+      sanitized = t.value.replace(/[^0-9]/g, '');
+    } else {
+      const cleaned = t.value.replace(/[^0-9.]/g, '');
       const firstDot = cleaned.indexOf('.');
-      const sanitized = firstDot === -1 ? cleaned
-        : cleaned.slice(0, firstDot+1) + cleaned.slice(firstDot+1).replace(/\./g, '');
-      if(sanitized !== e.target.value) e.target.value = sanitized;
+      sanitized = firstDot === -1 ? cleaned
+        : cleaned.slice(0, firstDot+1) + cleaned.slice(firstDot+1).replace(/\./g, '').slice(0, 2);
+    }
+    if(sanitized !== t.value){
+      const drop = t.value.length - sanitized.length;
+      const pos = Math.max(0, (t.selectionStart||sanitized.length) - drop);
+      t.value = sanitized;
+      try{ t.setSelectionRange(pos, pos); }catch(_){}
     }
   }, true);
 
