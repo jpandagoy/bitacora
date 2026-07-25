@@ -1840,7 +1840,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.8', fecha: '2026-07-24' };
+  const APP_VERSION = { num: '6.9', fecha: '2026-07-24' };
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -8789,7 +8789,10 @@
         ${gruposPend.map(g=>`
           <div style="background:var(--paper-dark); border-left:4px solid ${g.edad>7?'#F59E0B':'#00C853'}; padding:10px 12px;">
             <div style="display:flex; justify-content:space-between; align-items:baseline; gap:6px;">
-              <span style="font-family:'Courier New',monospace; font-weight:700;">${escapeHtml(g.serie)}</span>
+              <label style="display:flex; align-items:center; gap:7px; cursor:pointer; min-width:0;">
+                <input type="checkbox" class="pap-sel" data-lid="${escapeHtml(g.lid)}" data-sub="${g.sub}" style="width:16px; height:16px; cursor:pointer; flex:none;">
+                <span style="font-family:'Courier New',monospace; font-weight:700; overflow:hidden; text-overflow:ellipsis;">${escapeHtml(g.serie)}</span>
+              </label>
               <span style="font-family:'Courier New',monospace; font-weight:800; font-size:15px;">${fmt(g.sub)}</span>
             </div>
             <div style="font-size:11px; color:${g.edad>7?'#92400E':'var(--silver-dark)'}; margin:2px 0 6px;">${g.emoji} ${escapeHtml(g.jn)} · ${g.recs.length} boleto(s) · ${g.edad<=0?'ganado hoy':(g.edad===1?'ganado ayer':'lleva '+g.edad+' días')}${g.edad>7?' ⚠':''}</div>
@@ -8801,6 +8804,13 @@
             </details>
             <button class="btn-ghost cobro-taco" data-lid="${escapeHtml(g.lid)}" style="width:100%; font-size:12px; padding:5px; color:var(--ok); border-color:var(--ok);">💵 Cobrar taco (${fmt(g.sub)})</button>
           </div>`).join('')}
+      </div>
+      <div id="papSelBar" style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; background:var(--paper-dark); border:1px solid var(--gold); border-radius:10px; padding:10px 14px; margin-bottom:12px;">
+        <span style="font-size:12px;">☑️ <span id="papSelHint" style="color:var(--silver-dark);">Selecciona lotes para sumar cuánto debes cobrar</span><span id="papSelInfo" style="display:none;">Seleccionados: <strong id="papSelN">0</strong> lote(s) · <strong id="papSelTot" style="font-family:'Courier New',monospace; font-size:15px; color:var(--gold);">$0.00</strong> por cobrar (neto)</span></span>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+          <button id="papSelClear" class="btn-ghost" type="button" style="display:none; font-size:11.5px; padding:5px 10px;">Limpiar</button>
+          <button id="papCobrarSel" class="btn-ghost" type="button" style="display:none; font-size:12px; padding:5px 12px; color:var(--ok); border-color:var(--ok);">💵 Cobrar seleccionados</button>
+        </div>
       </div>
       <div style="background:var(--paper-dark); border:1px dashed var(--silver-dark); padding:8px 12px; margin-bottom:18px; font-size:12px;">
         <span style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--silver-dark);">Pide en ventanilla:</span>
@@ -9133,6 +9143,38 @@
         if(g) marcarCobradoLote(g.recs, g.serie);
       });
     });
+    // ---- Selección múltiple de lotes en la papeleta: suma en vivo cuánto debes cobrar ----
+    // El subtotal por lote (data-sub) YA es el neto pendiente (excluye boletos cobrados sueltos),
+    // así que sumar los seleccionados da exactamente lo que queda por cobrar de esos tacos.
+    const papSels = el.querySelectorAll('.pap-sel');
+    if(papSels.length){
+      const bar = document.getElementById('papSelBar');
+      const hint = document.getElementById('papSelHint'), info = document.getElementById('papSelInfo');
+      const nEl = document.getElementById('papSelN'), totEl = document.getElementById('papSelTot');
+      const btnClear = document.getElementById('papSelClear'), btnCobrar = document.getElementById('papCobrarSel');
+      const recalc = ()=>{
+        const marc = Array.from(papSels).filter(c=>c.checked);
+        const total = marc.reduce((s,c)=>s+(parseFloat(c.dataset.sub)||0),0);
+        if(marc.length){
+          hint.style.display='none'; info.style.display='inline';
+          nEl.textContent = marc.length; totEl.textContent = fmt(total);
+          btnClear.style.display='inline-block'; btnCobrar.style.display='inline-block';
+          btnCobrar.textContent = `💵 Cobrar ${marc.length} taco(s) (${fmt(total)})`;
+        } else {
+          hint.style.display='inline'; info.style.display='none';
+          btnClear.style.display='none'; btnCobrar.style.display='none';
+        }
+      };
+      papSels.forEach(c=> c.addEventListener('change', recalc));
+      btnClear?.addEventListener('click', ()=>{ papSels.forEach(c=>c.checked=false); recalc(); });
+      btnCobrar?.addEventListener('click', ()=>{
+        const lids = new Set(Array.from(papSels).filter(c=>c.checked).map(c=>String(c.dataset.lid)));
+        if(!lids.size) return;
+        const recs = gruposPend.filter(g=>lids.has(String(g.lid))).flatMap(g=>g.recs);
+        marcarCobradoLote(recs, `${lids.size} taco(s) seleccionados`);
+      });
+      recalc();
+    }
     // Mostrar/ocultar periodos ya cobrados
     document.getElementById('cobroToggleOk')?.addEventListener('click', ()=>{
       const rows = document.getElementById('cobroOkRows');
