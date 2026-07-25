@@ -402,6 +402,7 @@
     <button class="tab" data-tab="global">🌐 Global</button>
     <button class="tab" data-tab="juegos">🎮 Juegos</button>
     <button class="tab" data-tab="boletos">🎟️ Boletos & Lotes</button>
+    <button class="tab" data-tab="puntos">📍 Puntos</button>
     <button class="tab" data-tab="estrategia">🎯 Estrategia</button>
     <button class="tab" data-tab="stats">📊 Análisis de probabilidad</button>
     <button class="tab" data-tab="avanzado">🔬 Análisis avanzado</button>
@@ -1516,6 +1517,12 @@
   <!-- =================================================== -->
   <!-- TAB 5: REPORTE -->
   <!-- =================================================== -->
+  <div class="tabpanel" id="panel-puntos">
+    <div class="section-head"><span class="tag">📍</span><h2>Puntos de venta</h2><span class="hint">mapa nacional · donde compras y cobras</span></div>
+    <div id="pvHost" style="height:78vh; min-height:520px; border:1px solid var(--silver); border-radius:12px; overflow:hidden; background:var(--paper-dark); position:relative;">
+      <div id="pvLoading" style="display:flex; align-items:center; justify-content:center; height:100%; color:var(--silver-dark); font-size:13px;">Abre esta pestaña para cargar el mapa…</div>
+    </div>
+  </div>
   <div class="tabpanel" id="panel-reporte">
 
     <div class="folio" style="margin-bottom:20px;">
@@ -1840,7 +1847,8 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '6.9', fecha: '2026-07-24' };
+  const APP_VERSION = { num: '7.0', fecha: '2026-07-25' };
+  window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
   // de id cuando se creaban varios registros en el mismo milisegundo (carga masiva, completar
@@ -4235,13 +4243,17 @@
   function renderPuntosVentaDatalist(){
     const datalist = document.getElementById('puntosVentaConocidos');
     if(!datalist) return;
-    // Combina puntos de venta guardados en lotes y en boletos sueltos, para sugerir
-    // cualquiera que se haya usado antes sin importar dónde quedó registrado.
-    const puntos = Array.from(new Set([
+    // Sugerencias: primero los puntos que YA usaste (lotes/boletos), luego el directorio
+    // nacional de puntos de venta (window.PV_SEED), con su ciudad como pista.
+    const usados = Array.from(new Set([
       ...data.lotes.map(l=>l.punto),
       ...data.records.map(r=>r.punto)
     ].filter(Boolean))).sort();
-    datalist.innerHTML = puntos.map(p=>`<option value="${escapeHtml(p)}"></option>`).join('');
+    const seed = window.PV_SEED || [];
+    const vistos = new Set(); let html='';
+    usados.forEach(p=>{ const k=p.toLowerCase(); if(vistos.has(k)) return; vistos.add(k); html+=`<option value="${escapeHtml(p)}"></option>`; });
+    seed.forEach(s=>{ const nom=s[0], ciu=s[1]||''; if(!nom) return; const k=nom.toLowerCase(); if(vistos.has(k)) return; vistos.add(k); html+=`<option value="${escapeHtml(nom)}">${escapeHtml(ciu)}</option>`; });
+    datalist.innerHTML = html;
   }
 
   function renderTable(){
@@ -14610,9 +14622,9 @@
   // save()/load()). Los borrados viajan como tombstones {_deleted:true}. La resolución de
   // conflictos es "gana el más reciente por _lm" a nivel de entidad — para un usuario solo,
   // editar la misma cosa en dos teléfonos a la vez es prácticamente imposible.
-  const SYNC_COLS = ['juegos','lotes','records']; // orden: juegos→lotes→records (dependencias)
+  const SYNC_COLS = ['juegos','lotes','records','puntos']; // +puntos (estado/notas, sin fotos)
   let _fb=null, _fbAuth=null, _fbDb=null, _fbUser=null, _syncOn=false, _syncApplying=false;
-  let _syncPushTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{}}, _syncInitialPushed=false;
+  let _syncPushTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{},puntos:{}}, _syncInitialPushed=false;
   const _syncEl = id => document.getElementById(id);
   function _syncStatus(txt, color){ const e=_syncEl('syncEstado'); if(e){ e.textContent=txt; e.style.color=color||'var(--silver-dark)'; } }
 
@@ -14802,6 +14814,60 @@
     }
   }
 
+
+  // ===== INTEGRACION: modulo Puntos de venta (iframe aislado + sync sin fotos) =====
+  data.puntos = data.puntos || [];
+  var _pvIframe = null;
+  function _pvThemeVars(){
+    var cs = getComputedStyle(document.documentElement);
+    var g = function(n){ return (cs.getPropertyValue(n)||'').trim(); };
+    return { paper:g('--paper'), paperDark:g('--paper-dark'), ink:g('--ink'),
+             silver:g('--silver'), silverDark:g('--silver-dark'), gold:g('--gold'),
+             ok:g('--ok'), stamp:g('--stamp'), font:(getComputedStyle(document.body).fontFamily||'') };
+  }
+  function _pvPostTheme(){ try{ if(_pvIframe&&_pvIframe.contentWindow) _pvIframe.contentWindow.postMessage({type:'pv:theme', vars:_pvThemeVars()}, '*'); }catch(e){} }
+  function _pvPostState(){
+    try{
+      if(!(_pvIframe&&_pvIframe.contentWindow)) return;
+      var recs=(data.puntos||[]).map(function(e){ return {id:e.id, status:e.status, last:e.last, notes:e.notes||[]}; });
+      _pvIframe.contentWindow.postMessage({type:'pv:state', recs:recs}, '*');
+    }catch(e){}
+  }
+  window.addEventListener('message', function(ev){
+    var m=ev.data||{};
+    if(m.type==='pv:ready'){ _pvPostTheme(); _pvPostState(); return; }
+    if(m.type==='pv:rec'){
+      var id=m.id; if(id==null) return;
+      var arr=data.puntos||(data.puntos=[]);
+      var idx=arr.findIndex(function(e){return String(e.id)===String(id);});
+      var vacio=((m.status==='pendiente')||!m.status) && (!m.notes || !m.notes.length);
+      if(vacio){ if(idx>=0) arr.splice(idx,1); }
+      else { var ent={id:id, status:m.status, last:m.last||null, notes:m.notes||[], _lm:Date.now()};
+             if(idx>=0) arr[idx]=ent; else arr.push(ent); }
+      try{ save(); }catch(e){}
+      try{ _syncSchedulePush(); }catch(e){}
+      return;
+    }
+  });
+  function pvEnsureIframe(){
+    _pvPostTheme(); _pvPostState();
+    if(_pvIframe) return;
+    var host=document.getElementById('pvHost'); if(!host) return;
+    var src=document.getElementById('pvSrc'); if(!src) return;
+    var html=src.textContent.replace(/<\\\/script/g,'</script');
+    var ifr=document.createElement('iframe');
+    ifr.setAttribute('title','Mapa de puntos de venta');
+    ifr.setAttribute('allow','geolocation');
+    ifr.style.cssText='width:100%;height:100%;border:0;display:block;';
+    ifr.srcdoc=html;
+    host.innerHTML=''; host.appendChild(ifr); _pvIframe=ifr;
+  }
+  (function(){
+    var t=document.querySelector('.tab[data-tab="puntos"]');
+    if(t) t.addEventListener('click', function(){ setTimeout(pvEnsureIframe, 30); });
+    ['swatchArcade','swatchBrutalista'].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('click', function(){ setTimeout(_pvPostTheme, 60); }); });
+  })();
+
   window.__rg = { rigorGetData, rigorEB, rgProbLoteActivo, rgPosteriorT, rgPriorTotales,
     syncSignIn, syncSignUp, syncSignOut, renderSyncPanel, get syncUser(){ return _fbUser; }, get syncOn(){ return _syncOn; },
     rgListaCompraFdr, rgPvalsPosicion, rgSuavizadoEspacial, runBacktestPolitica, renderPanelDecision,
@@ -14882,6 +14948,830 @@
   const _vt = document.getElementById('appVersionTag');
   if(_vt) _vt.textContent = 'versión ' + APP_VERSION.num + ' · ' + APP_VERSION.fecha;
 })();
+</script>
+<script type="text/html" id="pvSrc">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#14284B">
+<title>Bitácora de Puntos · Quito</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --navy:#14284B;--navy2:#1F3864;--gold:#F2B705;--gold2:#FFD54A;
+    --ink:#0E1726;--slate:#5A6B85;--line:#E4E8F0;--bg:#EEF1F6;--card:#fff;
+    --green:#1B9A6B;--amber:#E08A00;--red:#B4381F;
+    --sheet-h: 0px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;overscroll-behavior:none}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);
+    display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .hidden{display:none!important}
+
+  /* App bar */
+  .appbar{background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
+    display:flex;align-items:center;gap:10px;flex:none;z-index:20}
+  .appbar .logo{width:30px;height:30px;border-radius:8px;background:var(--gold);color:var(--navy);
+    font-weight:900;display:grid;place-items:center;flex:none}
+  .appbar .tt{font-weight:800;font-size:15px;line-height:1.05}
+  .appbar .ss{font-size:11px;color:#A9BBDA}
+  .appbar .gps{margin-left:auto;font-size:10.5px;font-weight:700;color:#A9BBDA;display:flex;align-items:center;gap:6px}
+  .gps .led{width:8px;height:8px;border-radius:50%;background:#556;transition:.3s}
+  .gps.on .led{background:#39d98a;box-shadow:0 0 0 3px rgba(57,217,138,.25)}
+
+  /* Views */
+  .views{flex:1;position:relative;overflow:hidden}
+  .view{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px 12px 84px}
+  .view.map-view{padding:0}
+  #map{position:absolute;inset:0}
+
+  /* Progress strip */
+  .prog{position:absolute;top:10px;left:10px;right:10px;z-index:400;background:#fff;border-radius:12px;
+    box-shadow:0 6px 18px -8px rgba(20,40,75,.45);padding:9px 12px;display:flex;align-items:center;gap:10px}
+  .prog .bar{flex:1;height:7px;background:var(--line);border-radius:6px;overflow:hidden}
+  .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#2fbf87);width:0;transition:.4s}
+  .prog .txt{font-size:11px;font-weight:800;color:var(--navy2);white-space:nowrap}
+
+  /* Search + filters (list) */
+  .search{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;width:100%;
+    color:var(--ink);margin-bottom:10px}
+  .search::placeholder{color:var(--slate)}
+  .filters{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+  .fchip{font-size:12px;font-weight:700;padding:7px 12px;border-radius:20px;border:1px solid var(--line);
+    background:#fff;color:var(--slate)}
+  .fchip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+  /* Point item */
+  .item{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px 12px;margin-bottom:9px;
+    display:flex;align-items:center;gap:11px}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .dot.pendiente{background:var(--amber)}.dot.visitado{background:var(--green)}.dot.novedad{background:var(--red)}
+  .item .nm{font-size:14px;font-weight:700;line-height:1.15}
+  .item .ad{font-size:11.5px;color:var(--slate);margin-top:2px;line-height:1.25}
+  .item .rt{margin-left:auto;text-align:right;flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .item .km{font-size:11px;font-weight:800;color:var(--navy2)}
+  .goSm{background:var(--navy);color:#fff;font-size:11px;font-weight:800;border-radius:9px;padding:7px 11px;display:flex;align-items:center;gap:5px}
+  .goSm .pin{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--gold)}
+  .idx{position:absolute;left:-6px;top:-6px;width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--navy);
+    font-size:10px;font-weight:900;display:grid;place-items:center}
+
+  /* Section labels */
+  .lbl{font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--slate);margin:6px 2px 9px}
+  .hint{font-size:12px;color:var(--slate);text-align:center;padding:24px 16px;line-height:1.5}
+
+  /* Ruta */
+  .route-hero{background:linear-gradient(135deg,var(--navy2),var(--navy));color:#fff;border-radius:16px;padding:15px;margin-bottom:12px}
+  .route-hero .rl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);font-weight:800}
+  .route-hero .rn{font-size:19px;font-weight:800;margin-top:4px}
+  .route-hero .meta{display:flex;gap:20px;margin-top:11px}
+  .route-hero .meta b{display:block;font-size:17px}
+  .route-hero .meta span{font-size:11px;color:#A9BBDA}
+  .btn{display:block;width:100%;text-align:center;font-weight:800;border-radius:12px;padding:13px;font-size:14px}
+  .btn-gold{background:var(--gold);color:var(--navy)}
+  .btn-navy{background:var(--navy);color:#fff}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn+.btn{margin-top:9px}
+
+  /* Bottom sheet (detail) */
+  .scrim{position:fixed;inset:0;background:rgba(8,16,30,.5);opacity:0;pointer-events:none;transition:.25s;z-index:900}
+  .scrim.show{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-radius:20px 20px 0 0;z-index:901;
+    transform:translateY(100%);transition:.3s cubic-bezier(.3,.8,.3,1);max-height:90dvh;display:flex;flex-direction:column;
+    box-shadow:0 -10px 40px -10px rgba(0,0,0,.4)}
+  .sheet.show{transform:translateY(0)}
+  .sheet .grab{width:40px;height:5px;background:#cbd3e0;border-radius:4px;margin:9px auto 4px}
+  .sheet-head{padding:6px 16px 12px;border-bottom:1px solid var(--line)}
+  .sheet-head .h{font-size:18px;font-weight:800}
+  .sheet-head .a{font-size:12.5px;color:var(--slate);margin-top:3px}
+  .sheet-body{overflow:auto;padding:14px 16px calc(env(safe-area-inset-bottom) + 20px)}
+
+  .statusrow{display:flex;gap:7px;margin-bottom:14px}
+  .st{flex:1;text-align:center;font-size:11.5px;font-weight:800;padding:9px 4px;border-radius:11px;border:1.5px solid var(--line);
+    background:#fff;color:var(--slate)}
+  .st.pendiente.on{background:var(--amber);border-color:var(--amber);color:#fff}
+  .st.visitado.on{background:var(--green);border-color:var(--green);color:#fff}
+  .st.novedad.on{background:var(--red);border-color:var(--red);color:#fff}
+
+  .act2{display:flex;gap:9px;margin-bottom:14px}
+  .act2 .btn{margin:0}
+
+  textarea.note{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;font-size:14px;min-height:74px;
+    resize:vertical;font-family:inherit;background:#fff}
+  .tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+  .tag{font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:20px;border:1px solid var(--line);color:var(--slate);background:#fff}
+  .tag.on{background:var(--navy);border-color:var(--navy);color:#fff}
+
+  .photos{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .photos img{width:66px;height:66px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+  .photos .addph{width:66px;height:66px;border-radius:10px;border:1.5px dashed var(--slate);display:grid;place-items:center;
+    color:var(--slate);font-size:26px;font-weight:300;background:#fff}
+  .ph-wrap{position:relative}
+  .ph-wrap .del{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;
+    font-size:12px;font-weight:800;display:grid;place-items:center;border:2px solid var(--bg)}
+
+  .hist{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 12px;margin-top:6px}
+  .hrow{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .hrow:last-child{border-bottom:0}
+  .hrow .when{font-size:11px;color:var(--slate);font-weight:700;width:78px;flex:none;line-height:1.3}
+  .hrow .what{font-size:13px;color:#233;line-height:1.4}
+  .hrow .what .st-in{font-weight:800}
+  .hrow .what .tg{font-size:10.5px;color:var(--navy2);font-weight:700}
+
+  /* Nearby suggestion popup */
+  .suggest{background:#fff;border:1.5px solid var(--gold);border-radius:14px;padding:12px;margin:2px 0 14px}
+  .suggest .sl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);font-weight:800}
+  .suggest .snm{font-size:15px;font-weight:800;margin-top:3px}
+  .suggest .skm{font-size:12px;color:var(--slate);font-weight:700}
+
+  /* Tab bar */
+  .tabbar{flex:none;background:#fff;border-top:1px solid var(--line);display:flex;
+    padding:6px 4px calc(env(safe-area-inset-bottom) + 6px);z-index:20}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;color:var(--slate);font-size:10.5px;font-weight:700}
+  .tab.on{color:var(--navy)}
+  .tab .ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tab.on .ic{stroke:var(--navy)}
+
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;
+    padding:11px 18px;border-radius:24px;font-size:13px;font-weight:700;opacity:0;transition:.25s;z-index:1000;pointer-events:none;
+    box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* settings */
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  .card h3{font-size:14px;margin:0 0 4px}
+  .card p{font-size:12px;color:var(--slate);margin:0 0 12px;line-height:1.5}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;text-align:center}
+  .stat b{display:block;font-size:22px;color:var(--navy2)}
+  .stat span{font-size:11px;color:var(--slate);font-weight:700}
+  .leaflet-marker-icon.mk{border:none;background:none}
+  .mkp{width:26px;height:26px;transform:translate(-50%,-100%)}
+  .mkp i{display:block;width:22px;height:22px;margin:0 auto;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+    border:2.5px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35)}
+  .me-dot{width:18px;height:18px;background:#2f7bff;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 4px rgba(47,123,255,.3)}
+  .locate{position:absolute;right:12px;bottom:96px;z-index:450;width:46px;height:46px;border-radius:50%;background:#fff;
+    box-shadow:0 6px 16px -6px rgba(20,40,75,.5);display:grid;place-items:center}
+  .locate.on svg{stroke:#2f7bff}
+  .gps-cta{background:linear-gradient(135deg,var(--navy2),var(--navy));color:#fff;border-radius:16px;padding:20px 16px;text-align:center}
+  .gps-cta .ci{width:52px;height:52px;border-radius:50%;background:rgba(242,183,5,.2);display:grid;place-items:center;margin:0 auto 12px}
+  .gps-cta h3{font-size:16px;margin:0 0 6px}
+  .gps-cta p{font-size:12.5px;color:#B9C6DE;margin:0 0 14px;line-height:1.5}
+  .near-hero{background:linear-gradient(135deg,#1B9A6B,#15805a);color:#fff;border-radius:16px;padding:15px;margin-bottom:12px}
+  .near-hero .rl{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#CFF3E4;font-weight:800}
+  .near-hero .rn{font-size:19px;font-weight:800;margin-top:4px;line-height:1.15}
+  .near-hero .sub{font-size:12px;color:#CFF3E4;margin-top:4px;font-weight:700}
+  .regionbar{display:flex;gap:8px;background:var(--navy2);padding:8px 10px}
+  .rsel{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:9px 10px;font-size:13px;font-weight:600;color:var(--ink);max-width:100%}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="logo">L</div>
+  <div>
+    <div class="tt">Bitácora de Puntos</div>
+    <div class="ss">Lotería Nacional · Ecuador</div>
+  </div>
+  <button class="gps" id="gpsBtn"><span class="led"></span><span id="gpsTxt">Ubicar</span></button>
+</div>
+
+<div class="regionbar">
+  <select id="selProv" class="rsel"><option value="">Todas las provincias</option></select>
+  <select id="selCity" class="rsel"><option value="">Todas las ciudades</option></select>
+</div>
+
+<div class="views">
+  <!-- MAP -->
+  <section class="view map-view" id="v-map">
+    <div id="map"></div>
+    <div class="prog">
+      <div class="txt" id="progTxt">0 / 126</div>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="txt" id="progPct">0%</div>
+    </div>
+    <button class="locate" id="locateFab" title="Centrar en mi ubicación">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14284B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+  </section>
+
+  <!-- LISTA -->
+  <section class="view hidden" id="v-list">
+    <input class="search" id="q" placeholder="Buscar punto o dirección…">
+    <div class="filters">
+      <button class="fchip on" data-f="todos">Todos</button>
+      <button class="fchip" data-f="pendiente">Pendientes</button>
+      <button class="fchip" data-f="visitado">Visitados</button>
+      <button class="fchip" data-f="novedad">Con novedad</button>
+      <button class="fchip" data-f="cerca">Más cercanos</button>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <!-- RUTA -->
+  <section class="view hidden" id="v-route">
+    <div class="lbl">Ruta del día</div>
+    <div id="routeHero"></div>
+    <div id="routeList"></div>
+  </section>
+
+  <!-- AJUSTES -->
+  <section class="view hidden" id="v-set">
+    <div class="lbl">Resumen</div>
+    <div class="stat-grid">
+      <div class="stat"><b id="stTot">0</b><span>Total</span></div>
+      <div class="stat"><b id="stVis" style="color:var(--green)">0</b><span>Visitados</span></div>
+      <div class="stat"><b id="stNov" style="color:var(--red)">0</b><span>Novedades</span></div>
+    </div>
+    <div class="card" id="gpsHelp">
+      <h3>Cómo activar el GPS</h3>
+      <p>El navegador bloquea la ubicación si la app se abre como archivo (<b>file://</b> o <b>content://</b>, como desde el explorador). Necesita abrirse desde un enlace seguro. Opciones, de la más fácil a la más técnica:</p>
+      <p style="margin-bottom:6px"><b>1. Subirla a un hosting gratis (recomendado).</b> Arrastra este archivo a <b>app.netlify.com/drop</b> o súbelo a GitHub Pages. Te da un enlace <b>https://</b> que abres en Chrome y el GPS funciona. Ideal para el campo.</p>
+      <p style="margin-bottom:6px"><b>2. Servidor local en el teléfono.</b> Con Termux: <code>python3 -m http.server 8000</code> en la carpeta del archivo y abre <b>http://localhost:8000</b>. <b>localhost</b> cuenta como seguro, así que el GPS funciona 100% sin internet.</p>
+      <p style="margin-bottom:0"><b>3. En PC.</b> <code>python -m http.server</code> y ábrela en <b>http://localhost:8000</b>.</p>
+    </div>
+    <div class="card">
+      <h3>Reportes y respaldo</h3>
+      <p>Exporta tu avance o guarda un respaldo para no perder la bitácora.</p>
+      <button class="btn btn-ghost" id="expXls">Exportar a Excel</button>
+      <button class="btn btn-ghost" id="expPdf" style="margin-top:9px">Reporte para imprimir / PDF</button>
+      <button class="btn btn-ghost" id="expJson" style="margin-top:9px">Respaldo (.json)</button>
+      <label class="btn btn-ghost" style="margin-top:9px;display:block">Restaurar respaldo
+        <input type="file" id="impJson" accept="application/json" class="hidden"></label>
+    </div>
+    <div class="card">
+      <h3>Instalar en el teléfono</h3>
+      <p>Añádela a tu pantalla de inicio para abrirla como una app y trabajar sin conexión.</p>
+      <button class="btn btn-navy" id="installBtn">Instalar app</button>
+    </div>
+    <div class="card">
+      <h3>Zona de datos</h3>
+      <p>Reinicia todos los estados y notas (no borra los puntos). Esta acción no se puede deshacer.</p>
+      <button class="btn btn-ghost" id="resetBtn" style="color:var(--red)">Reiniciar bitácora</button>
+    </div>
+  </section>
+</div>
+
+<nav class="tabbar">
+  <button class="tab on" data-v="map"><svg class="ic" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</button>
+  <button class="tab" data-v="list"><svg class="ic" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Lista</button>
+  <button class="tab" data-v="route"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M6 17V9a4 4 0 0 1 4-4h4M18 7v8a4 4 0 0 1-4 4h-4"/></svg>Ruta</button>
+  <button class="tab" data-v="set"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Más</button>
+</nav>
+
+<!-- Detail sheet -->
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <div class="sheet-head">
+    <div class="h" id="dName">—</div>
+    <div class="a" id="dAddr">—</div>
+  </div>
+  <div class="sheet-body" id="dBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<input type="file" id="photoInput" accept="image/*" capture="environment" class="hidden">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"><\/script>
+<script>
+/* ---------- DATA ---------- */
+const PUNTOS = [{"id": 1, "nom": "Camilo Ponce Enriquez", "code": "PDSLD CAMILO PONCE ENRIQUEZ, CPE, FRANCISCO VIDAL", "dir": "011550, Camilo Ponce Enríquez 011550", "lat": -3.062, "lon": -79.746, "ciudad": "Camilo Ponce Enríquez", "prov": "Azuay", "capa": "Locales"}, {"id": 2, "nom": "Plaza Sur Ricaurte", "code": "PDVID PLAZA SUR RICAURTE, CUE, AL", "dir": "Ricuarte 159, Cuenca 010150, Ecuador", "lat": -2.864, "lon": -78.969, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 3, "nom": "Racar Plazar", "code": "PDSID RACAR PLAZAR, CUE", "dir": "4XM6+3VQ Cuenca", "lat": -2.867, "lon": -79.038, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 4, "nom": "Cc Multiplaza Miraflores", "code": "PDSIL CC MULTIPLAZA MIRAFLORES, CUE, AV GIL RAMÍREZ", "dir": "Multiplaza Miraflore, Avenida Elia Liut S/N, Cuenca 010102", "lat": -2.888, "lon": -78.988, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 5, "nom": "Cc Plaza De Las Americas", "code": "PDSIL CC PLAZA DE LAS AMERICAS, CUE", "dir": "Av. De las Americas y del Tejar. C.C. Plaza de las Americas Piso 1, Cuenca 010112", "lat": -2.89, "lon": -79.024, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 6, "nom": "Terminal Terrestre Cuenca", "code": "PDSIL TERMINAL TERRESTRE CUENCA, CUE, LOC INT", "dir": "4254+2QR Cuenca", "lat": -2.892, "lon": -78.993, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 7, "nom": "Cesar Peralta", "code": "PDSLD CESAR PERALTA, CUE", "dir": "4X3W+WHF Cuenca", "lat": -2.895, "lon": -79.004, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 8, "nom": "El Arenal Express", "code": "PDSLD EL ARENAL EXPRESS, CUE", "dir": "4X3F+RHQ Cuenca", "lat": -2.895, "lon": -79.026, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 9, "nom": "Cc Shopping Batan", "code": "PDSLL CC SHOPPING BATAN, CUE", "dir": "4X3H+45J, C. del Batan, Cuenca, Ecuador", "lat": -2.897, "lon": -79.022, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 10, "nom": "Zamora", "code": "PDSLD ZAMORA, ZAM", "dir": "C. Luis Cordero 932, Cuenca 010101, Ecuador", "lat": -2.897, "lon": -79.004, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 11, "nom": "El Sagrario", "code": "PDSLD EL SAGRARIO, CUE, SUCRE 10-17", "dir": "Mariscal Sucre 1006, Cuenca 010101, Ecuador", "lat": -2.897, "lon": -79.006, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 12, "nom": "Monay Shopping Center", "code": "PDSIL MONAY SHOPPING CENTER, CUE, INT CORAL", "dir": "423F+367 Cuenca", "lat": -2.897, "lon": -78.977, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 13, "nom": "Cuenca", "code": "PDSLL CUENCA, CUE", "dir": "BENIGNO MALO 712, PRESIDENTE CORDOVA Cuenca - Azuay - Ecuador", "lat": -2.898633, "lon": -79.005144, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Islas + Locales"}, {"id": 14, "nom": "Cuenca 984", "code": "PDSLD CUENCA 984, P. CORDOVA, CUE", "dir": "4X2V+HJV, Pdte. Córdova, Cuenca, Ecuador", "lat": -2.899, "lon": -79.006, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 15, "nom": "Presidente 614", "code": "PDSLD PRESIDENTE 614, CUE, P. CORDOVA 6-14", "dir": "Pdte. Córdova 644, Cuenca, Ecuador", "lat": -2.899, "lon": -79.002, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 16, "nom": "Benigno Malo", "code": "PDVLD BENIGNO MALO, CUE, EX", "dir": "4X2V+6VM Cuenca", "lat": -2.899, "lon": -79.005, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 17, "nom": "Coral Cuenca Sucre", "code": "PDSID CORAL CUENCA SUCRE, CUE", "dir": "4223+42F Cuenca", "lat": -2.9, "lon": -78.997, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 18, "nom": "Cc Milenium Plaza", "code": "PDSIL CC MILENIUM PLAZA, CUE", "dir": "Cornelio Merchan 213y, Cuenca 010101, Ecuador", "lat": -2.906, "lon": -79.002, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 19, "nom": "Cc El Vergel", "code": "PDSIL CC EL VERGEL, CUE", "dir": "Alfonso Cordero 241, Cuenca 010107, Ecuador", "lat": -2.907, "lon": -79.004, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 20, "nom": "Calle General Torres", "code": "PDVLD CALLE GENERAL TORRES, CUE, AL", "dir": "3XVX+9X3, Cuenca 010107, Ecuador", "lat": -2.907, "lon": -79.0, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 21, "nom": "Coral America", "code": "PDSLD CORAL AMERICA, CUE, AV DE LAS AMERICAS", "dir": "3XM6+8MP Cuenca", "lat": -2.917, "lon": -79.038, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 22, "nom": "Cc. Mall Del Rio", "code": "PDSID CC. MALL DEL RIO, CUE, PB. ISLA C", "dir": "Mall del Rio, Av. Felipe II, Cuenca, Ecuador", "lat": -2.918, "lon": -79.015, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 23, "nom": "Cc Mall Del Rio", "code": "PDSIL CC MALL DEL RIO, CUE P1 #S/N SECTOR PATIO COMIDAS", "dir": "Mall del Río Av Felipe II y Autopista Cuenca Referencia: Al lado de, Novicompu Cuenca, Cuenca, Ecuador", "lat": -2.919, "lon": -79.015, "ciudad": "Cuenca", "prov": "Azuay", "capa": "Locales"}, {"id": 24, "nom": "Gualaceo", "code": "PDSLD GUALACEO, GUA", "dir": "465F+W3M Gualaceo", "lat": -2.89, "lon": -78.777, "ciudad": "Gualaceo", "prov": "Azuay", "capa": "Locales"}, {"id": 25, "nom": "Aki Guaranda", "code": "PDSLL AKI GUARANDA, GRD", "dir": "CX3X+W48 Guaranda", "lat": -1.595, "lon": -79.002, "ciudad": "Guaranda", "prov": "Bolívar", "capa": "Locales"}, {"id": 26, "nom": "Aki Tulcán", "code": "PDVLL AKI TULCÁN, TUL", "dir": "R7CR+5JQ, Av. Coral, Tulcán, Ecuador", "lat": 0.821, "lon": -77.708, "ciudad": "Tulcán", "prov": "Carchi", "capa": "Locales"}, {"id": 27, "nom": "Azogues Matovelle", "code": "PDSLD AZOGUES MATOVELLE, AZO", "dir": "C. Julio Maria Matovelle 268-188, Azogues", "lat": -2.737, "lon": -78.847, "ciudad": "Azogues", "prov": "Cañar", "capa": "Locales"}, {"id": 28, "nom": "Cesar Peralta", "code": "PDSLD CESAR PERALTA, AZO", "dir": "Simon Bolivar, Azogues", "lat": -2.738, "lon": -78.846, "ciudad": "Azogues", "prov": "Cañar", "capa": "Locales"}, {"id": 29, "nom": "Azogues 1", "code": "PDSLD AZOGUES 1, AZO, EMILIO ABAD 2-08", "dir": "C. Emilio Abad Aguilar 248-142, Azogues", "lat": -2.739, "lon": -78.846, "ciudad": "Azogues", "prov": "Cañar", "capa": "Locales"}, {"id": 30, "nom": "Biblian", "code": "PDSLD BIBLIAN, BIB", "dir": "74Q5+4WH Biblián", "lat": -2.712, "lon": -78.89, "ciudad": "Biblián", "prov": "Cañar", "capa": "Locales"}, {"id": 31, "nom": "Cañar", "code": "PDSLD CAÑAR, CAÑ", "dir": "C3Q7+9CM Cañar", "lat": -2.562, "lon": -78.936, "ciudad": "Cañar", "prov": "Cañar", "capa": "Locales"}, {"id": 32, "nom": "La Troncal", "code": "PDSLL LA TRONCAL, TRL", "dir": "25 DE AGOSTO 1341 Y 1ERO DE MAYO S/N Guayaquil - Guayas - Ecuador", "lat": -2.423976, "lon": -79.342318, "ciudad": "La Troncal", "prov": "Cañar", "capa": "Islas + Locales"}, {"id": 33, "nom": "Hiper La Troncal", "code": "PDSIL HIPER LA TRONCAL, TRON", "dir": "HMC4+M89 La Troncal", "lat": -2.428, "lon": -79.344, "ciudad": "La Troncal", "prov": "Cañar", "capa": "Locales"}, {"id": 34, "nom": "Cc Shopping Riobamba", "code": "PDSLL CC SHOPPING RIOBAMBA, RIO", "dir": "89W3+CJ8, Riobamba, Ecuador", "lat": -1.654, "lon": -78.646, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 35, "nom": "Cc Multiplaza Riobamba", "code": "PDSIL CC MULTIPLAZA RIOBAMBA, RIO, PB", "dir": "88VP+FH9, Av. Lizarzaburu y Saboya, Riobamba", "lat": -1.656, "lon": -78.664, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 36, "nom": "Villarroel Y Carabobo #29-39", "code": "PDSLD VILLARROEL Y CARABOBO #29-39, RIO", "dir": "88PQ+JP9 Riobamba", "lat": -1.663, "lon": -78.661, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 37, "nom": "Supervisor Riobamba", "code": "PDSML SUPERVISOR RIOBAMBA", "dir": "Gaspar de Villarroel 2954, Riobamba, Ecuador", "lat": -1.671, "lon": -78.655, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 38, "nom": "Riobamba", "code": "PDSLL RIOBAMBA, RIO", "dir": "AV. DANIEL LEÓN BORJA Y URUGUAY ESQ. S/N Riobamba - Chimborazo - Ecuador", "lat": -1.67112, "lon": -78.652108, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Islas + Locales"}, {"id": 39, "nom": "Parque Sucre", "code": "PDSLD PARQUE SUCRE, RIOBAMBA", "dir": "Juan Larrea 2142, Riobamba, Ecuador", "lat": -1.673, "lon": -78.651, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 40, "nom": "Sup. Sta. Maria Riobamba", "code": "PDVIL SUP. STA. MARIA RIOBAMBA, RIO", "dir": "89C5+4C3, Riobamba, Ecuador", "lat": -1.68, "lon": -78.641, "ciudad": "Riobamba", "prov": "Chimborazo", "capa": "Locales"}, {"id": 41, "nom": "La Mana", "code": "PDSLD LA MANA, MNA", "dir": "3Q5F+J26 La Maná", "lat": -0.941, "lon": -79.227, "ciudad": "La Maná", "prov": "Cotopaxi", "capa": "Locales"}, {"id": 42, "nom": "Malteria", "code": "PDSLL MALTERIA, LAT", "dir": "AV. ELOY ALFARO ENTRE CALLE GATAZO Y AV. MARCO AURELIO SUBIA, LOCAL L53 PLANTA BAJA S/N Latacunga - Cotopaxi - Ecuador", "lat": -0.92597, "lon": -78.625763, "ciudad": "Latacunga", "prov": "Cotopaxi", "capa": "Islas + Locales"}, {"id": 43, "nom": "Latacunga Express", "code": "PDSLL LATACUNGA EXPRESS, LAT", "dir": "39CM+38H Latacunga", "lat": -0.93, "lon": -78.617, "ciudad": "Latacunga", "prov": "Cotopaxi", "capa": "Locales"}, {"id": 44, "nom": "Sup.sta. Maria Latacunga", "code": "PDVIL SUP.STA. MARIA LATACUNGA, LAT", "dir": "398H+HJJ, Latacunga, Ecuador", "lat": -0.933, "lon": -78.621, "ciudad": "Latacunga", "prov": "Cotopaxi", "capa": "Locales"}, {"id": 45, "nom": "Arenillas", "code": "PDSLD ARENILLAS, EL ORO", "dir": "CWVQ+XXV Arenillas", "lat": -3.555, "lon": -80.06, "ciudad": "Arenillas", "prov": "El Oro", "capa": "Locales"}, {"id": 46, "nom": "Pañora Huaquillas", "code": "PDVIL PAÑORA HUAQUILLAS, HQL", "dir": "GQC7+F8G Huaquillas", "lat": -3.479, "lon": -80.237, "ciudad": "Huaquillas", "prov": "El Oro", "capa": "Locales"}, {"id": 47, "nom": "Huaquillas", "code": "PDSLL HUAQUILLAS, HUA", "dir": "AV. DE LA REPUBLICA ENTRE SANTA ROSA Y 19 DE OCTUBRE S/N Huaquillas - El Oro - Ecuador", "lat": -3.481441, "lon": -80.239409, "ciudad": "Huaquillas", "prov": "El Oro", "capa": "Islas + Locales"}, {"id": 48, "nom": "Machala", "code": "PDSLL MACHALA, MCH", "dir": "BOLIVAR 908 Y GUAYAS - 9 DE MAYO S/N, DIAGONAL A TV ORO Machala - El Oro - Ecuador", "lat": -3.259664, "lon": -79.960136, "ciudad": "Machala", "prov": "El Oro", "capa": "Islas + Locales"}, {"id": 49, "nom": "Pañora Machala", "code": "PDVIL PAÑORA MACHALA, MCH", "dir": "Pichincha 1225, Machala, Ecuador", "lat": -3.26, "lon": -79.962, "ciudad": "Machala", "prov": "El Oro", "capa": "Locales"}, {"id": 50, "nom": "Machala 2", "code": "PDSLD MACHALA 2, MACH, JUNIN Y BOLIVAR", "dir": "P2QR+FGW Machala", "lat": -3.261, "lon": -79.959, "ciudad": "Machala", "prov": "El Oro", "capa": "Locales"}, {"id": 51, "nom": "Gran Piazza Machala", "code": "PDVBL GRAN PIAZZA MACHALA, MCH", "dir": "P3H5+C4J, Machala, Ecuador", "lat": -3.272, "lon": -79.942, "ciudad": "Machala", "prov": "El Oro", "capa": "Locales"}, {"id": 52, "nom": "T. Terrestre Machala", "code": "PDSLL T. TERRESTRE MACHALA, MCH PB #2 BLOQUE 2", "dir": "P39M+WFX", "lat": -3.28, "lon": -79.916, "ciudad": "Machala", "prov": "El Oro", "capa": "Locales"}, {"id": 53, "nom": "Cc Shopping Machala", "code": "PDSLL CC SHOPPING MACHALA, MCH", "dir": "KILOMETRO 2 VIA MACHALA - PASAJE, LOCAL 87 B S/N Machala - El Oro - Ecuador", "lat": -3.280786, "lon": -79.93156, "ciudad": "Machala", "prov": "El Oro", "capa": "Islas + Locales"}, {"id": 54, "nom": "Pañora Pasaje", "code": "PDVIL PAÑORA PASAJE, EL ORO", "dir": "M5FR+MWR, Machala, Pasaje, Ecuador", "lat": -3.325, "lon": -79.808, "ciudad": "Pasaje", "prov": "El Oro", "capa": "Locales"}, {"id": 55, "nom": "Cc Shopping Mini Plus Pasaje", "code": "PDSLL CC SHOPPING MINI PLUS PASAJE, PAS", "dir": "M59V+H84 Pasaje", "lat": -3.331, "lon": -79.807, "ciudad": "Pasaje", "prov": "El Oro", "capa": "Locales"}, {"id": 56, "nom": "Piña", "code": "PDSLD PIÑA, EL ORO", "dir": "88C8+8XH Piñas", "lat": -3.679, "lon": -79.683, "ciudad": "Piñas", "prov": "El Oro", "capa": "Locales"}, {"id": 57, "nom": "Santa Rosa", "code": "PDSLL SANTA ROSA, STR", "dir": "H22Q+CVQ Santa Rosa", "lat": -3.449, "lon": -79.96, "ciudad": "Santa Rosa", "prov": "El Oro", "capa": "Locales"}, {"id": 58, "nom": "Atacames", "code": "PDSLD ATACAMES, ESM", "dir": "Via Roberto Luis Cervantes, Atacames", "lat": 0.869, "lon": -79.85, "ciudad": "Atacames", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 59, "nom": "Multiplaza Esmeraldas", "code": "PDSID MULTIPLAZA ESMERALDAS, ESM, S/N", "dir": "X8GW+JJ9, Esmeraldas", "lat": 0.977, "lon": -79.653, "ciudad": "Esmeraldas", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 60, "nom": "Calle Sucre", "code": "PDVLD CALLE SUCRE, ESM, EX", "dir": "X89W+GPJ Esmeraldas", "lat": 0.969, "lon": -79.653, "ciudad": "Esmeraldas", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 61, "nom": "Santa Maria Esmeraldas", "code": "PDSID SANTA MARIA ESMERALDAS, ESM", "dir": "X88W+FQ2 Esmeraldas", "lat": 0.966, "lon": -79.653, "ciudad": "Esmeraldas", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 62, "nom": "Esmeraldas", "code": "PDSLD ESMERALDAS, ESM", "dir": "X87W+QVX Esmeraldas", "lat": 0.964, "lon": -79.653, "ciudad": "Esmeraldas", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 63, "nom": "Terminal T. Esmeraldas", "code": "PDSID TERMINAL T. ESMERALDAS, ESM, AV. SIMON P. TORRES EP-001", "dir": "W8MH+5C5 Esmeraldas", "lat": 0.933, "lon": -79.671, "ciudad": "Esmeraldas", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 64, "nom": "Quininde", "code": "PDSLD QUININDE, ESM", "dir": "Av. Gomez de la Torre, Quinindé", "lat": 0.334, "lon": -79.471, "ciudad": "Quinindé", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 65, "nom": "Aki Quinindé", "code": "PDVLL AKI QUININDÉ, ESM", "dir": "8GJH+65F, Quininde, Ecuador", "lat": 0.331, "lon": -79.472, "ciudad": "Quinindé", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 66, "nom": "San Lorenzo", "code": "PDVLD SAN LORENZO, ESM, AL", "dir": "75P8+48M San Lorenzo", "lat": 1.285, "lon": -78.834, "ciudad": "San Lorenzo", "prov": "Esmeraldas", "capa": "Locales"}, {"id": 67, "nom": "Pañora Balao", "code": "PDVIL PAÑORA BALAO, GUAY", "dir": "35RM+MQ9 Cantón Balao", "lat": -2.908, "lon": -79.816, "ciudad": "Balao", "prov": "Guayas", "capa": "Locales"}, {"id": 68, "nom": "Pañora Ponce Enriquez", "code": "PDVIL PAÑORA PONCE ENRIQUEZ, AZU", "dir": "25JC+F6 Río Blanco, Ecuador", "lat": -2.969, "lon": -79.829, "ciudad": "Balao", "prov": "Guayas", "capa": "Locales"}, {"id": 69, "nom": "Mi Comisariato Balzar", "code": "PDSLL MI COMISARIATO BALZAR, BLZ", "dir": "#ERROR!", "lat": -1.357, "lon": -79.901, "ciudad": "Balzar", "prov": "Guayas", "capa": "Locales"}, {"id": 70, "nom": "Calle 9 De Octubre", "code": "PDVLD CALLE 9 DE OCTUBRE, BLZ, AL", "dir": "J3MV+6RX Balzar", "lat": -1.367, "lon": -79.905, "ciudad": "Balzar", "prov": "Guayas", "capa": "Locales"}, {"id": 71, "nom": "Colimes", "code": "PDSLD COLIMES, COL, AV. MALECÓN 21B", "dir": "FX4R+36G Colimes", "lat": -1.545, "lon": -80.009, "ciudad": "Colimes", "prov": "Guayas", "capa": "Locales"}, {"id": 72, "nom": "Laurel", "code": "PDSLD LAUREL, DAU", "dir": "Laurel", "lat": -1.783, "lon": -79.909, "ciudad": "Daule", "prov": "Guayas", "capa": "Locales"}, {"id": 73, "nom": "Cc Shopping Daule", "code": "PDSLL CC SHOPPING DAULE, DAU", "dir": "42WF+9R2, E48, Guayaquil, Ecuador", "lat": -1.855, "lon": -79.976, "ciudad": "Daule", "prov": "Guayas", "capa": "Locales"}, {"id": 74, "nom": "Aki Daule", "code": "PDVLL AKI DAULE, DAU", "dir": "42QC+9PP, Daule, Ecuador", "lat": -1.861, "lon": -79.978, "ciudad": "Daule", "prov": "Guayas", "capa": "Locales"}, {"id": 75, "nom": "Daule", "code": "PDSLL DAULE, DAU", "dir": "AV. GUAYAQUIL ENTRE PIEDRAITA Y VERNAZA Daule - Guayas - Ecuador", "lat": -1.864242, "lon": -79.979923, "ciudad": "Daule", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 76, "nom": "Loma De Sargentillo", "code": "PDSLD LOMA DE SARGENTILLO, DAU", "dir": "4WC7+HWR Lomas de Sargentillo", "lat": -1.879, "lon": -80.085, "ciudad": "Daule", "prov": "Guayas", "capa": "Locales"}, {"id": 77, "nom": "Cc Tia El Camino", "code": "PDSLL CC TIA EL CAMINO, GYE, KM 19.5 VIA A DAULE", "dir": "X3F2+QFM, Via Daule, Guayaquil, Ecuador", "lat": -2.025, "lon": -79.949, "ciudad": "Daule", "prov": "Guayas", "capa": "Locales"}, {"id": 78, "nom": "Plaza Tia La Joya", "code": "PDSLL PLAZA TIA LA JOYA, DAU", "dir": "X3CQ+J3 Guayaquil, Ecuador", "lat": -2.028, "lon": -79.912, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 79, "nom": "Plaza Milann", "code": "PDSLD PLAZA MILANN, SAM", "dir": "X46H+XX6 Samborondón", "lat": -2.038, "lon": -79.87, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 80, "nom": "Coral Via Salitre", "code": "PDVIL CORAL VIA SALITRE, DAU", "dir": "X42J+34V Samborondón", "lat": -2.05, "lon": -79.87, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 81, "nom": "Piazza Villa Club", "code": "PDSLL PIAZZA VILLA CLUB, DAU", "dir": "KM 12 1/2 DE LA PUNTILLA PASCUALES NORTE, C.C. LA PIAZZA VILLA CLUB, LOCAL 10 S/N Guayaquil - Guayas - Ecuador", "lat": -2.050129, "lon": -79.89045, "ciudad": "Durán", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 82, "nom": "Mercado Nueva Aurora", "code": "PDSLD MERCADO NUEVA AURORA, DAU", "dir": "W4X9+PW8 Guayaquil", "lat": -2.051, "lon": -79.88, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 83, "nom": "Cc El Dorado Local 244b-c", "code": "PDSLL CC EL DORADO LOCAL 244B-C, DAU", "dir": "W4WF+8XV Samborondón", "lat": -2.054, "lon": -79.875, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 84, "nom": "Cc El Dorado Pb A2", "code": "PDSIL CC EL DORADO PB A2, DAU", "dir": "W4WG+9F7, Av León Febres Cordero Ribadeneyra, Guayaquil 091910", "lat": -2.054, "lon": -79.874, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 85, "nom": "Tia Mucho Lote 2", "code": "PDSLL TIA MUCHO LOTE 2, GYE", "dir": "W4M4+8X7 Guayaquil", "lat": -2.067, "lon": -79.893, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 86, "nom": "Hiper Mucho Lote Ii", "code": "PDSLL HIPER MUCHO LOTE II, GYE", "dir": "W4J2+5MF Guayaquil", "lat": -2.07, "lon": -79.898, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 87, "nom": "Buijo Historico", "code": "PDSLD BUIJO HISTORICO, SAM", "dir": "W4CW+GXQ Samborondón", "lat": -2.079, "lon": -79.853, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 88, "nom": "Cc Village Plaza", "code": "PDSIL CC VILLAGE PLAZA, GYE", "dir": "Av. Samborondón KM 1, Samborondón 092301, Ecuador", "lat": -2.14, "lon": -79.865, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 89, "nom": "Cc Riocentro Entre Rios", "code": "PDSID CC RIOCENTRO ENTRE RIOS, GYE", "dir": "V45P+85Q Samborondón", "lat": -2.142, "lon": -79.865, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 90, "nom": "Piazza Samborondón", "code": "PDSLL PIAZZA SAMBORONDÓN, SAM", "dir": "AV. SAMBORONDON Y RIO TINTOS, LA PIAZZA Samborondón -Guayas - Ecuador", "lat": -2.144162, "lon": -79.862091, "ciudad": "Durán", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 91, "nom": "Stand Bro Puntilla", "code": "Stand Bro Puntilla", "dir": "", "lat": -2.145422, "lon": -79.863517, "ciudad": "Durán", "prov": "Guayas", "capa": "Red Activa"}, {"id": 92, "nom": "Pharmacys Entrerios", "code": "Pharmacys Entrerios", "dir": "", "lat": -2.145915, "lon": -79.864493, "ciudad": "Durán", "prov": "Guayas", "capa": "Red Activa"}, {"id": 93, "nom": "Tiendas Bro Puntilla", "code": "NCVST TIENDAS BRO PUNTILLA, SAM", "dir": "Av. Samborondón 2, Samborondón 092301, Ecuador", "lat": -2.146, "lon": -79.863, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 94, "nom": "Super Aki Primavera", "code": "PDVLL SUPER AKI PRIMAVERA, DUR", "dir": "R5Q5+RP3 Durán", "lat": -2.16, "lon": -79.841, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 95, "nom": "Eloy Alfaro 1", "code": "PDSLL ELOY ALFARO 1,DUR, AV.DEMOCRACIA NORTE", "dir": "R5M4+6W4 Durán", "lat": -2.167, "lon": -79.843, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 96, "nom": "Cc Plaza Tia", "code": "PDSLL CC PLAZA TIA , DURÁN, # L-23", "dir": "R6J4+F2C Durán", "lat": -2.169, "lon": -79.795, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 97, "nom": "Gran Aki Durán Centro", "code": "PDVLL GRAN AKI DURÁN CENTRO, DUR", "dir": "R4HW+W9W, Guayaquil 092409, Ecuador", "lat": -2.17, "lon": -79.854, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 98, "nom": "Shell Select Duran", "code": "NCVST SHELL SELECT DURAN, DUR", "dir": "R5J6+269, MOBIL, Guayaquil 090201, Ecuador", "lat": -2.17, "lon": -79.839, "ciudad": "Durán", "prov": "Guayas", "capa": "Locales"}, {"id": 99, "nom": "Altoque Duran", "code": "Altoque Duran", "dir": "", "lat": -2.175672, "lon": -79.831144, "ciudad": "Durán", "prov": "Guayas", "capa": "Red Activa"}, {"id": 100, "nom": "Cc Shopping Duran", "code": "PDSLL CC SHOPPING DURAN, DUR", "dir": "AUTOPISTA DURAN BOLICHE KM 3 1/2 Duran - Guayas - Ecuador", "lat": -2.177508, "lon": -79.825238, "ciudad": "Durán", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 101, "nom": "Mi Comisariato", "code": "PDSLL MI COMISARIATO, EL EMPALME, LOCAL 1", "dir": "X952+WF4 Velasco Ibarra", "lat": -1.04, "lon": -79.649, "ciudad": "El Empalme", "prov": "Guayas", "capa": "Locales"}, {"id": 102, "nom": "El Empalme 2", "code": "PDSLL EL EMPALME 2, EMP", "dir": "X957+624, C. Amazonas, Velasco Ibarra, Ecuador", "lat": -1.042, "lon": -79.637, "ciudad": "El Empalme", "prov": "Guayas", "capa": "Locales"}, {"id": 103, "nom": "Pichincha", "code": "PDVLD PICHINCHA, MANABI, EX", "dir": "Via manabi - quevedo, Pichincha, Ecuador", "lat": -1.049, "lon": -79.817, "ciudad": "El Empalme", "prov": "Guayas", "capa": "Locales"}, {"id": 104, "nom": "El Triunfo Express", "code": "PDSLL EL TRIUNFO EXPRESS, TRF", "dir": "MHCV+86P, El Triunfo, Ecuador", "lat": -2.329, "lon": -79.407, "ciudad": "El Triunfo", "prov": "Guayas", "capa": "Locales"}, {"id": 105, "nom": "Plaza Comercial Tia 2 El Maestro", "code": "PDVLL PLAZA COMERCIAL TIA 2 EL MAESTRO, GYE", "dir": "Plaza Tia, Autop. Narcisa de Jesús, Guayaquil 090703, Ecuador", "lat": -2.066, "lon": -79.91, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 106, "nom": "Altoque Metropolis", "code": "NCVST ALTOQUE METROPOLIS, GYE", "dir": "W3JP+VPH, Autop. Narcisa de Jesús, Guayaquil, Ecuador", "lat": -2.068, "lon": -79.913, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 107, "nom": "T. Terrestre Pascuales", "code": "PDSIL T. TERRESTRE PASCUALES, GYE PB #ITP002", "dir": "W3G5+GXH Guayaquil", "lat": -2.074, "lon": -79.94, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 108, "nom": "Aki Mucho Lote", "code": "PDSLL AKI MUCHO LOTE, GYE, F. DE ORELLANA", "dir": "W39M+6HG, Unnamed Road, 5 Pje 25A NO, Guayaquil", "lat": -2.082, "lon": -79.916, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 109, "nom": "Polaris", "code": "PDVLD POLARIS, GYE, EX", "dir": "W36R+WW2, Av. Isidro Ayora, Guayaquil, Ecuador", "lat": -2.087, "lon": -79.908, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 110, "nom": "Hiper Via Daule", "code": "PDSLL HIPER VIA DAULE, GYE", "dir": "Mi Comisariato, Km, 12 ½, Vía a Daule, Guayaquil, Ecuador", "lat": -2.094, "lon": -79.937, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 111, "nom": "Cc Mall Del Norte", "code": "PDSLL CC MALL DEL NORTE, GYE, PB 18", "dir": "W34P+6VW Guayaquil", "lat": -2.094, "lon": -79.913, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 112, "nom": "Cc Mall Del Norte", "code": "PDSIL CC MALL DEL NORTE, GYE", "dir": "W33P+QX8 Guayaquil", "lat": -2.096, "lon": -79.913, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 113, "nom": "Plaza Tia - Bastion Popular", "code": "PDSLL PLAZA TIA - BASTION POPULAR, GYE", "dir": "W327+GR2 Guayaquil", "lat": -2.099, "lon": -79.935, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 114, "nom": "Coral Via Daule", "code": "PDSID CORAL VIA DAULE, GYE", "dir": "V3V8+X8V Guayaquil", "lat": -2.105, "lon": -79.934, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 115, "nom": "Cc Mall Del Fortin - Ipb - 108c", "code": "PDSIL CC MALL DEL FORTIN - IPB - 108C, GYE", "dir": "V3R2+79C, Guayaquil, Ecuador", "lat": -2.109, "lon": -79.949, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 116, "nom": "Cc Mall El Fortin", "code": "PDSLL CC MALL EL FORTIN,GYE,PA #203-204", "dir": "V3R2+2FX, Guayaquil, Ecuador", "lat": -2.11, "lon": -79.949, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 117, "nom": "Paseo Shopping Via Daule", "code": "PDSID PASEO SHOPPING VIA DAULE, GYE", "dir": "V3M8+WF4, Guayaquil", "lat": -2.115, "lon": -79.934, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 118, "nom": "Entrada De La 8", "code": "PDSLD ENTRADA DE LA 8, GYE", "dir": "V3J2+548 Guayaquil", "lat": -2.12, "lon": -79.95, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 119, "nom": "Plaza Pycca 9", "code": "PDSIL PLAZA PYCCA 9, GYE", "dir": "V3J9+52W, Guayaquil 090602, Ecuador", "lat": -2.12, "lon": -79.933, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 120, "nom": "Altoque Guayacanes", "code": "Altoque Guayacanes", "dir": "", "lat": -2.121214, "lon": -79.899651, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 121, "nom": "Al toque Guayacanes", "code": "Al toque Guayacanes", "dir": "", "lat": -2.121319, "lon": -79.899629, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 122, "nom": "Cc. Mall Del Rio", "code": "PDSID CC. MALL DEL RIO, GYE, PA. ISLA CC", "dir": "V3GV+3MG Guayaquil", "lat": -2.125, "lon": -79.906, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 123, "nom": "Sauces 6", "code": "PDSLL SAUCES 6, GYE", "dir": "V4F3+QJV Guayaquil", "lat": -2.126, "lon": -79.896, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 124, "nom": "Cc Riocentro Norte Pb A16", "code": "PDSLD CC RIOCENTRO NORTE PB A16, GYE", "dir": "V3FV+67F Guayaquil", "lat": -2.127, "lon": -79.907, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 125, "nom": "Florida Norte", "code": "PDSLD FLORIDA NORTE, GYE", "dir": "Ave 41A No, Guayaquil", "lat": -2.128, "lon": -79.936, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 126, "nom": "Cc Riocentro Norte", "code": "PDSLL CC RIOCENTRO NORTE, GYE, PA #115-116", "dir": "V3CV+R97 Guayaquil", "lat": -2.128, "lon": -79.907, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 127, "nom": "Mi Comisariato Florida", "code": "PDSLL MI COMISARIATO FLORIDA, GYE", "dir": "V399+R3X, Ing. José Antonio Gómez Gault, Guayaquil, Ecuador", "lat": -2.13, "lon": -79.932, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 128, "nom": "Sauces 9", "code": "PDSLD SAUCES 9,GYE", "dir": "V496+82G, Av 4 NE, Guayaquil 090505, Ecuador", "lat": -2.132, "lon": -79.89, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 129, "nom": "Albotec", "code": "PDSLL ALBOTEC, GYE", "dir": "V472+352 Guayaquil", "lat": -2.137, "lon": -79.9, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 130, "nom": "Sauces 7", "code": "PDSLD SAUCES 7, GYE", "dir": "V475+4VG Guayaquil", "lat": -2.137, "lon": -79.89, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 131, "nom": "Cc La Rotonda", "code": "PDSIL CC LA ROTONDA, GYE, PB #14A", "dir": "La Rotonda, Av. Benjamin Carrion Guayaquil Ecuador, Guayaquil 090507", "lat": -2.139, "lon": -79.908, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 132, "nom": "Metrovia Terminal Rio Daule", "code": "PDSIL METROVIA TERMINAL RIO DAULE, GYE", "dir": "V45C+R29 Guayaquil", "lat": -2.14, "lon": -79.88, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 133, "nom": "Pharmacys Alborada 2", "code": "Pharmacys Alborada 2", "dir": "", "lat": -2.140109, "lon": -79.898319, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 134, "nom": "Cc City Mall 1", "code": "PDSIL CC CITY MALL 1, GYE P1 #S/N", "dir": "V35R+H82 Guayaquil", "lat": -2.141, "lon": -79.909, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 135, "nom": "Cc City Mall 2", "code": "PDSIL CC CITY MALL 2, GYE PB #S/N", "dir": "V35R+P93 Guayaquil", "lat": -2.141, "lon": -79.909, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 136, "nom": "Cc City Mall", "code": "PDSLL CC CITY MALL, GYE PB #13", "dir": "AV BENJAMIN CARRION Y AV. FELIPE PEZO S/N Guayaquil - Guayas - Ecuador", "lat": -2.141266, "lon": -79.909181, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 137, "nom": "T. Terrestre Guayaquil 3 (puerta 2)", "code": "PDSID T. TERRESTRE GUAYAQUIL 3 (PUERTA 2), GYE PB #IP051", "dir": "V45C+297 Guayaquil", "lat": -2.142, "lon": -79.879, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 138, "nom": "T. Terrestre Guayaquil 1 (boleteria)", "code": "PDSIL T. TERRESTRE GUAYAQUIL 1 (BOLETERIA), GYE PB #IP052", "dir": "Guayaquil Bus Terminal, Av. de las Américas, Guayaquil 090513, Ecuador", "lat": -2.143, "lon": -79.879, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 139, "nom": "T. Terrestre Guayaquil (juanjo Naranjo)", "code": "PDSIL T. TERRESTRE GUAYAQUIL (JUANJO NARANJO), GYE PB", "dir": "V44C+M6Q, Guayaquil 090513, Ecuador", "lat": -2.143, "lon": -79.879, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 140, "nom": "Bingo Garzota", "code": "PDSBD BINGO GARZOTA, GYE", "dir": "V445+J7J Guayaquil", "lat": -2.143, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 141, "nom": "T. Terrestre Guayaquil", "code": "PDSLL T. TERRESTRE GUAYAQUIL, GYE P1 #105", "dir": "C.C. TERMINAL TERRESTRE LOCAL 23 S/N Guayaquil - Guayas - Ecuador", "lat": -2.14302, "lon": -79.879067, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 142, "nom": "Martha De Roldos C18d", "code": "PDSLD MARTHA DE ROLDOS C18D, GYE", "dir": "V34G+96V Guayaquil", "lat": -2.144, "lon": -79.924, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 143, "nom": "Mi Comisariato Juan T.marengo", "code": "PDSID MI COMISARIATO JUAN T.MARENGO,GYE", "dir": "V33P+RWH Guayaquil", "lat": -2.145, "lon": -79.913, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 144, "nom": "Plaza La Garzota", "code": "PDSIL PLAZA LA GARZOTA, GYE", "dir": "C4 P2 Av. Agustin Freire Y Av. 2 NE Guillermo Pareja (Megamaxi, Guayaquil 090513, Ecuador", "lat": -2.145, "lon": -79.896, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 145, "nom": "Sup. Sta. Maria Garzota", "code": "PDVIL SUP. STA. MARIA GARZOTA, GYE", "dir": "V434+5M2 Guayaquil", "lat": -2.147, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 146, "nom": "La Garzota", "code": "PDSLL LA GARZOTA, GYE, AV. MIGUEL JIJON MZ. 68 S. 27-28", "dir": "V424+XQG Guayaquil", "lat": -2.148, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 147, "nom": "Aeropuerto J.j De Olmedo", "code": "PDSID AEROPUERTO J.J DE OLMEDO, GYE", "dir": "V428+J6H Guayaquil", "lat": -2.148, "lon": -79.884, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 148, "nom": "Altoque Garzota", "code": "NCVST ALTOQUE GARZOTA, GYE", "dir": "R4X4+FWF, Av. Hermano Miguel, Guayaquil 090513, Ecuador", "lat": -2.151, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 149, "nom": "Al toque Garzota", "code": "Al toque Garzota", "dir": "", "lat": -2.151184, "lon": -79.892836, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 150, "nom": "Megamaxi Ciudad Colon", "code": "PDSID MEGAMAXI CIUDAD COLON, GYE", "dir": "R3XV+5RF Guayaquil", "lat": -2.152, "lon": -79.905, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 151, "nom": "Plaza Tia El Trébol", "code": "PDSLD PLAZA TIA EL TRÉBOL, GYE", "dir": "R3X8+3XC Guayaquil", "lat": -2.152, "lon": -79.933, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 152, "nom": "Altoque Guayacanes", "code": "NCVST ALTOQUE GUAYACANES,GYE", "dir": "Urdenor 1 MZ 103, Guayaquil 090513, Ecuador", "lat": -2.153, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 153, "nom": "Altoque Perimetral", "code": "NCVST ALTOQUE PERIMETRAL, GYE", "dir": "Urdenor 1 MZ 103, Guayaquil 090513, Ecuador", "lat": -2.153, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 154, "nom": "Pharmacys Orellana", "code": "NCVST PHARMACYS ORELLANA, GYE", "dir": "Urdenor 1 MZ 103, Guayaquil 090513, Ecuador", "lat": -2.153, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 155, "nom": "Pharmacys Urdesa", "code": "NCVST PHARMACYS URDESA, GYE", "dir": "Urdenor 1 MZ 103, Guayaquil 090513, Ecuador", "lat": -2.153, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 156, "nom": "Pharmacys Portal Al Sol", "code": "NCVST PHARMACYS PORTAL AL SOL, GYE", "dir": "Urdenor 1 MZ 103, Guayaquil 090513, Ecuador", "lat": -2.153, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 157, "nom": "Cc Mall Del Sol 4", "code": "PDSIL CC MALL DEL SOL 4, TORRES DEL SOL, GYE", "dir": "locales 94-98, 1º Pasaje 1A NE 25, Guayaquil 090513, Ecuador", "lat": -2.155, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 158, "nom": "Cc Mall Del Sol 1", "code": "PDSIL CC MALL DEL SOL 1, SECTOR PATIO COMIDAS, GYE", "dir": "Guayaquil 090505", "lat": -2.155, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 159, "nom": "Cc Mall Del Sol 2", "code": "PDSIL CC MALL DEL SOL 2, PASILLO CENTRAL, GYE", "dir": "R4V4+XVV Guayaquil", "lat": -2.155, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 160, "nom": "Cc Mall Del Sol", "code": "PDSLL CC MALL DEL SOL, GYE", "dir": "Joaquín José Orrantia González 18, Guayaquil 090513, Ecuador", "lat": -2.156, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 161, "nom": "Cc Mall Del Sol 3", "code": "PDSIL CC MALL DEL SOL 3, SECTOR SUKASA, GYE", "dir": "R4V4+RCH, Joaquín José Orrantia González, Guayaquil 090513, Ecuador", "lat": -2.156, "lon": -79.894, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 162, "nom": "Tryp Wyndham", "code": "PDVID TRYP WYNDHAM, GYE", "dir": "R4V5+QW4 Guayaquil", "lat": -2.156, "lon": -79.89, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 163, "nom": "Omnihospital", "code": "PDVIL OMNIHOSPITAL, GYE", "dir": "Torre Vitalitis (Omni Hospital 1 Piso 6 Consultorio 603, Guayaquil 090513, Ecuador", "lat": -2.157, "lon": -79.891, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 164, "nom": "Mapasingue Dos", "code": "PDSLL MAPASINGUE DOS, GYE, COSTANERA", "dir": "Costanera 1496-1512, Guayaquil 090613", "lat": -2.159, "lon": -79.92, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 165, "nom": "C.c Plaza Ceibos", "code": "PDSLD C.C PLAZA CEIBOS, GYE", "dir": "R3R2+9RQ Guayaquil", "lat": -2.159, "lon": -79.948, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 166, "nom": "Pharmacys Plaza Milan", "code": "NCVST PHARMACYS PLAZA MILAN, DAU", "dir": "R4R5+773, Av. de las Américas, Guayaquil 090513, Ecuador", "lat": -2.159, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 167, "nom": "Shell Select Abu Dabi", "code": "NCVST SHELL SELECT ABU DABI, GYE", "dir": "1er Callejon 13 NO 108, Guayaquil 090510, Ecuador", "lat": -2.16, "lon": -79.906, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 168, "nom": "Shell Select Cordova", "code": "NCVST SHELL SELECT CORDOVA, GYE", "dir": "1er Callejon 13 NO 108, Guayaquil 090510, Ecuador", "lat": -2.16, "lon": -79.906, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 169, "nom": "Altoque El Bosque", "code": "NCVST ALTOQUE EL BOSQUE, UIO", "dir": "R4P4+XQW, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 170, "nom": "Shell Select Pascuales", "code": "NCVST SHELL SELECT PASCUALES, DAU", "dir": "R4P4+XQW, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 171, "nom": "Shell Select Kennedy", "code": "NCVST SHELL SELECT KENNEDY, GYE", "dir": "R4P4+XQW, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 172, "nom": "Shell Select Ceibos", "code": "NCVST SHELL SELECT CEIBOS, GYE", "dir": "LOT &, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 173, "nom": "Shell Select Beneficencia", "code": "NCVST SHELL SELECT BENEFICENCIA, GYE", "dir": "R4P4+XQW, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 174, "nom": "Shell Select Labrador", "code": "NCVST SHELL SELECT LABRADOR, UIO", "dir": "R4P4+XQW, Justino Cornejo V., Guayaquil 090512, Ecuador", "lat": -2.162, "lon": -79.893, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 175, "nom": "9 De Octubre 732", "code": "PDSLL 9 DE OCTUBRE 732, GYE", "dir": "R4P3+WX7, Guayaquil 090512, Ecuador", "lat": -2.163, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 176, "nom": "Shell Select Marina", "code": "NCVST SHELL SELECT MARINA, MTA", "dir": "R4Q6+6FP, Av. de las Américas, Guayaquil 090513, Ecuador", "lat": -2.163, "lon": -79.888, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 177, "nom": "Altoque America", "code": "Altoque America", "dir": "", "lat": -2.163209, "lon": -79.891703, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 178, "nom": "World Trade Center", "code": "PDSLL WORLD TRADE CENTER, GYE", "dir": "Av. Francisco de Orellana 303, Guayaquil 090512, Ecuador", "lat": -2.164, "lon": -79.897, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 179, "nom": "Plaza Orellana", "code": "PDSLL PLAZA ORELLANA, GYE", "dir": "R4P3+FHX Guayaquil", "lat": -2.164, "lon": -79.896, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 180, "nom": "Mi Comisariato Av. Pedro Menendez", "code": "PDSLL MI COMISARIATO AV. PEDRO MENENDEZ, GYE", "dir": "R4JC+GGW, Av Pedro Menéndez Gilbert, Guayaquil 090513, Ecuador", "lat": -2.168, "lon": -79.879, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 181, "nom": "Cc San Marino", "code": "PDSLL CC SAN MARINO, GYE, S2 #E01 LOCAL", "dir": "AV. FRANCISCO DE ORELLANA S/N Y CARLOS PLAZA DAÑIN Guayaquil - Guayas - Ecuador", "lat": -2.168228, "lon": -79.898508, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 182, "nom": "Cc Alban Borja", "code": "PDSLL CC ALBAN BORJA, GYE", "dir": "C. C. Albán Borja, #Local 60, Av. Pdte. Carlos Julio Arosemena Tola Y 78, Guayaquil 090615", "lat": -2.169, "lon": -79.917, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 183, "nom": "Cc San Marino", "code": "PDSID CC SAN MARINO, GYE, PB #S/N ISLA", "dir": "Av. Francisco de Orellana s/n y, Guayaquil 090512, Ecuador", "lat": -2.169, "lon": -79.898, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 184, "nom": "Supercines Orellana", "code": "PDSIL SUPERCINES ORELLANA, GYE", "dir": "R4J3+F6Q Guayaquil", "lat": -2.169, "lon": -79.897, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 185, "nom": "Tiendas Bro Roca", "code": "NCVST TIENDAS BRO ROCA, DAU", "dir": "Av. del Rotarismo 332, Guayaquil 090511, Ecuador", "lat": -2.169, "lon": -79.905, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 186, "nom": "Tiendas Bro La Joya", "code": "NCVST TIENDAS BRO LA JOYA, DAU", "dir": "Av. del Rotarismo 332, Guayaquil 090511, Ecuador", "lat": -2.169, "lon": -79.905, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 187, "nom": "Urdesa", "code": "PDSLD URDESA, GYE, V. E. ESTRADA LOCAL 1", "dir": "Victor Emilio Estrada 603, Guayaquil 090511, Ecuador", "lat": -2.17, "lon": -79.91, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 188, "nom": "Plaza Quil", "code": "PDSIL PLAZA QUIL, GYE", "dir": "R4J2+523 Guayaquil", "lat": -2.17, "lon": -79.9, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 189, "nom": "Cc Policentro", "code": "PDSLL CC POLICENTRO, GYE, PB #93 LOCAL", "dir": "C.C. POLICENTRO LOCAL 93 S/N Guayaquil - Guayas - Ecuador", "lat": -2.170253, "lon": -79.900124, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 190, "nom": "Cc Policentro", "code": "PDSIL CC POLICENTRO, GYE, PB AV. REAL", "dir": "R4H2+H4F, Policentro, Guayaquil 090512, Ecuador", "lat": -2.171, "lon": -79.9, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 191, "nom": "Shell Select Amazonas", "code": "NCVST SHELL SELECT AMAZONAS,UIO", "dir": "C. Primera 202, Guayaquil 090511, Ecuador", "lat": -2.172, "lon": -79.905, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 192, "nom": "Pharmacys Kennedy", "code": "Pharmacys Kennedy", "dir": "", "lat": -2.173109, "lon": -79.898702, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 193, "nom": "Cc Riocentro Ceibos", "code": "PDSLL CC RIOCENTRO CEIBOS, GYE", "dir": "AV. EL BOMBERO SN Y KM 6 1/2 VIA A LA COSTA S/N Guayaquil - Guayas - Ecuador", "lat": -2.175752, "lon": -79.943115, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 194, "nom": "Hospital Alfredo Paulson", "code": "PDVIL HOSPITAL ALFREDO PAULSON, GYE", "dir": "R4F7+3G9 Guayaquil", "lat": -2.177, "lon": -79.886, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 195, "nom": "Puerto Santa Ana", "code": "PDVLD PUERTO SANTA ANA, GYE, EX", "dir": "R4CF+Q7G Guayaquil", "lat": -2.178, "lon": -79.877, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 196, "nom": "Cc Riocentro Ceibos 2", "code": "PDSLL CC RIOCENTRO CEIBOS 2,GYE, PA 114", "dir": "R3C5+H7J Guayaquil", "lat": -2.179, "lon": -79.942, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 197, "nom": "Cc Coral Ceibos", "code": "PDSID CC CORAL CEIBOS, GYE", "dir": "R393+6V9 Guayaquil", "lat": -2.182, "lon": -79.945, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 198, "nom": "Hiper Via A La Costa", "code": "PDSLL HIPER VIA A LA COSTA, GYE", "dir": "Km 14 DE LA VIA GUAYAQUIL - SALINAS S/N Guayaquil - Guayas - Ecuador", "lat": -2.182082, "lon": -79.996302, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 199, "nom": "Laguna Plaza", "code": "PDSLD LAGUNA PLAZA, GYE", "dir": "R285+QFC Guayaquil", "lat": -2.183, "lon": -79.991, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 200, "nom": "Bamboo Plaza", "code": "PDSIL BAMBOO PLAZA, GYE", "dir": "R28J+3CJ Guayaquil", "lat": -2.185, "lon": -79.969, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 201, "nom": "Puerto Azul", "code": "PDSID PUERTO AZUL, GYE", "dir": "R27M+952 Guayaquil", "lat": -2.187, "lon": -79.967, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 202, "nom": "Buho Market", "code": "NCVST BUHO MARKET, GYE", "dir": "Blvd. 9 de Octubre 1980, Guayaquil, Ecuador", "lat": -2.187, "lon": -79.894, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 203, "nom": "Buho Market", "code": "Buho Market", "dir": "", "lat": -2.187378, "lon": -79.894466, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 204, "nom": "9 De Octubre Y Machala", "code": "PDSLD 9 DE OCTUBRE Y MACHALA, GYE", "dir": "R466+745 Guayaquil", "lat": -2.189, "lon": -79.89, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 205, "nom": "9 De Octubre Boulevard", "code": "PDSLL 9 DE OCTUBRE BOULEVARD, GYE", "dir": "R457+R9M Guayaquil", "lat": -2.19, "lon": -79.887, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 206, "nom": "Victor Manuel Rendon", "code": "PDSID VICTOR MANUEL RENDON, GYE", "dir": "R45C+M4Q Guayaquil", "lat": -2.191, "lon": -79.88, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 207, "nom": "Victor Manuel Rendon", "code": "PDSBD VICTOR MANUEL RENDON, GYE", "dir": "Panamá 604, Guayaquil 090313, Ecuador", "lat": -2.191, "lon": -79.88, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 208, "nom": "Plaza San Eduardo", "code": "PDSLL PLAZA SAN EDUARDO, GYE, CALLE RODRIGUEZ BONIN", "dir": "R354+QXW Guayaquil", "lat": -2.191, "lon": -79.943, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 209, "nom": "Velez Y P. Moncayo", "code": "PDSLD VELEZ Y P. MONCAYO, GYE", "dir": "R456+JH9 Guayaquil", "lat": -2.191, "lon": -79.889, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 210, "nom": "Bingo 9 De Octubre", "code": "PDSBD BINGO 9 DE OCTUBRE, GYE, CHILE Y CHIMBORAZO", "dir": "R459+J3X Guayaquil", "lat": -2.191, "lon": -79.882, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 211, "nom": "9 Octubre Y Boyaca", "code": "PDSLD 9 OCTUBRE Y BOYACA, GYE", "dir": "R458+Q39 Guayaquil", "lat": -2.191, "lon": -79.885, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 212, "nom": "9 De Octubre 427", "code": "PDSLL 9 DE OCTUBRE 427, GYE", "dir": "R458+9VQ Guayaquil", "lat": -2.192, "lon": -79.883, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 213, "nom": "Plaza De La Suerte", "code": "PDSLL PLAZA DE LA SUERTE, GYE", "dir": "CHILE 217 Y LUQUE Guayaquil - Guayas - Ecuador", "lat": -2.192797, "lon": -79.882278, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 214, "nom": "Velez", "code": "PDSLL VELEZ, GYE", "dir": "R449+V5X Guayaquil", "lat": -2.193, "lon": -79.882, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 215, "nom": "Malecon 2000 Rotonda", "code": "PDVIL MALECON 2000 ROTONDA, GYE", "dir": "Ba-03, 090313 Guayaquil, Ecuador", "lat": -2.193, "lon": -79.88, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 216, "nom": "Boyaca", "code": "PDSLL BOYACA, GYE", "dir": "BOYACA Y AGUIRRE S/N Guayaquil - Guayas - Ecuador", "lat": -2.193126, "lon": -79.884435, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 217, "nom": "Unicentro Shopping", "code": "PDSLL UNICENTRO SHOPPING, GYE, PB #11", "dir": "Francisco Javier Aguirre Y Abad 411y, Guayaquil 090313, Ecuador", "lat": -2.194, "lon": -79.883, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 218, "nom": "Mercado Central", "code": "PDVLL MERCADO CENTRAL, GYE, 6 DE MARZO 1110", "dir": "R446+3HP Guayaquil", "lat": -2.195, "lon": -79.889, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 219, "nom": "Pedro Carbo Y Sucre", "code": "PDSLL PEDRO CARBO Y SUCRE, GYE", "dir": "SUCRE Y PEDRO CARBO DIAGONAL METRO VIA S/N Guayaquil - Guayas - Ecuador", "lat": -2.196159, "lon": -79.882156, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 220, "nom": "Bahia", "code": "PDSLL BAHIA, GYE, PICHINCHA 835", "dir": "R439+59F Guayaquil", "lat": -2.197, "lon": -79.882, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 221, "nom": "Hiper Via A La Costa Km 20", "code": "PDVLL HIPER VIA A LA COSTA KM 20, GYE", "dir": "RW3R+35J Guayaquil", "lat": -2.197, "lon": -80.06, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 222, "nom": "Portete 2", "code": "PDSLL PORTETE 2, GYE", "dir": "Q3XM+F4F Guayaquil", "lat": -2.201, "lon": -79.917, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 223, "nom": "C. S. Emelec", "code": "PDSLL C. S. EMELEC, GYE", "dir": "Q4V4+C7W Guayaquil", "lat": -2.206, "lon": -79.894, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 224, "nom": "Portete 1500", "code": "PDSLD PORTETE 1500, GYE, AV. QUITO", "dir": "Q4V4+24R, Guayaquil 090315, Ecuador", "lat": -2.207, "lon": -79.895, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 225, "nom": "Pharmacys Alcivar", "code": "Pharmacys Alcivar", "dir": "", "lat": -2.21491, "lon": -79.888458, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 226, "nom": "Cc Centro Sur", "code": "PDSLD CC CENTRO SUR, GYE", "dir": "Centro Comercial Centro Sur local 10, Guayaquil 090101, Ecuador", "lat": -2.215, "lon": -79.889, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 227, "nom": "Pharmacys Plaza Alcivar", "code": "NCVST PHARMACYS PLAZA ALCIVAR, GYE", "dir": "Chimborazo 3307, Guayaquil 090101, Ecuador", "lat": -2.215, "lon": -79.889, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 228, "nom": "25 Y B", "code": "PDSLD 25 Y B, GYE", "dir": "Ismael Pérez Castro 3308-3310, Guayaquil 090408", "lat": -2.216, "lon": -79.926, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 229, "nom": "Cristo Del Consuelo", "code": "PDSLD CRISTO DEL CONSUELO, GYE", "dir": "Q3JR+C8P, Guayaquil 090301, Ecuador", "lat": -2.219, "lon": -79.909, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 230, "nom": "Cc Mall Del Sur", "code": "PDSIL CC MALL DEL SUR, GYE, PB #11", "dir": "Q4C2+CM9 Guayaquil", "lat": -2.229, "lon": -79.898, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 231, "nom": "Cc Mall Del Sur", "code": "PDSLL CC MALL DEL SUR, GYE", "dir": "Q492+VMH Guayaquil", "lat": -2.23, "lon": -79.898, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 232, "nom": "Q Y La 22", "code": "PDSLD Q Y LA 22, GYE", "dir": "Suscal, Guayaquil 090401", "lat": -2.231, "lon": -79.94, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 233, "nom": "Al toque domingo comin", "code": "Al toque domingo comin", "dir": "", "lat": -2.231508, "lon": -79.890827, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Red Activa"}, {"id": 234, "nom": "Altoque Domingo Comin", "code": "NCVST ALTOQUE DOMINGO COMIN, GYE", "dir": "Av. Domingo Comín 1100, Guayaquil 090102, Ecuador", "lat": -2.232, "lon": -79.891, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 235, "nom": "Chongon", "code": "PDSLD CHONGON, GYE", "dir": "QW8C+52 Guayaquil, Ecuador", "lat": -2.235, "lon": -80.08, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 236, "nom": "Cc Riocentro Sur", "code": "PDSLL CC RIOCENTRO SUR, GYE", "dir": "AV. 25 DE JULIO A LADO DE LA UNIVERSIDAD AGRARIA S/N Guayaquil - Guayas - Ecuador", "lat": -2.241455, "lon": -79.895022, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 237, "nom": "Gran Aki Domingo Comín", "code": "PDVLL GRAN AKI DOMINGO COMÍN, GYE", "dir": "Q445+WFC, Guayaquil 090104, Ecuador", "lat": -2.242, "lon": -79.892, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 238, "nom": "La Floresta", "code": "PDSLD LA FLORESTA, GYE", "dir": "P4X8+GG4 Guayaquil", "lat": -2.251, "lon": -79.884, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 239, "nom": "Guasmo Sur", "code": "PDSLL GUASMO SUR, GYE, AV. LAS ESCLUSAS SL 2", "dir": "CALLE 53 SE - DR. RAÚL CLEMENTE HUERTA, Guayaquil 090109", "lat": -2.259, "lon": -79.888, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 240, "nom": "Coop Union De Bananeros", "code": "PDSLD COOP UNION DE BANANEROS, GYE", "dir": "P4PC+FM5 Guayaquil", "lat": -2.264, "lon": -79.878, "ciudad": "Guayaquil", "prov": "Guayas", "capa": "Locales"}, {"id": 241, "nom": "Plaza Tia", "code": "PDSLL PLAZA TIA, MLG, LOCAL 4", "dir": "VCG9+6VV, Av Mariscal Sucre, Milagro, Ecuador", "lat": -2.124, "lon": -79.58, "ciudad": "Milagro", "prov": "Guayas", "capa": "Locales"}, {"id": 242, "nom": "Milagro Central", "code": "PDSLD MILAGRO CENTRAL, MLG", "dir": "Miguel Valverde 189109, Milagro, Ecuador", "lat": -2.128, "lon": -79.591, "ciudad": "Milagro", "prov": "Guayas", "capa": "Locales"}, {"id": 243, "nom": "Milagro", "code": "PDSLL MILAGRO, MLG", "dir": "9 OCTUBRE 5 DE JUNIO ENTRE ROCAFUERTE S/N Milagro - Guayas - Ecuador", "lat": -2.1284, "lon": -79.592407, "ciudad": "Milagro", "prov": "Guayas", "capa": "Islas + Locales"}, {"id": 244, "nom": "Cc Paseo Shopping Milagro", "code": "PDSID CC PASEO SHOPPING MILAGRO, MLG", "dir": "VC74+799, Av. 17 de Septiembre, Milagro 091701", "lat": -2.137, "lon": -79.594, "ciudad": "Milagro", "prov": "Guayas", "capa": "Locales"}, {"id": 245, "nom": "Mercado Central", "code": "PDSLD MERCADO CENTRAL, MLG, AV. CRISTOBAL COLON", "dir": "VC67+F2J Milagro", "lat": -2.139, "lon": -79.587, "ciudad": "Milagro", "prov": "Guayas", "capa": "Locales"}, {"id": 246, "nom": "Tt Milagro", "code": "PDSID TT MILAGRO, GYE", "dir": "R9PR+3RC, Av. 17 de Septiembre, Milagro, Ecuador", "lat": -2.165, "lon": -79.609, "ciudad": "Milagro", "prov": "Guayas", "capa": "Locales"}, {"id": 247, "nom": "Hiper Naranjal", "code": "PDSLL HIPER NARANJAL, NRJ", "dir": "89MP+24G, Naranjal, Ecuador", "lat": -2.668, "lon": -79.615, "ciudad": "Naranjal", "prov": "Guayas", "capa": "Locales"}, {"id": 248, "nom": "Pañora Naranjal Calle Bolivar", "code": "PDVIL PAÑORA NARANJAL CALLE BOLIVAR, NJL", "dir": "89GH+67C Naranjal", "lat": -2.674, "lon": -79.622, "ciudad": "Naranjal", "prov": "Guayas", "capa": "Locales"}, {"id": 249, "nom": "Naranjal", "code": "PDSLL NARANJAL, NRJ", "dir": "89FJ+QQQ Naranjal", "lat": -2.676, "lon": -79.618, "ciudad": "Naranjal", "prov": "Guayas", "capa": "Locales"}, {"id": 250, "nom": "Pañora Naranjal Panamericana", "code": "PDVIL PAÑORA NARANJAL PANAMERICANA, NJL", "dir": "899J+V5X Naranjal", "lat": -2.68, "lon": -79.62, "ciudad": "Naranjal", "prov": "Guayas", "capa": "Locales"}, {"id": 251, "nom": "Pañora Marcelino Maridueña", "code": "PDVIL PAÑORA MARCELINO MARIDUEÑA, GUAY", "dir": "QHR6+97, Coronel Marcelino Mariduena, Ecuador", "lat": -2.209, "lon": -79.439, "ciudad": "Naranjito", "prov": "Guayas", "capa": "Locales"}, {"id": 252, "nom": "Pedro Carbo Express", "code": "PDSLL PEDRO CARBO EXPRESS, PDC", "dir": "Av. 9 de octunte, Juan Montalvo, Pedro Carbo, Ecuador", "lat": -1.818, "lon": -80.232, "ciudad": "Pedro Carbo", "prov": "Guayas", "capa": "Locales"}, {"id": 253, "nom": "General Villamil Ply", "code": "PDSLL GENERAL VILLAMIL PLY, PLA, AVENIDA ALEXANDER", "dir": "Calle 14 131, Gral Villamil, Ecuador", "lat": -2.636, "lon": -80.388, "ciudad": "Playas", "prov": "Guayas", "capa": "Locales"}, {"id": 254, "nom": "Cc Shopping Playas", "code": "PDSLL CC SHOPPING PLAYAS, PLY", "dir": "9J47+MQP, Playas, Ecuador", "lat": -2.643, "lon": -80.386, "ciudad": "Playas", "prov": "Guayas", "capa": "Locales"}, {"id": 255, "nom": "Posorja", "code": "PDSLL POSORJA, GYE, CALLE GUTIERREZ SL 1", "dir": "7QQ4+PJJ, Av Nery Chalén, Posorja, Ecuador", "lat": -2.711, "lon": -80.243, "ciudad": "Posorja", "prov": "Guayas", "capa": "Locales"}, {"id": 256, "nom": "Salitre", "code": "PDSLD SALITRE, DAU, CALLE 24 DE MAYO", "dir": "559Q+V8W, Av. 24 de Mayo, Salitre, Ecuador", "lat": -1.83, "lon": -79.812, "ciudad": "Salitre", "prov": "Guayas", "capa": "Locales"}, {"id": 257, "nom": "Samborondón", "code": "PDSLL SAMBORONDÓN, SAM", "dir": "27QG+QJG, Samborondón, Ecuador", "lat": -1.961, "lon": -79.723, "ciudad": "Samborondón", "prov": "Guayas", "capa": "Locales"}, {"id": 258, "nom": "Julio Miguel Aguinaga", "code": "PDSLD JULIO MIGUEL AGUINAGA, ATU, CALLE OLMEDO", "dir": "8QMJ+CH3, Atuntaqui, Ecuador", "lat": 0.333, "lon": -78.219, "ciudad": "Atuntaqui", "prov": "Imbabura", "capa": "Locales"}, {"id": 259, "nom": "Cristobal De Troya", "code": "PDSLD CRISTOBAL DE TROYA, IBR", "dir": "9V4G+4QW, Ibarra", "lat": 0.355, "lon": -78.123, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 260, "nom": "P. Moncayo", "code": "PDSLD P. MONCAYO, IBR, PEDRO MONCAYO 1136", "dir": "Pedro Moncayo 1060-1140, Ibarra", "lat": 0.35, "lon": -78.122, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 261, "nom": "Sup.sta Maria Ibarra", "code": "PDVIL SUP.STA MARIA IBARRA, IMB", "dir": "9V2J+3J9 Ibarra", "lat": 0.35, "lon": -78.118, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 262, "nom": "Ibarra", "code": "PDSLL IBARRA, IBR", "dir": "Sánchez y Cifuentes 1114-1004, Ibarra", "lat": 0.349, "lon": -78.121, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 263, "nom": "Ibarra 3", "code": "PDSLD IBARRA 3, IBR", "dir": "Antonio Jose de Sucre 987-1005, Ibarra", "lat": 0.347, "lon": -78.118, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 264, "nom": "Terminal T. Ibarra", "code": "PDSLD TERMINAL T. IBARRA, IBR", "dir": "Terminal Terrestre de Ibarra, 8VVF+RJ4, Av. Teodoro Goméz de la Torre, Ibarra, Ecuador", "lat": 0.345, "lon": -78.126, "ciudad": "Ibarra", "prov": "Imbabura", "capa": "Locales"}, {"id": 265, "nom": "Jacinto Collahuazo", "code": "PDSLD JACINTO COLLAHUAZO, OTA", "dir": "C. Jacinto Collahuazo 2-71 y, Otavalo 100401, Ecuador", "lat": 0.231, "lon": -78.257, "ciudad": "Otavalo", "prov": "Imbabura", "capa": "Locales"}, {"id": 266, "nom": "Otavalo", "code": "PDSLD OTAVALO, CALLE SALINAS, OTA", "dir": "6PHQ+R45, Otavalo 100450, Ecuador", "lat": 0.23, "lon": -78.262, "ciudad": "Otavalo", "prov": "Imbabura", "capa": "Locales"}, {"id": 267, "nom": "Cariamanga", "code": "PDSLD CARIAMANGA, CAR, SAMANIEGO", "dir": "J29X+9QP, Macara, Ecuador", "lat": -4.381, "lon": -79.951, "ciudad": "Cariamanga", "prov": "Loja", "capa": "Locales"}, {"id": 268, "nom": "Valle", "code": "PDSLL VALLE, LOJA, AV. GRAN COLOMBIA 83 -84", "dir": "2Q6W+V63, Avenida Gran Colombia, Loja, Ecuador", "lat": -3.988, "lon": -79.204, "ciudad": "Loja", "prov": "Loja", "capa": "Locales"}, {"id": 269, "nom": "Loja", "code": "PDSLL LOJA, LOJ", "dir": "2Q3X+F5J, José Antonio Eguiguren, Loja, Ecuador", "lat": -3.996, "lon": -79.202, "ciudad": "Loja", "prov": "Loja", "capa": "Locales"}, {"id": 270, "nom": "Cc La Casona", "code": "PDVLD CC LA CASONA, LOJA, AL", "dir": "2Q2X+777 Loja", "lat": -3.999, "lon": -79.202, "ciudad": "Loja", "prov": "Loja", "capa": "Locales"}, {"id": 271, "nom": "San Juan", "code": "PDVLD SAN JUAN, QVD, EX", "dir": "9CGP+CX7, San Juan, Ecuador", "lat": -1.624, "lon": -79.562, "ciudad": "Babahoyo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 272, "nom": "Babahoyo", "code": "PDSLL BABAHOYO, BAH", "dir": "y Malecon Sucre entre, Gral. Barona, Babahoyo, Ecuador", "lat": -1.798, "lon": -79.533, "ciudad": "Babahoyo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 273, "nom": "T. Terrestre Babahoyo", "code": "PDSID T. TERRESTRE BABAHOYO, BAH AV 25 DE JUNIO", "dir": "5FQ4+7CR, Babahoyo, Ecuador", "lat": -1.812, "lon": -79.544, "ciudad": "Babahoyo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 274, "nom": "Cc Shopping Babahoyo", "code": "PDSLL CC SHOPPING BABAHOYO, BAH", "dir": "5FP3+GHQ, Av Enrique Ponce Luque, Babahoyo, Ecuador", "lat": -1.814, "lon": -79.546, "ciudad": "Babahoyo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 275, "nom": "Manga Del Cura", "code": "PDVLD MANGA DEL CURA, MANABI", "dir": "CF4P+VJ7 La Catorce", "lat": -0.593, "lon": -79.513, "ciudad": "Buena Fe", "prov": "Los Ríos", "capa": "Locales"}, {"id": 276, "nom": "Buena Fe Express", "code": "PDSLD BUENA FE EXPRESS, BNF", "dir": "4G46+25F Buena Fe", "lat": -0.895, "lon": -79.49, "ciudad": "Buena Fe", "prov": "Los Ríos", "capa": "Locales"}, {"id": 277, "nom": "Mocache", "code": "PDSLD MOCACHE, LOS RIOS", "dir": "Av. 28 De Mayo Entre Eloy Alfaro Y Sucre, Ecuador", "lat": -1.188, "lon": -79.505, "ciudad": "Mocache", "prov": "Los Ríos", "capa": "Locales"}, {"id": 278, "nom": "Cc Shopping Quevedo", "code": "PDSLL CC SHOPPING QUEVEDO, QVD", "dir": "XGQJ+WCM Quevedo", "lat": -1.01, "lon": -79.469, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 279, "nom": "Tt Quevedo", "code": "PDSLD TT QUEVEDO, QVD", "dir": "XGJH+QGW Terminal Terrestre de Quevedo, Quevedo, Ecuador", "lat": -1.018, "lon": -79.471, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 280, "nom": "Quevedo Express", "code": "PDSLD QUEVEDO EXPRESS, QVD", "dir": "XGGQ+WMG, Quevedo, Ecuador", "lat": -1.023, "lon": -79.461, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 281, "nom": "Shopping Center", "code": "PDSID SHOPPING CENTER, QVD", "dir": "XGFM+R89, C. Septima, Quevedo, Ecuador", "lat": -1.025, "lon": -79.467, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 282, "nom": "Quevedo", "code": "PDSLD QUEVEDO, QVD", "dir": "AV. 7 DE OCTUBRE ENTRE LA SEPTIMA Y OCTAVA S/N Quevedo - Los Rios - Ecuador", "lat": -1.026302, "lon": -79.46687, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Islas + Locales"}, {"id": 283, "nom": "7 De Octubre 1516", "code": "PDSLD 7 DE OCTUBRE 1516, QVD", "dir": "XG9H+GPW, C. Babahoyo, Quevedo, Ecuador", "lat": -1.031, "lon": -79.471, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 284, "nom": "Parque De La Familia", "code": "PDSLD PARQUE DE LA FAMILIA, QVD, CDLA GUAYACAN", "dir": "Av. De las Americas y del Tejar. C.C. Plaza de las Americas Piso 1, Cuenca 010112", "lat": -1.043, "lon": -79.479, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 285, "nom": "San Carlos", "code": "PDVLD SAN CARLOS, QVD", "dir": "VHM7+6CP San Carlos", "lat": -1.117, "lon": -79.436, "ciudad": "Quevedo", "prov": "Los Ríos", "capa": "Locales"}, {"id": 286, "nom": "Quinsaloma", "code": "PDSLD QUINSALOMA, QVD", "dir": "QMVQ+72X Quinsaloma", "lat": -1.207, "lon": -79.312, "ciudad": "Quinsaloma", "prov": "Los Ríos", "capa": "Locales"}, {"id": 287, "nom": "Valencia", "code": "PDSLD VALENCIA, QVD", "dir": "2JWW+Q47 Valencia", "lat": -0.953, "lon": -79.355, "ciudad": "Valencia", "prov": "Los Ríos", "capa": "Locales"}, {"id": 288, "nom": "Sucre Y 24 Mayo", "code": "PDSLD SUCRE Y 24 MAYO, ECHANDIA, PARQUE ECHANDIA", "dir": "C. Ramon Ulloa 423, Ecuador", "lat": -1.431, "lon": -79.28, "ciudad": "Ventanas", "prov": "Los Ríos", "capa": "Locales"}, {"id": 289, "nom": "Ventanas", "code": "PDSLL VENTANAS, VTN", "dir": "HG5Q+254 Ventanas", "lat": -1.442, "lon": -79.462, "ciudad": "Ventanas", "prov": "Los Ríos", "capa": "Locales"}, {"id": 290, "nom": "Vinces Central", "code": "PDVLD VINCES CENTRAL, VIN, EX", "dir": "C6VW+6PQ, Vinces, Ecuador", "lat": -1.557, "lon": -79.753, "ciudad": "Vinces", "prov": "Los Ríos", "capa": "Locales"}, {"id": 291, "nom": "Vinces 2", "code": "PDSLL VINCES 2, VIN", "dir": "C6RX+P5R, Av. Córdova, Vínces, Ecuador", "lat": -1.558, "lon": -79.752, "ciudad": "Vinces", "prov": "Los Ríos", "capa": "Locales"}, {"id": 292, "nom": "Cc Shopping Bahia", "code": "PDSLL CC SHOPPING BAHIA, BHC", "dir": "SECTOR EL ASTILLERO, LOTIZACIÓN BAHÍA SUR, LOCAL 8 S/N Bahia De Caraquez, Cabecera Cantonal - Manabi - Ecuador", "lat": -0.611428, "lon": -80.42424, "ciudad": "Bahía de Caráquez", "prov": "Manabí", "capa": "Islas + Locales"}, {"id": 293, "nom": "Calceta", "code": "PDSLL CALCETA, CAL", "dir": "CALLE GRANDA CENTENO Y 10 DE AGOSTO S/N Chone - Manabi - Ecuador", "lat": -0.84696, "lon": -80.164383, "ciudad": "Calceta", "prov": "Manabí", "capa": "Islas + Locales"}, {"id": 294, "nom": "Chone", "code": "PDSLL CHONE, CHN", "dir": "8W24+V8H, Chone, Ecuador", "lat": -0.698, "lon": -80.094, "ciudad": "Chone", "prov": "Manabí", "capa": "Locales"}, {"id": 295, "nom": "El Carmen 3", "code": "PDSLD EL CARMEN 3, CAR", "dir": "PGGQ+XWF El Carmen", "lat": -0.273, "lon": -79.46, "ciudad": "El Carmen", "prov": "Manabí", "capa": "Locales"}, {"id": 296, "nom": "Cc Popular El Carmen", "code": "PDVID CC POPULAR EL CARMEN, CAR", "dir": "4 de Diciembre 02-16, El Carmen, Ecuador", "lat": -0.273, "lon": -79.463, "ciudad": "El Carmen", "prov": "Manabí", "capa": "Locales"}, {"id": 297, "nom": "Jipijapa", "code": "PDSLL JIPIJAPA, JPJ, COLON Y NOBOA", "dir": "C. Colón, Jipijapa", "lat": -1.345, "lon": -80.579, "ciudad": "Jipijapa", "prov": "Manabí", "capa": "Locales"}, {"id": 298, "nom": "Jipijapa", "code": "PDSLL JIPIJAPA, JPJ", "dir": "Avenida Alejo Lascano, Jipijapa", "lat": -1.353, "lon": -80.585, "ciudad": "Jipijapa", "prov": "Manabí", "capa": "Locales"}, {"id": 299, "nom": "Junin", "code": "PDSLD JUNIN, PTV", "dir": "Av. Eloy Alfaro, Junín", "lat": -0.925, "lon": -80.205, "ciudad": "Junín", "prov": "Manabí", "capa": "Locales"}, {"id": 300, "nom": "Cc Mall Del Pacifico 2", "code": "PDSLL CC MALL DEL PACIFICO 2, MTA, PB #15", "dir": "3758+3WQ, Manta, Ecuador", "lat": -0.942, "lon": -80.733, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 301, "nom": "Cc Mall Del Pacifico", "code": "PDSLL CC MALL DEL PACIFICO, MTA, P2 #12", "dir": "Av. Malecón 2, Manta 130802, Ecuador", "lat": -0.943, "lon": -80.732, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 302, "nom": "Manta", "code": "PDSLD MANTA, MTA", "dir": "Av. 2 1144, Manta", "lat": -0.946, "lon": -80.723, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 303, "nom": "Mercado Manta", "code": "PDSIL MERCADO MANTA, MTA", "dir": "372F+7GC, Manta", "lat": -0.949, "lon": -80.726, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 304, "nom": "Av. 16 Manta", "code": "PDVLD AV. 16 MANTA, MANABÍ, EX", "dir": "Avenida 16 entre calle 12 y, C. 13, Manta, Ecuador", "lat": -0.949, "lon": -80.727, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 305, "nom": "Antiguo Tarqui", "code": "PDSLD ANTIGUO TARQUI, MAN", "dir": "27WM+FQR, C. 103, Manta, Ecuador", "lat": -0.954, "lon": -80.715, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 306, "nom": "Nuevo Tarqui", "code": "PDVLL NUEVO TARQUI, MTA", "dir": "27WH+G38, Manta, Ecuador", "lat": -0.954, "lon": -80.722, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 307, "nom": "Casanova Manta", "code": "PDVIL CASANOVA MANTA, MTA", "dir": "Ruta del Spondylus 3835, Manta 130213, Ecuador", "lat": -0.957, "lon": -80.751, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 308, "nom": "Terminal Terrestre Manta", "code": "PDSID TERMINAL TERRESTRE MANTA, MAN, EL PALMAR", "dir": "28R5+3R9, Manta 130204, Ecuador", "lat": -0.96, "lon": -80.69, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 309, "nom": "Cc Shopping Manta", "code": "PDSLL CC SHOPPING MANTA, MTA", "dir": "C. C. El Paseo Shopping Local #58, Manta, Ecuador", "lat": -0.967, "lon": -80.705, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 310, "nom": "Cc Coral Manta", "code": "PDSID CC CORAL MANTA, MAN", "dir": "27JW+WQ5, Av. 113, Manta, Ecuador", "lat": -0.967, "lon": -80.703, "ciudad": "Manta", "prov": "Manabí", "capa": "Locales"}, {"id": 311, "nom": "Montecristi", "code": "PDSLD MONTECRISTI, MTC", "dir": "X8V7+6H Manta, Ecuador", "lat": -1.007, "lon": -80.686, "ciudad": "Montecristi", "prov": "Manabí", "capa": "Locales"}, {"id": 312, "nom": "Montecristi Metropolitana", "code": "PDSLD MONTECRISTI METROPOLITANA, MNB", "dir": "frente a la Farmacia Santa Martha, Av. Metropolitana, Montecristi, Ecuador", "lat": -1.046, "lon": -80.658, "ciudad": "Montecristi", "prov": "Manabí", "capa": "Locales"}, {"id": 313, "nom": "Pajan", "code": "PDSLD PAJAN, PJN, 24 DE SEPTIEMBRE", "dir": "CHQC+VC Pajan, Ecuador", "lat": -1.56, "lon": -80.429, "ciudad": "Paján", "prov": "Manabí", "capa": "Locales"}, {"id": 314, "nom": "Pedernales Express", "code": "PDSLL PEDERNALES EXPRESS, PED", "dir": "3WCV+3VM Pedernales", "lat": 0.07, "lon": -80.055, "ciudad": "Pedernales", "prov": "Manabí", "capa": "Locales"}, {"id": 315, "nom": "Aki Pedernales", "code": "PDVLL AKI PEDERNALES, PED", "dir": "3WCX+56C Pedernales", "lat": 0.07, "lon": -80.052, "ciudad": "Pedernales", "prov": "Manabí", "capa": "Locales"}, {"id": 316, "nom": "Picoaza Calle Comercio", "code": "PDSLD PICOAZA CALLE COMERCIO, PTV", "dir": "XG74+PX8 Portoviejo", "lat": -1.036, "lon": -80.493, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 317, "nom": "Sup. Sta. Maria Portoviejo", "code": "PDVIL SUP. STA. MARIA PORTOVIEJO, PTV", "dir": "XG3C+RV2 Portoviejo", "lat": -1.045, "lon": -80.478, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 318, "nom": "Multiplaza Portoviejo", "code": "PDSID MULTIPLAZA PORTOVIEJO, PTV, ESP-3", "dir": "WGXP+Q76, Portoviejo, Ecuador", "lat": -1.05, "lon": -80.464, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 319, "nom": "Portomercados", "code": "PDSLL PORTOMERCADOS, PTV", "dir": "WGXX+MM3, Portoviejo, Ecuador", "lat": -1.051, "lon": -80.45, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 320, "nom": "Cc Plaza Del Sol Manabi", "code": "PDSLL CC PLAZA DEL SOL MANABI, PTV", "dir": "WGXP+PVJ, Av Manabi, Portoviejo, Ecuador", "lat": -1.051, "lon": -80.463, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 321, "nom": "Cc Mega Plaza Del Sol Portoviejo", "code": "PDSLL CC MEGA PLAZA DEL SOL PORTOVIEJO, PTV", "dir": "Av Manabi 8, Portoviejo, Ecuador", "lat": -1.051, "lon": -80.463, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 322, "nom": "Portoviejo", "code": "PDSLL PORTOVIEJO, PTV", "dir": "WGXV+37Q Portoviejo", "lat": -1.052, "lon": -80.457, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 323, "nom": "Calle Pedro Gual", "code": "PDVLD CALLE PEDRO GUAL, PTV, EX", "dir": "C. jon Aurelio García Moreira &, Portoviejo, Ecuador", "lat": -1.052, "lon": -80.488, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 324, "nom": "Portoviejo P. Moreira", "code": "PDSLD PORTOVIEJO P. MOREIRA, PTV, CALLE FCO. DE PAULA MOREIRA", "dir": "WGWW+62, Portoviejo, Ecuador", "lat": -1.054, "lon": -80.455, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 325, "nom": "Portoviejo Municipal", "code": "PDSLL PORTOVIEJO MUNICIPAL, PTV", "dir": "planificadora Jennifer, frente comercial casanova, y, Portoviejo, Ecuador", "lat": -1.058, "lon": -80.459, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 326, "nom": "Cc1", "code": "PDSID CC1, PTV, ENTRADA PRINCIPAL", "dir": "WGRW+V52, Portoviejo, Ecuador", "lat": -1.058, "lon": -80.455, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 327, "nom": "Zona Bancaria", "code": "PDVLD ZONA BANCARIA, PTV, AL", "dir": "WGRX+MMV Portoviejo", "lat": -1.058, "lon": -80.451, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 328, "nom": "Casanova Portoviejo", "code": "PDVIL CASANOVA PORTOVIEJO, PTV", "dir": "Córdova 988, Portoviejo, Ecuador", "lat": -1.058, "lon": -80.459, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 329, "nom": "Cc Shopping Portoviejo #77 Pa", "code": "PDSLD CC SHOPPING PORTOVIEJO #77 PA, PTV", "dir": "Av. Metropolitano S/N y Av. Jorge Washington, Dentro de Paseo Shopping Portoviejo, Portoviejo, Ecuador", "lat": -1.061, "lon": -80.466, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 330, "nom": "Tt Portoviejo", "code": "PDSLD TT PORTOVIEJO, PTV", "dir": "WGQR+588, Portoviejo, Ecuador", "lat": -1.062, "lon": -80.459, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 331, "nom": "Aki 15 De Abril", "code": "PDSLL AKI 15 DE ABRIL, PTV, AV 15 DE ABRIL", "dir": "15 de Abril 57, Portoviejo, Ecuador", "lat": -1.07, "lon": -80.448, "ciudad": "Portoviejo", "prov": "Manabí", "capa": "Locales"}, {"id": 332, "nom": "Puerto Lopez", "code": "PDSLD PUERTO LOPEZ, MANABI", "dir": "C5QP+G57 Puerto López", "lat": -1.561, "lon": -80.815, "ciudad": "Puerto López", "prov": "Manabí", "capa": "Locales"}, {"id": 333, "nom": "Rocafuerte Express", "code": "PDSLL ROCAFUERTE EXPRESS, RCF", "dir": "3GGX+VHC Rocafuerte", "lat": -0.923, "lon": -80.451, "ciudad": "Rocafuerte", "prov": "Manabí", "capa": "Locales"}, {"id": 334, "nom": "Santa Ana", "code": "PDSLD SANTA ANA, STA", "dir": "QJVH+82C, Santa Ana, Ecuador", "lat": -1.207, "lon": -80.373, "ciudad": "Santa Ana", "prov": "Manabí", "capa": "Locales"}, {"id": 335, "nom": "Macas", "code": "PDSLD MACAS, MOR, SECTOR TARQUI", "dir": "MVWJ+MFG, C. Soasti, Macas, Ecuador", "lat": -2.303, "lon": -78.119, "ciudad": "Macas", "prov": "Morona S.", "capa": "Locales"}, {"id": 336, "nom": "El Coca", "code": "PDSLL EL COCA, ORE, NAPO S/N", "dir": "G2H8+762 Francisco de Orellana", "lat": -0.472, "lon": -76.984, "ciudad": "El Coca", "prov": "Orellana", "capa": "Locales"}, {"id": 337, "nom": "Sacha", "code": "PDSLL SACHA, ORE, MISION CAPUCHA LOCAL 27-28", "dir": "P42V+JFH Joya de los Sachas", "lat": -0.298, "lon": -76.856, "ciudad": "La Joya de los Sachas", "prov": "Orellana", "capa": "Locales"}, {"id": 338, "nom": "Barrio Mexico", "code": "PDSLL BARRIO MEXICO, PYO, AV. FRANCISCO DE ORELLANA", "dir": "G272+564 Puyo", "lat": -1.487, "lon": -77.999, "ciudad": "Puyo", "prov": "Pastaza", "capa": "Locales"}, {"id": 339, "nom": "Hiper Cayambe", "code": "PDSLL HIPER CAYAMBE, CAY, PANAMERICANA ANEXO 1", "dir": "2VV2+XMW Cayambe", "lat": 0.045, "lon": -78.148, "ciudad": "Cayambe", "prov": "Pichincha", "capa": "Locales"}, {"id": 340, "nom": "Cayambe", "code": "PDSLL CAYAMBE, CAY", "dir": "2VV4+5JV Cayambe", "lat": 0.043, "lon": -78.143, "ciudad": "Cayambe", "prov": "Pichincha", "capa": "Locales"}, {"id": 341, "nom": "Sup. Sta. Maria Cayambe 1", "code": "PDVIL SUP. STA. MARIA CAYAMBE 1, UIO", "dir": "1702, Cayambe, Ecuador", "lat": 0.041, "lon": -78.144, "ciudad": "Cayambe", "prov": "Pichincha", "capa": "Locales"}, {"id": 342, "nom": "Parque Central Cayambe", "code": "PDSLD PARQUE CENTRAL CAYAMBE, CAY", "dir": "2VR4+2HR Cayambe", "lat": 0.04, "lon": -78.144, "ciudad": "Cayambe", "prov": "Pichincha", "capa": "Locales"}, {"id": 343, "nom": "Machachi", "code": "PDSLL MACHACHI, MEJ, AMAZONAS 257", "dir": "FCPM+J25 Machachi", "lat": -0.513, "lon": -78.567, "ciudad": "Machachi", "prov": "Pichincha", "capa": "Locales"}, {"id": 344, "nom": "Equinoccial", "code": "PDSLD EQUINOCCIAL, UIO, AV EQUINOCCIAL E3273", "dir": "XHR3+CHM Quito", "lat": -0.009, "lon": -78.446, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 345, "nom": "Pomasqui", "code": "PDSID POMASQUI, UIO", "dir": "WGXV+CHX Quito", "lat": -0.051, "lon": -78.456, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 346, "nom": "Bicentenario", "code": "PDSID BICENTENARIO, UIO", "dir": "WGJX+CGC Quito", "lat": -0.069, "lon": -78.451, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 347, "nom": "Carcelen", "code": "PDSLL CARCELEN, UIO", "dir": "WG5J+V6G Quito", "lat": -0.09, "lon": -78.469, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 348, "nom": "Coral Carapungo", "code": "PDSID CORAL CARAPUNGO, UIO", "dir": "WH6C+4PR Quito", "lat": -0.09, "lon": -78.428, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 349, "nom": "Av Vicente Paredes", "code": "PDVLD AV VICENTE PAREDES, OE4-195 , UIO, AL", "dir": "WH6C+4PR Quito", "lat": -0.09, "lon": -78.428, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 350, "nom": "Coral Carapungo Esp#2", "code": "PDVID CORAL CARAPUNGO ESP#2, UIO", "dir": "WH6C+4PJ Quito", "lat": -0.09, "lon": -78.428, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 351, "nom": "Av Diego Vasquez", "code": "PDSLD AV DIEGO VASQUEZ, UIO", "dir": "WG5G+GF2 Quito", "lat": -0.091, "lon": -78.474, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 352, "nom": "Super Aki Cangahua", "code": "PDSLD SUPER AKI CANGAHUA, UIO", "dir": "San Francisco de Rumihurco Y N76A, 170134 Quito, Ecuador", "lat": -0.094, "lon": -78.498, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 353, "nom": "Plaza Marianitas", "code": "PDSIL PLAZA MARIANITAS, UIO, PB #12", "dir": "WH36+WQV, Capitán Giovanni Calles, Quito 170202", "lat": -0.095, "lon": -78.438, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 354, "nom": "La Planada", "code": "PDVLD LA PLANADA, UIO, AL", "dir": "WF3P+J7M, Quito 170134, Ecuador", "lat": -0.096, "lon": -78.514, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 355, "nom": "Carapungo", "code": "PDSLD CARAPUNGO, UIO", "dir": "Neptaly Godoy 14139, Quito 170204, Ecuador", "lat": -0.097, "lon": -78.451, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 356, "nom": "Cc Vaccari Plaza", "code": "PDSID CC VACCARI PLAZA, UIO, P. LUIS VACCARI PB LOCAL #5", "dir": "WG2W+RJ2 Quito", "lat": -0.098, "lon": -78.453, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 357, "nom": "Calderon", "code": "PDSLD CALDERON, UIO", "dir": "WH2H+G4P, Punin, Quito 170201, Ecuador", "lat": -0.099, "lon": -78.422, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 358, "nom": "Calle Punin Calderon", "code": "PDVLD CALLE PUNIN CALDERON, UIO, AL", "dir": "VHXG+RQM Quito", "lat": -0.1, "lon": -78.423, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 359, "nom": "Llano Chico", "code": "PDVLL LLANO CHICO, UIO", "dir": "San Mateo 164, Quito 170202, Ecuador", "lat": -0.102, "lon": -78.44, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 360, "nom": "Cc El Condado 2", "code": "PDSLL CC EL CONDADO 2, UIO, P4 #L420", "dir": "Av. de la Prensa 120, Quito 170301, Ecuador", "lat": -0.103, "lon": -78.49, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 361, "nom": "Cc El Condado 2", "code": "PDSIL CC EL CONDADO 2, UIO P3 #BTL-729", "dir": "VGW5+CJ6 Quito", "lat": -0.104, "lon": -78.491, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 362, "nom": "Cc Gran Aki Carapungo", "code": "PDSID CC GRAN AKI CARAPUNGO, UIO, SS #1", "dir": "VGWW+FH8 Quito", "lat": -0.104, "lon": -78.454, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 363, "nom": "Angel Ludueña", "code": "PDSLD ANGEL LUDUEÑA, UIO", "dir": "VGW5+FC9 Quito", "lat": -0.104, "lon": -78.491, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 364, "nom": "Sta Maria Condado", "code": "PDSIL STA MARIA CONDADO, UIO", "dir": "VGV3+M2H Quito", "lat": -0.106, "lon": -78.497, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 365, "nom": "Cc Portal Shopping Express", "code": "PDSLL CC PORTAL SHOPPING EXPRESS, UIO", "dir": "VGRV+M24 Quito", "lat": -0.108, "lon": -78.457, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 366, "nom": "Cc Portal Shopping", "code": "PDSID CC PORTAL SHOPPING, UIO", "dir": "VGRR+JWC Quito", "lat": -0.108, "lon": -78.458, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 367, "nom": "La Florida", "code": "PDSLD LA FLORIDA, UIO", "dir": "VGP3+2XH Quito", "lat": -0.115, "lon": -78.495, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 368, "nom": "Sta María Ofelia", "code": "PDSID STA MARÍA OFELIA, UIO", "dir": "VGP5+3V2, Quito 170144, Ecuador", "lat": -0.115, "lon": -78.49, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 369, "nom": "Cotocollao", "code": "PDSLD COTOCOLLAO, 25 DE MAYO, UIO", "dir": "VGM2+VXQ Quito", "lat": -0.115, "lon": -78.498, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 370, "nom": "Cotocollao", "code": "PDSLL COTOCOLLAO, UIO", "dir": "AV. LA PRENSA Y RIGOBERTO HEREDIA S/N Quito - Pichincha - Ecuador", "lat": -0.121608, "lon": -78.494118, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 371, "nom": "Real Audiencia", "code": "PDSLL REAL AUDIENCIA, UIO, AV. REAL AUDIENCIA N60-112", "dir": "VGF7+QFX Quito", "lat": -0.126, "lon": -78.486, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 372, "nom": "Cc Gran Aki Molineros", "code": "PDSID CC GRAN AKI MOLINEROS, UIO, SS", "dir": "VGCH+C3M Quito", "lat": -0.129, "lon": -78.472, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 373, "nom": "Comité Del Pueblo", "code": "PDSLD COMITÉ DEL PUEBLO, UIO, LOS NARDOS", "dir": "VGCH+FQM Quito", "lat": -0.129, "lon": -78.471, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 374, "nom": "San Isidro", "code": "PDSLD SAN ISIDRO, UIO", "dir": "VGCP+92M Quito", "lat": -0.129, "lon": -78.465, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 375, "nom": "Sup. Sta Maria Comité Del Pueblo", "code": "PDVIL SUP. STA MARIA COMITÉ DEL PUEBLO, UIO", "dir": "VGCH+C6P Quito", "lat": -0.129, "lon": -78.472, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 376, "nom": "Aki Molineros", "code": "PDVLD AKI MOLINEROS, JAZMINES,UIO", "dir": "Calle, Av. Juan Molineros E10-80, Quito 170138, Ecuador", "lat": -0.129, "lon": -78.472, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 377, "nom": "Parque Ingles. Uio", "code": "PDSID PARQUE INGLES. UIO", "dir": "Fernandez Salvador y Machala Centro Comercial Ingles, Locales #29 - 35, Quito 170104, Ecuador", "lat": -0.134, "lon": -78.498, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 378, "nom": "Santa Maria Eden", "code": "PDSID SANTA MARIA EDEN, UIO", "dir": "VG7H+9HW Quito", "lat": -0.137, "lon": -78.471, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 379, "nom": "Megakiwy Eloy Alfaro", "code": "PDSID MEGAKIWY ELOY ALFARO, UIO, #02", "dir": "VG6J+Q73 Quito", "lat": -0.138, "lon": -78.469, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 380, "nom": "Kennedy", "code": "PDSLD KENNEDY, UIO, CAP. RAMON BORJA", "dir": "VG5F+WGP, Quito 170138, Ecuador", "lat": -0.14, "lon": -78.476, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 381, "nom": "Sup .sta Maria Occidental", "code": "PDVIL SUP .STA MARIA OCCIDENTAL, UIO", "dir": "Av. Occidental &, Quito 170104, Ecuador", "lat": -0.144, "lon": -78.5, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 382, "nom": "Cc Plaza Aeropuerto", "code": "PDSLL CC PLAZA AEROPUERTO, UIO, PB LOCAL #6", "dir": "Centro Comercial Aeropuerto, Quito 170104, Ecuador", "lat": -0.145, "lon": -78.492, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 383, "nom": "Tia La Luz", "code": "PDSIL TIA LA LUZ, UIO, PB", "dir": "RGX8+VR8, Quito 170138, Ecuador", "lat": -0.15, "lon": -78.483, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 384, "nom": "Sup. Sta Maria La Luz", "code": "PDVIL SUP. STA MARIA LA LUZ, UIO", "dir": "VG29+4R6 Quito", "lat": -0.15, "lon": -78.48, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 385, "nom": "La Luz Av. Francisco", "code": "PDVLL LA LUZ AV. FRANCISCO, UIO", "dir": "RGX8+WH8 Quito", "lat": -0.15, "lon": -78.484, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 386, "nom": "El Inca", "code": "PDSLD EL INCA, UIO", "dir": "RGWG+67X Quito", "lat": -0.154, "lon": -78.474, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 387, "nom": "Al toque el Bosque", "code": "Al toque el Bosque:", "dir": "", "lat": -0.154446, "lon": -78.497054, "ciudad": "Quito", "prov": "Pichincha", "capa": "Red Activa"}, {"id": 388, "nom": "El Inca Express", "code": "PDSLL EL INCA EXPRESS, UIO", "dir": "RGVC+RM2 Quito", "lat": -0.155, "lon": -78.478, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 389, "nom": "Parque Diego De Topia", "code": "PDSLD PARQUE DIEGO DE TOPIA, UIO", "dir": "Oe3 90, Quito 170104, Ecuador", "lat": -0.156, "lon": -78.49, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 390, "nom": "Cc El Bosque", "code": "PDSLL CC EL BOSQUE, UIO, PB #049", "dir": "RGQ2+6WQ Quito", "lat": -0.162, "lon": -78.498, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 391, "nom": "Cc Elbosque", "code": "PDSID CC ELBOSQUE, UIO, P1 #5", "dir": "RGQ2+7Q5 Quito", "lat": -0.162, "lon": -78.498, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 392, "nom": "Sup. Sta Maria 6 Diciembre", "code": "PDVIL SUP. STA MARIA 6 DICIEMBRE, UIO", "dir": "RGQF+6FJ, Quito 170138, Ecuador", "lat": -0.162, "lon": -78.476, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 393, "nom": "Av Rio Coca", "code": "PDVLL AV RIO COCA, UIO", "dir": "RGQ8+5X4 Quito", "lat": -0.162, "lon": -78.483, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 394, "nom": "Supermaxi Eloy Alfaro", "code": "PDSID SUPERMAXI ELOY ALFARO, UIO, NO-1", "dir": "RGPM+G22 Quito", "lat": -0.164, "lon": -78.467, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 395, "nom": "Cc Riocentro 6 De Diciembre", "code": "PDSIL CC RIOCENTRO 6 DE DICIEMBRE, UIO, PA #1", "dir": "RGMF+5G3, Quito 170102, Ecuador", "lat": -0.167, "lon": -78.476, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 396, "nom": "Cc Granados Plaza", "code": "PDSLL CC GRANADOS PLAZA, UIO", "dir": "AV. DE LOS GRANADOS Y AV. 6 DE DICIEMBRE Quito - Pichincha - Ecuador", "lat": -0.168071, "lon": -78.475788, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 397, "nom": "Coral La Y", "code": "PDSIL CORAL LA Y, UIO", "dir": "RGJ7+56M Quito", "lat": -0.17, "lon": -78.487, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 398, "nom": "Edificio Ritz", "code": "PDVLD EDIFICIO RITZ, UIO, AL", "dir": "RGHF+P6J Quito", "lat": -0.171, "lon": -78.477, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 399, "nom": "Santa Maria Iñaquito", "code": "PDSID SANTA MARIA IÑAQUITO,UIO", "dir": "RGG7+X4V Quito", "lat": -0.173, "lon": -78.487, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 400, "nom": "Cc Ccnu", "code": "PDSID CC CCNU, UIO, PB #4 ISLA", "dir": "Blvr. Naciones Unidas 170201, Quito 170201, Ecuador", "lat": -0.175, "lon": -78.484, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 401, "nom": "Cc Plaza De Las Américas Av. República", "code": "PDVLL CC PLAZA DE LAS AMÉRICAS AV. REPÚBLICA, UIO", "dir": "Av. Naciones Unidas 427, Quito 170102, Ecuador", "lat": -0.175, "lon": -78.492, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 402, "nom": "Cc Quicentro Norte 1", "code": "PDSID CC QUICENTRO NORTE 1, UIO, P1 #ESP-012", "dir": "C.c.Quicentro Shoping, Isla K01, Av. Naciones Unidas, Quito 170102, Ecuador", "lat": -0.176, "lon": -78.48, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 403, "nom": "Quicentro Norte 2", "code": "PDSID QUICENTRO NORTE 2, UIO, PB", "dir": "RGFC+FQR Quito", "lat": -0.176, "lon": -78.478, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 404, "nom": "Sup. Sta. Maria Naciones Unidas", "code": "PDVIL SUP. STA. MARIA NACIONES UNIDAS, UIO", "dir": "RGF9+H2H Quito", "lat": -0.176, "lon": -78.482, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 405, "nom": "Cc El Caracol", "code": "PDVID CC EL CARACOL, UIO", "dir": "CC Caracol, Avenida Amazonas, N36-227, Quito 170135, Ecuador", "lat": -0.176, "lon": -78.486, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 406, "nom": "Cc Quicentro Norte", "code": "PDVID CC QUICENTRO NORTE, ESP-012-P1, UIO", "dir": "C.C. QUICENTRO SHOPPING AV. NACIONES UNIDADAS 170505, Av. de los Shyris, Quito 170135, Ecuador", "lat": -0.176, "lon": -78.48, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 407, "nom": "Cc Quicentro Norte", "code": "PDSLL CC QUICENTRO NORTE, UIO, P1 #P2-009-010", "dir": "AV. NACIONES UNIDAS Y SEIS DE DICIEMBRE Quito - Pichincha - Ecuador", "lat": -0.17609, "lon": -78.479232, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 408, "nom": "Cc Cci", "code": "PDSLL CC CCI, UIO, S1 #A-12 LOCAL", "dir": "RGF8+326 Quito", "lat": -0.177, "lon": -78.485, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 409, "nom": "Cc Cci", "code": "PDSIL CC CCI, UIO, PB #Y-13 ISLA", "dir": "Av. Río Amazonas N36-152, Quito 170135, Ecuador", "lat": -0.177, "lon": -78.485, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 410, "nom": "Corea", "code": "PDSLL COREA, UIO, COREA 126", "dir": "RGF7+4FH, Quito 170135, Ecuador", "lat": -0.177, "lon": -78.486, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 411, "nom": "La Carolina", "code": "PDSLL LA CAROLINA, UIO", "dir": "AV. AMAZONAS Y CALLE JUAN GALINDEZ EDF AMAZONAS PARK TORRE B PLANTA BAJA, LOCAL 2B S/N Quito - Pichincha - Ecuador", "lat": -0.179007, "lon": -78.48639, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 412, "nom": "Mariana De Jesus", "code": "PDSLL MARIANA DE JESUS, UIO", "dir": "RG66+3JQ Quito", "lat": -0.19, "lon": -78.488, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 413, "nom": "Cc Mall El Jardin", "code": "PDSID CC MALL EL JARDIN, UIO, S1 #03", "dir": "RG67+42Q Quito", "lat": -0.19, "lon": -78.487, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 414, "nom": "La Pradera", "code": "PDVLL LA PRADERA, UIO", "dir": "Av de Edificio María Victoria, Of. 202, Av. de la República, Quito 170517, Ecuador", "lat": -0.193, "lon": -78.485, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 415, "nom": "Av. Almagro Y Rep", "code": "PDVLL AV. ALMAGRO Y REP, UIO", "dir": "170518 Quito", "lat": -0.195, "lon": -78.484, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 416, "nom": "Cc Multicentro", "code": "PDSID CC MULTICENTRO, UIO, PB #1", "dir": "Av. 6 de Diciembre 50, Quito 170517, Ecuador", "lat": -0.199, "lon": -78.485, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 417, "nom": "Bingo Circasiana", "code": "PDSBD BINGO CIRCASIANA, UIO", "dir": "RG23+68P Quito", "lat": -0.199, "lon": -78.497, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 418, "nom": "Sta María Santa Clara", "code": "PDSID STA MARÍA SANTA CLARA, UIO", "dir": "Versalles &, Quito 170129, Ecuador", "lat": -0.201, "lon": -78.499, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 419, "nom": "Av. Cristobal Colon", "code": "PDVLL AV. CRISTOBAL COLON, UIO", "dir": "QGX6+GR5 Quito", "lat": -0.201, "lon": -78.488, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 420, "nom": "Plaza Foch", "code": "PDSLL PLAZA FOCH, UIO", "dir": "Reina Victoria E5-43, Quito 170524, Ecuador", "lat": -0.203, "lon": -78.491, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 421, "nom": "Mercury", "code": "PDSLL MERCURY, UIO", "dir": "JUAN LEON MERA Y VICENTE S/N Quito - Pichincha - Ecuador", "lat": -0.204897, "lon": -78.494509, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 422, "nom": "Salesiana", "code": "PDSLL SALESIANA, UIO, AV 12 DE OCTUBRE N2413", "dir": "Ave 12 de Octubre 2413, Quito 170143, Ecuador", "lat": -0.207, "lon": -78.489, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 423, "nom": "Cc Scala Shopping 1", "code": "PDSIL CC SCALA SHOPPING 1, UIO", "dir": "Av. Interoceánica Km. 12½ y, Pje. El Valle, Quito 170902, Ecuador", "lat": -0.208, "lon": -78.425, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 424, "nom": "Cc Ventura Mall", "code": "PDSID CC VENTURA MALL, UIO, PB", "dir": "Ventura Mall. Tercer nivel, local 46, Quito 170184, Ecuador", "lat": -0.211, "lon": -78.416, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 425, "nom": "Sta. Maria Tumbaco", "code": "PDSLL STA. MARIA TUMBACO, UIO, AV. INTEROCEANICA", "dir": "QHMV+QFW, Parqueadero C.C. Sta. María, Quito 170184, Ecuador", "lat": -0.216, "lon": -78.406, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 426, "nom": "Tejar", "code": "PDSLD TEJAR, UIO", "dir": "QFMM+J95 Quito", "lat": -0.216, "lon": -78.517, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 427, "nom": "Coral Tumbaco", "code": "PDSID CORAL TUMBACO, UIO", "dir": "QJM3+H9W, Av. Oswaldo Guayasamín, Quito 170184, Ecuador", "lat": -0.216, "lon": -78.397, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 428, "nom": "Sta. Maria Tumbaco", "code": "PDVIL STA. MARIA TUMBACO, UIO", "dir": "QHMV+JCV Quito", "lat": -0.216, "lon": -78.406, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 429, "nom": "Sta. Maria Tumbaco", "code": "PDVLL STA. MARIA TUMBACO, UIO", "dir": "QHMV+MCG Quito", "lat": -0.216, "lon": -78.406, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 430, "nom": "Plaza Del Teatro", "code": "PDVLL PLAZA DEL TEATRO, UIO", "dir": "QFJV+WC7 Quito", "lat": -0.218, "lon": -78.506, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 431, "nom": "Olmedo Express", "code": "PDSLL OLMEDO EXPRESS, UIO", "dir": "C. Guayaquil 752, Quito 170401, Ecuador", "lat": -0.219, "lon": -78.509, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 432, "nom": "Centro Historico", "code": "PDSLL CENTRO HISTORICO, UIO", "dir": "CHILE Y GUAYAQUIL S/N Quito - Pichincha - Ecuador", "lat": -0.220671, "lon": -78.510558, "ciudad": "Quito", "prov": "Pichincha", "capa": "Islas + Locales"}, {"id": 433, "nom": "Distrito Comercial", "code": "PDSLD DISTRITO COMERCIAL, UIO, AV. PICHINCHA", "dir": "Av Pichincha N4-145, Quito 170136, Ecuador", "lat": -0.224, "lon": -78.507, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 434, "nom": "Cc Coral Magdalena", "code": "PDSIL CC CORAL MAGDALENA, UIO, AV 5 DE JUNIO PB #2", "dir": "QF6G+MJF Quito", "lat": -0.238, "lon": -78.523, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 435, "nom": "Rodrigo De Chavez", "code": "PDSLL RODRIGO DE CHAVEZ, UIO, AV. RODRIGO DE CHAVEZ OE2-52", "dir": "QF5H+9GR Quito", "lat": -0.242, "lon": -78.521, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 436, "nom": "Sta Maria Villaflora", "code": "PDSID STA MARIA VILLAFLORA, UIO", "dir": "QF4J+7RH Quito", "lat": -0.244, "lon": -78.518, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 437, "nom": "Chilibulo", "code": "PDSLD CHILIBULO, UIO", "dir": "QF45+FXQ Quito", "lat": -0.244, "lon": -78.54, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 438, "nom": "La Michelena", "code": "PDVLL LA MICHELENA, S11-D, UIO", "dir": "QF28+GVX, Av. Michelena, Quito 170111, Ecuador", "lat": -0.249, "lon": -78.533, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 439, "nom": "Cc El Recreo", "code": "PDSID CC EL RECREO, UIO, P1 #I-3P005", "dir": "PFXH+P5J Quito", "lat": -0.251, "lon": -78.522, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 440, "nom": "Cc Atahualpa 30", "code": "PDSLL CC ATAHUALPA 30, UIO, LOCAL #30", "dir": "PFX7+G5R Quito", "lat": -0.251, "lon": -78.537, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 441, "nom": "Cc El Recreo (happy Time)", "code": "PDSIL CC EL RECREO (HAPPY TIME), UIO, PB CORREDOR L # I-2L015", "dir": "PFXG+4P7 Quito", "lat": -0.252, "lon": -78.523, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 442, "nom": "Cc El Recreo 4", "code": "PDSIL CC EL RECREO 4, UIO, P1 CORREDOR H # I-1H019", "dir": "PFXH+438 Quito", "lat": -0.252, "lon": -78.522, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 443, "nom": "Cc El Recreo Etapa 2", "code": "PDSLL CC EL RECREO ETAPA 2, UIO", "dir": "PFWG+XMH Quito", "lat": -0.253, "lon": -78.523, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 444, "nom": "Sector Ajavi", "code": "PDSLD SECTOR AJAVI, UIO", "dir": "PFV6+5CC Quito", "lat": -0.257, "lon": -78.539, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 445, "nom": "Huigra", "code": "PDSLD HUIGRA, UIO", "dir": "PFR5+R93 Quito", "lat": -0.258, "lon": -78.542, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 446, "nom": "Sup. Sta Maria Biloxi", "code": "PDVIL SUP. STA MARIA BILOXI, UIO", "dir": "Av. Mariscal Sucre 569, Quito 170148, Ecuador", "lat": -0.258, "lon": -78.544, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 447, "nom": "Plaza Solanda", "code": "PDSID PLAZA SOLANDA, UIO", "dir": "PFJ6+V9R Quito", "lat": -0.268, "lon": -78.539, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 448, "nom": "La Armenia", "code": "PDSLD LA ARMENIA, UIO, SECTOR CONOCOTO", "dir": "Luis Felipe Borja 100y, Quito 170801, Ecuador", "lat": -0.269, "lon": -78.464, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 449, "nom": "Solanda", "code": "PDSLL SOLANDA, UIO", "dir": "PFJ5+398 Quito", "lat": -0.27, "lon": -78.542, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 450, "nom": "Sup. Sta. Maria Chillogallo", "code": "PDVIL SUP. STA. MARIA CHILLOGALLO, UIO", "dir": "PCCW+5QR Quito", "lat": -0.28, "lon": -78.553, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 451, "nom": "Chillogallo", "code": "PDSMN CHILLOGALLO, UIO", "dir": "PC9W+898 Quito", "lat": -0.282, "lon": -78.554, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 452, "nom": "Cc Quicentro Sur", "code": "PDSLL CC QUICENTRO SUR, UIO, PB #161-162", "dir": "105, Pedro Montero, Quito 170702", "lat": -0.285, "lon": -78.544, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 453, "nom": "Cc Quicentro Sur 1", "code": "PDSID CC QUICENTRO SUR 1, UIO, PB #PB-002", "dir": "PF74+MGX Quito", "lat": -0.286, "lon": -78.544, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 454, "nom": "Cc Quicentro Sur 2", "code": "PDSID CC QUICENTRO SUR 2, UIO, PB #PB-019", "dir": "PF75+G2M Quito", "lat": -0.286, "lon": -78.542, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 455, "nom": "Conocoto", "code": "PDSLD CONOCOTO, UIO, SIMON BOLIVAR E1-66", "dir": "Simon Bolivar E172, Quito, Ecuador", "lat": -0.292, "lon": -78.477, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 456, "nom": "Plataforma Gubernamental Sur", "code": "PDVLL PLATAFORMA GUBERNAMENTAL SUR, UIO", "dir": "PF43+VPF, Av. Amaru Ñan, Quito 170146, Ecuador", "lat": -0.293, "lon": -78.544, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 457, "nom": "Av. Garcia Moreno Conocoto", "code": "PDVLD AV. GARCIA MORENO CONOCOTO, UIO, AL", "dir": "PG4C+99R Quito", "lat": -0.294, "lon": -78.479, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 458, "nom": "San Gabriel", "code": "PDSLD SAN GABRIEL, UIO, AV. ILALÓ S4-8", "dir": "PG4X+36W Quito", "lat": -0.295, "lon": -78.452, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 459, "nom": "Martha Bucaram", "code": "PDSLL MARTHA BUCARAM, UIO", "dir": "PC2M+GVR Quito", "lat": -0.299, "lon": -78.565, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 460, "nom": "Plaza Del Valle Express", "code": "PDSLD PLAZA DEL VALLE EXPRESS, UIO", "dir": "MGXR+W5P Quito", "lat": -0.3, "lon": -78.46, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 461, "nom": "Sup. Sta Maria Quitumbe", "code": "PDVIL SUP. STA MARIA QUITUMBE, UIO", "dir": "MCXV+J3J Quito", "lat": -0.301, "lon": -78.557, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 462, "nom": "Doral", "code": "PDSLD DORAL, UIO", "dir": "MGVW+R22 Quito", "lat": -0.305, "lon": -78.455, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 463, "nom": "Cc San Luis", "code": "PDSLL CC SAN LUIS, UIO", "dir": "Av. Gral. Rumiñahui 108, Quito 170503, Ecuador", "lat": -0.308, "lon": -78.45, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 464, "nom": "Cc San Luis", "code": "PDSID CC SAN LUIS, UIO, P1", "dir": "Av. Gral. Rumiñahui 108, Quito 170503, Ecuador", "lat": -0.308, "lon": -78.45, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 465, "nom": "Santa Maria Panasur", "code": "PDSID SANTA MARIA PANASUR,UIO", "dir": "MFR4+Q9M Quito", "lat": -0.308, "lon": -78.544, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 466, "nom": "Sup. Sta. Maria Av. Ecuatoriana", "code": "PDVIL SUP. STA. MARIA AV. ECUATORIANA, UIO", "dir": "MCRP+3CX Quito", "lat": -0.31, "lon": -78.564, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 467, "nom": "Cc. Hipermarket Los Chillos", "code": "PDSID CC. HIPERMARKET LOS CHILLOS, UIO, AV.GRAL RUMIÑAHUI P1", "dir": "MHQ4+Q93 Sangolquí", "lat": -0.311, "lon": -78.444, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 468, "nom": "Nueva Aurora", "code": "PDSID NUEVA AURORA, UIO", "dir": "MCJX+HHM Quito", "lat": -0.319, "lon": -78.551, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 469, "nom": "San Pedro", "code": "PDSLD SAN PEDRO, UIO", "dir": "Av. Mariana de Jesús 944, Quito, Ecuador", "lat": -0.321, "lon": -78.46, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 470, "nom": "Cc River Mall", "code": "PDSID CC RIVER MALL, UIO PB #S/N ENTRADA PRINCIPAL", "dir": "MHG2+7CG Sangolquí", "lat": -0.324, "lon": -78.449, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 471, "nom": "Cc River Mall", "code": "PDSLD CC RIVER MALL, L13 PA, UIO", "dir": "VGM3+V2P Quito", "lat": -0.324, "lon": -78.449, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 472, "nom": "Sta Maria Sangolqui", "code": "PDSID STA MARIA SANGOLQUI, UIO", "dir": "MGCX+7J6, Avenue General Enríquez, Sangolquí 171103, Ecuador", "lat": -0.329, "lon": -78.451, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 473, "nom": "Agapanthus", "code": "PDSID AGAPANTHUS, UIO, VALLE DE LOS CHILLOS", "dir": "Rio Napo y Huancavilca agapanthus, MG9C+29W, Quito, Ecuador", "lat": -0.332, "lon": -78.479, "ciudad": "Quito", "prov": "Pichincha", "capa": "Locales"}, {"id": 474, "nom": "Tabacundo", "code": "PDSID TABACUNDO, UIO", "dir": "2QWR+W2C Tabacundo", "lat": 0.047, "lon": -78.21, "ciudad": "Tabacundo", "prov": "Pichincha", "capa": "Locales"}, {"id": 475, "nom": "Av. Septima Libertad", "code": "PDVLD AV. SEPTIMA LIBERTAD, STE", "dir": "Q3GR+5C5 La Libertad", "lat": -2.225, "lon": -80.909, "ciudad": "La Libertad", "prov": "Santa Elena", "capa": "Locales"}, {"id": 476, "nom": "Cc Shopping La Libertad", "code": "PDSLL CC SHOPPING LA LIBERTAD, STE", "dir": "BARRIO SAN FRANCISCO MZ 38 CALLE 9 ENTRE AV 10 Y 12 S/N La Libertad - Santa Elena - Ecuador", "lat": -2.226239, "lon": -80.921055, "ciudad": "La Libertad", "prov": "Santa Elena", "capa": "Islas + Locales"}, {"id": 477, "nom": "Abdon Calderon. Libertad", "code": "PDSLD ABDON CALDERON. LIBERTAD", "dir": "Q3CQ+MPQ, Av. Eleodoro Solorzano, La Libertad, Ecuador", "lat": -2.228, "lon": -80.911, "ciudad": "La Libertad", "prov": "Santa Elena", "capa": "Locales"}, {"id": 478, "nom": "Montañita", "code": "PDSLD MONTAÑITA, STA ELENA, AV ROSALES", "dir": "56FX+M2P, Segundo Rosales, Montañita, Ecuador", "lat": -1.826, "lon": -80.753, "ciudad": "Montañita", "prov": "Santa Elena", "capa": "Locales"}, {"id": 479, "nom": "Salinas", "code": "PDSLD SALINAS, SAL, AV.MALECÓN", "dir": "Q2VG+WP6, Av. Malecón, Salinas, Ecuador", "lat": -2.205, "lon": -80.973, "ciudad": "Salinas", "prov": "Santa Elena", "capa": "Locales"}, {"id": 480, "nom": "Supermaxi Salinas", "code": "PDSLL SUPERMAXI SALINAS, SAL, RUTA DEL SPONDYLUS", "dir": "Q3H3+GX4, Salinas, Ecuador", "lat": -2.221, "lon": -80.945, "ciudad": "Salinas", "prov": "Santa Elena", "capa": "Locales"}, {"id": 481, "nom": "Libertad", "code": "PDSLD LIBERTAD, STA ELENA, AV. 9 OCTUBRE", "dir": "Q3HR+GQ4, Av. 9 de Octubre, La Libertad, Ecuador", "lat": -2.221, "lon": -80.908, "ciudad": "Salinas", "prov": "Santa Elena", "capa": "Locales"}, {"id": 482, "nom": "Hiper Ballenita", "code": "PDSLL HIPER BALLENITA, STE", "dir": "MZ 20, 20B, 20C Y 22 DE LA SEGUNDA ZONA DE PLANO OFICIAL DEL CARRETERO SANTA ELENA - BALLENITA, LOCA S/N Guayaquil - Guayas - Ecuador", "lat": -2.211582, "lon": -80.868618, "ciudad": "Santa Elena", "prov": "Santa Elena", "capa": "Islas + Locales"}, {"id": 483, "nom": "T. Terrestre Santa Elena 2", "code": "PDSLD T. TERRESTRE SANTA ELENA 2, STE PB #34", "dir": "Q4MM+GGJ, Santa Elena, Ecuador", "lat": -2.216, "lon": -80.866, "ciudad": "Santa Elena", "prov": "Santa Elena", "capa": "Locales"}, {"id": 484, "nom": "Tt. Santa Elena", "code": "PDSID TT. SANTA ELENA, STE, ISLA #8", "dir": "Q4MM+HC8, Ruta del Spondylus, Santa Elena, Ecuador", "lat": -2.216, "lon": -80.866, "ciudad": "Santa Elena", "prov": "Santa Elena", "capa": "Locales"}, {"id": 485, "nom": "Supervisor Peninsula", "code": "PDSML SUPERVISOR PENINSULA", "dir": "Chanduy 642, Santa Elena, Ecuador", "lat": -2.226, "lon": -80.861, "ciudad": "Santa Elena", "prov": "Santa Elena", "capa": "Locales"}, {"id": 486, "nom": "Santa Elena Centro", "code": "PDSLD SANTA ELENA CENTRO,STE", "dir": "Q4CQ+8PR Santa Elena", "lat": -2.228, "lon": -80.858, "ciudad": "Santa Elena", "prov": "Santa Elena", "capa": "Locales"}, {"id": 487, "nom": "La Concordia", "code": "PDSLD LA CONCORDIA, CON", "dir": "CALLE 1 ERO DE MAYO Y JUAN MONTALVO S/N Santo Domingo - Santo Domingo de los Tsáchilas - Ecuador", "lat": 0.006207, "lon": -79.396675, "ciudad": "La Concordia", "prov": "Sto Domingo", "capa": "Islas + Locales"}, {"id": 488, "nom": "Av Quevedo", "code": "PDVLD AV QUEVEDO, STD", "dir": "24G2+H97, Vía Los Bancos, San Miguel de Los Bancos, Ecuador", "lat": 0.026, "lon": -78.899, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 489, "nom": "Vía Colectora", "code": "PDVLD VÍA COLECTORA,STD,EX", "dir": "QQ65+CG5, Santo Domingo, Ecuador", "lat": -0.239, "lon": -79.241, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 490, "nom": "Cc Gran Aki Sto Do", "code": "PDSLL CC GRAN AKI STO DO, STD, AV ESMERALDAS LOCAL #04", "dir": "QR3G+Q8G Santo Domingo", "lat": -0.246, "lon": -79.174, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 491, "nom": "Av. Cuenca Y 3 De Julio", "code": "PDVLD AV. CUENCA Y 3 DE JULIO, STD, EX", "dir": "QR2G+M5G, C. Sangay, Santo Domingo, Ecuador", "lat": -0.248, "lon": -79.175, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 492, "nom": "Cc Shopping Santo Domingo", "code": "PDSID CC SHOPPING SANTO DOMINGO, STD", "dir": "QR2Q+C4W Santo Domingo", "lat": -0.249, "lon": -79.162, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 493, "nom": "Urb Los Rosales", "code": "PDVLD URB LOS ROSALES, STD, EX", "dir": "QR28+7RF, Venezuela, Santo Domingo, Ecuador", "lat": -0.249, "lon": -79.183, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 494, "nom": "Rio Lelia", "code": "PDSLD RIO LELIA, STO. DOMINGO", "dir": "PRXX+G25 Santo Domingo", "lat": -0.251, "lon": -79.152, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 495, "nom": "Supermaxi Santo Domingo", "code": "PDSID SUPERMAXI SANTO DOMINGO, STD, I-001", "dir": "PRXM+2R6 Santo Domingo", "lat": -0.252, "lon": -79.165, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 496, "nom": "Av. Ambato Y Babahoyo Santo Domingo", "code": "PDSLD AV. AMBATO Y BABAHOYO SANTO DOMINGO, STD", "dir": "PRXH+383 Santo Domingo", "lat": -0.252, "lon": -79.172, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 497, "nom": "Santo Domingo", "code": "PDSLD SANTO DOMINGO,AV 29 DE MAYO", "dir": "PRWF+PQW Santo Domingo", "lat": -0.253, "lon": -79.176, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 498, "nom": "Tsachila", "code": "PDSLD TSACHILA, STD", "dir": "PRWJ+HMW Santo Domingo", "lat": -0.254, "lon": -79.168, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 499, "nom": "Av. Chone", "code": "PDVLD AV. CHONE, STD, AL", "dir": "PRWF+6CM Santo Domingo", "lat": -0.254, "lon": -79.176, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 500, "nom": "Calle Cocaniguas", "code": "PDVLD CALLE COCANIGUAS, STO DOM, EX", "dir": "PRWM+32C Santo Domingo", "lat": -0.255, "lon": -79.168, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 501, "nom": "15 De Septiembre", "code": "PDSLD 15 DE SEPTIEMBRE, STO. DGO", "dir": "PQFW+7QR Santo Domingo", "lat": -0.277, "lon": -79.203, "ciudad": "Santo Domingo", "prov": "Sto Domingo", "capa": "Locales"}, {"id": 502, "nom": "Lago Agrio Express", "code": "PDSIL LAGO AGRIO EXPRESS, LGA", "dir": "34J8+VJ2 Nueva Loja", "lat": 0.082, "lon": -76.883, "ciudad": "Lago Agrio", "prov": "Sucumbíos", "capa": "Locales"}, {"id": 503, "nom": "Mercado Central", "code": "PDSIL MERCADO CENTRAL, LGA, PB-1", "dir": "34J8+9VX Nueva Loja", "lat": 0.081, "lon": -76.883, "ciudad": "Lago Agrio", "prov": "Sucumbíos", "capa": "Locales"}, {"id": 504, "nom": "Izamba", "code": "PDSLD IZAMBA, AMB", "dir": "QCF6+7F3 Ambato", "lat": -1.227, "lon": -78.589, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 505, "nom": "Sup. Sta Maria Ambato", "code": "PDVIL SUP. STA MARIA AMBATO, AMB", "dir": "Q9FX+5GJ Ambato", "lat": -1.227, "lon": -78.601, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 506, "nom": "Cc Multiplaza Tungurahua Isla #03", "code": "PDSID CC MULTIPLAZA TUNGURAHUA ISLA #03, AMB", "dir": "Q98J+PC2 Ambato", "lat": -1.233, "lon": -78.619, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 507, "nom": "Manuela Cañizares", "code": "PDSLD MANUELA CAÑIZARES, AMBT, DARQUEA", "dir": "Q96G+R98, Manuela Cañizares, Ambato, Ecuador", "lat": -1.238, "lon": -78.624, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 508, "nom": "Ambato 2", "code": "PDSLL AMBATO 2, AMB", "dir": "Martínez 405, Ambato 180150, Ecuador", "lat": -1.24, "lon": -78.628, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 509, "nom": "Ambato", "code": "PDSLD AMBATO, AMB", "dir": "JOAQUIN LALAMA Y JUAN BENIGNO VELA LOCAL 11 J S/N Ambato - Tungurahua - Ecuador", "lat": -1.241892, "lon": -78.626085, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Islas + Locales"}, {"id": 510, "nom": "Yahuira", "code": "PDSLD YAHUIRA, AMB, JUAN BENIGNO VELA #1111", "dir": "Q93C+R4R, Juan Benigno Vela, Ambato 180101, Ecuador", "lat": -1.245, "lon": -78.63, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 511, "nom": "Ambato", "code": "PDSBD AMBATO, AMB", "dir": "Olmedo 1507, Ambato 180101, Ecuador", "lat": -1.245, "lon": -78.632, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 512, "nom": "Cc Shopping Ambato", "code": "PDSLL CC SHOPPING AMBATO, AMB", "dir": "P9P6+H9W Ambato", "lat": -1.264, "lon": -78.639, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 513, "nom": "Cc Mall De Los Andes", "code": "PDSID CC MALL DE LOS ANDES, AMB, PB", "dir": "P9MC+QR4 Ambato", "lat": -1.266, "lon": -78.628, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 514, "nom": "Aki El Condor", "code": "PDSLL AKI EL CONDOR,AMB, LOCAL 14", "dir": "P9JQ+J5F, Av Bolivariana, Ambato 180205, Ecuador", "lat": -1.269, "lon": -78.612, "ciudad": "Ambato", "prov": "Tungurahua", "capa": "Locales"}, {"id": 515, "nom": "Pelileo", "code": "PDSLD PELILEO, PEL", "dir": "Quis Quis &, Pelileo, Ecuador", "lat": -1.33, "lon": -78.541, "ciudad": "Pelileo", "prov": "Tungurahua", "capa": "Locales"}, {"id": 516, "nom": "Parque Central", "code": "PDSLD PARQUE CENTRAL, TUN", "dir": "J9WM+287, Cevallos, Ecuador", "lat": -1.355, "lon": -78.617, "ciudad": "Pelileo", "prov": "Tungurahua", "capa": "Locales"}];
+
+/* ---------- STORAGE (IndexedDB → localStorage → memory) ---------- */
+const Store = (()=>{
+  let mem = {}; let mode='mem'; let db=null;
+  function openIDB(){return new Promise(res=>{
+    try{
+      const r = indexedDB.open('bitacora_ec_nacional',1);
+      r.onupgradeneeded=e=>{const d=e.target.result; if(!d.objectStoreNames.contains('kv')) d.createObjectStore('kv');};
+      r.onsuccess=e=>{db=e.target.result; mode='idb'; res(true);};
+      r.onerror=()=>res(false);
+    }catch(e){res(false);}
+  });}
+  async function init(){
+    const ok = await openIDB();
+    if(!ok){ try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); mode='ls'; }catch(e){ mode='mem'; } }
+    return mode;
+  }
+  function idb(fn){return new Promise((res,rej)=>{const tx=db.transaction('kv',fn==='get'?'readonly':'readwrite');const s=tx.objectStore('kv');return res(s);});}
+  async function get(k){
+    if(mode==='idb') return new Promise(r=>{const s=db.transaction('kv','readonly').objectStore('kv');const q=s.get(k);q.onsuccess=()=>r(q.result??null);q.onerror=()=>r(null);});
+    if(mode==='ls'){const v=localStorage.getItem(k);return v?JSON.parse(v):null;}
+    return mem[k]??null;
+  }
+  async function set(k,v){
+    if(mode==='idb') return new Promise(r=>{const s=db.transaction('kv','readwrite').objectStore('kv');const q=s.put(v,k);q.onsuccess=()=>r(1);q.onerror=()=>r(0);});
+    if(mode==='ls'){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('Almacenamiento lleno');}return;}
+    mem[k]=v;
+  }
+  async function del(k){
+    if(mode==='idb') return new Promise(r=>{const s=db.transaction('kv','readwrite').objectStore('kv');const q=s.delete(k);q.onsuccess=()=>r(1);q.onerror=()=>r(0);});
+    if(mode==='ls'){localStorage.removeItem(k);return;}
+    delete mem[k];
+  }
+  return {init,get,set,del,mode:()=>mode};
+})();
+
+/* ---------- STATE ---------- */
+let REC = {};          // id -> {status, notes:[], photos:[], last}
+let myPos = null;      // {lat,lon}
+let map, meMarker, markers={}, watchId=null;
+let curFilter='todos', curDetailId=null, draftTags=new Set(), deferredPrompt=null, gpsBlocked=false;
+
+const NOW = ()=>new Date();
+const fmt = d=>{const x=new Date(d);return x.toLocaleDateString('es-EC',{day:'2-digit',month:'short'})+' · '+x.toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'});};
+const TAGS = ['Reabastecer','Sin novedad','Material dañado','Cerrado','Buen desempeño'];
+
+function rec(id){ if(!REC[id]) REC[id]={status:'pendiente',notes:[],photos:[],last:null}; return REC[id]; }
+async function saveRec(id){ await Store.set('pt:'+id, REC[id]); }
+
+/* ---------- GEO ---------- */
+function haversine(a,b){
+  const R=6371,dLat=(b.lat-a.lat)*Math.PI/180,dLon=(b.lon-a.lon)*Math.PI/180;
+  const s=Math.sin(dLat/2)**2+Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(s));
+}
+const kmTxt=k=> k<1? Math.round(k*1000)+' m' : k.toFixed(1).replace('.',',')+' km';
+
+function nearestPending(from, excludeId){
+  let best=null,bd=1e9;
+  for(const p of PUNTOS){
+    if(p.id===excludeId) continue;
+    if(rec(p.id).status==='visitado'||rec(p.id).status==='novedad') continue;
+    const d=haversine(from,p);
+    if(d<bd){bd=d;best=p;}
+  }
+  return best?{p:best,d:bd}:null;
+}
+function nearestListPending(from,n,excludeId){
+  return visPuntos()
+    .filter(p=>p.id!==excludeId && rec(p.id).status==='pendiente')
+    .map(p=>({p,d:haversine(from,p)}))
+    .sort((a,b)=>a.d-b.d)
+    .slice(0,n||8);
+}
+function optimizeRoute(from){
+  const pend=visPuntos().filter(p=>rec(p.id).status==='pendiente');
+  const out=[]; let cur=from, pool=[...pend], total=0;
+  while(pool.length){
+    let bi=0,bd=1e9;
+    pool.forEach((p,i)=>{const d=haversine(cur,p);if(d<bd){bd=d;bi=i;}});
+    total+=bd; cur=pool[bi]; out.push({p:pool[bi],d:bd}); pool.splice(bi,1);
+  }
+  return {stops:out,total};
+}
+
+/* Google Maps deep link (navigation) */
+function navTo(p){
+  const dest=p.lat+','+p.lon;
+  const url='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving';
+  window.open(url,'_blank');
+}
+
+/* ---------- GPS ---------- */
+let firstFix=false;
+function insecureMsg(){
+  return `El navegador bloquea el GPS cuando la app se abre como archivo (file:// o content://). Ábrela desde un enlace <b>https://</b> o <b>http://localhost</b> para activar la ubicación.`;
+}
+function startGPS(){
+  if(!navigator.geolocation){toast('Sin GPS disponible');return;}
+  if(!window.isSecureContext){
+    document.getElementById('gpsTxt').textContent='Sin HTTPS';
+    toast('El GPS necesita HTTPS — mira “Cómo activar el GPS” en Más');
+    gpsBlocked=true; refreshRoute();
+    return;
+  }
+  document.getElementById('gpsTxt').textContent='Buscando…';
+  watchId=navigator.geolocation.watchPosition(pos=>{
+    myPos={lat:pos.coords.latitude,lon:pos.coords.longitude};
+    document.getElementById('gpsBtn').classList.add('on');
+    document.getElementById('locateFab').classList.add('on');
+    document.getElementById('gpsTxt').textContent='GPS activo';
+    updateMe();
+    if(!firstFix){
+      firstFix=true;
+      if(map) map.setView([myPos.lat,myPos.lon],14);
+      curFilter='cerca';
+      document.querySelectorAll('.fchip').forEach(x=>x.classList.toggle('on',x.dataset.f==='cerca'));
+      toast('Ubicación lista · ordenando por cercanía');
+    }
+    if(curFilter==='cerca') renderList(); refreshRoute();
+  },err=>{
+    const msgs={1:'Permiso de ubicación denegado',2:'Ubicación no disponible',3:'El GPS tardó demasiado'};
+    document.getElementById('gpsTxt').textContent='Sin señal';
+    toast(msgs[err.code]||'No se pudo obtener la ubicación');
+  },{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+}
+function recenter(){
+  if(myPos&&map){ map.setView([myPos.lat,myPos.lon],15); }
+  else startGPS();
+}
+function updateMe(){
+  if(!map||!myPos)return;
+  if(!meMarker){meMarker=L.marker([myPos.lat,myPos.lon],{icon:L.divIcon({className:'',html:'<div class="me-dot"></div>',iconSize:[18,18],iconAnchor:[9,9]}),zIndexOffset:1000}).addTo(map);}
+  else meMarker.setLatLng([myPos.lat,myPos.lon]);
+}
+
+/* ---------- MAP ---------- */
+const STCOL={pendiente:'#E08A00',visitado:'#1B9A6B',novedad:'#B4381F'};
+/* ---------- GEO FILTER (provincia / ciudad) ---------- */
+let geo={prov:'',ciudad:''};
+function inGeo(p){return (!geo.prov||p.prov===geo.prov)&&(!geo.ciudad||p.ciudad===geo.ciudad);}
+function visPuntos(){return PUNTOS.filter(inGeo);}
+function provincesList(){return [...new Set(PUNTOS.map(p=>p.prov))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es'));}
+function citiesList(prov){return [...new Set(PUNTOS.filter(p=>!prov||p.prov===prov).map(p=>p.ciudad))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'es'));}
+function fillProv(){const s=document.getElementById('selProv');
+  s.innerHTML='<option value="">Todas las provincias ('+PUNTOS.length+')</option>'+
+    provincesList().map(pr=>{const n=PUNTOS.filter(p=>p.prov===pr).length;return '<option value="'+pr+'">'+pr+' ('+n+')</option>';}).join('');
+  s.value=geo.prov;}
+function fillCity(){const s=document.getElementById('selCity');
+  s.innerHTML='<option value="">Todas las ciudades</option>'+
+    citiesList(geo.prov).map(c=>{const n=PUNTOS.filter(p=>p.ciudad===c&&(!geo.prov||p.prov===geo.prov)).length;return '<option value="'+c+'">'+c+' ('+n+')</option>';}).join('');
+  s.value=geo.ciudad;}
+function fitGeo(){const pts=visPuntos();if(!pts.length||!map)return;
+  try{const b=L.latLngBounds(pts.map(p=>[p.lat,p.lon]));map.fitBounds(b.pad(0.18),{maxZoom:15});}catch(e){}}
+function applyGeo(){
+  PUNTOS.forEach(p=>{const m=markers[p.id];if(!m)return;
+    if(inGeo(p)){if(!map.hasLayer(m))m.addTo(map);}else if(map.hasLayer(m))map.removeLayer(m);});
+  fitGeo();updateProgress();renderList();refreshRoute();}
+function bindGeo(){
+  fillProv();fillCity();
+  document.getElementById('selProv').onchange=e=>{geo.prov=e.target.value;geo.ciudad='';fillCity();applyGeo();};
+  document.getElementById('selCity').onchange=e=>{geo.ciudad=e.target.value;applyGeo();};
+}
+
+function initMap(){
+  map=L.map('map',{zoomControl:false}).setView([-1.6,-79.0],6);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+  PUNTOS.forEach(p=>{
+    const m=L.marker([p.lat,p.lon],{icon:mkIcon(rec(p.id).status)}).addTo(map);
+    m.on('click',()=>openDetail(p.id));
+    markers[p.id]=m;
+  });
+  try{map.fitBounds(L.latLngBounds(PUNTOS.map(p=>[p.lat,p.lon])).pad(0.05));}catch(e){}
+}
+function mkIcon(st){
+  return L.divIcon({className:'mk',iconSize:[26,26],iconAnchor:[13,26],
+    html:`<div class="mkp"><i style="background:${STCOL[st]}"></i></div>`});
+}
+function refreshMarker(id){ if(markers[id]) markers[id].setIcon(mkIcon(rec(id).status)); }
+
+/* ---------- RENDER: LIST ---------- */
+function statusDot(st){return `<span class="dot ${st}"></span>`;}
+function renderList(){
+  const q=(document.getElementById('q').value||'').toLowerCase().trim();
+  let arr=visPuntos().map(p=>({p,d:myPos?haversine(myPos,p):null}));
+  if(curFilter!=='todos'&&curFilter!=='cerca') arr=arr.filter(x=>rec(x.p.id).status===curFilter);
+  if(q) arr=arr.filter(x=>(x.p.nom+' '+x.p.dir+' '+x.p.code).toLowerCase().includes(q));
+  if(curFilter==='cerca'){ if(!myPos){toast('Activa el GPS para ordenar por cercanía');} arr.sort((a,b)=>(a.d??1e9)-(b.d??1e9)); }
+  const el=document.getElementById('list');
+  if(!arr.length){el.innerHTML='<div class="hint">Sin resultados.</div>';return;}
+  el.innerHTML=arr.map(({p,d})=>{
+    const st=rec(p.id).status;
+    return `<div class="item" onclick="openDetail(${p.id})">
+      ${statusDot(st)}
+      <div style="min-width:0">
+        <div class="nm">${esc(p.nom)}</div>
+        <div class="ad">${esc(shortAddr(p.dir))}</div>
+      </div>
+      <div class="rt">
+        ${d!=null?`<div class="km">${kmTxt(d)}</div>`:''}
+        <button class="goSm" onclick="event.stopPropagation();navTo(${jsp(p)})"><span class="pin"></span>Ir</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function shortAddr(a){ return a.length>42? a.slice(0,40)+'…':a; }
+
+/* ---------- RENDER: RUTA ---------- */
+function refreshRoute(){
+  const hero=document.getElementById('routeHero'), list=document.getElementById('routeList');
+  // No GPS yet → clear call to action, do NOT anchor on a fixed point
+  if(!myPos){
+    if(gpsBlocked){
+      hero.innerHTML=`<div class="gps-cta">
+        <div class="ci"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></div>
+        <h3>GPS bloqueado por el navegador</h3>
+        <p>${insecureMsg()}</p>
+        <button class="btn btn-gold" onclick="show('set')" style="max-width:260px;margin:0 auto">Ver cómo activarlo</button>
+      </div>`;
+      list.innerHTML='';
+      return;
+    }
+    hero.innerHTML=`<div class="gps-cta">
+      <div class="ci"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#F2B705" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+      <h3>Activa tu ubicación</h3>
+      <p>Los puntos cercanos y la ruta se calculan desde donde estás parado en este momento.</p>
+      <button class="btn btn-gold" onclick="startGPS()" style="max-width:220px;margin:0 auto">Usar mi ubicación</button>
+    </div>`;
+    list.innerHTML='';
+    return;
+  }
+  const pendCount=visPuntos().filter(p=>rec(p.id).status==='pendiente').length;
+  if(!pendCount){
+    hero.innerHTML=`<div class="near-hero"><div class="rl">Cercanos a ti</div><div class="rn">¡Todo cubierto! 🎉</div><div class="sub">No quedan puntos pendientes.</div></div>`;
+    list.innerHTML='<div class="hint">Puedes revisar los visitados en la Lista.</div>';return;
+  }
+  // Nearest pending to CURRENT position
+  const near=nearestListPending(myPos,8);
+  const first=near[0];
+  hero.innerHTML=`<div class="near-hero">
+    <div class="rl">Más cercano a tu ubicación</div>
+    <div class="rn">${esc(first.p.nom)}</div>
+    <div class="sub">${kmTxt(first.d)} · ${esc(shortAddr(first.p.dir))}</div>
+    <button class="btn btn-gold" style="margin-top:12px" onclick="navTo(${jsp(first.p)})">Navegar ahí con Google Maps</button>
+  </div>`;
+  // Full optimized chain from current position (secondary)
+  const {stops,total}=optimizeRoute(myPos);
+  list.innerHTML=
+    `<div class="lbl">Cercanos a ti ahora</div>`+
+    near.map(s=>rowItem(s,false)).join('')+
+    `<div class="lbl" style="margin-top:18px">Recorrido completo optimizado · ${pendCount} pts · ${total.toFixed(1).replace('.',',')} km</div>`+
+    stops.map((s,i)=>rowItem(s,true,i)).join('');
+}
+function rowItem(s,indexed,i){
+  return `<div class="item" onclick="openDetail(${s.p.id})" style="position:relative;overflow:visible">
+    ${indexed?`<span class="idx">${i+1}</span>`:''}
+    ${statusDot(rec(s.p.id).status)}
+    <div style="min-width:0"><div class="nm">${esc(s.p.nom)}</div><div class="ad">${esc(shortAddr(s.p.dir))}</div></div>
+    <div class="rt"><div class="km">${kmTxt(s.d)}</div>
+      <button class="goSm" onclick="event.stopPropagation();navTo(${jsp(s.p)})"><span class="pin"></span>Ir</button></div>
+  </div>`;
+}
+
+/* ---------- DETAIL SHEET ---------- */
+function openDetail(id){
+  curDetailId=id; draftTags=new Set();
+  const p=PUNTOS.find(x=>x.id===id), r=rec(id);
+  document.getElementById('dName').textContent=p.nom;
+  document.getElementById('dAddr').textContent=p.dir;
+  renderDetail();
+  document.getElementById('scrim').classList.add('show');
+  document.getElementById('sheet').classList.add('show');
+}
+function closeDetail(){
+  document.getElementById('scrim').classList.remove('show');
+  document.getElementById('sheet').classList.remove('show');
+  curDetailId=null;
+}
+function renderDetail(){
+  const id=curDetailId, p=PUNTOS.find(x=>x.id===id), r=rec(id);
+  let sug='';
+  if(r.status==='visitado'||r.status==='novedad'){
+    if(myPos){
+      const n=nearestPending(myPos,id);
+      if(n) sug=`<div class="suggest">
+        <div class="sl">Cercano a tu ubicación actual</div>
+        <div class="snm">${esc(n.p.nom)}</div>
+        <div class="skm">${kmTxt(n.d)} · ${esc(shortAddr(n.p.dir))}</div>
+        <div class="act2" style="margin-top:10px">
+          <button class="btn btn-green" onclick="navTo(${jsp(n.p)})">Navegar</button>
+          <button class="btn btn-ghost" onclick="openDetail(${n.p.id})">Abrir ficha</button>
+        </div></div>`;
+    } else {
+      sug=`<div class="suggest">
+        <div class="sl">Puntos cercanos</div>
+        <div class="skm" style="margin:4px 0 10px">Activa tu ubicación para ver el punto pendiente más cercano a donde estás.</div>
+        <button class="btn btn-gold" onclick="startGPS()">Usar mi ubicación</button></div>`;
+    }
+  }
+  const photos=r.photos.map((ph,i)=>`<div class="ph-wrap"><img src="${ph.dataUrl}"><button class="del" onclick="delPhoto(${i})">×</button></div>`).join('');
+  const hist=[...r.notes].reverse().map(n=>`
+    <div class="hrow"><div class="when">${fmt(n.ts)}</div>
+      <div class="what"><span class="st-in" style="color:${STCOL[n.status]||'#233'}">${cap(n.status||'nota')}</span>${n.text?' · '+esc(n.text):''}
+      ${(n.tags&&n.tags.length)?'<br><span class="tg">'+n.tags.map(esc).join(' · ')+'</span>':''}</div></div>`).join('')
+    || '<div class="hint" style="padding:12px">Aún no hay visitas registradas.</div>';
+
+  document.getElementById('dBody').innerHTML=`
+    ${sug}
+    <div class="statusrow">
+      ${['pendiente','visitado','novedad'].map(s=>`<button class="st ${s} ${r.status===s?'on':''}" onclick="setStatus('${s}')">${cap(s)}</button>`).join('')}
+    </div>
+    <div class="act2">
+      <button class="btn btn-navy" onclick="navTo(${jsp(p)})">Navegar (Google Maps)</button>
+      <button class="btn btn-gold" onclick="arrive()">Estoy aquí</button>
+    </div>
+    <div class="lbl">Nueva nota</div>
+    <textarea class="note" id="noteText" placeholder="¿Qué observaste en este punto?"></textarea>
+    <div class="tagrow">${TAGS.map(t=>`<button class="tag ${draftTags.has(t)?'on':''}" onclick="toggleTag('${t}')">${t}</button>`).join('')}</div>
+    <div class="photos">
+      ${photos}
+      <button class="addph" onclick="pickPhoto()">+</button>
+    </div>
+    <button class="btn btn-gold" onclick="saveNote()">Guardar nota</button>
+    <div class="lbl" style="margin-top:18px">Historial de visitas</div>
+    <div class="hist">${hist}</div>`;
+}
+function toggleTag(t){ draftTags.has(t)?draftTags.delete(t):draftTags.add(t); renderDetail(); }
+
+async function setStatus(s){
+  const r=rec(curDetailId); r.status=s; r.last=NOW().toISOString();
+  await saveRec(curDetailId); refreshMarker(curDetailId); renderDetail(); updateProgress(); toast('Estado: '+cap(s));
+}
+async function arrive(){
+  const r=rec(curDetailId);
+  if(r.status==='pendiente'){ r.status='visitado'; r.last=NOW().toISOString();
+    r.notes.push({ts:NOW().toISOString(),text:'',status:'visitado',tags:['Llegada registrada']});
+    await saveRec(curDetailId); refreshMarker(curDetailId); updateProgress(); }
+  renderDetail(); toast('Marcado como visitado'); refreshRoute();
+}
+async function saveNote(){
+  const r=rec(curDetailId); const txt=(document.getElementById('noteText').value||'').trim();
+  if(!txt && draftTags.size===0){toast('Escribe una nota o elige una etiqueta');return;}
+  r.notes.push({ts:NOW().toISOString(),text:txt,status:r.status,tags:[...draftTags]});
+  r.last=NOW().toISOString(); draftTags=new Set();
+  await saveRec(curDetailId); renderDetail(); toast('Nota guardada');
+}
+/* photos */
+function pickPhoto(){ document.getElementById('photoInput').click(); }
+document.getElementById('photoInput').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const reader=new FileReader();
+  reader.onload=async ()=>{
+    const img=new Image();
+    img.onload=async ()=>{
+      const c=document.createElement('canvas'); const scale=Math.min(1,900/Math.max(img.width,img.height));
+      c.width=img.width*scale; c.height=img.height*scale;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      const data=c.toDataURL('image/jpeg',0.7);
+      rec(curDetailId).photos.push({ts:NOW().toISOString(),dataUrl:data});
+      await saveRec(curDetailId); renderDetail(); toast('Foto añadida');
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(f); e.target.value='';
+});
+async function delPhoto(i){ rec(curDetailId).photos.splice(i,1); await saveRec(curDetailId); renderDetail(); }
+
+/* ---------- PROGRESS ---------- */
+function updateProgress(){
+  const scope=visPuntos();const tot=scope.length||1;
+  const vis=scope.filter(p=>['visitado','novedad'].includes(rec(p.id).status)).length;
+  const pct=Math.round(vis/tot*100);
+  document.getElementById('progTxt').textContent=vis+' / '+scope.length;
+  document.getElementById('progBar').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  document.getElementById('stTot').textContent=scope.length;
+  document.getElementById('stVis').textContent=scope.filter(p=>rec(p.id).status==='visitado').length;
+  document.getElementById('stNov').textContent=scope.filter(p=>rec(p.id).status==='novedad').length;
+}
+
+/* ---------- EXPORTS ---------- */
+function exportXlsx(){
+  const rows=PUNTOS.map(p=>{const r=rec(p.id);const ln=r.notes.length?r.notes[r.notes.length-1]:null;return{
+    'N°':p.id,'Punto':p.nom,'Dirección':p.dir,'Estado':cap(r.status),
+    'Última visita':r.last?fmt(r.last):'','Última nota':ln?ln.text:'',
+    'Etiquetas':ln&&ln.tags?ln.tags.join(', '):'','Fotos':r.photos.length,'Lat':p.lat,'Lon':p.lon};});
+  const ws=XLSX.utils.json_to_sheet(rows); const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Bitácora'); XLSX.writeFile(wb,'bitacora_ec_nacional.xlsx'); toast('Excel generado');
+}
+function exportJson(){
+  const data={v:1,exported:NOW().toISOString(),rec:REC};
+  dl(new Blob([JSON.stringify(data)],{type:'application/json'}),'respaldo_bitacora.json'); toast('Respaldo descargado');
+}
+function importJson(file){
+  const rd=new FileReader(); rd.onload=async()=>{
+    try{const d=JSON.parse(rd.result); if(d.rec){REC=d.rec;
+      for(const id in REC) await Store.set('pt:'+id,REC[id]);
+      PUNTOS.forEach(p=>refreshMarker(p.id)); updateProgress(); renderList(); refreshRoute(); toast('Respaldo restaurado');}
+    }catch(e){toast('Archivo no válido');}
+  }; rd.readAsText(file);
+}
+function exportPdf(){
+  const vis=PUNTOS.filter(p=>rec(p.id).status==='visitado').length;
+  const nov=PUNTOS.filter(p=>rec(p.id).status==='novedad').length;
+  const rowsH=PUNTOS.map(p=>{const r=rec(p.id);const ln=r.notes.length?r.notes[r.notes.length-1]:null;
+    return `<tr><td>${p.id}</td><td>${esc(p.nom)}</td><td>${cap(r.status)}</td><td>${r.last?fmt(r.last):'—'}</td><td>${ln?esc(ln.text||(ln.tags||[]).join(', ')):''}</td></tr>`;}).join('');
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>Reporte Bitácora</title><style>
+    body{font-family:Arial;margin:24px;color:#14284B}h1{font-size:18px}small{color:#666}
+    table{width:100%;border-collapse:collapse;margin-top:14px;font-size:11px}
+    th,td{border:1px solid #ccc;padding:5px 7px;text-align:left}th{background:#14284B;color:#fff}
+    .k{display:inline-block;margin-right:18px;font-weight:bold}</style></head><body>
+    <h1>Bitácora de Puntos de Venta — Quito</h1>
+    <small>Generado ${fmt(NOW())}</small><div style="margin-top:8px">
+    <span class="k">Total: ${PUNTOS.length}</span><span class="k" style="color:#1B9A6B">Visitados: ${vis}</span>
+    <span class="k" style="color:#B4381F">Novedades: ${nov}</span></div>
+    <table><thead><tr><th>N°</th><th>Punto</th><th>Estado</th><th>Última visita</th><th>Última nota</th></tr></thead>
+    <tbody>${rowsH}</tbody></table>
+<script>
+(function(){
+  var _origSaveRec = (typeof saveRec==='function') ? saveRec : null;
+  if(_origSaveRec){
+    saveRec = async function(id){
+      await _origSaveRec(id);
+      try{
+        var r=REC[id]||{};
+        parent.postMessage({type:'pv:rec', id:id, status:r.status||'pendiente', last:r.last||null,
+          notes:(r.notes||[]).map(function(n){return {text:n.text||'', tags:n.tags||[], ts:n.ts||null};})}, '*');
+      }catch(e){}
+    };
+  }
+  function applyTheme(v){
+    if(!v) return; var r=document.documentElement.style;
+    if(v.paperDark){ r.setProperty('--bg', v.paperDark); }
+    if(v.paper){ r.setProperty('--card', v.paper); r.setProperty('--navy', v.paper); }
+    if(v.silver){ r.setProperty('--navy2', v.silver); r.setProperty('--line', v.silver); }
+    if(v.ink){ r.setProperty('--ink', v.ink); }
+    if(v.silverDark){ r.setProperty('--slate', v.silverDark); }
+    if(v.gold){ r.setProperty('--gold', v.gold); r.setProperty('--gold2', v.gold); }
+    if(v.ok){ r.setProperty('--green', v.ok); }
+    if(v.stamp){ r.setProperty('--red', v.stamp); }
+    try{ document.body.style.background=v.paperDark||''; document.body.style.color=v.ink||''; if(v.font) document.body.style.fontFamily=v.font; }catch(e){}
+  }
+  window.addEventListener('message', function(ev){
+    var m=ev.data||{};
+    if(m.type==='pv:theme'){ applyTheme(m.vars); }
+    else if(m.type==='pv:state'){
+      (m.recs||[]).forEach(function(e){
+        var r=(typeof rec==='function')?rec(e.id):null; if(!r) return;
+        r.status=e.status||'pendiente'; if(e.last) r.last=e.last; if(e.notes) r.notes=e.notes;
+        if(_origSaveRec) _origSaveRec(e.id);
+      });
+      try{ if(typeof PUNTOS!=='undefined') PUNTOS.forEach(function(p){ if(typeof refreshMarker==='function') refreshMarker(p.id); }); }catch(e){}
+      try{ if(typeof updateProgress==='function') updateProgress(); }catch(e){}
+      try{ if(typeof renderList==='function') renderList(); }catch(e){}
+      try{ if(typeof refreshRoute==='function') refreshRoute(); }catch(e){}
+    }
+  });
+  (function ready(){ if(window.map){ try{ parent.postMessage({type:'pv:ready'},'*'); }catch(e){} } else setTimeout(ready,120); })();
+})();
+<\/script>
+
+</body></html>`);
+  w.document.close(); setTimeout(()=>w.print(),400);
+}
+
+/* ---------- UTIL ---------- */
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+function jsp(p){return JSON.stringify(p).replace(/"/g,'&quot;');}
+let toastT;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);}
+function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+
+/* ---------- NAV ---------- */
+function show(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('v-'+v).classList.remove('hidden');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===v));
+  if(v==='map'&&map) setTimeout(()=>map.invalidateSize(),80);
+  if(v==='list') renderList();
+  if(v==='route') refreshRoute();
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.v));
+document.getElementById('scrim').onclick=closeDetail;
+document.getElementById('gpsBtn').onclick=startGPS;
+document.getElementById('locateFab').onclick=recenter;
+document.getElementById('q').oninput=renderList;
+document.querySelectorAll('.fchip').forEach(c=>c.onclick=()=>{
+  document.querySelectorAll('.fchip').forEach(x=>x.classList.remove('on'));c.classList.add('on');curFilter=c.dataset.f;renderList();});
+document.getElementById('expXls').onclick=exportXlsx;
+document.getElementById('expJson').onclick=exportJson;
+document.getElementById('expPdf').onclick=exportPdf;
+document.getElementById('impJson').onchange=e=>{if(e.target.files[0])importJson(e.target.files[0]);};
+document.getElementById('resetBtn').onclick=async()=>{
+  if(!confirm('¿Reiniciar todos los estados y notas?'))return;
+  for(const p of PUNTOS){await Store.del('pt:'+p.id);} REC={};
+  PUNTOS.forEach(p=>refreshMarker(p.id)); updateProgress(); renderList(); refreshRoute(); toast('Bitácora reiniciada');
+};
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+document.getElementById('installBtn').onclick=async()=>{
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}
+  else toast('Usa el menú del navegador → “Añadir a pantalla de inicio”');
+};
+
+/* ---------- PWA manifest (inline) ---------- */
+(function(){
+  const mani={name:'Bitácora de Puntos · Ecuador',short_name:'Bitácora',display:'standalone',
+    background_color:'#14284B',theme_color:'#14284B',start_url:'.',icons:[]};
+  const blob=new Blob([JSON.stringify(mani)],{type:'application/json'});
+  const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(blob);document.head.appendChild(l);
+})();
+
+/* ---------- BOOT ---------- */
+(async function(){
+  await Store.init();
+  for(const p of PUNTOS){ const r=await Store.get('pt:'+p.id); if(r) REC[p.id]=r; }
+  initMap(); bindGeo(); updateProgress(); renderList();
+  if(Store.mode()==='mem') toast('Vista previa: descarga el archivo para guardar tus datos');
+  // Ask for location right away so everything anchors on where you are
+  startGPS();
+})();
+<\/script>
+</body>
+</html>
+
 </script>
 </body>
 </html>
