@@ -183,6 +183,14 @@
 
   /* ===== SECTIONS ===== */
   .section{margin-bottom:26px;}
+  /* Grupos de pestañas (#7): fila superior de intención, fila inferior con sus pestañas. */
+  .tabgroups{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;}
+  .tgrp{background:transparent; border:2px solid var(--silver); color:var(--ink-soft); cursor:pointer;
+    font-family:inherit; font-size:12px; font-weight:700; padding:6px 14px; border-radius:6px;
+    text-transform:uppercase; letter-spacing:.04em;}
+  .tgrp.active{background:var(--ink); border-color:var(--ink); color:var(--white);}
+  .tab.oculta-grupo{display:none;}
+  @media (max-width:600px){ .tabgroups{display:none;} .tab.oculta-grupo{display:inline-block;} }
   /* Badge de cobros pendientes: plata en la calle, visible sin entrar a la sección. */
   .cobro-badge{display:inline-block; margin-left:6px; font-size:9.5px; font-weight:800; line-height:1;
     padding:3px 6px; border-radius:9px; background:#065F46; color:#fff; vertical-align:middle; white-space:nowrap;}
@@ -416,20 +424,29 @@
   </div>
 
   <!-- ===== TABS ===== -->
+  <!-- Navegación agrupada por INTENCIÓN (mejora #7). Antes eran 13 pestañas planas y había que
+       recordar en cuál vivía cada cosa. Los grupos no cambian ninguna pestaña ni su contenido:
+       solo las ordenan por el momento en que las usas. -->
+  <div class="tabgroups" id="tabGroups">
+    <button class="tgrp active" data-grupo="registrar">🎟️ Registrar</button>
+    <button class="tgrp" data-grupo="analizar">📊 Analizar</button>
+    <button class="tgrp" data-grupo="cobrar">💰 Cobrar</button>
+    <button class="tgrp" data-grupo="datos">💾 Datos</button>
+  </div>
   <div class="tabs">
-    <button class="tab active" data-tab="inicio">🏠 Inicio</button>
-    <button class="tab" data-tab="global">🌐 Global</button>
-    <button class="tab" data-tab="juegos">🎮 Juegos</button>
-    <button class="tab" data-tab="boletos">🎟️ Boletos & Lotes</button>
-    <button class="tab" data-tab="puntos">📍 Puntos</button>
-    <button class="tab" data-tab="qr">🔫 QR</button>
-    <button class="tab" data-tab="estrategia">🎯 Estrategia</button>
-    <button class="tab" data-tab="stats">📊 Análisis de probabilidad</button>
-    <button class="tab" data-tab="avanzado">🔬 Análisis avanzado</button>
-    <button class="tab" data-tab="rendimiento">📈 Rendimiento</button>
-    <button class="tab" data-tab="cobros">💰 Cobros</button>
-    <button class="tab" data-tab="reporte">📄 Reporte</button>
-    <button class="tab" data-tab="export">💾 Exportar</button>
+    <button class="tab active" data-tab="inicio" data-grupo="registrar">🏠 Inicio</button>
+    <button class="tab" data-tab="boletos" data-grupo="registrar">🎟️ Boletos &amp; Lotes</button>
+    <button class="tab" data-tab="qr" data-grupo="registrar">🔫 QR</button>
+    <button class="tab" data-tab="puntos" data-grupo="registrar">📍 Puntos</button>
+    <button class="tab" data-tab="juegos" data-grupo="registrar">🎮 Juegos</button>
+    <button class="tab" data-tab="global" data-grupo="analizar">🌐 Global</button>
+    <button class="tab" data-tab="estrategia" data-grupo="analizar">🎯 Estrategia</button>
+    <button class="tab" data-tab="stats" data-grupo="analizar">📊 Análisis de probabilidad</button>
+    <button class="tab" data-tab="avanzado" data-grupo="analizar">🔬 Análisis avanzado</button>
+    <button class="tab" data-tab="rendimiento" data-grupo="analizar">📈 Rendimiento</button>
+    <button class="tab" data-tab="cobros" data-grupo="cobrar">💰 Cobros</button>
+    <button class="tab" data-tab="reporte" data-grupo="datos">📄 Reporte</button>
+    <button class="tab" data-tab="export" data-grupo="datos">💾 Exportar</button>
   </div>
 
   <!-- Insignia flotante del modo captura por toque -->
@@ -1649,6 +1666,18 @@
       </div>
     </div>
 
+    <div class="section" style="margin-bottom:20px;">
+      <div class="section-head"><span class="tag">📅</span><h2>Cierre mensual</h2><span class="hint">las cifras honestas, mes por mes</span></div>
+      <div class="section-body">
+        <p class="note" style="margin-top:0;">
+          Cada mes con su <strong>neto real</strong> y su <strong>neto sin el premio mayor</strong> de ese mes.
+          La segunda columna es la que describe tu operación: un solo boleto grande puede volver positivo
+          un mes que, en la práctica, fue de pérdida.
+        </p>
+        <div id="cierreMensual"></div>
+      </div>
+    </div>
+
     <div id="reportContent">
 
       <div class="section">
@@ -1965,7 +1994,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '13.1', fecha: '2026-08-07' };
+  const APP_VERSION = { num: '13.2', fecha: '2026-08-07' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -4084,6 +4113,9 @@
     ['renderCostoPreview', ()=>renderCostoPreview()],
     ['initMobileMode', ()=>initMobileMode()],
     ['initBottomNav', ()=>initBottomNav()],
+    // #7: mantiene el grupo sincronizado con la pestaña activa tras cualquier navegación.
+    ['aplicarGrupo', ()=>aplicarGrupo()],
+    ['renderEstadoConexion', ()=>renderEstadoConexion()],
     // #8: se reaplica tras cada render porque las secciones se repintan y perderían el estado.
     ['aplicarModoEnfocado', ()=>{ aplicarModoEnfocado();
       const b=document.getElementById('btnModoEnfocado'); if(b && !b._bound){ b._bound=true; b.onclick=toggleModoEnfocado; } }],
@@ -4129,6 +4161,7 @@
     cobros: [ ['renderCobros', ()=>renderCobros()] ],
     reporte: [
       ['renderReporte', ()=>renderReporte()],
+      ['renderCierreMensual', ()=>renderCierreMensual()],
       ['renderCurvaROI', ()=>renderCurvaROI()],
     ],
     export: [
@@ -4148,8 +4181,27 @@
   // Cola de renderers pesados: en una ráfaga de toques se acumulan y corren una sola vez,
   // en tiempo ocioso, cuando el usuario deja de tocar (250 ms).
   let _pesadosPend = new Map(), _pesadoTimer = null;
+  // #25 — CACHÉ DE RENDERS PESADOS
+  // Los `pesado:true` recalculan al reabrir su pestaña aunque los datos no hayan cambiado.
+  // Se saltan si ya corrieron con el mismo _dataVersion Y el mismo juego/filtro: el resultado
+  // sería idéntico. Cualquier save() sube _dataVersion, así que nunca se muestra algo viejo.
+  const _pesadoCache = new Map();
+  // La clave son las DOS cosas globales de las que dependen los renders pesados: la versión de
+  // datos y el juego activo. Los filtros de lista viven en el ámbito de sus propias funciones
+  // (getLoteFilters/getHistFilters) y sus renderers NO están marcados como pesados, así que no
+  // entran aquí. Si algún día uno pesado dependiera de un filtro, llamar a invalidarCachePesado().
+  function _claveCachePesado(){
+    let j='';
+    try{ j = String(juegoActivoId||''); }catch(e){}
+    return _dataVersion + '|' + j;
+  }
+  function invalidarCachePesado(){ _pesadoCache.clear(); }
   function _encolarPesado(nombre, fn){
-    _pesadosPend.set(nombre, fn);
+    const clave = _claveCachePesado();
+    if(_pesadoCache.get(nombre) === clave) return;   // ya pintado con estos mismos datos
+    // Se marca DESPUÉS de ejecutar: si el render falla no debe quedar cacheado, o el error
+    // se volvería permanente hasta el siguiente cambio de datos.
+    _pesadosPend.set(nombre, ()=>{ fn(); _pesadoCache.set(nombre, clave); });
     clearTimeout(_pesadoTimer);
     // #10: mientras la tanda esté pendiente se muestra la barra de carga. Antes la vista
     // simplemente se congelaba y parecía que la app había fallado.
@@ -5363,6 +5415,137 @@
     if(help) help.innerHTML += ` <span style="color:#1565C0;">Se añadieron <strong>${nuevos.length}</strong> monto(s) vistos en tus registros. Ojo: solo aparecen los que YA te han salido — los premios grandes son raros, así que revisa el reverso del boleto y añade a mano los que falten.</span>`;
     toast(`${nuevos.length} monto(s) añadidos desde tus registros`);
   });
+
+  // ======================================================
+  // INDICADOR DE CONEXIÓN (#14)
+  // La captura offline YA funcionaba: todo entra a localStorage al instante y la capa de sync
+  // reenvía lo no confirmado al reconectar. Lo que faltaba era SABERLO: registrando en el
+  // subsuelo de un centro comercial no había señal de si el dato estaba a salvo.
+  // ======================================================
+  function renderEstadoConexion(){
+    let el = document.getElementById('estadoConexion');
+    if(!el){
+      el = document.createElement('div');
+      el.id = 'estadoConexion';
+      el.setAttribute('role','status'); el.setAttribute('aria-live','polite');
+      el.style.cssText = 'position:fixed; left:12px; bottom:78px; z-index:9996; font-size:11.5px; font-weight:700;'
+        + 'padding:7px 12px; border-radius:8px; display:none; max-width:70vw; line-height:1.4;'
+        + 'box-shadow:0 6px 18px -8px rgba(0,0,0,.5);';
+      document.body.appendChild(el);
+    }
+    const online = navigator.onLine !== false;
+    if(online){ el.style.display='none'; return; }
+    el.style.display = 'block';
+    el.style.background = '#FAEEDA'; el.style.color = '#854F0B'; el.style.border = '1px solid #F59E0B';
+    el.innerHTML = '📴 Sin conexión — <strong>tus registros se están guardando</strong> y se sincronizarán solos al recuperar red.';
+  }
+  (function bindConexion(){
+    window.addEventListener('online',  ()=>{ renderEstadoConexion(); toast('📶 Conexión recuperada — sincronizando'); });
+    window.addEventListener('offline', ()=>{ renderEstadoConexion(); toast('📴 Sin conexión — se sigue guardando en el equipo'); });
+  })();
+
+  // ======================================================
+  // CIERRE MENSUAL (#23)
+  // Mismo criterio que el encabezado: se muestra el neto real y el neto SIN el premio mayor
+  // DE ESE MES. Un mes puede cerrar en verde por un solo boleto y eso no describe la operación.
+  // Usa TODOS los juegos (el cierre del mes es del bolsillo, no de un juego).
+  // ======================================================
+  function datosCierreMensual(){
+    const porMes = {};
+    (data.records||[]).forEach(r=>{
+      const f = String(r.fecha||'').slice(0,7); if(!f) return;
+      if(!porMes[f]) porMes[f] = {mes:f, n:0, gasto:0, premios:0, mayor:0, cobrado:0, pendiente:0};
+      const m = porMes[f], pr = premioNeto(r.premio);
+      m.n++; m.gasto += Number(r.costo)||0; m.premios += pr;
+      if(pr > m.mayor) m.mayor = pr;
+      if(pr > 0){ if(r.cobrado) m.cobrado += pr; else m.pendiente += pr; }
+    });
+    return Object.values(porMes).sort((a,b)=> b.mes.localeCompare(a.mes));
+  }
+  function renderCierreMensual(){
+    const el = document.getElementById('cierreMensual'); if(!el) return;
+    const M = datosCierreMensual();
+    if(!M.length){ el.innerHTML = '<p class="note" style="margin:0;">Aún no hay boletos con fecha registrada.</p>'; return; }
+    const MESES = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const nombreMes = k => { const [a,m] = k.split('-'); return MESES[parseInt(m,10)] + ' ' + a; };
+    const filas = M.map(m=>{
+      const neto = m.premios - m.gasto;
+      const netoOper = neto - m.mayor;
+      const rtp = m.gasto>0 ? m.premios/m.gasto*100 : 0;
+      const rtpOper = m.gasto>0 ? (m.premios-m.mayor)/m.gasto*100 : 0;
+      const c = v => v>=0 ? '#065F46' : '#7F1D1D';
+      return `<tr>
+        <td style="white-space:nowrap; font-weight:700;">${nombreMes(m.mes)}</td>
+        <td style="text-align:right;">${m.n}</td>
+        <td style="text-align:right;">${fmt(m.gasto)}</td>
+        <td style="text-align:right;">${fmt(m.premios)}</td>
+        <td style="text-align:right; font-weight:700; color:${c(neto)};">${neto>=0?'+':''}${fmt(neto)}</td>
+        <td style="text-align:right; font-weight:800; color:${c(netoOper)};">${netoOper>=0?'+':''}${fmt(netoOper)}</td>
+        <td style="text-align:right;">${rtp.toFixed(0)}% <span style="color:var(--silver-dark); font-size:10.5px;">/ ${rtpOper.toFixed(0)}%</span></td>
+        <td style="text-align:right;">${m.pendiente>0?`<span style="color:#7F1D1D; font-weight:700;">${fmt(m.pendiente)}</span>`:'—'}</td>
+      </tr>`;
+    }).join('');
+    const T = M.reduce((a,m)=>({g:a.g+m.gasto, p:a.p+m.premios, n:a.n+m.n, pend:a.pend+m.pendiente}), {g:0,p:0,n:0,pend:0});
+    const mayorGlobal = M.reduce((mx,m)=>Math.max(mx,m.mayor),0);
+    el.innerHTML = `<div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead><tr>
+          <th>Mes</th><th style="text-align:right;">Boletos</th><th style="text-align:right;">Gasto</th>
+          <th style="text-align:right;">Premios</th><th style="text-align:right;">Neto</th>
+          <th style="text-align:right;" title="Neto quitando el premio mayor de ese mes">Neto operativo</th>
+          <th style="text-align:right;">RTP / oper.</th><th style="text-align:right;">Por cobrar</th>
+        </tr></thead>
+        <tbody>${filas}</tbody>
+        <tfoot><tr style="border-top:2px solid var(--ink); font-weight:800;">
+          <td>TOTAL</td><td style="text-align:right;">${T.n}</td>
+          <td style="text-align:right;">${fmt(T.g)}</td><td style="text-align:right;">${fmt(T.p)}</td>
+          <td style="text-align:right; color:${T.p-T.g>=0?'#065F46':'#7F1D1D'};">${T.p-T.g>=0?'+':''}${fmt(T.p-T.g)}</td>
+          <td style="text-align:right; color:${T.p-T.g-mayorGlobal>=0?'#065F46':'#7F1D1D'};">${T.p-T.g-mayorGlobal>=0?'+':''}${fmt(T.p-T.g-mayorGlobal)}</td>
+          <td style="text-align:right;">${T.g>0?(T.p/T.g*100).toFixed(0):0}%</td>
+          <td style="text-align:right;">${T.pend>0?fmt(T.pend):'—'}</td>
+        </tr></tfoot>
+      </table></div>
+      <p class="note" style="margin:8px 0 0; font-size:11.5px;">El «neto operativo» del total excluye el premio mayor de todo el histórico (${fmt(mayorGlobal)}). Usa el botón de arriba para exportar todo el reporte en PDF.</p>`;
+  }
+
+  // ======================================================
+  // GRUPOS DE PESTAÑAS (#7)
+  // Filtro puramente visual: NINGUNA pestaña se elimina y goTab() sigue funcionando igual.
+  // Si se navega a una pestaña de otro grupo (por atajo, búsqueda global o enlace interno),
+  // el grupo se ajusta solo para que la pestaña activa nunca quede escondida.
+  // En móvil los grupos se ocultan por CSS y se ven todas (ya existe la hoja "Más").
+  // ======================================================
+  let grupoActivo = localStorage.getItem('bitacora_grupo_tab') || 'registrar';
+  function aplicarGrupo(){
+    const activa = document.querySelector('.tab.active');
+    const gActiva = activa && activa.dataset.grupo;
+    if(gActiva && gActiva !== grupoActivo) grupoActivo = gActiva;   // nunca esconder la activa
+    document.querySelectorAll('.tab[data-grupo]').forEach(t=>{
+      t.classList.toggle('oculta-grupo', t.dataset.grupo !== grupoActivo);
+    });
+    document.querySelectorAll('.tgrp').forEach(b=>{
+      b.classList.toggle('active', b.dataset.grupo === grupoActivo);
+    });
+  }
+  (function bindGrupos(){
+    const bind = ()=>{
+      const cont = document.getElementById('tabGroups'); if(!cont) return false;
+      cont.querySelectorAll('.tgrp').forEach(b=>{
+        b.onclick = ()=>{
+          grupoActivo = b.dataset.grupo;
+          try{ localStorage.setItem('bitacora_grupo_tab', grupoActivo); }catch(e){}
+          // Al cambiar de grupo se abre su primera pestaña: quedarse en una pestaña oculta
+          // era desconcertante.
+          const primera = document.querySelector('.tab[data-grupo="'+grupoActivo+'"]');
+          if(primera && primera.dataset.tab) goTab(primera.dataset.tab);
+          aplicarGrupo();
+        };
+      });
+      aplicarGrupo();
+      return true;
+    };
+    if(!bind()) document.addEventListener('DOMContentLoaded', bind);
+  })();
 
   // ======================================================
   // MODO ENFOCADO (#8) — oculta los análisis que ya dieron NULO CONFIRMADO
