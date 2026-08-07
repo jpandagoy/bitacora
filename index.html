@@ -183,6 +183,12 @@
 
   /* ===== SECTIONS ===== */
   .section{margin-bottom:26px;}
+  /* Badge de cobros pendientes: plata en la calle, visible sin entrar a la sección. */
+  .cobro-badge{display:inline-block; margin-left:6px; font-size:9.5px; font-weight:800; line-height:1;
+    padding:3px 6px; border-radius:9px; background:#065F46; color:#fff; vertical-align:middle; white-space:nowrap;}
+  .cobro-badge.viejo{background:#7F1D1D;}
+  .bottomnav .cobro-badge{position:absolute; top:2px; left:50%; transform:translateX(2px); margin:0; font-size:8px; padding:2px 5px;}
+  .bottomnav button{position:relative;}
   .section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:12px; border-bottom:2px solid var(--ink); padding-bottom:6px; flex-wrap:wrap;}
   .section-head .tag{font-family:'Courier New',monospace; font-size:11px; background:var(--ink); color:var(--white); padding:3px 7px; letter-spacing:0.08em;}
   .section-head h2{margin:0; font-family:Georgia,serif; font-weight:800; font-size:18px;}
@@ -440,6 +446,26 @@
     <button data-nav="__mas"><span class="bn-ic">☰</span><span class="bn-lb">Más</span></button>
   </nav>
 
+  <!-- Botón flotante de búsqueda: en el móvil no hay Ctrl+K. -->
+  <button id="gsFab" type="button" title="Buscar en todo (Ctrl+K)" aria-label="Buscar en todo"
+    style="position:fixed; right:14px; bottom:78px; z-index:9996; width:48px; height:48px; border-radius:50%;
+           border:2px solid var(--ink); background:var(--white); color:var(--ink); font-size:19px; cursor:pointer;
+           box-shadow:0 6px 18px -6px rgba(0,0,0,.5);">🔍</button>
+
+  <!-- BÚSQUEDA GLOBAL (mejora #6): un solo campo para series, puntos, juegos y montos.
+       Antes había que recordar en qué pestaña vivía cada filtro. Ctrl+K o el botón 🔍. -->
+  <div id="gsOverlay" style="display:none; position:fixed; inset:0; z-index:100001; background:rgba(0,0,0,.5); padding:8vh 14px 14px;">
+    <div style="max-width:640px; margin:0 auto; background:var(--white); border:2px solid var(--ink); border-radius:10px; overflow:hidden; box-shadow:0 20px 60px -20px rgba(0,0,0,.7);">
+      <div style="display:flex; align-items:center; gap:8px; padding:12px 14px; border-bottom:2px solid var(--ink);">
+        <span style="font-size:16px;">🔍</span>
+        <input id="gsInput" placeholder="Busca serie, punto de venta, juego o monto…" autocomplete="off"
+               style="flex:1; min-width:0; border:none; outline:none; background:transparent; font-size:15px; font-family:inherit; color:var(--ink);">
+        <button id="gsClose" type="button" style="border:none; background:var(--paper-dark); color:var(--ink-soft); border-radius:6px; padding:5px 10px; cursor:pointer; font-size:12px; font-weight:700;">ESC</button>
+      </div>
+      <div id="gsResults" style="max-height:58vh; overflow-y:auto;"></div>
+    </div>
+  </div>
+
   <!-- Hoja "Más": lista completa de pestañas para móvil -->
   <div id="masSheet" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.45);">
     <div style="position:absolute; left:0; right:0; bottom:0; background:var(--paper,#EDE6D6); border-top-left-radius:16px; border-top-right-radius:16px; padding:16px 14px 24px; max-height:80vh; overflow-y:auto;">
@@ -467,6 +493,18 @@
       <p class="note" style="margin-bottom:14px;">Suma de todos tus juegos en una sola vista, sin cambiar de juego. Respeta el modo de compra de cada lote (taco completo cuenta el taco entero). No altera nada de lo que ves por juego.</p>
       <div id="globalContent"></div>
     </div>
+    <div class="section">
+      <div class="section-head"><span class="tag">PV</span><h2>¿Rinde más algún punto de venta?</h2><span class="hint">comparación honesta, con corrección por comparaciones múltiples</span></div>
+      <div class="section-body">
+        <p class="note" style="margin-top:0;">
+          Comparar 8 puntos a la vez multiplica las coincidencias por azar, así que se corrige el umbral
+          (<strong>Bonferroni</strong>). Además <strong>se excluye el premio mayor</strong>: un solo boleto de $10.000
+          convertiría a su punto en «el mejor» sin que eso signifique nada. Solo se marca un punto como distinto
+          si su intervalo corregido no toca el promedio.
+        </p>
+        <div id="rtpPorPunto"></div>
+      </div>
+    </div>
   </div>
 
   <!-- =================================================== -->
@@ -481,6 +519,19 @@
           Esta bitácora puede llevar el registro de varios juegos de raspaditas a la vez (distintos nombres, tamaños de lote, costos). Selecciona cuál está activo: <strong>Mis boletos, Lotes / Posiciones y todas las secciones de análisis se filtran automáticamente para mostrar solo los datos de ese juego.</strong>
         </p>
         <div id="juegoActivoList" style="margin-top:14px;"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="tag">01b</span><h2>Comparador de juegos</h2><span class="hint">cuánto te devuelve cada uno por cada dólar</span></div>
+      <div class="section-body">
+        <p class="note" style="margin-top:0;">
+          RTP = premios ÷ gasto. Bajo 100% el juego te devuelve menos de lo que pones. El veredicto usa el
+          <strong>intervalo de confianza del 95%</strong>: solo dice <em>descartar</em> cuando el techo del intervalo
+          sigue por debajo del 100%, es decir cuando ya no es mala suerte sino el juego.
+          <strong>El premio mayor se muestra aparte</strong> porque un solo boleto puede voltear el signo de todo.
+        </p>
+        <div id="comparadorJuegos"></div>
       </div>
     </div>
 
@@ -579,6 +630,7 @@
         <div class="metric"><div class="num" id="mGasto">$0.00</div><div class="lbl">Gasto total</div></div>
         <div class="metric"><div class="num" id="mPremios">$0.00</div><div class="lbl">Premios ganados</div></div>
         <div class="metric"><div class="num" id="mNeto">$0.00</div><div class="lbl">Resultado neto</div></div>
+        <div class="metric" id="mOperMetric" title="El mismo neto excluyendo el premio mayor. Describe tu operación habitual, no la suerte de un boleto irrepetible."><div class="num" id="mOper">$0.00</div><div class="lbl" id="mOperLbl">Neto operativo</div></div>
         <div class="metric"><div class="num" id="mRoi">0%</div><div class="lbl">ROI (retorno/gasto)</div></div>
       </div>
     </div>
@@ -727,6 +779,7 @@
               <option value="">Todos</option>
               <option value="completo">Solo completos (100% revelado)</option>
               <option value="curso">Solo en curso</option>
+              <option value="abandonado">Abandonados (en curso, +14 días sin tocar)</option>
             </select>
           </div>
           <div class="field">
@@ -1361,6 +1414,11 @@
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-avanzado">
 
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+      <button class="btn-ghost" id="btnModoEnfocado" type="button">🎯 Ocultar análisis descartados</button>
+      <span class="hint" id="modoEnfocadoNota">Ocultos los análisis cuya hipótesis ya se descartó (posición, paridad, potencia, geometría). El cálculo sigue ahí; solo no estorba.</span>
+    </div>
+
     <div class="note" style="margin-bottom:20px;">
       <strong>Qué hay en esta pestaña:</strong> son cinco análisis adicionales que afinan o complementan los de la pestaña anterior. No reemplazan los cálculos de "Análisis de probabilidad" — los hacen más precisos (intervalo de Wilson), o exploran preguntas distintas (rachas en el tiempo, punto de venta, criterio de selección, y si el número de premios por lote es estable).
     </div>
@@ -1907,7 +1965,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '12.4', fecha: '2026-08-07' };
+  const APP_VERSION = { num: '13.0', fecha: '2026-08-07' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -2361,8 +2419,87 @@
     }catch(e){}
   }
   function guardarPresupuesto(mensual, stopLoss){
-    presupuestoConfig = { mensual, stopLoss };
+    // Se conserva el tope diario si no viene explícito, para no borrarlo al editar solo el mensual.
+    const diario = (arguments.length>2 && arguments[2]!==undefined) ? arguments[2] : presupuestoConfig.diario;
+    presupuestoConfig = { mensual, stopLoss, diario: (diario===''||diario==null) ? null : Number(diario) };
     try{ localStorage.setItem('bitacora_presupuesto', JSON.stringify(presupuestoConfig)); }catch(e){}
+  }
+  // ======================================================
+  // STOP-LOSS DIARIO Y ESCALADA — mejora #3
+  // Único control que actúa ANTES de gastar. Con datos reales el gasto pasó de $137,86/día
+  // (22 días previos) a $349,67/día (últimos 14): una escalada de 2,5× que nada avisaba.
+  // No bloquea nada — informa. La decisión sigue siendo del usuario.
+  // ======================================================
+  function gastoDelDia(fecha){
+    const f = fecha || todayStr();
+    return (data.records||[]).filter(r=>String(r.fecha||'').slice(0,10)===f)
+      .reduce((a,r)=>a+(Number(r.costo)||0), 0);
+  }
+  // Compara el ritmo reciente contra el histórico previo. Devuelve null si no hay base
+  // suficiente: preferimos no decir nada antes que inventar una tendencia con 3 días.
+  function escaladaGasto(){
+    const porDia = {};
+    (data.records||[]).forEach(r=>{
+      const f = String(r.fecha||'').slice(0,10); if(!f) return;
+      porDia[f] = (porDia[f]||0) + (Number(r.costo)||0);
+    });
+    const dias = Object.keys(porDia).sort();
+    if(dias.length < 10) return null;
+    const nRec = Math.min(7, Math.floor(dias.length/2));
+    const rec = dias.slice(-nRec), prev = dias.slice(0, dias.length-nRec);
+    if(!prev.length) return null;
+    const mRec = rec.reduce((a,f)=>a+porDia[f],0)/rec.length;
+    const mPrev = prev.reduce((a,f)=>a+porDia[f],0)/prev.length;
+    if(!(mPrev > 0)) return null;
+    return { reciente:mRec, previo:mPrev, factor:mRec/mPrev, nRec:rec.length, nPrev:prev.length,
+             mediana: (function(){ const v=dias.map(f=>porDia[f]).sort((a,b)=>a-b); return v[Math.floor(v.length/2)]; })() };
+  }
+  function renderStopLoss(){
+    const el = document.getElementById('stopLossPanel'); if(!el) return;
+    const tope = presupuestoConfig.diario;
+    const hoy = gastoDelDia();
+    const esc = escaladaGasto();
+    let html = '';
+    if(tope > 0){
+      const pct = Math.min(100, hoy/tope*100);
+      const over = hoy > tope;
+      const col = over ? '#7F1D1D' : (pct>=80 ? '#854F0B' : '#065F46');
+      const bg  = over ? '#FCEBEB' : (pct>=80 ? '#FAEEDA' : '#D1FAE5');
+      html += `<div style="background:${bg}; border-left:4px solid ${col}; border-radius:0 6px 6px 0; padding:11px 14px; margin-bottom:10px; color:${col}; font-size:13px; line-height:1.55;">
+        <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; font-weight:800;">
+          <span>${over?'🛑 Superaste tu tope diario':'Gasto de hoy'}</span>
+          <span>${fmt(hoy)} / ${fmt(tope)}</span>
+        </div>
+        <div style="height:8px; background:rgba(0,0,0,.09); border-radius:5px; overflow:hidden; margin-top:7px;">
+          <div style="height:100%; width:${pct.toFixed(0)}%; background:${col};"></div>
+        </div>
+        ${over?`<div style="margin-top:6px; font-weight:700;">Vas ${fmt(hoy-tope)} por encima del límite que te pusiste.</div>`:''}
+      </div>`;
+    } else {
+      html += `<p class="note" style="margin:0 0 10px;">No has fijado un tope de gasto diario. Es el único control que actúa <strong>antes</strong> de comprar.</p>`;
+    }
+    if(esc && esc.factor >= 1.5){
+      html += `<div style="background:#FCEBEB; border-left:4px solid #7F1D1D; border-radius:0 6px 6px 0; padding:11px 14px; margin-bottom:10px; color:#7F1D1D; font-size:12.5px; line-height:1.55;">
+        📈 <strong>Tu ritmo de gasto se multiplicó por ${esc.factor.toFixed(1)}</strong>:
+        ${fmt(esc.reciente)}/día en los últimos ${esc.nRec} días frente a ${fmt(esc.previo)}/día en los ${esc.nPrev} anteriores.
+        Tu mediana histórica es ${fmt(esc.mediana)}/día.</div>`;
+    } else if(esc){
+      html += `<div style="background:var(--paper-dark); border-radius:6px; padding:10px 14px; margin-bottom:10px; font-size:12.5px; line-height:1.55;">
+        Ritmo actual ${fmt(esc.reciente)}/día · previo ${fmt(esc.previo)}/día · mediana ${fmt(esc.mediana)}/día.</div>`;
+    }
+    html += `<div class="form-actions"><button class="btn-ghost" id="btnFijarTopeDiario" type="button">${tope>0?'Cambiar tope diario':'Fijar tope diario'}</button>${tope>0?'<button class="btn-ghost" id="btnQuitarTopeDiario" type="button">Quitar tope</button>':''}</div>`;
+    el.innerHTML = html;
+    const b = document.getElementById('btnFijarTopeDiario');
+    if(b) b.onclick = ()=>{
+      const v = prompt('¿Cuánto es lo máximo que quieres gastar en un día? (en dólares)', tope>0?String(tope):'200');
+      if(v===null) return;
+      const n = parseFloat(String(v).replace(',','.'));
+      if(!(n>0)){ toast('Escribe un monto mayor que cero'); return; }
+      guardarPresupuesto(presupuestoConfig.mensual, presupuestoConfig.stopLoss, n);
+      render(); toast('Tope diario fijado en '+fmt(n));
+    };
+    const q = document.getElementById('btnQuitarTopeDiario');
+    if(q) q.onclick = ()=>{ guardarPresupuesto(presupuestoConfig.mensual, presupuestoConfig.stopLoss, null); render(); toast('Tope diario quitado'); };
   }
   function getGastoDelMes(){
     const hoy = new Date();
@@ -3211,11 +3348,19 @@
         .map(r=>{ const l=loteById[String(r.loteId)]; return `${fmt(r.premio)} en ${(juegoById[String(l.juegoId)]||{}).nombre||'?'} (lote ${l.serie||l.id})`; }),
       'Todos los premios son montos oficiales de su juego');
 
-    // 9. Records sin punto de venta
-    add('Records con punto de venta', 'aviso',
-      recs.filter(r=> !r.punto).map(r=>`record ${r.id}`),
-      `Los ${recs.length} records tienen punto`,
-      n=>`${n} record(s) sin punto de venta`);
+    // 9. Records sin punto de venta — con UMBRAL. El conteo suelto no alerta: el hueco pasó de
+    // 155 a 1.030 registros (20,7%) sin que nada avisara. Sobre 10% deja de ser anecdótico y
+    // vuelve ruido cualquier análisis geográfico, así que se reporta como porcentaje.
+    (function(){
+      const sin = recs.filter(r=> !r.punto);
+      const pct = recs.length ? (sin.length/recs.length*100) : 0;
+      const UMBRAL_PCT = 10;
+      add('Records con punto de venta', pct >= UMBRAL_PCT ? 'error' : 'aviso',
+        sin.map(r=>`record ${r.id}`),
+        `Los ${recs.length} records tienen punto`,
+        n=>`${n} record(s) sin punto de venta (${pct.toFixed(1)}% del total`
+           + (pct>=UMBRAL_PCT ? ` — supera el ${UMBRAL_PCT}% aceptable; el análisis por punto no es confiable)` : ')'));
+    })();
 
     // 10. Lotes sin fecha de creación (creadoEn)
     add('Lotes con fecha de creación', 'aviso',
@@ -3362,6 +3507,7 @@
     const t = document.getElementById('toast');
     if(_toastTimer) clearTimeout(_toastTimer);
     t.textContent = msg; t.classList.add('show');
+    try{ anunciar(msg); }catch(e){}   // #11: sin esto el aviso no existe para un lector de pantalla
     _toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
   }
   // Toast con acción "Deshacer" (undoFn). Se mantiene ~6 s. Al deshacer, ejecuta undoFn.
@@ -3927,6 +4073,8 @@
   // Renderers que se ejecutan SIEMPRE: cabecera, selectores compartidos y navegación.
   const RENDER_SIEMPRE = [
     ['renderFolio', ()=>renderFolio()],
+    // Barato (una pasada por records premiados) y debe verse desde cualquier pestaña.
+    ['renderCobrosBadge', ()=>renderCobrosBadge()],
     ['renderLoteSelects', ()=>renderLoteSelects()],
     ['renderPuntosVentaDatalist', ()=>renderPuntosVentaDatalist()],
     // Los tres dependen del juego activo: si no corren en cada render, el formulario de crear
@@ -3936,6 +4084,9 @@
     ['renderCostoPreview', ()=>renderCostoPreview()],
     ['initMobileMode', ()=>initMobileMode()],
     ['initBottomNav', ()=>initBottomNav()],
+    // #8: se reaplica tras cada render porque las secciones se repintan y perderían el estado.
+    ['aplicarModoEnfocado', ()=>{ aplicarModoEnfocado();
+      const b=document.getElementById('btnModoEnfocado'); if(b && !b._bound){ b._bound=true; b.onclick=toggleModoEnfocado; } }],
     ['syncBottomNav', ()=>syncBottomNav()],
   ];
 
@@ -3943,12 +4094,15 @@
   const RENDER_TABS = {
     inicio: [
       ['renderDashboard', ()=>renderDashboard()],
+      ['renderStopLoss', ()=>renderStopLoss()],
       ['renderChecklistKiosco', ()=>renderChecklistKiosco()],
       ['renderDiarioSesiones', ()=>renderDiarioSesiones()],
       ['renderCommandCenter', ()=>renderCommandCenter(), true],
     ],
-    global: [ ['renderGlobal', ()=>renderGlobal()] ],
-    juegos: [ ['renderJuegoActivoList', ()=>renderJuegoActivoList()] ],
+    global: [ ['renderGlobal', ()=>renderGlobal()],
+              ['renderRtpPorPunto', ()=>renderRtpPorPunto(), true] ],
+    juegos: [ ['renderJuegoActivoList', ()=>renderJuegoActivoList()],
+              ['renderComparadorJuegos', ()=>renderComparadorJuegos(), true] ],
     boletos: [
       ['renderLoteQuickCreate', ()=>renderLoteQuickCreate()],
       ['renderLoteDetail', ()=>renderLoteDetail()],
@@ -3997,9 +4151,15 @@
   function _encolarPesado(nombre, fn){
     _pesadosPend.set(nombre, fn);
     clearTimeout(_pesadoTimer);
+    // #10: mientras la tanda esté pendiente se muestra la barra de carga. Antes la vista
+    // simplemente se congelaba y parecía que la app había fallado.
+    try{ mostrarCargando(true); }catch(e){}
     _pesadoTimer = setTimeout(()=>{
       const tanda = _pesadosPend; _pesadosPend = new Map();
-      const correr = ()=> tanda.forEach((f,n)=> _safe(n, f));
+      const correr = ()=>{
+        try{ tanda.forEach((f,n)=> _safe(n, f)); }
+        finally{ try{ if(!_pesadosPend.size) mostrarCargando(false); }catch(e){} }
+      };
       if(window.requestIdleCallback) requestIdleCallback(correr, {timeout:1500});
       else correr();
     }, 250);
@@ -4683,6 +4843,19 @@
     const roiEl = document.getElementById('mRoi');
     roiEl.textContent = (roi>=0?'+':'') + roi.toFixed(1) + '%';
     roiEl.className = 'num ' + (roi>=0?'pos':'neg');
+    // NETO OPERATIVO: el mismo neto quitando el premio MAYOR observado. Un solo boleto
+    // irrepetible puede voltear el signo del acumulado (con datos reales: +$7.831 pasa a
+    // -$2.168), y decidir compras sobre ese número es decidir sobre suerte pasada.
+    // No cambia ninguna fórmula: es una LECTURA extra sobre los mismos datos.
+    const operEl = document.getElementById('mOper'), operLbl = document.getElementById('mOperLbl');
+    if(operEl){
+      const netos = records.map(r=>premioNeto(r.premio)).filter(v=>v>0);
+      const mayor = netos.length ? Math.max.apply(null, netos) : 0;
+      const netoOper = neto - mayor;
+      operEl.textContent = (netoOper>=0?'+':'') + fmt(netoOper);
+      operEl.className = 'num ' + (netoOper>=0?'pos':'neg');
+      if(operLbl) operLbl.textContent = mayor>0 ? ('Neto sin el mayor ('+fmt(mayor)+')') : 'Neto operativo';
+    }
   }
 
   // ======================================================
@@ -5191,6 +5364,390 @@
     toast(`${nuevos.length} monto(s) añadidos desde tus registros`);
   });
 
+  // ======================================================
+  // MODO ENFOCADO (#8) — oculta los análisis que ya dieron NULO CONFIRMADO
+  // No se borra el código: esas secciones siguen calculándose y se pueden volver a mostrar.
+  // Borrarlas sería irreversible y aquí lo que sobra es ruido visual, no la evidencia.
+  // Nulos confirmados en este proyecto: ranking posicional (portero p≈0,785 con 47 lotes),
+  // paridad, potencia, geometría y el heatmap del taco (todos derivados de lo mismo).
+  // ======================================================
+  const SECCIONES_NULAS = ['rigor-shrinkage','rigor-potencia','rigor-geometria','parityBody','heatmapTaco'];
+  let modoEnfocado = (localStorage.getItem('bitacora_modo_enfocado') !== '0');
+  function aplicarModoEnfocado(){
+    SECCIONES_NULAS.forEach(id=>{
+      const el = document.getElementById(id); if(!el) return;
+      const sec = el.closest('.section') || el.parentElement;
+      if(sec) sec.style.display = modoEnfocado ? 'none' : '';
+    });
+    const b = document.getElementById('btnModoEnfocado');
+    if(b) b.textContent = modoEnfocado ? '👁 Mostrar análisis descartados' : '🎯 Ocultar análisis descartados';
+    const n = document.getElementById('modoEnfocadoNota');
+    if(n) n.style.display = modoEnfocado ? '' : 'none';
+  }
+  function toggleModoEnfocado(){
+    modoEnfocado = !modoEnfocado;
+    try{ localStorage.setItem('bitacora_modo_enfocado', modoEnfocado ? '1' : '0'); }catch(e){}
+    aplicarModoEnfocado();
+    toast(modoEnfocado ? 'Ocultos los análisis sin señal' : 'Mostrando todos los análisis');
+  }
+
+  // ======================================================
+  // ATAJOS DE TECLADO (#9), ESTADOS DE CARGA (#10) Y ACCESIBILIDAD (#11)
+  // El análisis se hace en PC; obligar al mouse para todo era lento. Los renders pesados
+  // congelaban la vista sin avisar y parecía que la app se había colgado.
+  // ======================================================
+  const ATAJOS = [
+    ['1','inicio','Inicio'], ['2','global','Global'], ['3','juegos','Juegos'],
+    ['4','boletos','Boletos y lotes'], ['5','estrategia','Estrategia'],
+    ['6','cobros','Cobros'], ['7','puntos','Puntos'], ['8','qr','Pistola QR']
+  ];
+  (function bindAtajos(){
+    document.addEventListener('keydown', function(e){
+      // Nunca secuestrar el teclado mientras se escribe.
+      const t = e.target, tag = t && t.tagName;
+      if(tag==='INPUT' || tag==='TEXTAREA' || tag==='SELECT' || (t && t.isContentEditable)) return;
+      if(e.ctrlKey || e.metaKey || e.altKey) return;
+      const hit = ATAJOS.find(a=>a[0]===e.key);
+      if(hit){ e.preventDefault(); goTab(hit[1]); anunciar('Sección '+hit[2]); return; }
+      if(e.key==='?'){ e.preventDefault(); mostrarAyudaAtajos(); }
+    });
+  })();
+  function mostrarAyudaAtajos(){
+    const filas = ATAJOS.map(a=>`<tr><td style="padding:3px 10px 3px 0;"><kbd style="border:1px solid var(--silver); border-bottom-width:2px; border-radius:4px; padding:1px 7px; font-family:monospace; background:var(--paper-dark);">${a[0]}</kbd></td><td>${a[2]}</td></tr>`).join('');
+    showModal({
+      title:'Atajos de teclado',
+      body:`<table style="font-size:13px; line-height:1.9;">${filas}
+        <tr><td style="padding:3px 10px 3px 0;"><kbd style="border:1px solid var(--silver);border-bottom-width:2px;border-radius:4px;padding:1px 7px;font-family:monospace;background:var(--paper-dark);">Ctrl+K</kbd></td><td>Buscar en todo</td></tr>
+        <tr><td style="padding:3px 10px 3px 0;"><kbd style="border:1px solid var(--silver);border-bottom-width:2px;border-radius:4px;padding:1px 7px;font-family:monospace;background:var(--paper-dark);">?</kbd></td><td>Esta ayuda</td></tr>
+        <tr><td style="padding:3px 10px 3px 0;"><kbd style="border:1px solid var(--silver);border-bottom-width:2px;border-radius:4px;padding:1px 7px;font-family:monospace;background:var(--paper-dark);">Esc</kbd></td><td>Cerrar</td></tr>
+        </table><p class="note" style="margin:10px 0 0;">Los atajos se desactivan mientras escribes en un campo.</p>`
+    });
+  }
+  // #11 — Región viva: los avisos (toasts) no se anunciaban a lectores de pantalla.
+  function anunciar(msg){
+    let r = document.getElementById('ariaLive');
+    if(!r){
+      r = document.createElement('div');
+      r.id='ariaLive'; r.setAttribute('role','status'); r.setAttribute('aria-live','polite');
+      r.style.cssText='position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;';
+      document.body.appendChild(r);
+    }
+    r.textContent = String(msg||'');
+  }
+  // #10 — Indicador de carga para los renderers marcados como pesados.
+  function mostrarCargando(on){
+    let b = document.getElementById('cargandoBar');
+    if(!b){
+      b = document.createElement('div');
+      b.id='cargandoBar';
+      b.setAttribute('role','status'); b.setAttribute('aria-live','polite');
+      b.style.cssText='position:fixed;top:0;left:0;right:0;height:3px;z-index:100003;background:linear-gradient(90deg,transparent,var(--stamp,#E8336D),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:cargaAnim 1s linear infinite;display:none;';
+      document.body.appendChild(b);
+      const st=document.createElement('style');
+      st.textContent='@keyframes cargaAnim{0%{background-position:-40% 0}100%{background-position:140% 0}}';
+      document.head.appendChild(st);
+    }
+    b.style.display = on ? 'block' : 'none';
+    if(on) b.setAttribute('aria-label','Calculando análisis'); else b.removeAttribute('aria-label');
+  }
+
+  // ======================================================
+  // RTP POR PUNTO DE VENTA — mejora #5
+  // Con datos reales: 0 de 8 puntos se distinguen del promedio tras corregir. Este panel existe
+  // justamente para DECIRLO, no para pintar un ranking de ruido. Dos decisiones de rigor:
+  //  1) se excluye el premio mayor (si no, su punto "gana" por un solo boleto irrepetible);
+  //  2) Bonferroni sobre el nº de puntos comparados (comparar 8 a la vez infla los falsos positivos).
+  const PV_N_MIN = 30;
+  function zBonferroni(k){
+    // z bilateral para alpha = 0.05/k, por bisección sobre la normal estándar.
+    const alpha = 0.05/Math.max(1,k);
+    const Phi = x => 0.5*(1+erfAprox(x/Math.SQRT2));
+    let lo=0, hi=6;
+    for(let i=0;i<60;i++){ const m=(lo+hi)/2; (2*(1-Phi(m)) > alpha) ? lo=m : hi=m; }
+    return (lo+hi)/2;
+  }
+  function erfAprox(x){
+    // Abramowitz-Stegun 7.1.26 — precisión ~1e-7, suficiente para un umbral de decisión.
+    const s = x<0 ? -1 : 1; x = Math.abs(x);
+    const t = 1/(1+0.3275911*x);
+    const y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t*Math.exp(-x*x);
+    return s*y;
+  }
+  function statsPorPunto(){
+    const mayor = (data.records||[]).reduce((m,r)=>Math.max(m, Number(r.premio)||0), 0);
+    const acc = {};
+    (data.records||[]).forEach(r=>{
+      const q = r.punto; if(!q) return;
+      let pr = Number(r.premio)||0;
+      if(mayor>0 && pr>=mayor) pr = 0;         // fuera el jackpot
+      if(!acc[q]) acc[q] = {n:0, gasto:0, premios:0, xs:[]};
+      const s = acc[q]; s.n++; s.gasto += Number(r.costo)||0; s.premios += pr; s.xs.push(pr);
+    });
+    const puntos = Object.keys(acc).map(k=>({punto:k, ...acc[k]}));
+    const elegibles = puntos.filter(p=>p.n>=PV_N_MIN && p.gasto>0);
+    const gTot = elegibles.reduce((a,p)=>a+p.gasto,0), pTot = elegibles.reduce((a,p)=>a+p.premios,0);
+    const global = gTot>0 ? pTot/gTot*100 : null;
+    const z = zBonferroni(elegibles.length);
+    elegibles.forEach(p=>{
+      const media = p.premios/p.n;
+      const vari = p.n>1 ? p.xs.reduce((a,x)=>a+(x-media)*(x-media),0)/(p.n-1) : 0;
+      const se = Math.sqrt(vari/p.n), cm = p.gasto/p.n;
+      p.rtp = p.premios/p.gasto*100;
+      p.lo = cm>0 ? (media - z*se)/cm*100 : null;
+      p.hi = cm>0 ? (media + z*se)/cm*100 : null;
+      p.distinto = (global!==null && p.lo!==null) && (p.lo > global || p.hi < global);
+    });
+    elegibles.sort((a,b)=>b.n-a.n);
+    return { elegibles, global, z, mayor, nTotal: puntos.length,
+             descartados: puntos.length - elegibles.length,
+             sinPunto: (data.records||[]).filter(r=>!r.punto).length };
+  }
+  function renderRtpPorPunto(){
+    const el = document.getElementById('rtpPorPunto'); if(!el) return;
+    const S = statsPorPunto();
+    if(!S.elegibles.length){
+      el.innerHTML = `<p class="note" style="margin:0;">Todavía ningún punto de venta llega a ${PV_N_MIN} boletos registrados, que es el mínimo para comparar sin engañarse.</p>`;
+      return;
+    }
+    const nSig = S.elegibles.filter(p=>p.distinto).length;
+    const veredicto = nSig === 0
+      ? `<div style="background:#EDEBE6; border-left:4px solid #5c5b58; border-radius:0 6px 6px 0; padding:11px 14px; margin-bottom:10px; font-size:12.5px; line-height:1.6;">
+           <strong>NO hay diferencia demostrable entre puntos de venta.</strong>
+           Ninguno de los ${S.elegibles.length} puntos comparados se separa del promedio (${S.global.toFixed(1)}%)
+           una vez corregido el umbral. Las diferencias que ves abajo son del tamaño que produce el azar:
+           <strong>elegir kiosco por su «racha» no tiene respaldo en tus datos</strong>.</div>`
+      : `<div style="background:#D1FAE5; border-left:4px solid #065F46; border-radius:0 6px 6px 0; padding:11px 14px; margin-bottom:10px; font-size:12.5px; color:#065F46; line-height:1.6;">
+           <strong>${nSig} punto(s) se separan del promedio</strong> (${S.global.toFixed(1)}%) incluso tras corregir por ${S.elegibles.length} comparaciones.</div>`;
+    const filas = S.elegibles.map(p=>`<tr>
+        <td style="white-space:nowrap;">${escapeHtml(p.punto)}</td>
+        <td style="text-align:right;">${p.n}</td>
+        <td style="text-align:right;">${fmt(p.gasto)}</td>
+        <td style="text-align:right; font-weight:700;">${p.rtp.toFixed(1)}%</td>
+        <td style="text-align:right; font-size:10.5px; color:var(--silver-dark);">${Math.max(0,p.lo).toFixed(0)}–${p.hi.toFixed(0)}%</td>
+        <td style="text-align:center;">${p.distinto?'<span style="font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:4px;background:#D1FAE5;color:#065F46;">DISTINTO</span>':'<span style="color:var(--silver-dark);">—</span>'}</td>
+      </tr>`).join('');
+    const pie = [];
+    if(S.descartados>0) pie.push(`${S.descartados} punto(s) quedaron fuera por tener menos de ${PV_N_MIN} boletos.`);
+    if(S.sinPunto>0) pie.push(`<strong>${S.sinPunto} registros no tienen punto asignado</strong> y no entran en esta comparación.`);
+    el.innerHTML = veredicto + `<div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead><tr><th>Punto de venta</th><th style="text-align:right;">Boletos</th><th style="text-align:right;">Gasto</th>
+          <th style="text-align:right;">RTP</th><th style="text-align:right;">IC corregido</th><th style="text-align:center;">¿Distinto?</th></tr></thead>
+        <tbody>${filas}</tbody>
+        <tfoot><tr style="border-top:2px solid var(--ink); font-weight:800;">
+          <td>PROMEDIO</td><td style="text-align:right;">${S.elegibles.reduce((a,p)=>a+p.n,0)}</td>
+          <td style="text-align:right;">${fmt(S.elegibles.reduce((a,p)=>a+p.gasto,0))}</td>
+          <td style="text-align:right;">${S.global.toFixed(1)}%</td><td colspan="2"></td>
+        </tr></tfoot>
+      </table></div>`
+      + (pie.length?`<p class="note" style="margin:8px 0 0; font-size:11.5px;">${pie.join(' ')} El premio mayor (${fmt(S.mayor)}) se excluyó del cálculo.</p>`:'');
+  }
+
+  // ======================================================
+  // BÚSQUEDA GLOBAL — mejora #6
+  // Con 4.970 registros, 122 lotes y 11 juegos no había forma de escribir algo y llegar: cada
+  // módulo tenía su filtro propio. Esto NO cambia datos, solo navega y preselecciona filtros.
+  // ======================================================
+  function gsBuscar(q){
+    q = String(q||'').toLowerCase().trim();
+    if(q.length < 1) return [];
+    const out = [];
+    const norm = s => String(s||'').toLowerCase();
+    // 1) Lotes por serie
+    (data.lotes||[]).forEach(l=>{
+      if(norm(l.serie).includes(q)){
+        const c = loteCounts(l), ri = loteRoiInfo(l), j = getJuego(l.juegoId);
+        out.push({ tipo:'Lote', titulo:l.serie,
+          sub:`${(j&&j.nombre)||'?'} · ${c.revealed}/${c.total} revelados · neto ${ri.premios-ri.gasto>=0?'+':''}${fmt(ri.premios-ri.gasto)}`,
+          accion:()=>{ activeLoteId = l.id; goTab('boletos'); setTimeout(()=>{ renderLoteList(); renderLoteDetail();
+            const el=document.getElementById('loteDetailSection'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); },60); } });
+      }
+    });
+    // 2) Puntos de venta (agregando su gasto real)
+    const puntos = {};
+    (data.records||[]).forEach(r=>{ if(r.punto){ const k=r.punto;
+      if(!puntos[k]) puntos[k]={n:0,gasto:0,premios:0};
+      puntos[k].n++; puntos[k].gasto+=Number(r.costo)||0; puntos[k].premios+=premioNeto(r.premio); } });
+    Object.keys(puntos).forEach(p=>{
+      if(norm(p).includes(q)){
+        const s = puntos[p];
+        out.push({ tipo:'Punto', titulo:p,
+          sub:`${s.n} boletos · gasto ${fmt(s.gasto)} · premios ${fmt(s.premios)} · RTP ${s.gasto>0?(s.premios/s.gasto*100).toFixed(0):'—'}%`,
+          accion:()=>{ goTab('boletos'); setTimeout(()=>{ const sel=document.getElementById('loteFiltroPunto');
+            if(sel){ sel.value=p; sel.dispatchEvent(new Event('change',{bubbles:true})); } },60); } });
+      }
+    });
+    // 3) Juegos
+    (data.juegos||[]).forEach(j=>{
+      if(norm(j.nombre).includes(q)){
+        const n = (data.lotes||[]).filter(l=>String(l.juegoId)===String(j.id)).length;
+        out.push({ tipo:'Juego', titulo:`${j.emoji||'🎟️'} ${j.nombre}`,
+          sub:`${n} lote(s) · ${j.tamanoLote} posiciones · ${fmt(j.costoDefecto)} por boleto`,
+          accion:()=>{ setJuegoActivo(j.id); goTab('juegos'); } });
+      }
+    });
+    // 4) Monto exacto de premio (si escribió un número)
+    const num = parseFloat(q.replace(',','.').replace('$',''));
+    if(!isNaN(num) && num > 0){
+      const hits = (data.records||[]).filter(r=>Number(r.premio)===num);
+      if(hits.length){
+        const sinCobrar = hits.filter(r=>!r.cobrado).length;
+        out.push({ tipo:'Premio', titulo:`Premios de ${fmt(num)}`,
+          sub:`${hits.length} boleto(s)${sinCobrar?` · ${sinCobrar} sin cobrar`:' · todos cobrados'}`,
+          accion:()=>{ goTab('cobros'); } });
+      }
+    }
+    return out.slice(0, 40);
+  }
+  function gsRender(){
+    const cont = document.getElementById('gsResults'); if(!cont) return;
+    const q = (document.getElementById('gsInput')||{}).value || '';
+    if(!String(q).trim()){
+      cont.innerHTML = '<div style="padding:18px; font-size:12.5px; color:var(--silver-dark); line-height:1.6;">Escribe para buscar entre tus <strong>'+(data.records||[]).length+'</strong> boletos, <strong>'+(data.lotes||[]).length+'</strong> lotes y <strong>'+(data.juegos||[]).length+'</strong> juegos.<br>Sirve una serie (<em>020-011306</em>), un punto (<em>Mercury</em>), un juego o un monto (<em>400</em>).</div>';
+      return;
+    }
+    const res = gsBuscar(q);
+    if(!res.length){ cont.innerHTML = '<div style="padding:18px; font-size:13px; color:var(--silver-dark);">Sin coincidencias para «'+escapeHtml(q)+'».</div>'; return; }
+    const COLT = { Lote:'#1565C0', Punto:'#065F46', Juego:'#854F0B', Premio:'#7F1D1D' };
+    cont.innerHTML = res.map((r,i)=>`<div class="gs-item" data-i="${i}" style="padding:11px 14px; border-bottom:1px solid var(--line); cursor:pointer; display:flex; gap:10px; align-items:center;">
+      <span style="flex:none; font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:${COLT[r.tipo]}18; color:${COLT[r.tipo]}; text-transform:uppercase;">${r.tipo}</span>
+      <span style="min-width:0; flex:1;">
+        <span style="display:block; font-weight:700; font-size:13.5px;">${escapeHtml(r.titulo)}</span>
+        <span style="display:block; font-size:11.5px; color:var(--silver-dark);">${escapeHtml(r.sub)}</span>
+      </span></div>`).join('');
+    cont.querySelectorAll('.gs-item').forEach(el=>{
+      el.onmouseenter = ()=> el.style.background='var(--paper-dark)';
+      el.onmouseleave = ()=> el.style.background='';
+      el.onclick = ()=>{ const r = res[+el.dataset.i]; gsClose(); try{ r.accion(); }catch(e){} };
+    });
+  }
+  function gsOpen(){
+    const o=document.getElementById('gsOverlay'); if(!o) return;
+    o.style.display='block';
+    const i=document.getElementById('gsInput'); if(i){ i.value=''; setTimeout(()=>i.focus(),40); }
+    gsRender();
+  }
+  function gsClose(){ const o=document.getElementById('gsOverlay'); if(o) o.style.display='none'; }
+  (function bindGS(){
+    document.addEventListener('keydown', e=>{
+      if((e.ctrlKey||e.metaKey) && String(e.key).toLowerCase()==='k'){ e.preventDefault(); gsOpen(); }
+      else if(e.key==='Escape'){ const o=document.getElementById('gsOverlay'); if(o && o.style.display==='block') gsClose(); }
+    });
+    // El script es inline: DOMContentLoaded puede haber disparado ya. Enlazar en cuanto se pueda.
+    const bind = ()=>{
+      const i=document.getElementById('gsInput'); if(!i) return false;
+      i.addEventListener('input', gsRender);
+      const c=document.getElementById('gsClose'); if(c) c.onclick=gsClose;
+      const ov=document.getElementById('gsOverlay');
+      if(ov) ov.addEventListener('click', e=>{ if(e.target===ov) gsClose(); });
+      const fab=document.getElementById('gsFab'); if(fab) fab.onclick=gsOpen;
+      return true;
+    };
+    if(!bind()) document.addEventListener('DOMContentLoaded', bind);
+  })();
+  window.gsOpen = gsOpen;   // accesible desde el botón flotante
+
+  // ======================================================
+  // COMPARADOR DE JUEGOS (RTP) — mejora #2
+  // Con datos reales: 9 de 10 juegos tienen RTP < 100%. Hasta ahora había que entrar juego por
+  // juego para verlo. El veredicto NO se emite por el punto estimado (ruido con n pequeño) sino
+  // por el IC95 del RTP: solo "descartar" si el TECHO del intervalo queda bajo 100%.
+  // ======================================================
+  function statsPorJuego(){
+    const lotesPorJuego = {}, recsPorJuego = {};
+    (data.lotes||[]).forEach(l=>{ (lotesPorJuego[String(l.juegoId)] = lotesPorJuego[String(l.juegoId)] || []).push(l); });
+    const loteById = {}; (data.lotes||[]).forEach(l=>{ loteById[String(l.id)] = l; });
+    (data.records||[]).forEach(r=>{
+      const l = loteById[String(r.loteId)]; if(!l) return;
+      (recsPorJuego[String(l.juegoId)] = recsPorJuego[String(l.juegoId)] || []).push(r);
+    });
+    return (data.juegos||[]).map(j=>{
+      const recs = recsPorJuego[String(j.id)] || [];
+      const lotes = lotesPorJuego[String(j.id)] || [];
+      // Gasto con el MISMO criterio que el resto de la app (respeta taco completo y descuento).
+      const gasto = lotes.reduce((a,l)=>a+gastoDeLote(l),0);
+      const premios = recs.reduce((a,r)=>a+premioNeto(r.premio),0);
+      const mayor = recs.reduce((m,r)=>Math.max(m, premioNeto(r.premio)), 0);
+      const rtp = gasto>0 ? (premios/gasto*100) : null;
+      const rtpSinMayor = gasto>0 ? ((premios-mayor)/gasto*100) : null;
+      // IC95 del RTP por bootstrap analítico sobre el premio por boleto: se propaga la
+      // dispersión real de los premios (muy asimétrica) en vez de asumir normalidad del total.
+      let lo=null, hi=null;
+      const n = recs.length;
+      if(n >= 2 && gasto > 0){
+        const xs = recs.map(r=>premioNeto(r.premio));
+        const media = xs.reduce((a,b)=>a+b,0)/n;
+        const vari = xs.reduce((a,b)=>a+(b-media)*(b-media),0)/(n-1);
+        const se = Math.sqrt(vari/n);
+        const costoMedio = gasto/n;
+        if(costoMedio > 0){
+          lo = (media-1.96*se)/costoMedio*100;
+          hi = (media+1.96*se)/costoMedio*100;
+        }
+      }
+      let veredicto='sin-datos', txt='Muestra insuficiente';
+      if(rtp !== null && n >= 30 && hi !== null){
+        if(hi < 100){ veredicto='descartar'; txt='Descartar — pierde de forma consistente'; }
+        else if(lo > 100){ veredicto='seguir'; txt='Rinde por encima de lo que cuesta'; }
+        else { veredicto='indeciso'; txt='Aún no distinguible del azar'; }
+      } else if(rtp !== null && n > 0){ txt = 'Muestra corta (n='+n+')'; }
+      return { juego:j, n, gasto, premios, mayor, rtp, rtpSinMayor, lo, hi, veredicto, txt,
+               nLotes: lotes.length };
+    }).filter(x=>x.n>0 || x.gasto>0)
+      .sort((a,b)=> (b.gasto||0)-(a.gasto||0));
+  }
+  function renderComparadorJuegos(){
+    const el = document.getElementById('comparadorJuegos'); if(!el) return;
+    const S = statsPorJuego();
+    if(!S.length){ el.innerHTML = '<p class="note" style="margin:0;">Aún no hay boletos registrados en ningún juego.</p>'; return; }
+    const COL = { descartar:['#FCEBEB','#7F1D1D','DESCARTAR'], seguir:['#D1FAE5','#065F46','SEGUIR'],
+                  indeciso:['#FAEEDA','#854F0B','SIN VEREDICTO'], 'sin-datos':['#EDEBE6','#5c5b58','SIN DATOS'] };
+    const tot = S.reduce((a,x)=>({g:a.g+x.gasto, p:a.p+x.premios}), {g:0,p:0});
+    const rtpGlobal = tot.g>0 ? tot.p/tot.g*100 : 0;
+    const filas = S.map(x=>{
+      const c = COL[x.veredicto] || COL['sin-datos'];
+      const rtpTxt = x.rtp===null ? '—' : x.rtp.toFixed(1)+'%';
+      const icTxt = (x.lo===null) ? '—' : `${Math.max(0,x.lo).toFixed(0)}–${x.hi.toFixed(0)}%`;
+      const neto = x.premios - x.gasto;
+      return `<tr>
+        <td style="white-space:nowrap;">${x.juego.emoji||'🎟️'} ${escapeHtml(x.juego.nombre)}</td>
+        <td style="text-align:right;">${x.n}</td>
+        <td style="text-align:right;">${fmt(x.gasto)}</td>
+        <td style="text-align:right;">${fmt(x.premios)}</td>
+        <td style="text-align:right; font-weight:700; color:${neto>=0?'#065F46':'#7F1D1D'};">${neto>=0?'+':''}${fmt(neto)}</td>
+        <td style="text-align:right; font-weight:800; color:${x.rtp!==null&&x.rtp>=100?'#065F46':'#7F1D1D'};">${rtpTxt}</td>
+        <td style="text-align:right; font-size:10.5px; color:var(--silver-dark);">${icTxt}</td>
+        <td style="text-align:right;">${x.mayor>0?fmt(x.mayor):'—'}</td>
+        <td><span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:${c[0]}; color:${c[1]}; white-space:nowrap;" title="${escapeHtml(x.txt)}">${c[2]}</span></td>
+      </tr>`;
+    }).join('');
+    const nDesc = S.filter(x=>x.veredicto==='descartar').length;
+    const gastoDesc = S.filter(x=>x.veredicto==='descartar').reduce((a,x)=>a+x.gasto,0);
+    const resumen = nDesc>0
+      ? `<div style="background:#FCEBEB; border-left:4px solid #7F1D1D; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:10px; font-size:12.5px; color:#7F1D1D; line-height:1.55;">
+           🛑 <strong>${nDesc} juego(s) con evidencia suficiente para descartar</strong> — su intervalo de confianza entero está bajo el 100%.
+           Llevas <strong>${fmt(gastoDesc)}</strong> gastados en ellos.</div>`
+      : `<div style="background:var(--paper-dark); border-radius:6px; padding:10px 14px; margin-bottom:10px; font-size:12.5px; line-height:1.55;">
+           Ningún juego tiene todavía muestra suficiente para descartarlo con rigor.</div>`;
+    el.innerHTML = resumen + `
+      <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:12px;">
+        <thead><tr>
+          <th>Juego</th><th style="text-align:right;">Boletos</th><th style="text-align:right;">Gasto</th>
+          <th style="text-align:right;">Premios</th><th style="text-align:right;">Neto</th>
+          <th style="text-align:right;">RTP</th><th style="text-align:right;">IC95</th>
+          <th style="text-align:right;">Mayor</th><th>Veredicto</th>
+        </tr></thead>
+        <tbody>${filas}</tbody>
+        <tfoot><tr style="border-top:2px solid var(--ink); font-weight:800;">
+          <td>TOTAL</td><td style="text-align:right;">${S.reduce((a,x)=>a+x.n,0)}</td>
+          <td style="text-align:right;">${fmt(tot.g)}</td><td style="text-align:right;">${fmt(tot.p)}</td>
+          <td style="text-align:right; color:${tot.p-tot.g>=0?'#065F46':'#7F1D1D'};">${tot.p-tot.g>=0?'+':''}${fmt(tot.p-tot.g)}</td>
+          <td style="text-align:right; color:${rtpGlobal>=100?'#065F46':'#7F1D1D'};">${rtpGlobal.toFixed(1)}%</td>
+          <td colspan="3"></td>
+        </tr></tfoot>
+      </table></div>`;
+  }
   function renderJuegoActivoList(){
     const list = document.getElementById('juegoActivoList');
     if(!list) return;
@@ -5651,6 +6208,14 @@
     if(inicioNum && !/^\d{1,3}$/.test(inicioNum)){ toast('«Inicia en» debe ser un número (ej. 001)'); return; }
     const paridad = autoParidad(serie) || 'impar';
     const punto = document.getElementById('newLotePunto').value.trim();
+    // PUNTO DE VENTA OBLIGATORIO (mejora #12). El campo era opcional y el hueco creció hasta
+    // 1.030 de 4.970 registros (20,7%), dejando sin base cualquier análisis por punto. Se pide
+    // aquí, al crear el lote, porque es el único momento en que el dato se sabe con certeza.
+    if(!punto){
+      toast('⚠ Indica el PUNTO DE VENTA — sin él no se puede analizar dónde rinde tu dinero');
+      const el = document.getElementById('newLotePunto'); if(el) el.focus();
+      return;
+    }
     const ciudad = getNewLoteCiudadValue();
     const juego = getJuegoActivo();
     // tamanoLote se guarda en el propio lote (no se recalcula desde el juego cada vez) para que,
@@ -6319,6 +6884,28 @@
   // OJO: antes leía el instante del boleto con parseFloat(r.id), que devuelve NaN para los ids
   // nuevos (cadenas 'r<base36>-…') → los boletos recientes NO contaban y la "última actividad"
   // se quedaba anclada en la creación del lote. rgIdTime entiende ambos formatos.
+  // Un taco "abandonado" no es un estado nuevo en los datos: es una LECTURA (en curso + tiempo
+  // sin actividad). No se escribe ningún campo, así que los registros históricos no cambian.
+  const DIAS_ABANDONO = 14;
+  function diasSinTocar(l){
+    const t = loteUltimaActividad(l);
+    if(!t) return 0;
+    return Math.floor((Date.now() - t)/86400000);
+  }
+  function resumenAbandonados(){
+    const lotes = getLotesDelJuegoActivo().filter(l=>{
+      const c = loteCounts(l);
+      return c.revealed < c.total && c.revealed > 0 && diasSinTocar(l) >= DIAS_ABANDONO;
+    });
+    let capital = 0, sinRaspar = 0;
+    lotes.forEach(l=>{
+      const c = loteCounts(l);
+      sinRaspar += (c.total - c.revealed);
+      capital += (c.total - c.revealed) * costoUnitarioLote(l);
+    });
+    lotes.sort((a,b)=>diasSinTocar(b)-diasSinTocar(a));
+    return { lotes, capital, sinRaspar, n: lotes.length };
+  }
   function loteUltimaActividad(l){
     let t = l.actualizadoEn ? new Date(l.actualizadoEn).getTime() : 0;
     const creado = loteFechaVal(l);
@@ -6393,15 +6980,35 @@
       });
     });
   }
+  // Aviso de tacos abandonados: se muestra ARRIBA de los totales, siempre que existan.
+  function avisoAbandonadosHTML(){
+    const a = resumenAbandonados();
+    if(!a.n) return '';
+    const top = a.lotes.slice(0,3).map(l=>{
+      const c = loteCounts(l);
+      return `${escapeHtml(l.serie)} (${c.revealed}/${c.total}, ${diasSinTocar(l)}d)`;
+    }).join(' · ');
+    return `<div style="background:#FAEEDA; border-left:4px solid #F59E0B; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:10px; font-size:12.5px; color:#854F0B; line-height:1.55;">
+      ⏸ <strong>${a.n} taco(s) abandonado(s)</strong> — en curso y sin tocar hace ${DIAS_ABANDONO}+ días.
+      Quedan <strong>${a.sinRaspar}</strong> boletos sin raspar ≈ <strong>${fmt(a.capital)}</strong> inmovilizados.
+      <div style="margin-top:4px; opacity:.85;">${top}${a.n>3?' …':''}</div>
+      <button type="button" id="btnVerAbandonados" style="margin-top:8px; font-size:11.5px; font-weight:700; padding:5px 12px; border:1px solid #854F0B; background:transparent; color:#854F0B; border-radius:6px; cursor:pointer;">Ver solo estos</button>
+    </div>`;
+  }
   function renderLoteTotales(visibles, hayFiltro){
     const el = document.getElementById('loteTotales'); if(!el) return;
-    if(!hayFiltro || !visibles.length){ el.innerHTML=''; return; }
+    const aviso = avisoAbandonadosHTML();
+    const bind = ()=>{ const b=document.getElementById('btnVerAbandonados');
+      if(b) b.onclick=()=>{ const s=document.getElementById('loteFiltroEstado');
+        if(s){ s.value='abandonado'; s.dispatchEvent(new Event('change',{bubbles:true})); } }; };
+    if(!hayFiltro || !visibles.length){ el.innerHTML = aviso; bind(); return; }
+    setTimeout(bind,0);
     let gasto=0, premios=0;
     visibles.forEach(l=>{ const ri=loteRoiInfo(l); gasto+=ri.gasto; premios+=ri.premios; });
     const neto=premios-gasto, roi=gasto>0?(neto/gasto*100):null;
     const col=(x)=> x>=0 ? '#00C853' : '#FF5252';
     const cell=(lbl,val,color)=>`<div style="flex:1; min-width:90px;"><div style="font-size:10px;color:var(--silver-dark);text-transform:uppercase;letter-spacing:.04em;">${lbl}</div><div style="font-size:16px;font-weight:700;${color?'color:'+color+';':''}">${val}</div></div>`;
-    el.innerHTML = `<div style="display:flex; gap:14px; flex-wrap:wrap; padding:10px 14px; background:var(--paper-dark); border-radius:8px; border-left:3px solid var(--accent);">
+    el.innerHTML = aviso + `<div style="display:flex; gap:14px; flex-wrap:wrap; padding:10px 14px; background:var(--paper-dark); border-radius:8px; border-left:3px solid var(--accent);">
       ${cell('Gasto conjunto', fmt(gasto))}
       ${cell('Premios', fmt(premios))}
       ${cell('Neto', (neto>=0?'+':'')+fmt(neto), col(neto))}
@@ -6551,6 +7158,12 @@
       const c = loteCounts(l);
       if(filters.estado === 'completo' && c.revealed !== c.total) return false;
       if(filters.estado === 'curso' && c.revealed === c.total) return false;
+      // Abandonado = en curso Y sin actividad en más de DIAS_ABANDONO días. Con datos reales
+      // hay 30 de 47 así: inmovilizan capital y ensucian curvas/priors al quedar a medias.
+      if(filters.estado === 'abandonado'){
+        if(c.revealed === c.total) return false;
+        if(diasSinTocar(l) < DIAS_ABANDONO) return false;
+      }
       if(filters.cobro){
         const cb = loteCobroEstado(l);
         if(filters.cobro==='con-premios'){ if(cb.estado!=='parcial' && cb.estado!=='sin-cobrar') return false; }
@@ -8944,8 +9557,34 @@
     const pendiente = ganado - cobrado;
     const nDiasCobro = Object.keys(diasCobro).length;
     const promedioDia = nDiasCobro > 0 ? cobrado/nDiasCobro : 0;
+    // ANTIGÜEDAD de lo pendiente: un premio olvidado es plata tuya en la calle. Se mide en
+    // días desde la fecha del boleto; sin inventar vencimientos (eso ya se descartó).
+    let masViejoDias = 0, montoViejo = 0, nViejos = 0;
+    const HOY = new Date(todayStr()+'T00:00:00');
+    pendientes.forEach(r=>{
+      if(!r.fecha) return;
+      const d = Math.floor((HOY - new Date(String(r.fecha).slice(0,10)+'T00:00:00'))/86400000);
+      if(d > masViejoDias) masViejoDias = d;
+      if(d >= 30){ nViejos++; montoViejo += premioNeto(r.premio); }
+    });
     return { premiados, pendientes, ganado, cobrado, pendiente, nGanados: premiados.length,
-             nCobrados, nPendientes: pendientes.length, diasCobro, nDiasCobro, promedioDia };
+             nCobrados, nPendientes: pendientes.length, diasCobro, nDiasCobro, promedioDia,
+             masViejoDias, nViejos, montoViejo };
+  }
+  // Badge en la pestaña Cobros: el monto pendiente se ve SIN entrar a la sección.
+  function renderCobrosBadge(){
+    try{
+      const c = cobrosResumen();
+      document.querySelectorAll('[data-tab="cobros"], .bottomnav [data-nav="cobros"]').forEach(function(btn){
+        let b = btn.querySelector('.cobro-badge');
+        if(c.pendiente > 0.005){
+          if(!b){ b = document.createElement('span'); b.className='cobro-badge'; btn.appendChild(b); }
+          b.textContent = fmt(c.pendiente);
+          b.title = c.nPendientes+' boleto(s) por cobrar'+(c.nViejos?' · '+c.nViejos+' con más de 30 días':'');
+          b.classList.toggle('viejo', c.nViejos>0);
+        } else if(b){ b.remove(); }
+      });
+    }catch(e){}
   }
   function marcarCobrado(recordId, cobrado){
     const r = data.records.find(x=>String(x.id)===String(recordId));
@@ -9038,6 +9677,20 @@
       el.innerHTML = '<p class="note" style="margin:0;">Aún no tienes boletos premiados. Cuando registres un premio, aparecerá aquí para llevar el control de su cobro.</p>';
       return;
     }
+    // AVISO DE ANTIGÜEDAD: no inventa vencimientos (eso se descartó por ruido visual). Solo
+    // ordena por tiempo lo que ya está pendiente, para que nada quede olvidado en la calle.
+    let avisoAntiguedad = '';
+    (function(){
+      const c = cobrosResumen();
+      if(c.nViejos > 0){
+        avisoAntiguedad = `<div style="background:#FCEBEB; border-left:4px solid #7F1D1D; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:12px; font-size:12.5px; color:#7F1D1D; line-height:1.55;">
+          🕗 <strong>${c.nViejos} premio(s) llevan más de 30 días sin cobrar</strong> (${fmt(c.montoViejo)}).
+          El más antiguo tiene <strong>${c.masViejoDias} días</strong>.</div>`;
+      } else if(c.pendiente > 0.005 && c.masViejoDias >= 14){
+        avisoAntiguedad = `<div style="background:#FAEEDA; border-left:4px solid #F59E0B; border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:12px; font-size:12.5px; color:#854F0B; line-height:1.55;">
+          🕗 Tienes <strong>${fmt(c.pendiente)}</strong> por cobrar; el premio más antiguo lleva <strong>${c.masViejoDias} días</strong>.</div>`;
+      }
+    })();
 
     // ================= ÁMBITO: el juego seleccionado en "ANALIZANDO" =================
     // Regla acordada: Cobros muestra SOLO el juego activo (como el resto de la app). Los
@@ -9375,7 +10028,7 @@
     else if(cobroTab==='reportes')   cuerpoTab = reporteCtrl + filtroHtml + kpis + cuerpoReporte;
     else if(cobroTab==='buscar')     cuerpoTab = buscadorHtml;
     else                             cuerpoTab = analisisHtml;
-    el.innerHTML = otrosStrip + tabsBar + cuerpoTab;
+    el.innerHTML = avisoAntiguedad + otrosStrip + tabsBar + cuerpoTab;
 
     // ---- Por lote: lista completa del ámbito, sin pedir nada; el texto solo filtra.
     // Se repinta SIN re-render completo (conserva el foco del campo de filtro).
@@ -13956,6 +14609,11 @@
       ${backupAlerta ? `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span style="font-size:16px;">⚠️</span><span style="flex:1;min-width:180px;">${!bkMeta.fecha ? 'Nunca has exportado un respaldo. Protege tus datos ahora.' : `${nuevosLotes} lotes nuevos desde el último respaldo (${bkMeta.fecha}).`}</span><button id="btnBackupRapido" style="min-height:40px;padding:6px 16px;border:none;background:#92400E;color:#fff;border-radius:6px;font-weight:700;cursor:pointer;white-space:nowrap;">💾 Respaldar ahora</button></div>` : ''}
 
       <div class="section" style="margin-bottom:14px;">
+        <div class="section-head"><span class="tag">🛑</span><h2>Tope de gasto</h2><span class="hint">lo único que actúa antes de comprar</span></div>
+        <div id="stopLossPanel"></div>
+      </div>
+
+      <div class="section" style="margin-bottom:14px;">
         <div class="section-head"><span class="tag">CK</span><h2>Checklist de kiosco</h2></div>
         <div id="checklistKiosco"></div>
       </div>
@@ -15594,6 +16252,25 @@
     var v = parseFloat(ent+'.'+(dec||'0'));
     return isFinite(v)?v:null;
   }
+  // Reintento de consulta al portal (mejora #15). Vuelve a preguntar por el MISMO código y
+  // reinyecta el resultado en el flujo normal. No toca datos: si el reintento tampoco es
+  // concluyente, vuelve a mostrar la guía correspondiente.
+  function qrReintentar(m){
+    if(!m || !m.code){ toast('No se guardó el código para reintentar — vuelve a escanear.'); return; }
+    var ep;
+    try{ ep = localStorage.getItem('qr_proxy_endpoint') || 'https://raspaditas-qr.andagoya922.workers.dev'; }
+    catch(_){ ep = 'https://raspaditas-qr.andagoya922.workers.dev'; }
+    toast('🔄 Consultando de nuevo…');
+    fetch(ep.replace(/\/+$/,'') + '/?code=' + encodeURIComponent(m.code))
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        // Se conserva el contexto del escaneo (posición, prefijo, serie) y solo se refresca
+        // la respuesta del portal.
+        var m2 = Object.assign({}, m, { status:j.status, message:j.message, amount:j.amount });
+        qrRegistrarBoleto(m2);
+      })
+      .catch(function(){ toast('📡 Sigue sin haber respuesta del portal. Intenta más tarde o registra el boleto a mano.'); });
+  }
   function qrRegistrarBoleto(m){
     if(!m) return;
     // El monto del TEXTO manda sobre el `amount` del Worker (ver nota arriba).
@@ -15608,10 +16285,21 @@
     if(m.status!=='ganado' && m.status!=='sin_premio'){
       // Mensaje específico para el caso "ya cobrado": el portal ya no da el monto, así que no se
       // puede registrar el premio automáticamente. Se avisa distinto de un error de lectura.
-      var _msg = (m.status==='ya_cobrado')
-        ? '💵 Este boleto YA fue cobrado — el portal no revela el monto. Regístralo a mano si quieres guardarlo.'
-        : 'Boleto no concluyente ('+(m.status||'?')+') — no se registró';
-      try{ toast(_msg); }catch(_){}
+      // Mejora #15: cada estado dice QUÉ HACER, no solo qué pasó. Antes un fallo dejaba al
+      // usuario sin saber si reintentar, escribirlo a mano o si el código estaba mal leído.
+      var _guia = {
+        ya_cobrado: '💵 Este boleto YA fue cobrado. El portal no revela el monto, así que no se puede registrar solo: anótalo a mano si quieres guardarlo.',
+        invalido:   '⚠ El código no corresponde a un boleto válido. Suele ser una lectura parcial: limpia el boleto, mejora la luz y vuelve a escanear.',
+        error:      '📡 No se pudo consultar el portal (sin red o el sitio no responde). Espera unos segundos y reintenta; tus datos no se tocaron.',
+        desconocido:'❓ El portal respondió algo que no reconocemos. Reintenta el escaneo; si vuelve a pasar, registra el boleto a mano.'
+      };
+      var _msg = _guia[m.status] || ('Boleto no concluyente ('+(m.status||'?')+'). Reintenta el escaneo o regístralo a mano.');
+      try{
+        // Reintentar es la acción más probable en todos los casos salvo "ya cobrado".
+        if(m.status!=='ya_cobrado' && typeof toastDosAcciones==='function' && typeof qrReintentar==='function'){
+          toastDosAcciones(_msg, '🔄 Reintentar', function(){ qrReintentar(m); });
+        } else { toast(_msg); }
+      }catch(_){ try{ toast(_msg); }catch(__){} }
       return;
     }
     var pos=parseInt(m.posicion,10);
