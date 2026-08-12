@@ -3,6 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ============================================================
+     SEGURIDAD · POLÍTICA DE SEGURIDAD DE CONTENIDO (CSP)
+     Última barrera: aunque un dato malicioso lograra colarse hasta el DOM, el navegador no
+     ejecutaría scripts de dominios ajenos ni enviaría datos a servidores no listados.
+     Los dominios permitidos son EXACTAMENTE los que la app usa hoy:
+       · cdnjs / jsdelivr → Leaflet, jsPDF, XLSX, jsQR
+       · gstatic          → SDK de Firebase
+       · fonts.google     → tipografías
+       · workers.dev      → el proxy propio (QR y catálogo de puntos)
+       · firestore / identitytoolkit → sincronización
+       · basemaps.cartocdn / tile.openstreetmap → teselas del mapa
+     'unsafe-inline' es inevitable: la app ES un archivo único con scripts y estilos en línea.
+     Aun así, 'unsafe-eval' NO se permite, y sin él las cargas dinámicas de código quedan
+     bloqueadas. object-src 'none' y base-uri 'self' cierran dos vías clásicas de secuestro.
+     ============================================================ -->
+<!-- CSP ACOTADA A PROPÓSITO. Solo se declaran directivas de riesgo CERO para la operación:
+     · object-src 'none'  → sin complementos incrustados (vector muerto pero gratis de cerrar)
+     · base-uri 'self'    → impide secuestrar las rutas relativas con una etiqueta <base>
+     · form-action 'none' → la app no envía formularios; bloquea el robo de datos por ese medio
+     NO se restringen script-src ni connect-src, y conviene saber por qué:
+       (a) al ser un ARCHIVO ÚNICO haría falta 'unsafe-inline', y con eso la CSP ya NO frena
+           un XSS: el script inyectado se ejecutaría igual. Daría una falsa sensación de
+           seguridad sin protección real.
+       (b) restringir connect-src arriesga cortar Firebase, las teselas del mapa o el Worker
+           ante cualquier cambio de subdominio suyo, y eso sí rompe la operación.
+     La defensa real contra XSS aquí es el SANEADO EN LA ENTRADA (ver sanearEntidad), y contra
+     la incrustación ajena, la protección de marco que hay más abajo. -->
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'none';">
+<meta name="referrer" content="no-referrer">
+<script>
+/* PROTECCIÓN DE MARCO (anti-incrustación).
+   `frame-ancestors` solo funciona como cabecera HTTP y GitHub Pages no permite fijarlas, así
+   que se aplica por script. Cierra el vector que hacía peligrosa la falta de validación en los
+   mensajes: un sitio ajeno incrustaba la app en un iframe y le enviaba mensajes fabricados
+   para escribir boletos falsos. Sin incrustación, ese ataque deja de existir.
+   Se ejecuta ANTES que todo lo demás, para que nada llegue a cargarse dentro de un marco. */
+(function(){
+  try{
+    if(window.top !== window.self){
+      document.documentElement.innerHTML =
+        '<div style="font:16px/1.6 system-ui;padding:28px;max-width:520px;margin:60px auto;'
+        + 'border:2px solid #7F1D1D;border-radius:10px;color:#7F1D1D;background:#FCEBEB;">'
+        + '<strong>Esta bitácora no puede abrirse dentro de otra página.</strong><br><br>'
+        + 'Se bloquea a propósito: incrustada, un sitio ajeno podría manipular tus registros.<br><br>'
+        + '<a href="https://jpandagoy.github.io/bitacora/" target="_top" '
+        + 'style="color:#7F1D1D;font-weight:700;">Abrir la bitácora de forma segura →</a></div>';
+      window.top.location = window.self.location;   // intento de escape del marco
+    }
+  }catch(e){
+    /* Si ni siquiera se puede leer window.top, es que estamos en un marco de otro origen:
+       el caso más sospechoso. Se detiene la carga. */
+    document.documentElement.innerHTML =
+      '<p style="font:16px system-ui;padding:28px;color:#7F1D1D;">Esta bitácora no puede abrirse incrustada.</p>';
+  }
+})();
+</script>
 <!-- Título FIJO: la app cubre todas las raspaditas, no un juego concreto. Antes decía
      "13 de la Suerte" y nunca se actualizaba al cambiar de juego, así que la pestaña del
      navegador mentía en cuanto trabajabas en cualquier otro. -->
@@ -2184,7 +2240,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '16.3', fecha: '2026-08-07' };
+  const APP_VERSION = { num: '17.0', fecha: '2026-08-07' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -11249,7 +11305,8 @@
     const reader = new FileReader();
     reader.onload = (ev)=>{
       try{
-        const imported = JSON.parse(ev.target.result);
+        // Se sanea el respaldo importado: un archivo manipulado podría traer HTML ejecutable.
+        const imported = sanearPaquete(JSON.parse(ev.target.result));
         if(!imported || !Array.isArray(imported.records) || !Array.isArray(imported.lotes)) throw new Error('formato');
         const errs = validarEsquemaJSON(imported);
         if(errs.length > 0){ toast('⚠️ Problemas en el archivo: ' + errs[0]); return; }
@@ -11336,7 +11393,8 @@
     const reader = new FileReader();
     reader.onload = (ev)=>{
       try{
-        const imported = JSON.parse(ev.target.result);
+        // Se sanea el respaldo importado: un archivo manipulado podría traer HTML ejecutable.
+        const imported = sanearPaquete(JSON.parse(ev.target.result));
         if(!imported || !Array.isArray(imported.records) || !Array.isArray(imported.lotes)) throw new Error('formato');
         const errs = validarEsquemaJSON(imported);
         if(errs.length > 0){ toast('⚠️ Problemas en el archivo: ' + errs[0]); return; }
@@ -16752,7 +16810,9 @@
           }
           // La entidad viene como texto JSON en `j` (formato robusto). Se parsea y se le
           // pega el _lm del documento. El id ya viene dentro del JSON con su tipo correcto.
-          let nuevo; try{ nuevo = JSON.parse(d.j); }catch(e){ return; }
+          // Se sanea lo que llega de la nube: otro dispositivo (o una cuenta comprometida)
+          // podría escribir texto con HTML ejecutable en el documento compartido.
+          let nuevo; try{ nuevo = sanearEntidad(JSON.parse(d.j)); }catch(e){ return; }
           const localEnt = idx>=0?arr[idx]:null;
           const localLm = localEnt? (localEnt._lm||0) : -1;
           if(!localEnt || (d._lm||0) >= localLm){
@@ -16876,6 +16936,60 @@
   // ===== INTEGRACION: modulo Puntos de venta (iframe aislado + sync sin fotos) =====
   data.puntos = data.puntos || [];
   var _pvIframe = null;
+  // ======================================================
+  // SEGURIDAD · VALIDACIÓN DE MENSAJES ENTRE VENTANAS
+  // Los manejadores de `message` aceptaban CUALQUIER emisor. Como la app vive en una URL
+  // pública, un sitio de terceros podía incrustarla en un iframe (o abrirla con window.open)
+  // y enviarle mensajes `qr:boleto` fabricados: eso INSERTA registros falsos en la bitácora
+  // y corrompe la contabilidad. No permite leer datos (el origen distinto lo impide), pero sí
+  // escribirlos, que en una bitácora contable es igual de grave.
+  // Defensa: solo se aceptan mensajes cuyo emisor sea uno de NUESTROS iframes conocidos.
+  // ======================================================
+  // ======================================================
+  // SEGURIDAD · SANEADO DE DATOS QUE ENTRAN DESDE FUERA
+  // La bitácora recibe datos de dos fuentes que NO son el teclado del usuario: los respaldos
+  // JSON que se importan y la sincronización con Firestore (otro dispositivo, o una cuenta
+  // comprometida). Esos datos se pintan con innerHTML en decenas de sitios; basta un campo
+  // con <img onerror=...> para ejecutar código con acceso a TODA la bitácora local.
+  // Se limpian los campos de TEXTO LIBRE al entrar, no al pintar: así el dato queda limpio en
+  // el almacenamiento y ninguna vista futura puede olvidarse de escapar.
+  // No toca números, ids ni fechas: solo texto que el usuario escribe.
+  // ======================================================
+  const _CAMPOS_TEXTO = ['serie','punto','ciudad','nota','color','nombre','emoji','inicioNum',
+                         'criterio','resultado','paridad','modo','qrSeg','qrCode','seriePrefijo'];
+  function _limpiarTexto(v){
+    if(typeof v!=='string') return v;
+    // Se eliminan las construcciones que permiten ejecutar código al pintar. El resto del
+    // texto se conserva tal cual: el objetivo es neutralizar, no censurar.
+    return v.replace(/[<>]/g,'')                 // corta cualquier etiqueta
+            .replace(/javascript:/gi,'')
+            .replace(/\son\w+\s*=/gi,' ')        // onerror=, onload=…
+            .slice(0, 500);                       // ningún campo legítimo pasa de esto
+  }
+  function sanearEntidad(o){
+    if(!o || typeof o!=='object') return o;
+    _CAMPOS_TEXTO.forEach(k=>{ if(typeof o[k]==='string') o[k]=_limpiarTexto(o[k]); });
+    // Etiquetas y posiciones anidadas
+    if(Array.isArray(o.tags)) o.tags = o.tags.map(t=> typeof t==='string' ? _limpiarTexto(t) : t);
+    return o;
+  }
+  function sanearPaquete(d){
+    if(!d || typeof d!=='object') return d;
+    ['records','lotes','juegos','puntos'].forEach(col=>{
+      if(Array.isArray(d[col])) d[col].forEach(sanearEntidad);
+    });
+    return d;
+  }
+  function _msgConfiable(ev){
+    if(!ev) return false;
+    const src = ev.source;
+    if(!src) return false;
+    try{
+      if(_pvIframe && src === _pvIframe.contentWindow) return true;
+      if(_qrIframe && src === _qrIframe.contentWindow) return true;
+    }catch(_){}
+    return false;
+  }
   function _pvThemeVars(){
     var cs = getComputedStyle(document.documentElement);
     var g = function(n){ return (cs.getPropertyValue(n)||'').trim(); };
@@ -16892,6 +17006,7 @@
     }catch(e){}
   }
   window.addEventListener('message', function(ev){
+    if(!_msgConfiable(ev)) return;            // solo nuestros iframes (ver _msgConfiable)
     var m=ev.data||{};
     if(m.type==='pv:ready'){ _pvPostTheme(); _pvPostState(); return; }
     if(m.type==='pv:rec'){
@@ -17077,6 +17192,7 @@
   // El iframe avisa cuando el usuario enciende la cámara: no otorga activación, pero permite
   // reintentar el resume por si el primer intento quedó a medias.
   window.addEventListener('message', function(ev){
+    if(!_msgConfiable(ev)) return;
     var m=ev&&ev.data; if(m && (m.type==='qr:gesto' || m.type==='qr:boleto')){ try{ desbloquearAudio(); }catch(_){} }
   });
   // ======================================================
@@ -17338,6 +17454,8 @@
     }catch(_){}
   }
   window.addEventListener('message', function(ev){
+    // CRÍTICO: sin esta comprobación, un sitio ajeno podía inyectar boletos falsos.
+    if(!_msgConfiable(ev)) return;
     var m=ev&&ev.data; if(!(m && m.type==='qr:boleto')) return;
     qrSonarEstado(m);                      // SIEMPRE, aunque no se registre nada
     if(qrPistolaOn()) qrRegistrarBoleto(m);
@@ -18756,6 +18874,9 @@ PVX_SCRIPT_CLOSE>
     try{ document.body.style.background=v.paperDark||''; document.body.style.color=v.ink||''; }catch(e){}
   }
   window.addEventListener('message', function(ev){
+    // Solo se atiende a la ventana que nos incrusta. Sin esto, otra ventana con referencia a
+    // este iframe podría cambiarle el tema o el estado de los puntos.
+    if(ev.source !== window.parent) return;
     var m=ev.data||{};
     if(m.type==='pv:theme'){ applyTheme(m.vars); }
     else if(m.type==='pv:state'){
@@ -19110,7 +19231,7 @@ async function consultar(code){
     var _tF1=Date.now();   // AUDIT: fin de la consulta (respuesta del Worker)
     render(code,data);
     addHistory(code,data);
-    try{ if(/^[0-9]{12,}$/.test(code)) parent.postMessage({type:"qr:boleto", code:code, prefijo:code.slice(0,3), lote:code.slice(3,9), posicion:code.slice(9,12), seguridad:code.slice(12), status:data.status, amount:(data.amount==null?null:data.amount), message:(data.message||""), tHit:(window.__t_hit||_tF0), tF0:_tF0, tF1:_tF1, tPost:Date.now()}, "*"); }catch(_){}
+    try{ if(/^[0-9]{12,}$/.test(code)) parent.postMessage({type:"qr:boleto", code:code, prefijo:code.slice(0,3), lote:code.slice(3,9), posicion:code.slice(9,12), seguridad:code.slice(12), status:data.status, amount:(data.amount==null?null:data.amount), message:(data.message||""), tHit:(window.__t_hit||_tF0), tF0:_tF0, tF1:_tF1, tPost:Date.now()}, window.location.origin); }catch(_){}
   }catch(e){
     setMsg("No se pudo contactar el proxy. Revisa la URL en Ajustes.","invalido");
   }finally{ busy=false; }
@@ -19167,7 +19288,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",
 /* ---- eventos ---- */
 // Avisa al documento padre que hubo un gesto del usuario aquí dentro, para que reintente
 // desbloquear su AudioContext (el sonido de premio se reproduce allá, no en este iframe).
-el.start.onclick=function(){ try{ parent.postMessage({type:"qr:gesto"}, "*"); }catch(_){} start(); };
+el.start.onclick=function(){ try{ parent.postMessage({type:"qr:gesto"}, window.location.origin); }catch(_){} start(); };
 el.again.onclick=()=>{ if(lastConsulted && !busy) consultar(lastConsulted); };
 el.portal.onclick=()=>{ if(lastConsulted) copy(lastConsulted); window.open(PORTAL,"_blank","noopener"); };
 el.clear.onclick=()=>{ localStorage.removeItem(HIST_KEY); renderHist(); };
