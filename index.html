@@ -1156,6 +1156,7 @@
         </div>
         <div class="pos-grid" id="posGrid"></div>
         <div id="posPendientesBand"></div>
+        <div id="posPremiadasBand"></div>
         <div class="note" id="loteDetailNote">
           Toca cualquier posición para abrir un formulario: si está vacía, registra un boleto nuevo en esa posición; si ya tiene un boleto tuyo, lo abre para editarlo (costo, premio, fecha, etc.) o eliminarlo. El punto de venta y la ciudad se heredan automáticamente del lote.
         </div>
@@ -2246,7 +2247,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '18.2', fecha: '2026-08-15' };
+  const APP_VERSION = { num: '18.4', fecha: '2026-08-15' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -8553,6 +8554,7 @@
       `${c.revealed}/${c.total} posiciones registradas · ${c.paid} con premio · ${c.remaining} sin información`;
 
     renderPosPendientes(lote, tamanoLote);
+    renderPosPremiadas(lote, tamanoLote, recPorId);
     renderLoteNota();
 
     // Botón "Completar lote": marca de golpe las posiciones sin-info como "no ganó", con el
@@ -8613,6 +8615,63 @@
     };
   }
 
+  // Banda de POSICIONES PREMIADAS. Terminado el pistoleo, esta pantalla es donde se valida
+  // el taco: hasta ahora había que barrer 50 casillas a ojo para ubicar las verdes. Aquí van
+  // enumeradas con su monto, ordenadas por posición (que es el orden físico de la tira), para
+  // poder recorrer el taco de arriba abajo sin saltar. Reusa el índice `recPorId` que ya
+  // construyó el grid: no añade ni una búsqueda extra.
+  function renderPosPremiadas(lote, tamanoLote, recPorId){
+    const band = document.getElementById('posPremiadasBand');
+    if(!band) return;
+    const gan = [];
+    for(let i=0;i<tamanoLote;i++){
+      const st = lote.posiciones[i];
+      if(!st || st.estado!=='gano') continue;
+      const rec = st.recordId ? recPorId.get(String(st.recordId)) : null;
+      gan.push({ pos:i, premio: rec ? Number(rec.premio||0) : null,
+                 cobrado: !!(rec && rec.cobrado) });
+    }
+    if(!gan.length){ band.innerHTML=''; return; }
+    const total = gan.reduce((s,g)=>s+(g.premio||0),0);
+    const porCobrar = gan.filter(g=>!g.cobrado);
+    const montoPorCobrar = porCobrar.reduce((s,g)=>s+(g.premio||0),0);
+    const chips = gan.map(g=>{
+      // El cobrado se atenúa: al recorrer la tira ya no hay que buscarlo.
+      const st = g.cobrado
+        ? 'background:var(--paper-dark); color:var(--silver-dark); border:1px solid var(--silver); opacity:.6;'
+        : 'background:#065F46; color:#FFFFFF; border:1px solid #047857;';
+      return `<button type="button" class="pos-prem-chip" data-pos="${g.pos}" title="Abrir posición ${padPos(g.pos)}"
+        style="font-family:'Courier New',monospace; font-size:12px; font-weight:700; ${st} border-radius:6px; padding:5px 9px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span style="font-size:13px;">${padPos(g.pos)}</span>
+        <span style="font-weight:800; opacity:.92;">${g.premio==null?'—':fmt(g.premio)}</span>
+        ${g.cobrado?'<span title="ya cobrado">✓</span>':''}</button>`;
+    }).join('');
+    const lista = gan.map(g=>padPos(g.pos)).join(' · ');
+    band.innerHTML = `
+      <div style="margin-top:12px; padding:12px 14px; background:var(--paper); border:2px solid #065F46; border-radius:8px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+          <span style="font-size:13px; font-weight:700; font-family:Georgia,serif;">🏆 Posiciones con premio</span>
+          <span style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <span style="font-size:11px; color:#FFFFFF; background:#065F46; border-radius:20px; padding:2px 10px; font-weight:700;">${gan.length} · ${fmt(total)}</span>
+            ${porCobrar.length ? `<span style="font-size:11px; color:#7C2D12; background:#FDBA31; border-radius:20px; padding:2px 10px; font-weight:700;">por cobrar ${porCobrar.length} · ${fmt(montoPorCobrar)}</span>` : `<span style="font-size:11px; color:#065F46; font-weight:700;">todo cobrado ✓</span>`}
+            <button type="button" id="copiarPremiadas" data-lista="${lista}"
+              style="font-size:11px; padding:3px 10px; border:1px solid var(--silver); border-radius:6px; background:var(--paper-dark); color:var(--ink); cursor:pointer;">📋 Copiar</button>
+          </span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">${chips}</div>
+        <div style="font-size:10.5px; color:var(--silver-dark); margin-top:9px;">Van en orden de posición, que es el orden físico de la tira. Toca uno para abrirlo o marcarlo cobrado.</div>
+      </div>`;
+    band.querySelectorAll('.pos-prem-chip').forEach(ch=>{
+      ch.addEventListener('click', ()=> openPosicionModal(lote, parseInt(ch.dataset.pos,10)));
+    });
+    const btnCopiar = band.querySelector('#copiarPremiadas');
+    if(btnCopiar) btnCopiar.addEventListener('click', ()=>{
+      // Texto plano para llevar al punto de cobro, con serie para no confundir tacos.
+      const txt = lote.serie+' — premiadas ('+gan.length+', '+fmt(total)+'):\n'
+        + gan.map(g=>padPos(g.pos)+'  '+(g.premio==null?'—':fmt(g.premio))+(g.cobrado?'  (cobrado)':'')).join('\n');
+      try{ navigator.clipboard.writeText(txt); toast('Lista copiada'); }catch(_){}
+    });
+  }
   // Banda independiente (bajo el grid) con los números aún NO registrados del lote.
   // Cada ficha abre el mismo formulario que la celda del grid; al registrar, la ficha
   // desaparece (la banda se re-renderiza en render()). El primero es el "siguiente".
@@ -16740,10 +16799,15 @@
     if(!_syncOn || _syncApplying) return;
     // Fuera de ráfaga: 500 ms tras el último cambio, techo 1,5 s (respuesta inmediata).
     // En ráfaga: 3 s tras el último cambio, techo 12 s → ~5 commits en vez de 40.
-    const raf = _enRafaga();
+    if(_enRafaga()){
+      // Acelerador: si ya hay un envío programado, este cambio viaja en él. No se reinicia
+      // el reloj (eso era el error: con 7,6 s entre boletos el silencio nunca llegaba).
+      if(!_syncPushMaxTimer) _syncPushMaxTimer = setTimeout(_syncDoPush, 12000);
+      return;
+    }
     clearTimeout(_syncPushTimer);
-    _syncPushTimer = setTimeout(_syncDoPush, raf ? 3000 : 500);
-    if(!_syncPushMaxTimer) _syncPushMaxTimer = setTimeout(_syncDoPush, raf ? 12000 : 1500);
+    _syncPushTimer = setTimeout(_syncDoPush, 500);
+    if(!_syncPushMaxTimer) _syncPushMaxTimer = setTimeout(_syncDoPush, 1500);
   }
   // Al RECIBIR cambios remotos en ráfaga (el otro aparato pistoleando), no se persiste ni se
   // repinta por cada snapshot: se agrupan en un solo save()+render() ~200 ms después del último.
@@ -17143,16 +17207,33 @@
     return s[Math.min(s.length-1, Math.floor(s.length*p))]; }
   function _resumen(v){ if(!v.length) return '—';
     return 'mediana '+_pctl(v,0.5)+'ms · p90 '+_pctl(v,0.9)+'ms · rango '+_pctl(v,0)+'–'+_pctl(v,0.999)+'ms  (n='+v.length+')'; }
+  // DEFECTO DEL INSTRUMENTO (corregido): el resumen mezclaba tandas separadas por casi una
+  // hora y publicaba "1.6 boletos/min · 3776 s". Un número así no mide nada. Ahora se corta
+  // la tanda donde hay un hueco > 3 min y se resume SOLO la última, avisando de las demás.
+  function _tandas(cre){
+    var t=[], act=[];
+    cre.forEach(function(e){
+      if(act.length && e.ts - act[act.length-1].ts > 180000){ t.push(act); act=[]; }
+      act.push(e);
+    });
+    if(act.length) t.push(act);
+    return t;
+  }
   function auditResumen(){
-    var cre=_audit.filter(function(e){return e.phase==='crear';});
-    if(!cre.length) return '(sin pistoleos registrados)';
+    var todos=_audit.filter(function(e){return e.phase==='crear';})
+                    .sort(function(a,b){return (a.ts||0)-(b.ts||0);});
+    if(!todos.length) return '(sin pistoleos registrados)';
+    var tandas=_tandas(todos), cre=tandas[tandas.length-1];
+    var aviso = tandas.length>1
+      ? ('(hay '+tandas.length+' tandas guardadas; se resume la última — '+cre.length+' de '+todos.length+' boletos)\n')
+      : '';
     var num=function(k){ return cre.map(function(e){return e[k];}).filter(function(x){return typeof x==='number'&&x>=0;}); };
     var ts=cre.map(function(e){return e.ts;}).filter(Boolean).sort(function(a,b){return a-b;});
     var gaps=[]; for(var i=1;i<ts.length;i++){ var g=ts[i]-ts[i-1]; if(g>0&&g<300000) gaps.push(g); }
     var dur=ts.length>1 ? (ts[ts.length-1]-ts[0])/1000 : 0;
     var est={}; cre.forEach(function(e){ est[e.status||'?']=(est[e.status||'?']||0)+1; });
     var L=[];
-    L.push('=== RESUMEN DE PISTOLEO · v'+(cre[cre.length-1].v||'?')+' ===');
+    L.push(aviso+'=== RESUMEN DE PISTOLEO · v'+(cre[cre.length-1].v||'?')+' ===');
     // ritmo = intervalos/tiempo, no boletos/tiempo: n boletos dejan n-1 huecos.
     // Contar n sobre la ventana infla la cifra (12 en 19s no son 37.8/min sino 34.7/min).
     L.push('boletos: '+cre.length+'   ·   duración total: '+dur.toFixed(0)+'s'
@@ -17176,11 +17257,12 @@
       if(mis.length) L.push('   sin sesión  : mediana '+_pctl(mis,0.5)+'ms (n='+mis.length+')  [abrir: mediana '+(_pctl(num('abrir_ms'),0.5)||'?')+'ms]');
     }
     // ¿El envío a Firestore le roba red a la consulta? Se compara el portal con y sin commit en vuelo.
+    var t0=cre[0].ts, t1=cre[cre.length-1].ts;
     var conV=cre.filter(function(e){return e.sync_vuelo>0;}).map(function(e){return e.worker_ms;}).filter(Number.isFinite);
     var sinV=cre.filter(function(e){return e.sync_vuelo===0;}).map(function(e){return e.worker_ms;}).filter(Number.isFinite);
     if(conV.length && sinV.length)
       L.push('portal c/envío : mediana '+_pctl(conV,0.5)+'ms (n='+conV.length+')   ·   sin envío: mediana '+_pctl(sinV,0.5)+'ms (n='+sinV.length+')');
-    var env=_audit.filter(function(e){return e.phase==='envio';});
+    var env=_audit.filter(function(e){return e.phase==='envio' && e.ts>=t0 && e.ts<=t1+20000;});
     if(env.length){
       var com=env.map(function(e){return e.commit_ms;}).filter(Number.isFinite);
       L.push('envíos firebase: '+env.length+' commits para '+cre.length+' boletos · '+_resumen(com));
@@ -17294,8 +17376,24 @@
   // reintentar el resume por si el primer intento quedó a medias.
   window.addEventListener('message', function(ev){
     if(!_msgConfiable(ev)) return;
-    var m=ev&&ev.data; if(m && (m.type==='qr:gesto' || m.type==='qr:boleto')){ try{ desbloquearAudio(); }catch(_){} }
+    var m=ev&&ev.data; if(m && (m.type==='qr:gesto' || m.type==='qr:boleto' || m.type==='qr:capturado')){ try{ desbloquearAudio(); }catch(_){} }
+    // Clic de LECTURA: suena en cuanto la cámara decodifica, ~4 s antes de que conteste el
+    // portal. Es el aviso que faltaba — el sonido de premio llega tarde para saber si captó.
+    // Tono agudo y muy corto: no se confunde con ninguno de los sonidos de resultado.
+    if(m && m.type==='qr:capturado') playCapturaSound();
   });
+  function playCapturaSound(){
+    var ctx=_audioCtx(); if(!ctx) return;
+    if(ctx.state!=='running'){ try{ ctx.resume(); }catch(_){} return; }
+    try{
+      var o=ctx.createOscillator(), g=ctx.createGain(), t=ctx.currentTime;
+      o.type='square'; o.frequency.setValueAtTime(2100, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.16, t+0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+0.055);
+      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.06);
+    }catch(_){}
+  }
   // ======================================================
   // SONIDO POR NIVEL DE PREMIO — a partir de la TABLA DE PREMIOS de cada juego
   // No se usan montos fijos en dólares (un premio de $40 es enorme en un juego y común en
@@ -17482,7 +17580,12 @@
     var tamano=(lote&&lote.tamanoLote)||juego.tamanoLote||getTamanoLote(juego.id);
     if(!(pos>=0 && pos<tamano)){ try{ toast('Posición '+m.posicion+' fuera de rango (0–'+(tamano-1)+') para '+juego.nombre); }catch(_){} return; }
     var _loteNuevo=false;
-    if(!lote){ _loteNuevo=true; lote={ id:nuevoId(), creadoEn:new Date().toISOString(), serie:serie, juegoId:juego.id, paridad:(autoParidad(serie)||'impar'), punto:'', ciudad:'', tamanoLote:tamano, posiciones:blankLote(tamano), modo:'sueltos' }; data.lotes.push(lote); }
+    if(!lote){ _loteNuevo=true;
+      // Hereda punto/ciudad de la compra de esta visita (mismo juego + mismo día). Sin esto
+      // todo taco iniciado con la pistola quedaba sin punto de venta y no entraba en el
+      // análisis por kiosco. El descuento NO se hereda (se congela mal en 50 boletos).
+      var _ctx = (typeof getCtxCompraVigente==='function') ? (getCtxCompraVigente()||{}) : {};
+      lote={ id:nuevoId(), creadoEn:new Date().toISOString(), serie:serie, juegoId:juego.id, paridad:(autoParidad(serie)||'impar'), punto:(_ctx.punto||''), ciudad:(_ctx.ciudad||''), tamanoLote:tamano, posiciones:blankLote(tamano), modo:'sueltos' }; data.lotes.push(lote); }
     // DEDUP: un boleto (serie+posición) es único; solo existe uno. Si esa posición ya está
     // registrada, NO se vuelve a insertar (inflaría la contabilidad). Se edita a mano si hace falta.
     var prev=lote.posiciones[pos];
@@ -19141,6 +19244,28 @@ PVX_SCRIPT_CLOSE>
   @keyframes pulso{0%,100%{opacity:.35}50%{opacity:1}}
   .item .c{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:500;flex:1;word-break:break-all}
   .item .r{font-size:.72rem;color:#9fb0dc;flex:none;max-width:40%;text-align:right}
+  /* Placa de posición: el identificador que de verdad se usa al recorrer la tira. */
+  .item .pl{font-family:'IBM Plex Mono',monospace;font-size:1.05rem;font-weight:700;
+    border-radius:7px;padding:3px 8px;flex:none;min-width:44px;text-align:center;
+    background:rgba(255,255,255,.12);color:#fff;line-height:1.2}
+  .item.ganado .pl{background:var(--ok);color:#04241c}
+  .item.sin_premio .pl{background:rgba(226,75,74,.28);color:#fff}
+  .item.encolado .pl{background:#f0a828;color:#3a2400;animation:pulso 1s ease-in-out infinite}
+  .item.capturado .pl{background:#6fd3e8;color:#04303a}
+  .item.error .pl,.item.invalido .pl,.item.desconocido .pl{background:rgba(255,255,255,.18);color:#fff}
+  .item .mid{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px}
+  .item .st{font-size:.78rem;line-height:1.2}
+  .item .sr{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:#8f7fd0;line-height:1.2}
+  .item .am{margin-left:auto;flex:none;font-size:.82rem;font-weight:700;color:var(--ok)}
+  /* Confirmación de LECTURA sobre el visor: aparece en el instante en que se decodifica,
+     sin esperar al portal. Antes solo la vibración avisaba, y no siempre se siente. */
+  #capturaFlash{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+    pointer-events:none;z-index:6}
+  #capturaFlash.on{display:flex;animation:capFlash .62s ease-out}
+  #capturaFlash b{font-family:'IBM Plex Mono',monospace;font-size:3.6rem;font-weight:700;color:#fff;
+    background:rgba(0,0,0,.55);border:3px solid #6fd3e8;border-radius:16px;padding:6px 20px;
+    text-shadow:0 2px 10px rgba(0,0,0,.8)}
+  @keyframes capFlash{0%{opacity:0;transform:scale(.7)}22%{opacity:1;transform:scale(1.04)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
   .empty-hist{font-size:.78rem;color:#6a7cab;text-align:center;padding:8px}
 
   footer{font-size:.68rem;color:#7385b3;text-align:center;line-height:1.5;margin-top:2px}
@@ -19170,6 +19295,7 @@ PVX_SCRIPT_CLOSE>
     <video id="video" playsinline muted></video>
     <div class="reticle" id="reticle" hidden><span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span><div class="scanline"></div></div>
     <button class="torch" id="torch" title="Linterna" aria-label="Linterna"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+    <div id="capturaFlash" aria-hidden="true"><b></b></div>
     <div class="placeholder" id="placeholder">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       <b>Cámara apagada</b><small>Toca <b>Encender cámara</b> y apunta al QR del boleto.</small>
@@ -19348,7 +19474,7 @@ function _actualizarContador(){
 function encolar(code){
   if(_encolados.has(code)) return;           // ya se pidió en esta sesión
   _encolados.add(code); _pend++;
-  addHistory(code, {status:'encolado', message:'en cola…'});   // aparece de inmediato
+  addHistory(code, {status:'encolado', message:'consultando…'});   // aparece de inmediato
   _cola.push({code, tHit: Date.now(), reintento:_reintentos.has(code)});
   _actualizarContador();
   bombear();
@@ -19393,13 +19519,27 @@ function reintentar(code){
   _reintentos.add(code);
   encolar(code);
 }
+// Posición del boleto dentro del taco: dígitos 9–11 del código. Es el identificador que
+// se usa físicamente al recorrer la tira, así que manda sobre el código completo.
+function posDe(code){ return (/^[0-9]{12,}$/.test(code)) ? code.slice(9,12) : null; }
+function serieDe(code){ return (/^[0-9]{12,}$/.test(code)) ? (code.slice(0,3)+'-'+code.slice(3,9)) : null; }
+function avisarCaptura(code){
+  var p = posDe(code);
+  var f = document.getElementById('capturaFlash');
+  if(f){ f.querySelector('b').textContent = p || '✓';
+         f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+         clearTimeout(avisarCaptura._t); avisarCaptura._t=setTimeout(function(){ f.classList.remove('on'); }, 700); }
+  // El AudioContext vive en el documento padre (el gesto del usuario es de aquel documento).
+  try{ parent.postMessage({type:"qr:capturado", code:code, pos:p}, _ORIGEN_PADRE); }catch(_){}
+  if(navigator.vibrate){ try{ navigator.vibrate([35,45,35]); }catch(_){} }
+}
 function onHit(text){
   if(text===lastCode) return;   // evita repetir el mismo código en ráfaga
   lastCode=text;
   window.__t_hit=Date.now();   // AUDIT: instante en que se leyó el código
   clearTimeout(onHit._t); onHit._t=setTimeout(function(){ lastCode=""; }, 2500); // libera para re-escanear el mismo boleto
   el.viewer.classList.remove("hit"); void el.viewer.offsetWidth; el.viewer.classList.add("hit");
-  if(navigator.vibrate) navigator.vibrate(60);
+  avisarCaptura(text);        // ver + oír + sentir que SÍ se leyó, antes de consultar
   encolar(text);              // ya no espera: encola y sigue leyendo
 }
 
@@ -19492,7 +19632,14 @@ function renderHist(){
   if(a.length===0){ el.hist.innerHTML='<div class="empty-hist">Aún no has escaneado boletos.</div>'; return; }
   el.hist.innerHTML=a.map(x=>{
     const cls=["ganado","sin_premio","ya_cobrado","invalido","desconocido","error","capturado","encolado"].includes(x.status)?x.status:"";
-    return `<div class="item ${cls}" ${x.status==="error"?`data-retry="${esc(x.code)}" style="cursor:pointer"`:""}><span class="dot"></span><span class="c">${esc(x.code)}</span><span class="r">${esc(shortMsg(x))}</span></div>`;
+    const pos=posDe(x.code), ser=serieDe(x.code);
+    const monto=(x.amount!=null && Number(x.amount)>0) ? ('$ '+Number(x.amount).toFixed(2)) : '';
+    return `<div class="item ${cls}" title="${esc(x.code)}" ${x.status==="error"?`data-retry="${esc(x.code)}" style="cursor:pointer"`:""}>`
+      + `<span class="pl">${pos?esc(pos):'···'}</span>`
+      + `<span class="mid"><span class="st">${esc(shortMsg(x))}</span>`
+      + (ser?`<span class="sr">${esc(ser)}</span>`:'')+`</span>`
+      + (monto?`<span class="am">${monto}</span>`:'')
+      + `</div>`;
   }).join("");
   // Un toque en una fila fallida la vuelve a encolar. Antes había que re-escanear el boleto.
   el.hist.querySelectorAll('[data-retry]').forEach(function(n){
