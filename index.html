@@ -1912,7 +1912,7 @@
     </div>
     <label style="display:flex; align-items:center; gap:9px; margin-top:10px; font-size:11.5px; color:var(--silver-dark); cursor:pointer;">
       <input type="checkbox" id="abSyncChk" style="width:16px; height:16px;">
-      <span>🧪 <b>Prueba A/B del sync</b> — alterna bloques de 10 boletos con la subida a la nube activa y en pausa, para medir si de verdad frena la consulta. No se pierde nada: lo pendiente sube al cambiar de bloque.</span>
+      <span>🧪 <b>Prueba A/B del sync</b> <b style="color:#065F46;">— ya respondida: sin efecto (−55 ms sobre 50 boletos por brazo)</b>. Déjala apagada; solo enciéndela si quieres repetir la medición, porque mientras corre pausa la subida a la nube por bloques.</span>
     </label>
     <details id="qrAuditWrap" style="margin-top:12px;">
       <summary style="cursor:pointer; font-size:13px; font-weight:700;">🕵 Auditoría del pistoleo <span id="qrAuditN" style="font-weight:400; color:var(--silver-dark);"></span></summary>
@@ -2298,7 +2298,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '20.2', fecha: '2026-08-21' };
+  const APP_VERSION = { num: '20.4', fecha: '2026-08-21' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -17079,7 +17079,15 @@
     if(!_abSync) _syncDoPush();   // al apagar, se sube lo pendiente
     toast(_abSync ? '🧪 Prueba A/B del sync ACTIVA — bloques de 10 boletos' : 'Prueba A/B apagada · subiendo pendientes');
   }
-  try{ _abSync = localStorage.getItem('bitacora_ab_sync')==='1'; }catch(_){}
+  try{
+    // Apagado forzado UNA vez: el experimento ya concluyó (-55 ms, sin efecto) y dejarlo
+    // encendido solo retrasa la subida a la nube sin aportar nada.
+    if(localStorage.getItem('bitacora_ab_cerrado')!=='1'){
+      localStorage.setItem('bitacora_ab_sync','0');
+      localStorage.setItem('bitacora_ab_cerrado','1');
+    }
+    _abSync = localStorage.getItem('bitacora_ab_sync')==='1';
+  }catch(_){}
   let _pistolActiva = 0;           // marca de tiempo del último boleto pistoleado
   function pistolLatido(){ _pistolActiva = Date.now(); }
   function _enRafaga(){ return (Date.now() - _pistolActiva) < 20000; }
@@ -17493,7 +17501,13 @@
     if(!_audit.length) return '(sin eventos todavía — pistolea un boleto)';
     return _audit.slice().reverse().map(function(e){
       if(e.phase==='crear') return e.hora+' '+e.serie+' p'+e.pos+(e.loteNuevo?' [NUEVO]':'')+(e.reintento?' [REINT]':'')+' | cola='+_ms(e.espera_ms)+' portal='+_ms(e.worker_ms)+' guardar='+_ms(e.handler_ms)+' total='+_ms(e.total_ms)+' par='+(e.paralelo==null?'?':e.paralelo)+(e.fuente==='lector'?' 🔫':'')+(e.ses?(' ses='+e.ses):'')+(e.sync_vuelo?(' env='+e.sync_vuelo):'')+' · '+(e.status||'');
-      if(e.phase==='reverif') return e.hora+' '+(e.dev||'?')+' 🔍 REVERIFICACIÓN · '+e.n+' consultados · '+e.ok+' ok · '+e.difiere+' difieren · '+e.duda+' sin respuesta'+(e.sinCodigo?(' · '+e.sinCodigo+' sin código'):'');
+      if(e.phase==='rechazo'){
+      var _mot={ya_registrado:'YA REGISTRADO', no_concluyente:'SIN RESPUESTA ÚTIL',
+                prefijo_desconocido:'PREFIJO DESCONOCIDO', posicion_fuera_de_rango:'POSICIÓN FUERA DE RANGO'};
+      return e.hora+' '+(e.dev||'?')+' ⊘ '+(e.serie||'?')+(e.pos?(' p'+e.pos):'')+(e.fuente==='lector'?' 🔫':'')
+             +' | NO SE GUARDÓ · '+(_mot[e.motivo]||e.motivo)+(e.status?(' ('+e.status+')'):'');
+    }
+    if(e.phase==='reverif') return e.hora+' '+(e.dev||'?')+' 🔍 REVERIFICACIÓN · '+e.n+' consultados · '+e.ok+' ok · '+e.difiere+' difieren · '+e.duda+' sin respuesta'+(e.sinCodigo?(' · '+e.sinCodigo+' sin código'):'');
     if(e.phase==='cruce') return e.hora+' ⚠ CRUCE · pedí '+e.code+' · llegó '+e.recibido+' · DESCARTADO';
     if(e.phase==='envio') return e.hora+' '+(e.dev||'?')+' ⇡ENVÍO '+e.n+' reg'+(e.altas!=null?(' ('+e.altas+' altas / '+e.reenvios+' reenvíos)'):'')+(e.cols?(' '+Object.keys(e.cols).map(function(k){return k+':'+e.cols[k];}).join(' ')):'')+' | espera='+_ms(e.desde_creacion_ms)+' commit='+_ms(e.commit_ms)+(e.vuelo>1?(' [+'+(e.vuelo-1)+' en vuelo]'):'')+(e.rafaga?' [ráfaga]':'');
       if(e.phase==='reflejo') return e.hora+' '+e.dev+' · ⇢REFLEJO '+(e.serie||('lote '+e.loteId))+' p'+e.pos+' | total(crear→visible)='+_ms(e.e2e_ms)+' · red(envío→aplica)='+_ms(e.net_ms);
@@ -17529,9 +17543,20 @@
     return t;
   }
   function auditResumen(){
+    // Los rechazos también son actividad: un pistoleo que no se guardó SIGUE siendo un
+    // pistoleo, y ocultarlo fue lo que hizo que la auditoría apareciera "vacía".
+    var rech=_audit.filter(function(e){return e.phase==='rechazo';});
     var todos=_audit.filter(function(e){return e.phase==='crear';})
                     .sort(function(a,b){return (a.ts||0)-(b.ts||0);});
-    if(!todos.length) return '(sin pistoleos registrados)';
+    if(!todos.length){
+      if(!rech.length) return '(sin pistoleos registrados)';
+      // Hubo lecturas, pero ninguna llegó a guardarse. Hay que decirlo, no callarlo.
+      var porMot={}; rech.forEach(function(e){ porMot[e.motivo]=(porMot[e.motivo]||0)+1; });
+      return '=== SIN REGISTROS NUEVOS ===\n'
+        + rech.length + ' lectura(s) consultadas que NO se guardaron:\n'
+        + Object.keys(porMot).map(function(k){ return '   · '+k.replace(/_/g,' ')+': '+porMot[k]; }).join('\n')
+        + '\n\n--- detalle ---';
+    }
     var tandas=_tandas(todos), cre=tandas[tandas.length-1];
     var aviso = tandas.length>1
       ? ('(hay '+tandas.length+' tandas guardadas; se resume la última — '+cre.length+' de '+todos.length+' boletos)\n')
@@ -17570,10 +17595,18 @@
           var st = (lt.posiciones && lt.posiciones[i]) ? lt.posiciones[i].estado : 'sin-info';
           if(st==='sin-info') sinRegistrar.push(padPos(i)); else sinPistolear.push(padPos(i));
         }
-        if(sinRegistrar.length)
-          L.push('⚠ FALTAN        : '+sinRegistrar.join(', ')+'   (no están en el taco — hay que registrarlas)');
+        // Listar los huecos solo sirve cuando quedan pocos: en un taco a medias (20 de 100)
+        // escupía 80 números en una línea ilegible. Con muchos, basta el recuento.
+        if(sinRegistrar.length){
+          if(sinRegistrar.length<=12)
+            L.push('⚠ FALTAN        : '+sinRegistrar.join(', ')+'   (no están en el taco — hay que registrarlas)');
+          else
+            L.push('taco en curso  : faltan '+sinRegistrar.length+' de '+tam+' · siguiente '+sinRegistrar[0]
+                   +' · últimas '+sinRegistrar.slice(-3).join(', '));
+        }
         if(sinPistolear.length)
-          L.push('   a mano       : '+sinPistolear.join(', ')+'   (registradas sin pistola, todo en orden)');
+          L.push('   a mano       : '+(sinPistolear.length<=12 ? sinPistolear.join(', ')
+                 : (sinPistolear.length+' posiciones'))+'   (registradas sin pistola, todo en orden)');
         if(!sinRegistrar.length && !sinPistolear.length && cre.length>=tam)
           L.push('taco completo  : '+tam+'/'+tam+' ✓');
       }
@@ -17645,6 +17678,11 @@
     L.push('reintentos     : '+reint);
     var cruces=_audit.filter(function(e){return e.phase==='cruce';}).length;
     L.push('cruces         : '+cruces+(cruces?'  ⚠ REVISAR':'  (ninguno)'));
+    var rEnTanda=rech.filter(function(e){ return e.ts>=t0-60000 && e.ts<=t1+60000; });
+    if(rEnTanda.length){
+      var pm={}; rEnTanda.forEach(function(e){ pm[e.motivo]=(pm[e.motivo]||0)+1; });
+      L.push('no guardados   : '+rEnTanda.length+'  ('+Object.keys(pm).map(function(k){return k.replace(/_/g,' ')+' '+pm[k];}).join(' · ')+')');
+    }
     var nuevos=cre.filter(function(e){return e.loteNuevo;}).length;
     L.push('lotes nuevos   : '+nuevos);
     L.push('');
@@ -17655,7 +17693,10 @@
     if(pre) pre.textContent = auditResumen()+'\n'+auditTexto();
     var n=document.getElementById('qrAuditN');
     if(n){ var c=_audit.filter(function(e){return e.phase==='crear';}).length;
-           n.textContent = c ? ('· '+c+' boleto'+(c===1?'':'s')) : '· vacía'; } }
+           var r=_audit.filter(function(e){return e.phase==='rechazo';}).length;
+           n.textContent = (c||r)
+             ? ('· '+c+' boleto'+(c===1?'':'s')+(r?(' · '+r+' no guardado'+(r===1?'':'s')):''))
+             : '· vacía'; } }
   (function(){
     document.addEventListener('click', function(ev){
       var t=ev.target;
@@ -17933,6 +17974,17 @@
       })
       .catch(function(){ toast('📡 Sigue sin haber respuesta del portal. Intenta más tarde o registra el boleto a mano.'); });
   }
+  // Deja constancia de un boleto que se leyó y consultó pero NO se registró, con el motivo.
+  // Sin esto la auditoría solo cuenta los éxitos y parece vacía cuando más falta hace.
+  function auditRechazo(motivo, m, extra){
+    try{
+      auditLog(Object.assign({phase:'rechazo', motivo:motivo,
+        code:(m&&m.code)||null, serie:(m&&m.prefijo&&m.lote)?(m.prefijo+'-'+m.lote):null,
+        pos:(m&&m.posicion)||null, status:(m&&m.status)||null,
+        fuente:(m&&m.fuente)||'camara',
+        worker_ms:((m&&m.tF1&&m.tF0)?(m.tF1-m.tF0):null)}, extra||{}));
+    }catch(_){}
+  }
   function qrRegistrarBoleto(m){
     if(!m) return;
     // El monto del TEXTO manda sobre el `amount` del Worker (ver nota arriba).
@@ -17962,6 +18014,7 @@
           toastDosAcciones(_msg, '🔄 Reintentar', function(){ qrReintentar(m); });
         } else { toast(_msg); }
       }catch(_){ try{ toast(_msg); }catch(__){} }
+      auditRechazo('no_concluyente', m);
       return;
     }
     var pos=parseInt(m.posicion,10);
@@ -17969,7 +18022,7 @@
     // los del seriePrefijo del juego, ignorando guion/espacios/formato. Así, si el prefijo ya
     // está guardado en ALGÚN juego, siempre se reconoce; solo se pide crear si de verdad no existe.
     var juego=(data.juegos||[]).find(function(j){ return String(j.seriePrefijo||'').replace(/\D/g,'').slice(0,3) === m.prefijo; });
-    if(!juego){ qrPreguntarPrefijo(m); return; }
+    if(!juego){ auditRechazo('prefijo_desconocido', m); qrPreguntarPrefijo(m); return; }
     var serie=m.prefijo+'-'+m.lote;
     // Buscar el taco SOLO por serie: un mismo número de serie es un único taco físico.
     // Antes se filtraba también por juego, lo que creaba un SEGUNDO taco 020-011308 y partía
@@ -17980,7 +18033,7 @@
       if(jl) juego=jl;   // respetar el juego al que ya pertenece el taco existente
     }
     var tamano=(lote&&lote.tamanoLote)||juego.tamanoLote||getTamanoLote(juego.id);
-    if(!(pos>=0 && pos<tamano)){ try{ toast('Posición '+m.posicion+' fuera de rango (0–'+(tamano-1)+') para '+juego.nombre); }catch(_){} return; }
+    if(!(pos>=0 && pos<tamano)){ try{ toast('Posición '+m.posicion+' fuera de rango (0–'+(tamano-1)+') para '+juego.nombre); }catch(_){} auditRechazo('posicion_fuera_de_rango', m, {tamano:tamano, juego:juego.nombre}); return; }
     var _loteNuevo=false;
     if(!lote){ _loteNuevo=true;
       // Hereda punto/ciudad de la compra de esta visita (mismo juego + mismo día). Sin esto
@@ -17994,7 +18047,9 @@
     var yaReg=(prev && prev.estado && prev.estado!=='sin-info') || (data.records||[]).some(function(r){ return String(r.loteId)===String(lote.id) && Number(r.posicion)===pos; });
     if(yaReg){ activeLoteId=lote.id; _pistolCommit();
       qrSetEstado(serie+' · pos '+padPos(pos)+' ya registrado');
-      try{ toast('⚠ Ya registrado: '+serie+' pos '+padPos(pos)+' — no se duplica'); }catch(_){} return; }
+      try{ toast('⚠ Ya registrado: '+serie+' pos '+padPos(pos)+' — no se duplica'); }catch(_){}
+      auditRechazo('ya_registrado', m, {serie:serie, pos:padPos(pos)});
+      return; }
     var gano=(m.status==='ganado' && m.amount!=null && Number(m.amount)>0);
     var premio=gano? Number(m.amount):0;
     var nominal=juego.costoDefecto||0, desc=getDescuentoLote(lote), costo=costoConDescuento(nominal,desc);
@@ -18182,15 +18237,18 @@
       const buf=_wBuf, tiempos=_wTiempos.filter(function(x){ return x>0; });
       _wReset();
       if(buf.length < W_MIN_DIGITOS) return;
+      ev.preventDefault(); ev.stopPropagation();
       if(_wMediana(tiempos) > W_MAX_MS_TECLA){
         try{ toast('Eso se tecleó a mano, no lo leyó el lector — no se procesó'); }catch(_){}
         return;
       }
-      ev.preventDefault();
       wEnviarAlEscaner(buf);
       return;
     }
     if(/^[0-9]$/.test(ev.key)){
+      // Se corta aquí: si el dígito sigue su camino, los atajos 1-8 cambian de sección y el
+      // lector te pasea por medio menú en cada disparo.
+      ev.preventDefault(); ev.stopPropagation();
       if(hueco > 900) _wReset();
       _wBuf += ev.key;
       _wTiempos.push(hueco>900 ? 0 : hueco);
@@ -18227,7 +18285,7 @@
     }
     const nota=document.getElementById('origenNota');
     if(nota) nota.textContent = (_origen==='lector')
-      ? 'Dispara sobre el boleto. No hace falta enfocar ningún campo ni encender la cámara.'
+      ? '🔫 Dispara sobre el boleto — no hace falta enfocar nada. Mientras esté activo, los atajos numéricos 1-8 quedan en pausa (el lector usa esas teclas).'
       : 'Enciende la cámara dentro del escáner y apunta al Data Matrix del boleto.';
   }
   (function(){
@@ -19820,8 +19878,31 @@ PVX_SCRIPT_CLOSE>
   body.modo-lector .viewer{height:96px;min-height:96px;flex:none}
   body.modo-lector .viewer video,body.modo-lector .reticle,body.modo-lector .torch{display:none}
   body.modo-lector .placeholder svg{display:none}
-  body.modo-lector #histList{max-height:none}
   body.modo-lector .wrap{min-height:0}
+  /* MÓVIL (por defecto): el historial mantiene su tope; la caja se ajusta al contenido.
+     !important porque #histList lleva max-height:34vh EN LÍNEA, y un estilo en línea gana a
+     cualquier regla de hoja: sin esto el alto no cambiaba (medido en navegador). */
+  body.modo-lector #histList{max-height:52vh !important}
+  /* PC: el lector es la herramienta de escritorio, así que aquí el historial manda. */
+  @media(min-width:900px){
+    body.modo-lector .wrap{max-width:none;height:100%;padding-bottom:10px}
+    /* 88 px, no 64: el cartel necesita 70 y con 64 salía cortado (medido en navegador). */
+    body.modo-lector .viewer{height:88px;min-height:88px}
+    /* "Copiar código y abrir portal" tiene flex-grow:1 y se estiraba a 171 px, dejando un
+       bloque negro vacío bajo el botón. En modo lector no debe crecer: el que crece es el
+       historial, que es lo que se mira. */
+    body.modo-lector .act.ghost.full{flex:none}
+    body.modo-lector .row{flex:none}
+    body.modo-lector .result{flex:none}
+    body.modo-lector .hist{flex:1;display:flex;flex-direction:column;min-height:0;margin-top:10px}
+    body.modo-lector #histList{max-height:none !important;flex:1;min-height:0}
+    /* Dos columnas de filas: en un monitor caben el doble de boletos de un vistazo. */
+    body.modo-lector #histList{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px;align-content:start}
+    body.modo-lector .item{margin:0}
+    body.modo-lector .row{max-width:520px}
+    body.modo-lector .act.ghost.full{max-width:520px}
+    body.modo-lector .result{max-width:520px}
+  }
   body.modo-lector .row .act.primary{opacity:.5}
   #capturaFlash{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
     pointer-events:none;z-index:6}
@@ -20177,6 +20258,9 @@ function reportarAlto(){
     var cs = getComputedStyle(document.body);
     var padV = (parseFloat(cs.paddingTop)||0) + (parseFloat(cs.paddingBottom)||0);
     var px = Math.ceil((w ? w.getBoundingClientRect().height : 0) + padV);
+    // En PC no se encoge a la medida del contenido: se pide un lienzo amplio para que el
+    // historial se vea de verdad. En móvil se sigue ajustando, que es donde el espacio escasea.
+    if(window.innerWidth >= 900) px = Math.max(px, 620);
     if(!px || Math.abs(px-_altoUlt) < 8) return;      // sin cambios apreciables: no molestar
     _altoUlt = px;
     parent.postMessage({type:"qr:alto", px:px}, _ORIGEN_PADRE);
