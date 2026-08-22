@@ -96,7 +96,11 @@
     --ink:#FFFFFF;
     --ink-soft:#D8C9F5;
     --silver:#5B4A82;
-    --silver-dark:#7A63AE;
+    /* MEDIDO EN NAVEGADOR: #7A63AE daba 3,34:1 sobre la tarjeta (#241640) y 3,61 sobre la
+       página (#1B1033) — por debajo del 4,5 que exige AA, y este es el color de CADA .hint
+       y .note de la app, no de un rincón. #9B86C9 sube a 5,26 y 5,69 sin salirse del mismo
+       lavanda. En Brutalista el gris no cambia: sobre blanco ya cumplía. */
+    --silver-dark:#9B86C9;
     --stamp:#FF4D8D;
     --stamp-soft:#FF7BAA;
     --ok:#2EE6A6;
@@ -160,8 +164,13 @@
       radial-gradient(circle at 85% 75%, rgba(46,230,166,0.08) 0%, transparent 40%) !important;
   }
 
-  /* ===== SELECTOR DE ESTILO (interactivo: dos tarjetas de muestra, no un switch ciego) ===== */
-  .style-picker-wrap{position:fixed; top:14px; right:14px; z-index:60; display:flex; gap:8px;}
+  /* ===== SELECTOR DE ESTILO (interactivo: dos tarjetas de muestra, no un switch ciego) =====
+     Estaba `position:fixed` arriba a la derecha. Con el panel QR a pantalla completa (v24.0)
+     se plantaba encima de la pista de la cabecera y tapaba 110 px de 188 — el 58%, medido.
+     Y de fondo había algo peor: un control que se toca una vez cada varios meses ocupaba de
+     forma permanente la esquina donde el ojo busca estado. Ahora vive en Exportar →
+     Preferencias, en el flujo normal, donde no puede solapar nada a ningún ancho. */
+  .style-picker-wrap{display:flex; gap:8px;}
   .style-swatch{
     display:flex; flex-direction:column; gap:5px; align-items:center;
     width:54px; padding:6px 5px; cursor:pointer; border:2px solid transparent;
@@ -170,6 +179,9 @@
   }
   .style-swatch:hover{ transform:translateY(-1px); }
   .style-swatch.active{ border-color:#0A0A0A; }
+  /* Dentro de Preferencias la muestra va sobre la tarjeta, no sobre la página: en Arcade el
+     borde negro del activo no se distingue del fondo, así que ahí se marca con el rosa. */
+  body.theme-arcade .style-swatch.active{ border-color:#FF4D8D; }
   .style-swatch .sw-dots{ display:flex; gap:2px; }
   .style-swatch .sw-dot{ width:9px; height:9px; flex-shrink:0; }
   .style-swatch .sw-label{ font-size:8.5px; text-transform:uppercase; letter-spacing:0.03em; color:#1C1B19; font-weight:700; }
@@ -616,27 +628,62 @@
   }
 
   select#paridadSeries{font-family:inherit;}
+
+  /* ===== PREFERENCIAS (Exportar) =====
+     Patrón de fila: descripción a la izquierda, control a la derecha. Cada fila explica QUÉ
+     hace y, cuando importa, POR QUÉ — porque estas cosas se tocan cada varios meses y para
+     entonces uno ya no se acuerda de qué era. */
+  .pref-fila{
+    display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap;
+    padding:14px 0; border-bottom:1px solid var(--silver, rgba(0,0,0,.12));
+  }
+  .pref-fila:last-child{ border-bottom:0; padding-bottom:2px; }
+  .pref-fila-tenue{ opacity:.72; }
+  .pref-txt{ flex:1 1 320px; min-width:0; }
+  /* `>` OBLIGATORIO. Sin el hijo directo, esta regla alcanza también los <b> que van DENTRO
+     de la descripción y los vuelve bloque: "Ya respondida: / sin efecto / (−55 ms…)" salía
+     partido en tres líneas. Es el mismo tropiezo que el ::after que se coló en todos los <b>
+     del escáner: un selector suelto en un sitio donde hay marcado anidado. */
+  .pref-txt > b{ display:block; font-size:13.5px; font-weight:700; margin-bottom:3px; }
+  .pref-txt > span{ display:block; font-size:12px; line-height:1.5; color:var(--silver-dark); }
+  .pref-aviso{
+    margin-top:7px; font-size:11.5px; line-height:1.45; color:#B45309;
+    background:rgba(250,199,117,.16); border-left:3px solid #FAC775;
+    padding:6px 10px; border-radius:0 6px 6px 0;
+  }
+  /* MEDIDO: el ámbar oscuro da 5,8:1 sobre el blanco de Brutalista pero solo 3,31:1 sobre el
+     morado de Arcade — por debajo del 4,5 que exige AA. Un aviso que no se lee no es un
+     aviso. En Arcade se usa el ámbar claro, que sobre ese fondo da 9,8:1. */
+  body.theme-arcade .pref-aviso{ color:#FAC775; }
+  /* `margin-left:auto` y no `justify-content` en el padre: así, cuando la fila se parte en
+     móvil, el control cae alineado a la izquierda con el texto en vez de quedar colgado. */
+  .pref-ctrl{ flex:0 0 auto; margin-left:auto; display:flex; align-items:center; gap:8px; }
+  .pref-ctrl-ancho{ flex:1 1 340px; flex-direction:column; align-items:stretch; gap:7px; }
+  .pref-sw{ display:flex; align-items:center; gap:8px; cursor:pointer; font-size:12.5px; white-space:nowrap; }
+  .pref-sw input{ width:16px; height:16px; margin:0; cursor:pointer; }
+  .pref-input{
+    width:100%; font-family:'Courier New',monospace; font-size:12px; padding:7px 10px;
+    border:2px solid var(--silver, rgba(0,0,0,.2)); border-radius:6px;
+    background:var(--white); color:var(--ink);
+  }
+  .pref-input:focus{ outline:none; border-color:var(--stamp,#FF3CAC); }
+  .pref-btns{ display:flex; gap:7px; flex-wrap:wrap; }
+  @media (max-width:600px){
+    .pref-ctrl{ margin-left:0; flex-basis:100%; }
+    .pref-fila{ gap:10px; }
+  }
+  /* Atajo del pie: es donde uno mira primero al buscar ajustes, pero no ocupa nada porque
+     va en el flujo, no flotando. */
+  .pie-prefs{
+    background:none; border:0; padding:0; margin:0; cursor:pointer; font:inherit;
+    font-size:10px; font-family:'Courier New',monospace; color:var(--silver-dark);
+    text-decoration:underline; text-underline-offset:2px;
+  }
+  .pie-prefs:hover{ color:var(--stamp,#FF3CAC); }
 </style>
 </head>
 <body>
-<div class="style-picker-wrap" role="radiogroup" aria-label="Elegir estilo visual">
-  <button type="button" class="style-swatch" id="swatchBrutalista" data-theme="brutalista" role="radio" title="Estilo Brutalista">
-    <span class="sw-dots">
-      <span class="sw-dot" style="background:#0A0A0A;"></span>
-      <span class="sw-dot" style="background:#FF3CAC;"></span>
-      <span class="sw-dot" style="background:#C7E600;"></span>
-    </span>
-    <span class="sw-label">Brutal</span>
-  </button>
-  <button type="button" class="style-swatch" id="swatchArcade" data-theme="arcade" role="radio" title="Estilo Arcade">
-    <span class="sw-dots">
-      <span class="sw-dot" style="background:#1B1033;"></span>
-      <span class="sw-dot" style="background:#FF4D8D;"></span>
-      <span class="sw-dot" style="background:#2EE6A6;"></span>
-    </span>
-    <span class="sw-label">Arcade</span>
-  </button>
-</div>
+<!-- El selector de estilo se mudó a Exportar → Preferencias (v25.0). Ya no flota. -->
 
 <div class="wrap">
 
@@ -1715,8 +1762,8 @@
   <div class="tabpanel" id="panel-avanzado">
 
     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
-      <button class="btn-ghost" id="btnModoEnfocado" type="button">🎯 Ocultar análisis descartados</button>
-      <span class="hint" id="modoEnfocadoNota">Ocultos los análisis cuya hipótesis ya se descartó (posición, paridad, potencia, geometría). El cálculo sigue ahí; solo no estorba.</span>
+      <!-- El interruptor se mudó a Exportar → Preferencias (v25.0). La nota de abajo dice dónde. -->
+      <span class="hint" id="modoEnfocadoNota">Ocultos los análisis cuya hipótesis ya se descartó (posición, paridad, potencia, geometría). El cálculo sigue ahí; solo no estorba. <button type="button" class="pie-prefs" data-ir-prefs="1" style="font-size:11px;">Cambiar en Preferencias</button></span>
     </div>
 
     <div class="note" style="margin-bottom:20px;">
@@ -1919,7 +1966,7 @@
       <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px;">
         <input type="checkbox" id="qrPistola" checked style="width:16px; height:16px;"> <b>Modo pistola</b> — registra cada boleto en su taco
       </label>
-      <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:12px;" title="Dice el monto en voz alta al ganar"><input type="checkbox" id="qrVoz" style="width:15px;height:15px;"> 🔊 Decir el monto</label>
+      <!-- "Decir el monto" se mudó a Exportar → Preferencias (v25.0). "Probar sonido" se queda: es una acción, y en el móvil es lo que desbloquea el audio. -->
       <button class="btn-ghost" id="btnProbarSonido" type="button" style="font-size:11.5px; padding:4px 10px;"
         title="Suena un premio de ejemplo. También habilita el audio del teléfono, que exige un toque para activarse.">🔊 Probar sonido</button>
       <!-- ORIGEN: mismo bloque, misma barra. Solo cambia de dónde entra el código; el flujo
@@ -1953,10 +2000,7 @@
       <div style="font-size:11.5px; color:var(--silver-dark); margin-bottom:9px;">Vuelve a consultar en el portal todos los boletos de esta sesión —del taco que sean— y corrige lo que no coincida. Sirve para no presentarte a cobrar un premio que no existe.</div>
       <button type="button" id="btnRevSesion" class="btn-ghost" style="font-size:12.5px; color:#065F46; border-color:#065F46;">Reverificar lo pistoleado</button>
     </div>
-    <label style="display:flex; align-items:center; gap:9px; margin-top:10px; font-size:11.5px; color:var(--silver-dark); cursor:pointer;">
-      <input type="checkbox" id="abSyncChk" style="width:16px; height:16px;">
-      <span>🧪 <b>Prueba A/B del sync</b> <b style="color:#065F46;">— ya respondida: sin efecto (−55 ms sobre 50 boletos por brazo)</b>. Déjala apagada; solo enciéndela si quieres repetir la medición, porque mientras corre pausa la subida a la nube por bloques.</span>
-    </label>
+    <!-- La prueba A/B del sync se mudó a Exportar → Preferencias (v25.0). Ya está respondida; aquí solo era ruido. -->
     <details id="qrAuditWrap" style="margin-top:12px;">
       <summary style="cursor:pointer; font-size:13px; font-weight:700;">🕵 Auditoría del pistoleo <span id="qrAuditN" style="font-weight:400; color:var(--silver-dark);"></span></summary>
       <div style="font-size:11.5px; color:var(--silver-dark); margin:6px 0 0;">Termina la tanda, pulsa <b>Copiar</b> y pega el texto en el chat.</div>
@@ -2115,6 +2159,96 @@
         <p class="note" style="margin-top:8px;margin-bottom:8px;">Verifica la integridad de tu base de datos. Si hay inconsistencias, la app puede intentar repararlas.</p>
         <div id="panelSalud"></div>
       </div>
+
+      <!-- ============================================================
+           PREFERENCIAS
+           Antes cada preferencia colgaba de donde tocó: el tema flotaba fijo en la esquina,
+           la voz vivía en la barra del escáner, "ocultar descartados" en Análisis avanzado y
+           la prueba A/B suelta al pie del QR. El endpoint del proxy ni siquiera tenía control:
+           solo existía en localStorage. Aquí tienen casa, y toda preferencia nueva ya sabe
+           dónde va en vez de agarrarse a la esquina más cercana.
+
+           NO se mudan aquí "Modo pistola" ni "Cámara/Lector": esos se tocan con el lector ya
+           en la mano, en el momento de pistolear. Mandarlos aquí obligaría a salir del
+           escáner y volver. Se quedan en la barra QR a propósito.
+           ============================================================ -->
+      <div class="card" style="margin-top:14px;" id="cardPreferencias">
+        <div class="section-head"><span class="tag">⚙️</span><h3 style="margin:0; font-size:15px;">Preferencias</h3><span class="hint">se guardan en este dispositivo</span></div>
+
+        <div class="pref-fila">
+          <div class="pref-txt">
+            <b>Estilo visual</b>
+            <span>Cambia colores y formas de toda la app. Antes estaba flotando en la esquina superior derecha.</span>
+          </div>
+          <div class="pref-ctrl">
+            <div class="style-picker-wrap" role="radiogroup" aria-label="Elegir estilo visual">
+              <button type="button" class="style-swatch" id="swatchBrutalista" data-theme="brutalista" role="radio" title="Estilo Brutalista">
+                <span class="sw-dots">
+                  <span class="sw-dot" style="background:#0A0A0A;"></span>
+                  <span class="sw-dot" style="background:#FF3CAC;"></span>
+                  <span class="sw-dot" style="background:#C7E600;"></span>
+                </span>
+                <span class="sw-label">Brutal</span>
+              </button>
+              <button type="button" class="style-swatch" id="swatchArcade" data-theme="arcade" role="radio" title="Estilo Arcade">
+                <span class="sw-dots">
+                  <span class="sw-dot" style="background:#1B1033;"></span>
+                  <span class="sw-dot" style="background:#FF4D8D;"></span>
+                  <span class="sw-dot" style="background:#2EE6A6;"></span>
+                </span>
+                <span class="sw-label">Arcade</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pref-fila">
+          <div class="pref-txt">
+            <b>Decir el monto en voz alta</b>
+            <span>Al ganar, canta el premio. Útil cuando tienes el lector en la mano y no miras la pantalla.</span>
+          </div>
+          <div class="pref-ctrl">
+            <label class="pref-sw"><input type="checkbox" id="prefVoz"><span>Activada</span></label>
+          </div>
+        </div>
+
+        <div class="pref-fila">
+          <div class="pref-txt">
+            <b>Ocultar los análisis ya descartados</b>
+            <span>En Análisis avanzado, esconde las hipótesis que ya se cayeron (posición, paridad). Deja a la vista solo lo que sigue en pie.</span>
+          </div>
+          <div class="pref-ctrl">
+            <label class="pref-sw"><input type="checkbox" id="prefEnfocado"><span>Ocultarlos</span></label>
+          </div>
+        </div>
+
+        <div class="pref-fila">
+          <div class="pref-txt">
+            <b>Endpoint del proxy</b>
+            <span>La dirección de tu Worker, por donde pasan las consultas al portal. Hasta ahora solo existía en la memoria del navegador y para cambiarla había que abrir la consola.</span>
+            <div class="pref-aviso">⚠ Si esto no apunta a tu Worker, el pistoleo deja de consultar el portal.</div>
+          </div>
+          <div class="pref-ctrl pref-ctrl-ancho">
+            <input type="text" id="prefEndpoint" spellcheck="false" autocomplete="off"
+                   placeholder="https://…workers.dev" class="pref-input">
+            <div class="pref-btns">
+              <button type="button" class="btn-ghost" id="prefEndpointGuardar" style="font-size:11.5px; padding:5px 12px;">Guardar</button>
+              <button type="button" class="btn-ghost" id="prefEndpointReset" style="font-size:11.5px; padding:5px 12px;">Restaurar la de siempre</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pref-fila pref-fila-tenue">
+          <div class="pref-txt">
+            <b>Prueba A/B del sync</b>
+            <span>Ya respondida: <b style="color:var(--ok,#1D9E75);">sin efecto</b> (−55 ms sobre 50 boletos por brazo). Déjala apagada; solo enciéndela si quieres repetir la medición, porque mientras corre pausa la subida a la nube por bloques.</span>
+          </div>
+          <div class="pref-ctrl">
+            <label class="pref-sw"><input type="checkbox" id="prefAbSync"><span>Encendida</span></label>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -2125,6 +2259,10 @@
     BITÁCORA PERSONAL · NO AFILIADA A LOTERÍA NACIONAL DEL ECUADOR NI A LA JUNTA DE BENEFICENCIA DE GUAYAQUIL<br>
     Herramienta de registro y análisis · Los juegos de azar implican riesgo de pérdida económica<br>
     <span id="appVersionTag" style="font-size:10px; color:var(--silver-dark); font-family:'Courier New',monospace;"></span>
+    <!-- El pie es donde uno mira primero al buscar ajustes: aquí estuvo el selector de tema
+         hasta v24.0. En vez de devolverlo flotando, se deja el letrero que lleva a su casa. -->
+    <span style="font-size:10px; color:var(--silver-dark); font-family:'Courier New',monospace;"> · </span>
+    <button type="button" class="pie-prefs" data-ir-prefs="1">⚙ PREFERENCIAS</button>
   </footer>
 </div>
 
@@ -2366,7 +2504,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '24.0', fecha: '2026-08-22' };
+  const APP_VERSION = { num: '25.0', fecha: '2026-08-22' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -4507,6 +4645,9 @@
   // Renderers que se ejecutan SIEMPRE: cabecera, selectores compartidos y navegación.
   const RENDER_SIEMPRE = [
     ['renderFolio', ()=>renderFolio()],
+    // Refleja en Preferencias lo que esté guardado. Son 4 getElementById: al lado de los
+    // 34 ms que cuesta un render completo, no se nota, y evita que la casilla mienta.
+    ['prefsPintar', ()=>{ try{ prefsPintar(); }catch(_){} }],
     // Barato (una pasada por records premiados) y debe verse desde cualquier pestaña.
     ['renderCobrosBadge', ()=>renderCobrosBadge()],
     ['renderLoteSelects', ()=>renderLoteSelects()],
@@ -4522,8 +4663,7 @@
     ['aplicarGrupo', ()=>aplicarGrupo()],
     ['renderEstadoConexion', ()=>renderEstadoConexion()],
     // #8: se reaplica tras cada render porque las secciones se repintan y perderían el estado.
-    ['aplicarModoEnfocado', ()=>{ aplicarModoEnfocado();
-      const b=document.getElementById('btnModoEnfocado'); if(b && !b._bound){ b._bound=true; b.onclick=toggleModoEnfocado; } }],
+    ['aplicarModoEnfocado', ()=>{ aplicarModoEnfocado(); }],
     ['syncBottomNav', ()=>syncBottomNav()],
   ];
 
@@ -6003,8 +6143,11 @@
         prev.style.display = modoEnfocado ? 'none' : '';
       }
     });
-    const b = document.getElementById('btnModoEnfocado');
-    if(b) b.textContent = modoEnfocado ? '👁 Mostrar análisis descartados' : '🎯 Ocultar análisis descartados';
+    // El botón ya no existe (el interruptor vive en Exportar → Preferencias). Lo que sí hay
+    // que hacer es reflejar el estado en la casilla, porque esta función corre tras cada
+    // render y si no la casilla se quedaría desincronizada al repintar.
+    const chk = document.getElementById('prefEnfocado');
+    if(chk && chk.checked !== modoEnfocado) chk.checked = modoEnfocado;
     const n = document.getElementById('modoEnfocadoNota');
     if(n) n.style.display = modoEnfocado ? '' : 'none';
   }
@@ -10710,7 +10853,7 @@
       if(t.id==='revAplicar'){ revAplicarCorrecciones(); }
       if(t.id==='btnRevLote'){ revLoteActual(loteAbiertoActual()); }
       if(t.id==='btnRevSesion'){ revSesionPistoleo(); }
-      if(t.id==='abSyncChk'){ abToggle(t.checked); }
+      if(t.id==='prefAbSync'){ abToggle(t.checked); }
       if(t.id==='mkActivar'){
         var c=document.getElementById('qrPistola');
         if(c){ c.checked=true; try{ c.dispatchEvent(new Event('change',{bubbles:true})); }catch(_){} }
@@ -12137,6 +12280,104 @@
       applyTheme(theme);
       localStorage.setItem(THEME_KEY, theme);
     });
+  });
+
+  // ================================================================
+  // PREFERENCIAS  (Exportar → Preferencias)
+  // Cada control de aquí es una VISTA de un estado que ya existía y que sigue viviendo en su
+  // propia clave de localStorage. No se duplica el dato: se pinta el que hay y se llama a la
+  // misma función que ya lo cambiaba. Por eso mudarlos no puede perder nada de lo guardado.
+  // ================================================================
+  const PROXY_POR_DEFECTO = 'https://raspaditas-qr.andagoya922.workers.dev';
+
+  function prefsPintar(){
+    // Se lee la CLAVE, no la variable. `vozActiva` se declara en la línea ~18240, mucho
+    // después de esta función: si prefsPintar corriera antes de esa línea leería `undefined`
+    // y pintaría la casilla apagada teniendo la voz encendida. Leyendo localStorage el orden
+    // de declaración deja de importar, que es justo el tipo de dependencia que ya rompió
+    // esta app dos veces por zona muerta temporal.
+    const v = document.getElementById('prefVoz');
+    if(v){
+      let on=false; try{ on = localStorage.getItem('bitacora_voz_premio')==='1'; }catch(_){}
+      if(v.checked !== on) v.checked = on;
+    }
+    const e = document.getElementById('prefEnfocado');
+    if(e){
+      let on=false; try{ on = localStorage.getItem('bitacora_modo_enfocado')==='1'; }catch(_){}
+      if(e.checked !== on) e.checked = on;
+    }
+    // Prueba A/B: la fuente es la clave bitacora_ab_sync.
+    const a = document.getElementById('prefAbSync');
+    if(a){
+      let on=false; try{ on = localStorage.getItem('bitacora_ab_sync')==='1'; }catch(_){}
+      if(a.checked !== on) a.checked = on;
+    }
+    // Endpoint: se muestra el que se está usando de verdad, no el de por defecto.
+    const ep = document.getElementById('prefEndpoint');
+    if(ep && document.activeElement !== ep){   // si lo está escribiendo, no se le pisa
+      let val = PROXY_POR_DEFECTO;
+      try{ val = localStorage.getItem('qr_proxy_endpoint') || PROXY_POR_DEFECTO; }catch(_){}
+      ep.value = val;
+    }
+  }
+
+  function prefsGuardarEndpoint(){
+    const ep = document.getElementById('prefEndpoint');
+    if(!ep) return;
+    const val = String(ep.value||'').trim().replace(/\/+$/,'');
+    // Validación mínima pero real: si esto queda mal, el pistoleo deja de consultar el
+    // portal y el síntoma aparece MUCHO después, cuando ya no recuerdas que lo tocaste.
+    if(!/^https:\/\/[^\s/]+\.[^\s/]+/.test(val)){
+      toast('Eso no es una dirección https válida — no se guardó');
+      prefsPintar();
+      return;
+    }
+    try{ localStorage.setItem('qr_proxy_endpoint', val); }catch(_){}
+    ep.value = val;
+    toast(val === PROXY_POR_DEFECTO ? 'Endpoint: el de siempre' : 'Endpoint guardado');
+  }
+
+  document.addEventListener('change', function(ev){
+    const t = ev.target; if(!t || !t.id) return;
+    if(t.id === 'prefVoz'){ setVozActiva(t.checked); }
+    if(t.id === 'prefEnfocado'){
+      // toggleModoEnfocado INVIERTE el valor, no lo fija. Si se llamara siempre, marcar una
+      // casilla ya marcada la apagaría. Se compara contra lo guardado antes de invertir.
+      let actual=false; try{ actual = localStorage.getItem('bitacora_modo_enfocado')==='1'; }catch(_){}
+      if(actual !== !!t.checked) toggleModoEnfocado();
+    }
+  });
+
+  document.addEventListener('click', function(ev){
+    const t = ev.target.closest ? ev.target.closest('[id],[data-ir-prefs]') : null;
+    if(!t) return;
+    if(t.id === 'prefEndpointGuardar'){ prefsGuardarEndpoint(); return; }
+    if(t.id === 'prefEndpointReset'){
+      const ep = document.getElementById('prefEndpoint');
+      if(ep){ ep.value = PROXY_POR_DEFECTO; }
+      try{ localStorage.setItem('qr_proxy_endpoint', PROXY_POR_DEFECTO); }catch(_){}
+      toast('Endpoint restaurado al de siempre');
+      return;
+    }
+    // Atajo desde el pie y desde la nota de Análisis avanzado.
+    if(t.dataset && t.dataset.irPrefs){
+      // La pestaña se llama 'export', NO 'exportar' (el panel es #panel-export). Con el
+      // nombre mal, goTab no encuentra el botón y el atajo no hacía nada en silencio.
+      try{ goTab('export'); }catch(_){}
+      // goTab hace su propio window.scrollTo; si se baja a la tarjeta de inmediato, los dos
+      // desplazamientos se pelean. 220 ms deja que el primero termine.
+      setTimeout(function(){
+        const c = document.getElementById('cardPreferencias');
+        if(c) c.scrollIntoView({behavior:'smooth', block:'center'});
+      }, 220);
+    }
+  });
+
+  // Enter guarda, Escape descarta lo tecleado y repinta lo que está en uso.
+  document.addEventListener('keydown', function(ev){
+    if(!ev.target || ev.target.id !== 'prefEndpoint') return;
+    if(ev.key === 'Enter'){ ev.preventDefault(); prefsGuardarEndpoint(); }
+    if(ev.key === 'Escape'){ ev.preventDefault(); prefsPintar(); ev.target.blur(); }
   });
 
   // ---------- INIT ----------
@@ -18041,8 +18282,10 @@
   // dejarte oír el nivel, habilita el audio del teléfono de forma garantizada.
   (function(){
     var bind=function(){
-      var cv=document.getElementById('qrVoz');
-      if(cv && !cv._b){ cv._b=1; cv.checked=vozActiva; cv.onchange=function(){ setVozActiva(cv.checked); }; }
+      // La casilla de voz ya no vive aquí: se mudó a Exportar → Preferencias (#prefVoz) en
+      // v25.0. Allí la pinta prefsPintar() y la cambia el manejador de 'change'. Se retira la
+      // referencia en vez de dejarla protegida con un `if`, para que nadie pierda el rato
+      // buscando un #qrVoz que ya no existe.
       var b=document.getElementById('btnProbarSonido'); if(!b) return false;
       b.onclick=function(){
         desbloquearAudio();
