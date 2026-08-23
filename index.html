@@ -791,6 +791,20 @@
      se esconde la columna de «veces», que es precisamente el dato que este módulo existe para
      relegar: la frecuencia importa menos que el aporte. En PC vuelve. */
   .a3-veces{ display:none; }
+  /* INFORME GLOBAL · móvil. Los gráficos son SVG con viewBox, así que escalan solos; lo que
+     no cabe son las columnas fijas de las listas. En el teléfono se quita el RTP —que es
+     contexto, no la cifra— y la etiqueta del juego se estrecha, para que la barra siga
+     siendo lo bastante larga como para comparar de un vistazo. */
+  .inf-rtp{ display:none; }
+  .inf-lbl{ width:84px; }
+  .inf-net{ width:72px; }
+  .inf-mes{ width:52px; }
+  @media (min-width:901px){
+    .inf-rtp{ display:inline-block; }
+    .inf-lbl{ width:128px; }
+    .inf-net{ width:82px; }
+    .inf-mes{ width:58px; }
+  }
   @media (min-width:901px){ .a3-veces{ display:inline-block; } }
 
   @media (min-width:901px){
@@ -2713,7 +2727,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '29.3', fecha: '2026-08-22' };
+  const APP_VERSION = { num: '30.0', fecha: '2026-08-23' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -17348,6 +17362,231 @@
   // GLOBAL — consolidado de TODOS los juegos (no toca lo por-juego)
   // ======================================================
   let _globalSort = { key:'neto', dir:1 };   // orden de la tabla-liderazgo (neto asc = peores primero)
+
+  // ═══════════════ P3 · INFORME GLOBAL · DIBUJO ═══════════════
+  // Cada sección: una pregunta, un gráfico y una conclusión. Los SVG se dibujan a mano en vez
+  // de traer una librería: son cuatro formas simples y el archivo ya pesa 1,5 MB.
+  const _INF_W = 1060, _INF_H = 260;
+  function _kfmt(n){ const a=Math.abs(n); return a>=1000 ? ('$'+(n/1000).toFixed(1)+'k') : ('$'+Math.round(n)); }
+
+  function _infCurva(c, picoI, pico){
+    if(c.length < 2) return '<p class="note" style="margin:0;">Hacen falta al menos dos días con actividad para dibujar la curva.</p>';
+    const P = {l:62, r:14, t:20, b:24};
+    const iw = _INF_W-P.l-P.r, ih = _INF_H-P.t-P.b;
+    const vals = c.reduce(function(a,x){ return a.concat([x.real, x.sin]); }, [0]);
+    const mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+    const rango = (mx-mn) || 1;
+    const X = function(i){ return P.l + iw*i/(c.length-1); };
+    const Y = function(v){ return P.t + ih - (v-mn)/rango*ih; };
+    const pts = function(k){ return c.map(function(x,i){ return X(i).toFixed(1)+','+Y(x[k]).toFixed(1); }).join(' '); };
+    const ticks = [mx, (mx+mn)/2, mn].concat((mn<0&&mx>0)?[0]:[]);
+    const cada = Math.max(1, Math.round(c.length/7));
+    return '<svg viewBox="0 0 '+_INF_W+' '+_INF_H+'" style="width:100%;height:auto;display:block;" role="img" aria-label="Neto acumulado con y sin los premios que concentran">' +
+      ticks.map(function(v){ return '<line x1="'+P.l+'" y1="'+Y(v).toFixed(1)+'" x2="'+(_INF_W-P.r)+'" y2="'+Y(v).toFixed(1)+
+        '" stroke="'+(Math.abs(v)<0.01?'rgba(128,128,128,.55)':'rgba(128,128,128,.18)')+'"'+(Math.abs(v)<0.01?' stroke-dasharray="3 3"':'')+'/>'+
+        '<text x="'+(P.l-8)+'" y="'+(Y(v)+4).toFixed(1)+'" text-anchor="end" font-size="10" fill="#8A8A8A" font-family="monospace">'+_kfmt(v)+'</text>'; }).join('') +
+      c.map(function(x,i){ return i%cada===0 ? '<text x="'+X(i).toFixed(0)+'" y="'+(_INF_H-7)+'" text-anchor="middle" font-size="9" fill="#8A8A8A" font-family="monospace">'+x.d.slice(5)+'</text>' : ''; }).join('') +
+      '<polyline points="'+pts('sin')+'" fill="none" stroke="#E24B4A" stroke-width="2" stroke-dasharray="5 4" stroke-linejoin="round"/>' +
+      '<polyline points="'+pts('real')+'" fill="none" stroke="#00C853" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<circle cx="'+X(picoI).toFixed(1)+'" cy="'+Y(pico).toFixed(1)+'" r="4.5" fill="#00C853"/>' +
+      '<text x="'+X(picoI).toFixed(1)+'" y="'+(Y(pico)-10).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#00C853" font-family="monospace">'+_kfmt(pico)+'</text>' +
+      '<circle cx="'+X(c.length-1).toFixed(1)+'" cy="'+Y(c[c.length-1].real).toFixed(1)+'" r="4.5" fill="#00C853"/>' +
+      '<circle cx="'+X(c.length-1).toFixed(1)+'" cy="'+Y(c[c.length-1].sin).toFixed(1)+'" r="4.5" fill="#E24B4A"/>' +
+      '</svg>';
+  }
+
+  function _infCascada(gasto, ordinarios, concentrados){
+    const pasos = [{l:'Gastado', v:-gasto, c:'#E24B4A'}, {l:'Premios normales', v:ordinarios, c:'#9BCB6B'}];
+    if(concentrados > 0.005) pasos.push({l:'Los que concentran', v:concentrados, c:'#00C853'});
+    let ac=0; const barras=[];
+    pasos.forEach(function(p){ const desde=ac; ac+=p.v; barras.push({l:p.l, v:p.v, c:p.c, desde:desde, hasta:ac}); });
+    const todos = barras.reduce(function(a,b){ return a.concat([b.desde,b.hasta]); }, [0]);
+    const mn=Math.min.apply(null,todos), mx=Math.max.apply(null,todos), rango=(mx-mn)||1;
+    const H=190, W=620, y=function(v){ return (H-26)-((v-mn)/rango)*(H-46); };
+    const paso = W/(barras.length+1), an = Math.min(96, paso*0.55);
+    return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;display:block;" role="img" aria-label="De donde sale el neto">' +
+      '<line x1="10" y1="'+y(0).toFixed(1)+'" x2="'+(W-10)+'" y2="'+y(0).toFixed(1)+'" stroke="rgba(128,128,128,.5)" stroke-dasharray="3 3"/>' +
+      barras.map(function(b,i){ const x=paso*i+paso*0.35, yy=Math.min(y(b.desde),y(b.hasta)), hh=Math.max(2,Math.abs(y(b.desde)-y(b.hasta)));
+        return '<rect x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" width="'+an.toFixed(1)+'" height="'+hh.toFixed(1)+'" fill="'+b.c+'" rx="3"/>'+
+          '<text x="'+(x+an/2).toFixed(1)+'" y="'+(yy-6).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="'+b.c+'" font-family="monospace">'+(b.v>0?'+':'')+_kfmt(b.v)+'</text>'+
+          '<text x="'+(x+an/2).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="9.5" fill="#8A8A8A">'+b.l+'</text>'; }).join('') +
+      (function(){ const x=paso*barras.length+paso*0.35, yy=Math.min(y(0),y(ac)), hh=Math.max(2,Math.abs(y(0)-y(ac))), col=ac>=0?'#1565C0':'#B91C1C';
+        return '<rect x="'+x.toFixed(1)+'" y="'+yy.toFixed(1)+'" width="'+an.toFixed(1)+'" height="'+hh.toFixed(1)+'" fill="'+col+'" rx="3"/>'+
+          '<text x="'+(x+an/2).toFixed(1)+'" y="'+(yy-6).toFixed(1)+'" text-anchor="middle" font-size="12" font-weight="800" fill="'+col+'" font-family="monospace">'+(ac>=0?'+':'')+_kfmt(ac)+'</text>'+
+          '<text x="'+(x+an/2).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="9.5" fill="#8A8A8A">Neto</text>'; })() +
+      '</svg>';
+  }
+
+  function _infJuegos(lista){
+    const con = lista.filter(function(x){ return x.nBoletos>0; }).slice().sort(function(a,b){ return b.neto-a.neto; });
+    if(!con.length) return '';
+    const mx = Math.max.apply(null, con.map(function(x){ return Math.abs(x.neto); })) || 1;
+    return con.map(function(x){
+      const w = Math.max(1.5, Math.abs(x.neto)/mx*100), pos = x.neto > 0;
+      // Las mitades usan flex:1 1 0 y NO width:50%. Con width:50% la base de las dos mitades ya suma
+      // el 100% de la fila ANTES de los 288px de columnas fijas: en un teléfono de 350px eso dejaba
+      // las barras en 2px. Con flex:1 1 0 reparten lo que sobra, siempre iguales entre sí (el gráfico
+      // divergente necesita que ambos lados compartan la misma escala) y sin desbordar nunca.
+      return '<div class="inf-fila" style="display:flex;align-items:center;gap:8px;font-size:11.5px;padding:2.5px 0;">' +
+        '<span class="inf-lbl" style="flex:none;text-align:right;color:var(--silver-dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escapeHtml((x.j.emoji||'')+' '+x.j.nombre)+'</span>' +
+        '<span style="flex:1 1 0;min-width:0;display:flex;justify-content:flex-end;"><span style="height:14px;width:'+(pos?0:w)+'%;background:#E24B4A;border-radius:3px 0 0 3px;"></span></span>' +
+        '<span style="flex:1 1 0;min-width:0;display:flex;"><span style="height:14px;width:'+(pos?w:0)+'%;background:#00C853;border-radius:0 3px 3px 0;"></span></span>' +
+        '<span class="inf-net" style="flex:none;text-align:right;font-family:\'Courier New\',monospace;font-weight:700;color:'+(pos?'#00C853':'#B91C1C')+';">'+(pos?'+':'')+fmt(x.neto)+'</span>' +
+        '<span class="inf-rtp" style="width:46px;flex:none;text-align:right;font-size:10px;color:var(--silver-dark);">'+(x.rtp!=null?Math.round(x.rtp)+'%':'—')+'</span>' +
+        '</div>';
+    }).join('');
+  }
+
+  function _infCalendario(c){
+    const mx = Math.max.apply(null, c.map(function(x){ return Math.abs(x.dia); })) || 1;
+    // La escala se satura al 25% del día más extremo: si no, un único día de +$8.400 dejaría
+    // todos los demás en gris y el mapa no diría absolutamente nada.
+    const esc = mx*0.25 || 1;
+    return '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(22px,1fr));gap:3px;">' +
+      c.map(function(x){
+        const i = Math.min(1, Math.abs(x.dia)/esc);
+        const col = x.dia>0 ? 'rgba(0,200,83,'+(0.22+i*0.78).toFixed(2)+')' : 'rgba(226,75,74,'+(0.16+i*0.72).toFixed(2)+')';
+        return '<div title="'+x.d+': '+(x.dia>0?'+':'')+fmt(x.dia)+'" style="aspect-ratio:1;border-radius:3px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(255,255,255,.7);font-family:monospace;">'+x.d.slice(8)+'</div>';
+      }).join('') + '</div>';
+  }
+
+  // ---- El informe entero. NINGUNA frase está escrita a mano: todas salen de los números,
+  //      así que si mañana los datos dicen otra cosa, el informe dice otra cosa.
+  function _informeHTML(D){
+    const sec = function(n, titulo, grafico, conclusion){
+      return '<div style="margin-top:16px;">' +
+        '<div style="display:flex;align-items:baseline;gap:9px;margin-bottom:7px;">' +
+          '<span style="font-family:\'Courier New\',monospace;font-size:12px;font-weight:800;color:var(--stamp);">'+n+'</span>' +
+          '<b style="font-size:14.5px;">'+titulo+'</b></div>' +
+        '<div style="background:var(--paper-dark);border-radius:11px;padding:13px 15px;">' + grafico +
+          '<div style="font-size:12.5px;line-height:1.7;color:var(--ink-soft);border-top:1px solid var(--silver);padding-top:10px;margin-top:11px;">' +
+            '<b style="color:var(--ink);">Conclusión:</b> ' + conclusion + '</div>' +
+        '</div></div>';
+    };
+    const nDias = D.curva.length;
+    const pctPos = nDias ? Math.round(D.nPos/nDias*100) : 0;
+    const mesesOrd = Object.keys(D.porMes).sort();
+
+    // ── Titular ──
+    const titular =
+      '<div style="font-size:21px;font-weight:700;line-height:1.35;">Llevas <span style="color:'+(D.neto>=0?'#00C853':'#B91C1C')+';">'+
+        (D.neto>=0?'+':'')+fmt(D.neto)+'</span> en '+nDias+' día(s) con actividad.</div>' +
+      '<div style="font-size:12.5px;color:var(--silver-dark);line-height:1.6;margin-top:3px;">Gastaste '+fmt(D.gasto)+
+        ' y ganaste '+fmt(D.prem)+(D.rtp!=null?' · RTP '+D.rtp.toFixed(1)+'%':'')+'.</div>';
+
+    // ── Cuatro cifras, no doce ──
+    const kpi = function(et, v, s, col){
+      return '<div style="flex:1;min-width:0;background:var(--paper-dark);border-radius:11px;padding:10px 12px;">' +
+        '<div style="font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--silver-dark);">'+et+'</div>' +
+        '<div style="font-family:\'Courier New\',monospace;font-size:21px;font-weight:800;line-height:1.15;'+(col?'color:'+col+';':'')+'">'+v+'</div>' +
+        '<div style="font-size:10.5px;color:var(--silver-dark);">'+s+'</div></div>';
+    };
+    const cifras = '<div style="display:flex;gap:9px;margin:13px 0;flex-wrap:wrap;">' +
+      kpi('Neto', (D.neto>=0?'+':'')+fmt(D.neto), 'gastado '+fmt(D.gasto), D.neto>=0?'#00C853':'#B91C1C') +
+      (D.hayConc ? kpi('Sin los '+D.k+' que concentran', fmt(D.netoSinK), 'RTP '+(D.rtpSinK!=null?D.rtpSinK.toFixed(0)+'%':'—'), D.netoSinK>=0?'#00C853':'#B91C1C') : '') +
+      kpi('Días positivos', D.nPos+'/'+nDias, pctPos+'%'+(D.peorRacha>1?' · peor racha '+D.peorRacha:''), '#B45309') +
+      kpi('Ahorrado por descuento', fmt(D.ahorro), D.lotesConDesc+' taco(s) negociado(s)', D.ahorro>0?'#1565C0':'') +
+      '</div>';
+
+    // ── 1 · ¿De dónde salió? ──
+    const s1 = sec('1', '¿De dónde salió ese dinero?',
+      _infCascada(D.gasto, D.premOrd, D.montoK),
+      (D.premOrd < D.gasto
+        ? 'los premios normales (<b>'+fmt(D.premOrd)+'</b>) <b>no cubren</b> lo que gastaste (<b>'+fmt(D.gasto)+'</b>). '+
+          (D.hayConc
+            ? 'Todo tu resultado positivo lo sostienen <b>'+D.k+' boleto(s)</b>, que valen '+fmt(D.montoK)+' — el <b>'+D.pctK.toFixed(1)+'%</b> de todo lo ganado.'
+            : 'Lo que te sostiene está repartido entre muchos premios, no en unos pocos.')
+        : 'los premios normales ya cubren lo gastado por sí solos: tu resultado <b>no depende</b> de un golpe de suerte.'));
+
+    // ── 2 · ¿Y si no hubieran salido? ──
+    const s2 = D.hayConc ? sec('2', '¿Y si esos '+D.k+' boleto(s) no hubieran salido?',
+      _infCurva(D.curva, D.picoI, D.pico) +
+      '<div style="display:flex;gap:16px;font-size:11px;color:var(--silver-dark);margin-top:8px;flex-wrap:wrap;">' +
+        '<span><i style="display:inline-block;width:16px;height:3px;background:#00C853;border-radius:2px;margin-right:5px;vertical-align:3px;"></i>lo que llevas de verdad</span>' +
+        '<span><i style="display:inline-block;width:16px;height:3px;background:#E24B4A;border-radius:2px;margin-right:5px;vertical-align:3px;"></i>lo mismo sin esos boletos</span></div>',
+      'estarías en <b style="color:'+(D.netoSinK>=0?'#00C853':'#B91C1C')+';">'+fmt(D.netoSinK)+'</b>'+
+      (D.rtpSinK!=null?' con un RTP del <b>'+D.rtpSinK.toFixed(0)+'%</b>':'')+
+      '. La línea verde es tu suerte; la roja, tu juego.')
+      : sec('2', '¿Cómo ha ido la curva?', _infCurva(D.curva, D.picoI, D.pico),
+        'llegaste a ir '+fmt(D.pico)+' y ahora estás en '+fmt(D.neto)+
+        (D.caida>0.005?', o sea <b>'+fmt(D.caida)+'</b> por debajo del pico.':'.'));
+
+    // ── 3 · ¿Qué juegos me sostienen? ──
+    const conB = D.porJuego.filter(function(x){ return x.nBoletos>0; });
+    const enPos = conB.filter(function(x){ return x.neto>0; }).length;
+    const mejor = conB.slice().sort(function(a,b){ return b.neto-a.neto; })[0];
+    const s3 = conB.length ? sec('3', '¿Qué juegos me sostienen y cuáles me sangran?',
+      _infJuegos(D.porJuego),
+      '<b>'+enPos+' de '+conB.length+'</b> juego(s) está(n) en positivo'+
+      (mejor && mejor.neto>0 ? '; el que te sostiene es <b>'+escapeHtml(mejor.j.nombre)+'</b> con '+fmt(mejor.neto)+'.' : '.')+
+      (enPos<=1 && conB.length>3 ? ' Todo lo demás resta.' : '')) : '';
+
+    // ── 4 · ¿Cómo son mis días? ──
+    const s4 = nDias ? sec('4', '¿Cómo son mis días?',
+      _infCalendario(D.curva) +
+      '<div style="display:flex;gap:16px;font-size:11px;color:var(--silver-dark);margin-top:9px;flex-wrap:wrap;">' +
+        '<span><i style="display:inline-block;width:11px;height:11px;background:rgba(0,200,83,.8);border-radius:2px;margin-right:5px;vertical-align:-1px;"></i>día en positivo</span>' +
+        '<span><i style="display:inline-block;width:11px;height:11px;background:rgba(226,75,74,.8);border-radius:2px;margin-right:5px;vertical-align:-1px;"></i>día en negativo</span>' +
+        '<span style="margin-left:auto;">el color satura al 25% del día más extremo</span></div>',
+      '<b>'+D.nPos+' día(s) positivo(s) de '+nDias+'</b> ('+pctPos+'%).'+
+      (D.peorRacha>2 ? ' La racha negativa más larga fue de <b>'+D.peorRacha+' días seguidos</b>: eso es lo normal, no la excepción.' : '')) : '';
+
+    // ── 5 · ¿Voy mejor o peor? ──
+    let concl5 = '';
+    if(mesesOrd.length >= 2){
+      const u = D.porMes[mesesOrd[mesesOrd.length-1]], a2 = D.porMes[mesesOrd[mesesOrd.length-2]];
+      const ru = u.g>0 ? u.p/u.g*100 : null, ra = a2.g>0 ? a2.p/a2.g*100 : null;
+      concl5 = 'el mes en curso ('+mesesOrd[mesesOrd.length-1]+') va '+
+        (ru!=null?'al <b>'+Math.round(ru)+'%</b> de RTP':'sin datos de gasto')+
+        (ra!=null?' frente al <b>'+Math.round(ra)+'%</b> del anterior':'')+'. '+
+        ((ru!=null&&ra!=null) ? (ru>=ra ? 'Vas <b style="color:#00C853;">mejor</b> que el mes pasado.' : 'Vas <b style="color:#B91C1C;">peor</b> que el mes pasado.') : '');
+    } else concl5 = 'aún no hay dos meses completos para comparar.';
+    const s5 = mesesOrd.length ? sec('5', '¿Voy mejor o peor que antes?',
+      _infMeses(D.porMes) +
+      '<div style="display:flex;gap:16px;font-size:11px;color:var(--silver-dark);margin-top:8px;">' +
+        '<span><i style="display:inline-block;width:16px;height:3px;background:#E24B4A;border-radius:2px;margin-right:5px;vertical-align:3px;"></i>gastado</span>' +
+        '<span><i style="display:inline-block;width:16px;height:3px;background:#00C853;border-radius:2px;margin-right:5px;vertical-align:3px;"></i>ganado</span></div>',
+      concl5) : '';
+
+    // ── 6 · El descuento, que es dinero que no gastaste ──
+    const s6 = D.ahorro > 0.005 ? sec('6', '¿Cuánto me ha ahorrado negociar el descuento?',
+      '<div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">' +
+        '<span style="font-family:\'Courier New\',monospace;font-size:30px;font-weight:800;color:#1565C0;">'+fmt(D.ahorro)+'</span>' +
+        '<span style="font-size:12px;color:var(--silver-dark);">el '+D.pctAhorro.toFixed(1)+'% del precio de lista</span></div>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:11px;font-size:11.5px;">' +
+        '<span style="width:96px;flex:none;text-align:right;color:var(--silver-dark);">Precio de lista</span>' +
+        '<span style="flex:1;height:14px;background:var(--silver);border-radius:3px;"></span>' +
+        '<span style="width:86px;flex:none;text-align:right;font-family:\'Courier New\',monospace;">'+fmt(D.gasto+D.ahorro)+'</span></div>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:5px;font-size:11.5px;">' +
+        '<span style="width:96px;flex:none;text-align:right;color:var(--silver-dark);">Pagaste</span>' +
+        '<span style="flex:1;display:flex;"><span style="height:14px;width:'+(100-D.pctAhorro).toFixed(1)+'%;background:#1565C0;border-radius:3px;"></span></span>' +
+        '<span style="width:86px;flex:none;text-align:right;font-family:\'Courier New\',monospace;">'+fmt(D.gasto)+'</span></div>',
+      '<b>'+fmt(D.ahorro)+'</b> que no gastaste porque negociaste, en <b>'+D.lotesConDesc+' taco(s)</b> con descuento. '+
+      'No es ganancia, pero es dinero tuyo — y equivale al '+
+      (D.gasto>0 ? '<b>'+(D.ahorro/D.gasto*100).toFixed(1)+'%</b> de todo lo que has gastado' : 'una parte de lo gastado')+'.') : '';
+
+    return '<div class="section-head"><span class="tag">🌐</span><h2 style="margin:0;font-size:17px;">Consolidado global</h2>' +
+      '<span class="hint">el informe: qué llevas, de dónde salió y qué esperar</span></div>' +
+      '<div style="margin-top:11px;">' + titular + cifras + s1 + s2 + s3 + s4 + s5 + s6 + '</div>';
+  }
+
+  function _infMeses(porMes){
+    const ms = Object.keys(porMes).sort();
+    if(!ms.length) return '';
+    const mx = Math.max.apply(null, ms.reduce(function(a,m){ return a.concat([porMes[m].g, porMes[m].p]); }, [1]));
+    return ms.map(function(m){
+      const v = porMes[m], neto = v.p - v.g;
+      return '<div style="display:flex;align-items:center;gap:9px;font-size:11.5px;padding:5px 0;">' +
+        '<span class="inf-mes" style="flex:none;font-family:\'Courier New\',monospace;color:var(--silver-dark);">'+m+'</span>' +
+        '<span style="flex:1;min-width:0;">' +
+          '<span style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="height:11px;width:'+(v.g/mx*100).toFixed(0)+'%;background:#E24B4A;border-radius:3px;"></span><span style="font-family:\'Courier New\',monospace;font-size:10px;color:#B91C1C;">'+fmt(v.g)+'</span></span>' +
+          '<span style="display:flex;align-items:center;gap:6px;"><span style="height:11px;width:'+(v.p/mx*100).toFixed(0)+'%;background:#00C853;border-radius:3px;"></span><span style="font-family:\'Courier New\',monospace;font-size:10px;color:#00C853;">'+fmt(v.p)+'</span></span>' +
+        '</span>' +
+        '<span class="inf-net" style="flex:none;text-align:right;font-family:\'Courier New\',monospace;font-weight:700;color:'+(neto>=0?'#00C853':'#B91C1C')+';">'+(neto>=0?'+':'')+fmt(neto)+'</span>' +
+        '<span class="inf-rtp" style="width:48px;flex:none;text-align:right;font-size:10px;color:var(--silver-dark);">'+(v.g>0?Math.round(v.p/v.g*100)+'%':'—')+'</span>' +
+        '</div>';
+    }).join('');
+  }
   function renderGlobal(){
     const el = document.getElementById('globalContent');
     if(!el) return;
@@ -17601,7 +17840,84 @@
         ${bkeys.map(k=>`<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><span style="width:70px;text-align:right;font-size:11.5px;font-family:'Courier New',monospace;">${fmt(k)}</span><div style="flex:1;"><div style="width:${Math.max(2,Math.round(buckets[k]/maxB*100))}%;height:13px;background:#35d0e8;border-radius:3px;opacity:.8;"></div></div><span style="width:36px;font-size:11px;">${buckets[k]}</span></div>`).join('')}
       </div>`:''}`;
 
-    el.innerHTML = banner + dinero + kpis + curva + tendencia + semaforos + tabla + atribucion + riesgo;
+    /* ═══════════════ P3 · INFORME GLOBAL — INICIO ═══════════════
+       Cinco preguntas, cada una con su gráfico y su conclusión CALCULADA. Ninguna frase de
+       este bloque está escrita a mano: si mañana los datos dicen otra cosa, el informe dice
+       otra cosa. Lo anterior no se pierde — baja entero a un desplegable al final. */
+
+    // ---- 1) CONCENTRACIÓN, medida y no supuesta ---------------------------------------
+    // ¿Cuántos boletos hacen la MITAD de todo lo ganado? Se cuenta, no se fija un umbral:
+    // poner "premios ≥ $2.000" funcionaría hoy y mentiría en cuanto cambie el historial.
+    // Si hicieran falta cientos de boletos para llegar al 50%, no hay concentración y la
+    // sección lo dirá en vez de inventarla.
+    const _infPrem = (data.records||[]).filter(r=>(r.premio||0)>0)
+      .slice().sort((x,y)=>(y.premio||0)-(x.premio||0));
+    const _infTotalPrem = _infPrem.reduce((s,r)=>s+premioNeto(r.premio),0);
+    let _acc = 0, _k = 0;
+    while(_k < _infPrem.length && _acc < _infTotalPrem/2){ _acc += premioNeto(_infPrem[_k].premio); _k++; }
+    const _kIds = new Set(_infPrem.slice(0,_k).map(r=>String(r.id)));
+    const _montoK = _acc;
+    const _pctK = _infTotalPrem>0 ? _montoK/_infTotalPrem*100 : 0;
+    // Concentrado de verdad = pocos boletos hacen la mitad. El corte es relativo al total de
+    // premios, no un número mágico: con 2 013 premios, que 2 hagan la mitad es concentración;
+    // que hagan falta 400 no lo es.
+    const _hayConcentracion = _infPrem.length >= 20 && _k <= Math.max(5, _infPrem.length*0.01);
+    const _gastoTot = (data.records||[]).reduce((s,r)=>s+(Number(r.costo)||0),0);
+    const _premOrd = _infTotalPrem - _montoK;
+    const _netoTot = _infTotalPrem - _gastoTot;
+    const _netoSinK = _premOrd - _gastoTot;
+    const _rtpTot = _gastoTot>0 ? _infTotalPrem/_gastoTot*100 : null;
+    const _rtpSinK = _gastoTot>0 ? _premOrd/_gastoTot*100 : null;
+
+    // ---- 2) AHORRO POR DESCUENTO ------------------------------------------------------
+    // Dinero que no gastaste porque negociaste. No es ganancia, pero es tuyo y no se veía.
+    let _ahorro = 0, _nConDesc = 0;
+    (data.records||[]).forEach(function(r){
+      const a = ahorroDeRecord(r);
+      if(a > 0){ _ahorro += a; _nConDesc++; }
+    });
+    _ahorro = Math.round(_ahorro*100)/100;
+    const _listaTot = _gastoTot + _ahorro;
+    const _pctAhorro = _listaTot>0 ? _ahorro/_listaTot*100 : 0;
+    const _lotesConDesc = (data.lotes||[]).filter(l=>getDescuentoLote(l)>0).length;
+
+    // ---- 3) SERIES DIARIAS: real y contrafactual --------------------------------------
+    const _pd = {};
+    (data.records||[]).forEach(function(r){
+      const d = String(r.fecha||'').slice(0,10); if(!d) return;
+      const e = _pd[d] = _pd[d] || {g:0, p:0, pk:0};
+      e.g += (Number(r.costo)||0);
+      const pnr = premioNeto(r.premio);
+      e.p += pnr;
+      if(_kIds.has(String(r.id))) e.pk += pnr;
+    });
+    const _dias = Object.keys(_pd).sort();
+    let _ar = 0, _as = 0, _pico = -Infinity, _picoI = 0;
+    const _curva = _dias.map(function(d, i){
+      _ar += _pd[d].p - _pd[d].g;
+      _as += (_pd[d].p - _pd[d].pk) - _pd[d].g;
+      if(_ar > _pico){ _pico = _ar; _picoI = i; }
+      return { d:d, real:_ar, sin:_as, dia:_pd[d].p - _pd[d].g };
+    });
+    const _nPos = _curva.filter(x=>x.dia > 0).length;
+    let _r = 0, _peorRacha = 0;
+    _curva.forEach(function(x){ if(x.dia < 0){ _r++; if(_r > _peorRacha) _peorRacha = _r; } else _r = 0; });
+    const _caida = _pico - _ar;
+
+    el.innerHTML = _informeHTML({
+      curva:_curva, picoI:_picoI, pico:_pico, nPos:_nPos, peorRacha:_peorRacha, caida:_caida,
+      gasto:_gastoTot, prem:_infTotalPrem, neto:_netoTot, rtp:_rtpTot,
+      premOrd:_premOrd, montoK:_montoK, k:_k, pctK:_pctK, hayConc:_hayConcentracion,
+      netoSinK:_netoSinK, rtpSinK:_rtpSinK,
+      ahorro:_ahorro, nConDesc:_nConDesc, pctAhorro:_pctAhorro, lotesConDesc:_lotesConDesc,
+      porJuego:porJuego, porMes:porMes, nPremios:_infPrem.length
+    }) + `
+      <details id="glViejo"${_cobroDetOpen.has('glViejo')?' open':''} data-dkey="glViejo" style="margin-top:18px;">
+        <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft); padding:9px 12px; background:var(--paper-dark); border-radius:9px;">
+          🔎 Ver el detalle completo — cifras crudas, tabla por juego ordenable, atribución y honestidad del resultado</summary>
+        <div style="padding-top:12px;">` + banner + dinero + kpis + curva + tendencia + semaforos + tabla + atribucion + riesgo + `</div>
+      </details>`;
+    /* ═══════════════ P3 · INFORME GLOBAL — FIN ═══════════════ */
     // Orden interactivo de la tabla-liderazgo.
     el.querySelectorAll('[data-gk]').forEach(th=> th.addEventListener('click', ()=>{
       const k=th.getAttribute('data-gk');
