@@ -795,6 +795,57 @@
      no cabe son las columnas fijas de las listas. En el teléfono se quita el RTP —que es
      contexto, no la cifra— y la etiqueta del juego se estrecha, para que la barra siga
      siendo lo bastante larga como para comparar de un vistazo. */
+  /* ============================================================================
+     PUESTO DE MANDO (Inicio · v31.0)
+     Tres columnas en web; en el teléfono se apilan en el orden HOY → PENDIENTES →
+     DINERO. El orden cambia a propósito: en el kiosco lo que se necesita a mano son
+     las acciones (cobrar, seguir capturando), no el acumulado histórico, que es
+     lectura de sillón. Se usa `order` y no dos marcados distintos para que no haya
+     dos verdades que mantener.
+     Todas las columnas llevan minmax(0,1fr): con 1fr a secas el min-width:auto de
+     una cifra monoespaciada larga ensancha su columna y desborda la rejilla.
+     ============================================================================ */
+  .pm-sec{ margin-bottom:14px; }
+  .pm-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
+  .pm-col{ min-width:0; }
+  .pm-c1{ order:1; } .pm-c3{ order:2; } .pm-c2{ order:3; }
+  @media (min-width:901px){
+    .pm-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
+    .pm-c1{ order:1; } .pm-c2{ order:2; } .pm-c3{ order:3; }
+  }
+  .pm-h{ display:flex; align-items:center; gap:7px; font-size:13px; font-weight:800; margin:0 0 8px; }
+  .pm-tag{ background:var(--stamp); color:#fff; border-radius:5px; padding:1px 7px; font-size:10px; font-family:'Courier New',monospace; }
+  .pm-card{ background:var(--white); border:1px solid var(--line); border-radius:11px; padding:12px 14px; margin-bottom:9px; }
+  .pm-mini{ padding:10px 12px; }
+  .pm-b-ok{ border-color:var(--ok); } .pm-b-bad{ border-color:#E24B4A; } .pm-b-warn{ border-color:var(--gold,#FFC94D); }
+  .pm-n{ font-family:'Courier New',monospace; font-weight:800; font-size:17px; line-height:1.1; }
+  .pm-xl{ font-size:29px; margin:3px 0 3px; display:block; }
+  .pm-ok{ color:var(--ok); } .pm-bad{ color:#E24B4A; } .pm-warn{ color:var(--gold,#FFC94D); } .pm-blue{ color:#7FB2FF; }
+  .pm-lbl{ font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--silver-dark); }
+  .pm-sub{ font-size:11.5px; color:var(--silver-dark); margin-top:3px; }
+  .pm-faint{ opacity:.72; }
+  .pm-row{ display:flex; align-items:baseline; gap:8px; margin-top:4px; }
+  .pm-row .pm-n{ flex:1; min-width:0; }
+  .pm-bar{ height:8px; border-radius:4px; background:var(--line); overflow:hidden; margin-top:8px; }
+  .pm-bar > i{ display:block; height:100%; border-radius:4px; }
+  .pm-spark{ display:flex; align-items:flex-end; gap:2px; height:40px; margin-top:11px; }
+  .pm-spark > i{ flex:1 1 0; min-width:2px; border-radius:1px; }
+  .pm-min{ font-size:11.5px; color:var(--silver-dark); background:var(--paper-dark); border:1px solid var(--line);
+           border-radius:9px; padding:9px 12px; margin-bottom:9px; }
+  /* Acciones: mismo bloque para cobrar, seguir capturando, agotamiento y respaldo, para que
+     los cuatro se lean igual y ninguno parezca más importante por accidente de estilo. */
+  .pm-act{ width:100%; display:flex; align-items:center; gap:10px; text-align:left; cursor:pointer;
+           border:1px solid var(--line); border-radius:10px; background:var(--paper-dark); color:var(--ink);
+           padding:10px 12px; margin-bottom:9px; font:inherit; min-height:48px; }
+  .pm-act-ok{ border-color:var(--ok); } .pm-act-warn{ border-color:var(--gold,#FFC94D); }
+  .pm-act-ic{ font-size:19px; flex:none; }
+  .pm-act-tx{ flex:1; min-width:0; }
+  .pm-act-tx b{ display:block; font-size:12.5px; }
+  .pm-act-tx i{ display:block; font-style:normal; font-size:11px; color:var(--silver-dark); margin-top:1px; }
+  .pm-act-go{ flex:none; font-size:17px; color:var(--silver-dark); }
+  .pm-ser{ font-family:'Courier New',monospace; }
+  .pm-go{ color:var(--stamp); font-weight:700; }
+
   .inf-rtp{ display:none; }
   .inf-lbl{ width:84px; }
   .inf-net{ width:72px; }
@@ -2727,7 +2778,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '30.0', fecha: '2026-08-23' };
+  const APP_VERSION = { num: '31.0', fecha: '2026-08-23' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -4258,7 +4309,7 @@
   let saveThrottle = null;
   let fsWriteDebounce = null;
   // Versión de los datos: se incrementa en cada save(). Sirve de clave de invalidación para
-  // los cálculos caros memoizados (getMejorTacoAhora), que sin esto se repetían íntegros
+  // los cálculos caros memoizados (getEstadoTacos), que sin esto se repetían íntegros
   // —incluidas 800 permutaciones del portero— en cada toque del grid.
   let _dataVersion = 0;
   function save(){
@@ -4854,6 +4905,8 @@
       // de Inicio (el selector de juego SÍ se conserva: se usa desde todas las pestañas).
       try{ document.body.setAttribute('data-tab-activo', btn.dataset.tab); }catch(e){}
       try{ guardarSesionUI(); }catch(e){}
+      // Candado de pantalla: se pide al entrar al QR y se suelta al salir (v31.0).
+      try{ if(typeof sincronizarWakeLock==='function') sincronizarWakeLock(); }catch(e){}
       renderPestana(btn.dataset.tab);
     });
   });
@@ -4863,7 +4916,7 @@
   // ================================================================================
   // ANTES: cada toque en el kiosco (marcarRapidoLote → save → render) ejecutaba los ~30
   // renderers de TODA la app, incluidos la tabla de historial (1400+ registros, con una
-  // búsqueda lineal de lote por cada uno) y renderCommandCenter → getMejorTacoAhora →
+  // búsqueda lineal de lote por cada uno) y renderCommandCenter → getEstadoTacos →
   // rigorPortero, que corre 800 permutaciones. Cientos de ms por marca en un teléfono, ×50
   // marcas por taco. Y un solo error JS en cualquiera de ellos abortaba la cadena entera,
   // pudiendo dejar la captura inutilizable justo en el kiosco.
@@ -8851,7 +8904,7 @@
     // B1 — PANEL DEL TACO CON EL MOTOR UNIFICADO
     // ================================================================================
     // ANTES este panel calculaba la probabilidad a mano: (minPremios − vistos) / restantes.
-    // Eso (a) contradecía al Panel de decisión y al Modo compra, que usan el posterior
+    // Eso (a) contradecía al Panel de decisión, que usa el posterior
     // bayesiano rgPosteriorT — el MISMO taco mostraba dos cifras distintas según la pestaña;
     // (b) ignoraba el techo del diseño: con 14 premios vistos daba 0% aunque el taco pueda
     // traer 15 (ya tienes dos así); y (c) tiraba a la basura la evidencia de los 17 tacos
@@ -8963,7 +9016,7 @@
           <span style="font-size:18px;flex-shrink:0;">${veredicto.ic}</span>
           <span>${veredicto.txt}</span>
         </div>
-        <p class="note" style="margin:0 0 14px;">Mismo motor que el Panel de decisión y el Modo compra${res.modo==='espacial'?' · <strong>⚡ motor espacial v2</strong> (rachas)':res.modo==='plantilla'?' · plantilla histórica':' · contabilidad del taco (sin plantilla: no hay señal posicional demostrada)'}. El EV usa ${ctxMotor.dist?`el premio medio <strong>robusto</strong> de tus datos (${fmt(ctxMotor.V)}, de ${ctxMotor.dist.n} premios; mediana ${fmt(ctxMotor.dist.mediana)})${(ctxMotor.dist.extremos&&ctxMotor.dist.extremos.length)?` — se acotó ${ctxMotor.dist.extremos.length} premio(s) extremo(s) (hasta ${fmt(ctxMotor.dist.max)}) para no inflar el veredicto: con ellos el break-even parecería ${(((cU)/(ctxMotor.Vopt||ctxMotor.V))*100).toFixed(0)}% en vez de ${(breakEven*100).toFixed(0)}%`:''}`:`el valor configurado del juego (${fmt(ctxMotor.V)})`}${getDescuentoLote(lote)>0?` y el costo <strong>con tu ${getDescuentoLote(lote)}% de descuento</strong> (${fmt(cU)} por boleto): por eso el break-even aquí es ${(breakEven*100).toFixed(0)}% y no ${(((getJuego(lote.juegoId)?.costoDefecto??2)/V)*100).toFixed(0)}%`:''}.</p>`;
+        <p class="note" style="margin:0 0 14px;">Mismo motor que el Panel de decisión${res.modo==='espacial'?' · <strong>⚡ motor espacial v2</strong> (rachas)':res.modo==='plantilla'?' · plantilla histórica':' · contabilidad del taco (sin plantilla: no hay señal posicional demostrada)'}. El EV usa ${ctxMotor.dist?`el premio medio <strong>robusto</strong> de tus datos (${fmt(ctxMotor.V)}, de ${ctxMotor.dist.n} premios; mediana ${fmt(ctxMotor.dist.mediana)})${(ctxMotor.dist.extremos&&ctxMotor.dist.extremos.length)?` — se acotó ${ctxMotor.dist.extremos.length} premio(s) extremo(s) (hasta ${fmt(ctxMotor.dist.max)}) para no inflar el veredicto: con ellos el break-even parecería ${(((cU)/(ctxMotor.Vopt||ctxMotor.V))*100).toFixed(0)}% en vez de ${(breakEven*100).toFixed(0)}%`:''}`:`el valor configurado del juego (${fmt(ctxMotor.V)})`}${getDescuentoLote(lote)>0?` y el costo <strong>con tu ${getDescuentoLote(lote)}% de descuento</strong> (${fmt(cU)} por boleto): por eso el break-even aquí es ${(breakEven*100).toFixed(0)}% y no ${(((getJuego(lote.juegoId)?.costoDefecto??2)/V)*100).toFixed(0)}%`:''}.</p>`;
       }
     }
 
@@ -14434,7 +14487,7 @@
   // ================================================================================
   // CONTEXTO COMPARTIDO DEL MOTOR (memoizado)
   // ================================================================================
-  // El panel de decisión, el modo compra, el centro de mando y ahora el detalle del taco
+  // El panel de decisión, el puesto de mando y el detalle del taco
   // necesitan lo mismo: prior EB, veredicto del portero, curva de rachas y V efectivo. Cada
   // uno lo recalculaba por su cuenta — incluidas 800–1500 permutaciones. Se calcula UNA vez
   // por versión de datos y filtro. Además garantiza que los cuatro digan lo MISMO.
@@ -14734,7 +14787,6 @@
         ${bankroll>0
           ? `<span style="font-size:11.5px; color:var(--silver-dark);" title="Suma premio−costo de tus boletos en este ámbito.">Tu neto en ${ambitoTxt}: <strong style="color:${netoTirada>=0?'#065F46':'var(--stamp)'};">${netoTirada>=0?'+':''}${fmt(netoTirada)}</strong> · stop-loss al −20% (${fmt(-0.2*bankroll)})</span>`
           : `<span style="font-size:11.5px; color:var(--silver-dark);">Escribe cuánto dinero destinas en total a jugar: activa el dimensionamiento Kelly ½ por taco y el stop-loss automático.</span>`}
-        <button class="btn-ghost" id="pd-modo-compra" style="font-size:12px; padding:4px 12px; margin-left:auto;">📱 Modo compra</button>
       </div>
       ${stopLoss?`<div style="background:#FCEBEB; border:2px solid #7F1D1D; border-radius:8px; padding:12px 14px; margin-bottom:14px; color:#7F1D1D; font-size:13px;">
         <strong>🛑 STOP-LOSS ACTIVADO:</strong> llevas ${fmt(netoTirada)} en ${ambitoTxt} — has perdido más del 20% de tu bankroll (${fmt(bankroll)}).
@@ -14910,132 +14962,6 @@
 
     const bkIn=document.getElementById('pd-bankroll');
     if(bkIn){ bkIn.addEventListener('change', ()=>{ localStorage.setItem('bitacora_bankroll', bkIn.value||''); renderPanelDecision(); }); }
-    document.getElementById('pd-modo-compra')?.addEventListener('click', abrirModoCompra);
-  }
-
-  // ==================================================================
-  // ===  MODO COMPRA (pantalla de kiosco, mobile-first, solo lectura) =
-  // ==================================================================
-  function abrirModoCompra(){
-    const prev=document.getElementById('modo-compra-ov');
-    if(prev) prev.remove();
-    const ov=document.createElement('div');
-    ov.id='modo-compra-ov';
-    ov.style.cssText='position:fixed; inset:0; z-index:99999; background:var(--paper,#EDE6D6); color:var(--ink,#1C1B19); overflow-y:auto; padding:16px;';
-    document.body.appendChild(ov);
-    pedirWakeLock(); // no dejar que la pantalla se apague mientras compras
-    renderModoCompra();
-  }
-  function renderModoCompra(){
-    const ov=document.getElementById('modo-compra-ov'); if(!ov) return;
-    // Mismo contexto memoizado que el panel de decisión y el detalle del taco: los tres
-    // comparten motor, valor de premio y veredicto del portero, así que ninguno puede
-    // recomendar algo distinto del otro sobre el mismo taco.
-    const ctxM=rgContextoMotor();
-    const dataR=ctxM.dataR;
-    const juego=getJuegoActivo();
-    const V=ctxM.V;
-    const eb=ctxM.eb;
-    const conSenal=ctxM.conSenal;
-    const f=dataR.filtros;
-    const enCurso=getLotesDelJuegoActivo().filter(l=>{
-      if(f.tirada!=='__todas__' && getTiradaSerie(l.serie)!==f.tirada) return false;
-      const c=loteCounts(l); return c.revealed>0 && c.revealed<c.total;
-    }).sort((a,b)=>rgLoteTime(b)-rgLoteTime(a));
-    const selId = ov.dataset.lote || (enCurso[0] ? String(enCurso[0].id) : '');
-    const lote = enCurso.find(l=>String(l.id)===selId) || enCurso[0];
-    const bankroll = parseFloat(localStorage.getItem('bitacora_bankroll')||'') || 0;
-
-    // El motor espacial y el veredicto del portero vienen ya calculados del contexto compartido.
-    const espacialMc = ctxM.espacialOn;
-    const curvaMc = ctxM.curva;
-    const testMc = ctxM.testR;
-
-    let cuerpo='';
-    if(!lote){
-      cuerpo='<p style="font-size:19px; line-height:1.5;">No hay tacos en curso registrados. Registra el taco (serie y posiciones visibles) en 🎟️ Boletos &amp; Lotes y vuelve a abrir este modo.</p>';
-    } else {
-      const res=rgProbLoteCtx(lote);
-      if(!res){ cuerpo='<p style="font-size:19px;">No se pudo calcular este taco.</p>'; }
-      else {
-        const {pt,probs}=res;
-        // Costo real de ESTE taco (con su descuento congelado), no el precio de lista.
-        const cU = costoUnitarioLote(lote);
-        const descMc = getDescuentoLote(lote);
-        const evPos=probs.map(p=>({pos:p.pos, P:p.P, ev:p.P*V-cU}));
-        const compras=evPos.filter(p=>p.ev>0);
-        let presupuesto=null;
-        if(bankroll>0 && compras.length){
-          let acc=0, tLo=pt.post[0].t;
-          for(const x of pt.post){ acc+=x.prob; if(acc>=0.10){ tLo=x.t; break; } }
-          const escLo = pt.eRest>0 ? Math.max(0,tLo-pt.k)/pt.eRest : 0;
-          let fSum=0;
-          // F4: Kelly con los montos reales (ver kellyDistribucional), no "ganas V o nada".
-          compras.forEach(p=>{
-            const pPeor = p.P*escLo;
-            const fi = ctxM.dist ? kellyDistribucional(pPeor, ctxM.dist, cU) : ((pPeor*V-cU)/(V-cU));
-            if(fi>0) fSum+=fi;
-          });
-          presupuesto=Math.min(0.5*fSum*bankroll, 0.25*bankroll);
-        }
-        const chips = (compras.length?compras:evPos.slice(0,6)).slice(0,12).map(p=>`
-          <div data-mcpos="${p.pos}" title="Toca para registrar el resultado de la posición ${padPos(p.pos)}" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:76px; height:76px; border-radius:12px; background:${p.ev>0?'#065F46':'#9E9E9E'}; color:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; position:relative;">
-            <span style="font-family:monospace; font-weight:800; font-size:26px;">${padPos(p.pos)}</span>
-            <span style="font-size:12px; opacity:.9;">${(p.P*100).toFixed(0)}%</span>
-            <span style="position:absolute; top:3px; right:6px; font-size:11px; opacity:.7;">✎</span>
-          </div>`).join('');
-        // F5 en la pantalla donde se decide de verdad: qué esperar de ESTA compra.
-        const S = compras.length ? pSesionRentable(lote, 3000) : null;
-        const sesionMc = S ? `<div style="font-size:16px; line-height:1.5; margin-bottom:10px; background:var(--paper-dark); border-radius:10px; padding:10px 13px;">
-            🎲 De cada 100 veces que hagas esta misma compra, sales ganando en <strong style="color:${S.p>=0.5?'#065F46':S.p>=0.3?'#854F0B':'#7F1D1D'};">${Math.round(S.p*100)}</strong>.
-            Lo normal es terminar entre <strong>${S.p10>=0?'+':''}${fmt(S.p10)}</strong> y <strong>${S.p90>=0?'+':''}${fmt(S.p90)}</strong>.
-          </div>` : '';
-        cuerpo=`
-          <div style="font-size:15px; color:var(--silver-dark); margin-bottom:6px;">Taco <strong style="font-family:monospace; color:var(--ink);">${escapeHtml(lote.serie)}</strong> · revelado ${pt.r}/${pt.N} · premios vistos ${pt.k} · quedan ≈ <strong>${pt.eRest.toFixed(1)}</strong> premios en ${pt.u} boletos</div>
-          ${descMc>0?`<div style="font-size:15px; background:#D1FAE5; color:#065F46; border-radius:8px; padding:8px 12px; margin-bottom:8px;">🏷️ Taco con <strong>${descMc}% de descuento</strong>: pagas <strong>${fmt(cU)}</strong> por boleto, así que aquí basta un <strong>${(cU/V*100).toFixed(0)}%</strong> de probabilidad para no perder (en un taco sin descuento harían falta ${(( getJuego(lote.juegoId)?.costoDefecto ?? 2)/V*100).toFixed(0)}%).</div>`:''}
-          ${compras.length
-            ? `<div style="font-size:22px; font-weight:800; margin:10px 0;">PIDE, EN ESTE ORDEN:</div>
-               <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;">${chips}</div>
-               ${sesionMc}
-               <div style="font-size:19px; line-height:1.5; margin-bottom:10px;">Gasta máximo <strong>${fmt(presupuesto!=null?Math.min(presupuesto,compras.length*cU):compras.length*cU)}</strong>${presupuesto!=null?' (límite Kelly ½ con tu bankroll)':''}.<br>PARA cuando compres ${Math.min(compras.length, presupuesto!=null?Math.max(1,Math.floor(presupuesto/cU)):compras.length)} boleto(s) o cuando salga un premio grande.</div>`
-            : `<div style="font-size:22px; font-weight:800; margin:12px 0; color:#7F1D1D;">HOY NO COMPRES EN ESTE TACO</div>
-               <div style="font-size:18px; line-height:1.5; margin-bottom:10px;">La mejor posición tiene ${(evPos[0].P*100).toFixed(0)}% de probabilidad y necesitas ${(cU/V*100).toFixed(0)}% para no perder. Espera a que otros raspen más boletos de este taco, o revisa otro taco.</div>
-               <div style="display:flex; flex-wrap:wrap; gap:10px; opacity:.5;">${chips}</div>`}
-          <div style="font-size:13px; color:var(--silver-dark); margin-top:12px; line-height:1.5;">
-            ${res.modo==='espacial'
-              ? '⚡ Motor espacial v2: el orden de la lista pondera las rachas de perdedores ya visibles en el taco (los huecos largos se calientan).'
-              : (conSenal?'Orden por plantilla histórica + contabilidad del taco.':'Sin plantilla demostrada: el orden entre posiciones es indiferente; lo que manda es cuántos premios quedan en el taco.')}
-            <strong>Toca una posición</strong> para registrar su resultado aquí mismo (elige el premio o «No ganó»); la lista se recalcula al instante.
-          </div>`;
-      }
-    }
-    ov.innerHTML=`
-      <div style="max-width:520px; margin:0 auto;">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-          <span style="font-size:20px; font-weight:800;">📱 Modo compra</span>
-          <span style="font-size:13px; color:var(--silver-dark);">${escapeHtml(juego?.nombre||'')}</span>
-          <button id="mc-texto" title="Texto más grande" style="margin-left:auto; font-size:15px; padding:8px 12px; border:2px solid var(--ink); background:${mcTextoGrande?'var(--ink)':'transparent'}; color:${mcTextoGrande?'var(--paper,#EDE6D6)':'var(--ink)'}; border-radius:8px; cursor:pointer; font-weight:800;">A+</button>
-          <button id="mc-cerrar" style="font-size:16px; padding:8px 16px; border:2px solid var(--ink); background:transparent; color:var(--ink); border-radius:8px; cursor:pointer;">✕ Cerrar</button>
-        </div>
-        ${enCurso.length>1?`<select id="mc-lote" style="width:100%; font-size:16px; padding:8px; margin-bottom:12px;">
-          ${enCurso.map(l=>{ const c=loteCounts(l); return `<option value="${l.id}" ${lote&&String(l.id)===String(lote.id)?'selected':''}>${escapeHtml(l.serie)} · ${c.revealed}/${c.total} revelado${l.punto?' · '+escapeHtml(l.punto):''}</option>`; }).join('')}
-        </select>`:''}
-        ${cuerpo}
-        <button id="mc-refresh" style="width:100%; margin-top:16px; font-size:17px; padding:12px; border:none; background:var(--ink); color:var(--paper,#EDE6D6); border-radius:8px; cursor:pointer;">🔄 Actualizar</button>
-      </div>`;
-    // Texto grande (modo una mano / sol directo): agranda todo el contenido del overlay.
-    ov.style.fontSize = mcTextoGrande ? '122%' : '';
-    document.getElementById('mc-texto').addEventListener('click', ()=>{ mcTextoGrande=!mcTextoGrande; renderModoCompra(); });
-    document.getElementById('mc-cerrar').addEventListener('click', ()=>{ soltarWakeLock(); ov.remove(); });
-    document.getElementById('mc-refresh').addEventListener('click', renderModoCompra);
-    const selEl=document.getElementById('mc-lote');
-    if(selEl) selEl.addEventListener('change', ()=>{ ov.dataset.lote=selEl.value; renderModoCompra(); });
-    // Fichas tocables: registrar el resultado de esa posición sin salir del modo compra.
-    if(lote){
-      ov.querySelectorAll('[data-mcpos]').forEach(chip=>{
-        chip.addEventListener('click', ()=> abrirPremioPicker(lote, parseInt(chip.dataset.mcpos,10), chip));
-      });
-    }
   }
 
   // ---- Filtros activos del panel de rigor (tirada + solo completos + préstamo λ) ----
@@ -17955,10 +17881,9 @@
 
     // Top posiciones
     const tamanoLote = juego.tamanoLote||50;
-    const histPosMap = {};
-    for(let i=0;i<tamanoLote;i++) histPosMap[i]={rev:0,paid:0};
-    recs.forEach(r=>{ if(r.posicion!=null && histPosMap[r.posicion]!==undefined){ histPosMap[r.posicion].rev++; if(r.resultado==='gano') histPosMap[r.posicion].paid++; } });
-    const topPos = Object.entries(histPosMap).filter(([,h])=>h.rev>0).map(([p,h])=>({pos:Number(p),tasa:h.paid/h.rev})).sort((a,b)=>b.tasa-a.tasa).slice(0,6);
+    // (v31.0) Aquí se calculaba `topPos` para la sección «Posiciones top». Se eliminó el
+    // cálculo junto con la sección: sin señal posicional demostrada (portero p = 0,874),
+    // ese ranking era ruido, y computarlo en cada render de Inicio costaba sin devolver nada.
 
     // Backup meta
     const bkMeta = getBackupMeta();
@@ -18058,7 +17983,12 @@
         </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:0;">
+      <!-- Antes esta rejilla era de dos columnas: «Lotes en curso» y «Posiciones top».
+           «Posiciones top» se retiró en v31.0 porque estaba pintando ruido: el portero da
+           p = 0,874 con 148 tacos, es decir NO hay señal posicional y la dispersión observada
+           entre posiciones es incluso MENOR que la del azar (ratio 0,78). Ordenar posiciones
+           por tasa cruda con esas muestras es leer la borra del café. Queda una sola columna. -->
+      <div style="display:grid; grid-template-columns:minmax(0,1fr); gap:14px; margin-bottom:0;">
 
         <div class="section" style="margin-bottom:0;">
           <div class="section-head"><span class="tag">L</span><h2>Lotes en curso</h2></div>
@@ -18073,23 +18003,6 @@
                   <div style="height:5px;background:var(--silver);margin-top:4px;border-radius:2px;overflow:hidden;"><div style="width:${pct}%;background:${saturado?'#F59E0B':'var(--ok)'};height:100%;border-radius:2px;"></div></div>
                 </div>
                 ${saturado ? '<span class="lote-roi-chip neg" style="font-size:10px;">SATURADO</span>' : `<span class="lote-roi-chip neutral" style="font-size:10px;">${c.remaining} libres</span>`}
-              </div>`;
-            }).join('')}
-          </div>
-        </div>
-
-        <div class="section" style="margin-bottom:0;">
-          <div class="section-head"><span class="tag">T</span><h2>Posiciones top</h2></div>
-          <div class="card">
-            ${!topPos.length ? '<p class="note" style="margin:0;">Sin datos suficientes aún.</p>' : ''}
-            ${topPos.map((p,i)=>{
-              const bg = p.tasa>0.30 ? '#00E676' : p.tasa>=0.15 ? '#B9F6CA' : '#F5F5F5';
-              const fg = p.tasa>0.30 ? '#003300' : p.tasa>=0.15 ? '#1B5E20' : '#9E9E9E';
-              return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                <span style="font-size:10px;color:var(--silver-dark);width:16px;">#${i+1}</span>
-                <span style="font-family:'Courier New',monospace;font-weight:700;width:32px;">${String(p.pos).padStart(3,'0')}</span>
-                <div style="flex:1;height:10px;background:var(--silver);border-radius:3px;overflow:hidden;"><div style="width:${Math.round(p.tasa*100)}%;background:${bg};height:100%;border-radius:3px;"></div></div>
-                <span style="font-size:12px;font-weight:700;color:${fg};width:36px;text-align:right;">${Math.round(p.tasa*100)}%</span>
               </div>`;
             }).join('')}
           </div>
@@ -18261,8 +18174,20 @@
     try{ if('wakeLock' in navigator){ _wakeLock = await navigator.wakeLock.request('screen'); } }catch(e){}
   }
   function soltarWakeLock(){ try{ _wakeLock && _wakeLock.release(); }catch(e){} _wakeLock=null; }
-  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && document.getElementById('modo-compra-ov')) pedirWakeLock(); });
-  let mcTextoGrande = false;
+  // El candado de pantalla lo pedía el Modo compra, que se retiró en v31.0. Pero la necesidad
+  // era real y sigue viva en OTRO sitio: pistoleando en el kiosco. Ahí el teléfono se apaga a
+  // media tira y toca desbloquear con las manos ocupadas. Se reapunta al panel QR, que es donde
+  // de verdad se está de pie frente al puesto. `soltarWakeLock` además nunca se llamaba: ahora sí.
+  function _qrPanelActivo(){
+    const p = document.getElementById('panel-qr');
+    return !!(p && p.classList.contains('active'));
+  }
+  function sincronizarWakeLock(){
+    if(_qrPanelActivo()) pedirWakeLock(); else soltarWakeLock();
+  }
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible') sincronizarWakeLock(); else soltarWakeLock();
+  });
 
   // ================================================================================
   // FECHA DE SESIÓN — la fecha con la que se graban las marcas rápidas
@@ -18384,8 +18309,6 @@
     save(); render();
     // Reactivar el modo captura tras el re-render (render reconstruye el grid).
     if(capturaToqueActiva){ const g=document.getElementById('posGrid'); if(g) g.classList.add('capturaRapida'); }
-    // Si estamos dentro del Modo compra, refrescar su recomendación al instante.
-    if(document.getElementById('modo-compra-ov')) renderModoCompra();
     revisarLoteAlCompletar(lote);
     const recId = existente ? existente.id : nuevoRecId;
     const deshacer = ()=>{
@@ -18394,7 +18317,6 @@
       lote.posiciones[i]=prevPos;
       save(); render();
       if(capturaToqueActiva){ const g=document.getElementById('posGrid'); if(g) g.classList.add('capturaRapida'); }
-      if(document.getElementById('modo-compra-ov')) renderModoCompra();
     };
     if(premio>0){
       // En el kiosco casi siempre cobras el premio al momento: un toque lo deja cerrado.
@@ -18978,44 +18900,65 @@
     _scrollGuardar=setTimeout(guardarSesionUI, 600);
   }, {passive:true});
 
-  // Encuentra el mejor taco EN CURSO ahora mismo (mayor EV del mejor boleto disponible),
-  // reutilizando el mismo motor del panel de decisión (contabilidad + rachas/plantilla).
+  // ================================================================================
+  // AGOTAMIENTO DE LOS TACOS EN CURSO  (v31.0 — reemplaza a «Mejor taco ahora»)
+  // ================================================================================
+  // POR QUÉ CAMBIÓ. «Mejor taco ahora» ordenaba los tacos por el EV de su mejor boleto y lo
+  // presentaba como recomendación de compra. Esa política es la v1 del backtest de esta misma
+  // app y, medida sobre 206 compras reales, da +0,7% de ROI con un IC90 de [−14,4%, +18,1%]:
+  // el intervalo cruza el cero de lado a lado, así que como consejo de compra NO está
+  // demostrado que valga nada. Presentarlo con un «EV +$1,09» en verde sugería lo contrario.
+  //
+  // QUÉ SÍ SE CONSERVA. Debajo de aquel EV había aritmética honesta: cuántos premios le quedan
+  // a un taco frente a cuántas posiciones sin abrir tiene. Eso NO es pronóstico —es conteo de
+  // imprenta— y sirve para lo contrario de lo que se usaba: decir dónde YA NO seguir. Un taco
+  // al 10,9% de densidad ya dio lo suyo; uno al 27,1% todavía no.
+  //
+  // LA ADVERTENCIA QUE VIAJA CON EL DATO. Más densidad = pegar más seguido, NO ganar más:
+  // el 94,5% de los premios registrados son de $5 o menos. Por eso esto se pinta como
+  // semáforo de agotamiento y nunca como «compre aquí».
+  //
   // Memoizado por (versión de datos, juego, filtro): corre el portero y la curva de rachas,
-  // que son lo más caro de la app. Sin memo, el centro de mando lo recalculaba entero en
-  // cada marca del grid aunque el resultado no pudiera haber cambiado.
+  // que son lo más caro de la app.
   let _mtaCache = null;
-  function getMejorTacoAhora(){
+  function getEstadoTacos(){
     const clave = _dataVersion + '|' + juegoActivoId + '|' + JSON.stringify(rigorGetFiltros());
     if(_mtaCache && _mtaCache.clave === clave) return _mtaCache.valor;
-    const valor = _getMejorTacoAhoraCalc();
+    const valor = _getEstadoTacosCalc();
     _mtaCache = {clave, valor};
     return valor;
   }
-  function _getMejorTacoAhoraCalc(){
-    // Reutiliza el contexto compartido (prior EB, portero, curva de rachas, V real): antes
-    // esta función repetía los 800 permutados del portero por su cuenta en cada render.
+  function _getEstadoTacosCalc(){
+    // Reutiliza el contexto compartido (prior EB, portero, curva de rachas, V real).
     const ctxM = rgContextoMotor();
-    const data0 = ctxM.dataR;
-    const V = ctxM.V;
-    const f = data0.filtros;
+    const f = ctxM.dataR.filtros;
     const enCurso = getLotesDelJuegoActivo().filter(l=>{
       if(f.tirada!=='__todas__' && getTiradaSerie(l.serie)!==f.tirada) return false;
-      const c=loteCounts(l); return c.revealed>0 && c.revealed<c.total;
+      const c = loteCounts(l); return c.revealed>0 && c.revealed<c.total;
     });
-    let best=null;
+    const tacos = [];
     enCurso.forEach(lote=>{
       const res = rgProbLoteCtx(lote);
-      if(!res || !res.probs.length) return;
-      // Cada taco con SU costo real: un taco con descuento puede ganarle a otro con mejor
-      // probabilidad, y eso es correcto — lo que importa es el EV de lo que vas a pagar.
-      const cU = costoUnitarioLote(lote);
-      const mejor = res.probs[0];
-      const ev = mejor.P*V - cU;
-      const comprasN = res.probs.filter(p=>p.P*V-cU>0).length;
-      if(!best || ev>best.ev) best={serie:lote.serie, punto:lote.punto||'', ev, P:mejor.P, comprasN,
-                                    eRest:res.pt.eRest, u:res.pt.u, descuento:getDescuentoLote(lote)};
+      if(!res || !res.pt) return;
+      const eRest = res.pt.eRest, u = res.pt.u;
+      if(eRest==null || !(u>0)) return;
+      tacos.push({ id:lote.id, serie:lote.serie, punto:lote.punto||'',
+                   eRest, u, densidad:eRest/u, descuento:getDescuentoLote(lote) });
     });
-    return {best, hayEnCurso:enCurso.length>0, V, cU:ctxM.costo};
+    tacos.sort((a,b)=> a.densidad - b.densidad);   // los más agotados primero
+    // El umbral NO es un número escrito a mano: es la densidad de partida del juego, o sea
+    // los premios de diseño repartidos entre el tamaño del taco. Por debajo de la mitad de
+    // esa densidad inicial, el taco ya entregó desproporcionadamente y se marca agotado.
+    let densidadBase = null;
+    try{
+      const j = getJuegoActivo();
+      const {minPremios, maxPremios} = getJuegoParams(j.id);
+      const N = getTamanoLote(j.id);
+      if(N>0 && minPremios!=null && maxPremios!=null) densidadBase = ((minPremios+maxPremios)/2)/N;
+    }catch(e){}
+    const umbral = densidadBase!=null ? densidadBase*0.5 : null;
+    const agotados = umbral!=null ? tacos.filter(t=>t.densidad < umbral) : [];
+    return { tacos, agotados, umbral, densidadBase, hayEnCurso:enCurso.length>0, V:ctxM.V, cU:ctxM.costo };
   }
 
   // ---- ONBOARDING: bienvenida en estado vacío + datos de ejemplo ----
@@ -19067,7 +19010,7 @@
         <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
           <div style="display:flex; gap:10px; align-items:center;"><span style="width:28px; height:28px; border-radius:50%; background:var(--ink); color:var(--paper,#EDE6D6); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">1</span><span style="font-size:13.5px;"><strong>Crea tu juego</strong> (nombre, costo, premios por taco) en 🎮 Juegos.</span></div>
           <div style="display:flex; gap:10px; align-items:center;"><span style="width:28px; height:28px; border-radius:50%; background:var(--ink); color:var(--paper,#EDE6D6); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">2</span><span style="font-size:13.5px;"><strong>Registra un taco</strong> en 🎟️ Registrar y marca qué posiciones ganaron.</span></div>
-          <div style="display:flex; gap:10px; align-items:center;"><span style="width:28px; height:28px; border-radius:50%; background:var(--ink); color:var(--paper,#EDE6D6); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">3</span><span style="font-size:13.5px;"><strong>Abre el Modo compra</strong>: la app te dice el mejor taco y cuándo parar.</span></div>
+          <div style="display:flex; gap:10px; align-items:center;"><span style="width:28px; height:28px; border-radius:50%; background:var(--ink); color:var(--paper,#EDE6D6); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;">3</span><span style="font-size:13.5px;"><strong>Mira el Puesto de mando</strong> en Inicio: cómo va el día, qué falta cobrar y qué tacos ya se agotaron.</span></div>
         </div>
         <button id="onbEjemplo" style="width:100%; min-height:50px; font-size:15px; font-weight:800; border:none; border-radius:10px; background:var(--ink); color:var(--paper,#EDE6D6); cursor:pointer; margin-bottom:8px;">🎬 Cargar datos de ejemplo para explorar</button>
         <button id="onbEmpezar" style="width:100%; min-height:46px; font-size:14px; font-weight:700; border:2px solid var(--ink); background:transparent; color:var(--ink); border-radius:10px; cursor:pointer;">Empezar de cero</button>
@@ -19113,31 +19056,32 @@
       </div>`;
   }
 
-  // Centro de mando: botón grande "Modo compra" + tarjeta "Mejor taco ahora".
+  // Puesto de mando: tres columnas — Hoy · Dinero · Pendientes (v31.0).
   // Se inyecta al tope del dashboard (Inicio) para que la acción diaria esté a 0 clics.
   function renderCommandCenter(){
     const el = document.getElementById('commandCenter');
     if(!el) return;
-    let info;
-    try { info = getMejorTacoAhora(); } catch(e){ info = {best:null, hayEnCurso:false}; }
-    const b = info.best;
+    // ---- Semáforo de agotamiento (sustituye a «Mejor taco ahora») ----
     let tacoHtml;
-    if(b && b.ev>0){
-      tacoHtml = `<div style="background:#D1FAE5; border:2px solid #065F46; border-radius:10px; padding:12px 14px;">
-        <div style="font-size:11px; text-transform:uppercase; color:#065F46; font-weight:700; letter-spacing:.04em;">🏆 Mejor taco ahora</div>
-        <div style="font-size:20px; font-weight:800; font-family:monospace; margin:2px 0;">${escapeHtml(b.serie)}</div>
-        <div style="font-size:12.5px; color:#065F46; line-height:1.4;">${b.punto?escapeHtml(b.punto)+' · ':''}su mejor boleto paga <strong>${Math.round(b.P*100)}%</strong> (EV <strong>+$${b.ev.toFixed(2)}</strong>) · <strong>${b.comprasN}</strong> boleto(s) rentable(s). Quedan ~${b.eRest.toFixed(1)} premios en ${b.u} posiciones.</div>
-      </div>`;
-    } else if(b){
-      tacoHtml = `<div style="background:var(--paper-dark); border-radius:10px; padding:12px 14px;">
-        <div style="font-size:11px; text-transform:uppercase; color:var(--silver-dark); font-weight:700;">🏆 Mejor taco ahora</div>
-        <div style="font-size:12.5px; color:var(--silver-dark); margin-top:4px;">Ningún taco en curso tiene hoy un boleto rentable (el mejor es ${escapeHtml(b.serie)}, EV $${b.ev.toFixed(2)}). Espera más revelados o busca un taco avanzado con déficit de premios.</div>
-      </div>`;
-    } else {
-      tacoHtml = `<div style="background:var(--paper-dark); border-radius:10px; padding:12px 14px;">
-        <div style="font-size:12.5px; color:var(--silver-dark);">Sin tacos en curso. Registra un taco a medio raspar en 🎟️ Registrar para activar la recomendación por taco.</div>
-      </div>`;
-    }
+    try {
+      const ET = getEstadoTacos();
+      if(!ET.tacos.length){
+        tacoHtml = `<div class="pm-min">Sin tacos en curso.</div>`;
+      } else {
+        const peor = ET.tacos[0], mejor = ET.tacos[ET.tacos.length-1];
+        const nAg = ET.agotados.length;
+        tacoHtml = `<button id="ccAgotados" class="pm-act ${nAg?'pm-act-warn':''}" type="button">
+          <span class="pm-act-ic">${nAg? '📉' : '📈'}</span>
+          <span class="pm-act-tx">
+            <b>${nAg ? `${nAg} taco(s) ya agotado(s)` : 'Ningún taco agotado'} · ${escapeHtml(getJuegoActivo().nombre||'')}</b>
+            <i>${nAg
+                 ? `el más vacío va al ${(peor.densidad*100).toFixed(1)}% — ${peor.eRest.toFixed(1)} premios en ${peor.u} huecos`
+                 : `el más vacío va al ${(peor.densidad*100).toFixed(1)}%`} · los más cargados, al ${(mejor.densidad*100).toFixed(1)}%. Más densidad es pegar más seguido, no ganar más.</i>
+          </span>
+          <span class="pm-act-go">›</span>
+        </button>`;
+      }
+    } catch(e){ tacoHtml = ''; }
     // Tira "seguir capturando": lleva al último taco a medio registrar con un toque. Capturar
     // un taco son varias sesiones (50 posiciones), y retomarlo obligaba a ir a Registrar,
     // buscar el taco en la lista de 53 y abrirlo.
@@ -19151,10 +19095,10 @@
       if(loteSeguir){
         const c = loteCounts(loteSeguir);
         const pct = Math.round(c.revealed/c.total*100);
-        seguirStrip = `<button id="ccSeguirCaptura" style="width:100%; text-align:left; border:2px solid var(--silver-dark); border-radius:10px; background:var(--paper-dark); color:var(--ink); cursor:pointer; padding:10px 14px; margin-top:10px; display:flex; align-items:center; gap:10px; font-family:inherit; font-size:13px;">
-          <span style="font-size:20px;">👆</span>
-          <span style="flex:1;">Seguir capturando <strong style="font-family:monospace;">${escapeHtml(loteSeguir.serie)}</strong> · ${c.revealed}/${c.total} (${pct}%)</span>
-          <span style="font-size:18px; color:var(--silver-dark);">›</span>
+        seguirStrip = `<button id="ccSeguirCaptura" class="pm-act" type="button">
+          <span class="pm-act-ic">👆</span>
+          <span class="pm-act-tx"><b>Seguir capturando</b><i><span class="pm-ser">${escapeHtml(loteSeguir.serie)}</span> · ${c.revealed}/${c.total} (${pct}%)</i></span>
+          <span class="pm-act-go">›</span>
         </button>`;
       }
     } catch(e){}
@@ -19163,23 +19107,155 @@
     try {
       const RC = cobrosResumen();
       if(RC.pendiente > 0){
-        cobrosStrip = `<button id="ccModoCobro" style="width:100%; text-align:left; border:2px solid var(--ok); border-radius:10px; background:var(--paper-dark); color:var(--ink); cursor:pointer; padding:10px 14px; margin-top:10px; display:flex; align-items:center; gap:10px; font-family:inherit; font-size:13px;">
-          <span style="font-size:20px;">💵</span>
-          <span style="flex:1;">Por cobrar: <strong style="color:var(--ok);">${fmt(RC.pendiente)}</strong> · ${RC.nPendientes} premio(s)</span>
-          <span style="font-size:18px; color:var(--silver-dark);">›</span>
+        cobrosStrip = `<button id="ccModoCobro" class="pm-act pm-act-ok" type="button">
+          <span class="pm-act-ic">💵</span>
+          <span class="pm-act-tx"><b>Por cobrar <span class="pm-ok">${fmt(RC.pendiente)}</span></b><i>${RC.nPendientes} premio(s) esperando</i></span>
+          <span class="pm-act-go">›</span>
         </button>`;
       }
     } catch(e){}
+    // ================================================================================
+    // PUESTO DE MANDO — tres columnas: Hoy · Dinero · Pendientes
+    // ================================================================================
+    // Las cifras salen SIEMPRE de data.records, nunca de constantes. El día usa la fecha de
+    // sesión (no la del reloj): si está capturando el taco de ayer, el panel habla de ayer.
+    const _R = data.records||[];
+    const _hoyF = (typeof getFechaSesion==='function' ? getFechaSesion() : null) || todayStr();
+    const _mesF = String(_hoyF).slice(0,7);
+    const _agg = (pred)=>{
+      let g=0,p=0,n=0;
+      _R.forEach(r=>{ if(!pred(String(r.fecha||'').slice(0,10))) return;
+        g+=Number(r.costo)||0; p+=premioNeto(r.premio); n++; });
+      return {g, p, n, neto:p-g};
+    };
+    const _dia = _agg(f=> f===_hoyF);
+    const _mes = _agg(f=> f.slice(0,7)===_mesF);
+    const _tot = _agg(f=> !!f);
+    const _diasMes = new Set(_R.map(r=>String(r.fecha||'').slice(0,10))
+                              .filter(f=>f && f.slice(0,7)===_mesF)).size;
+    // Recuperación del día: cuánto de lo puesto ha vuelto. Es el número que de verdad se
+    // mira en el kiosco, y se corta al 100% para que la barra no se salga con un premio gordo.
+    const _recDia = _dia.g>0 ? Math.min(100, _dia.p/_dia.g*100) : 0;
+
+    // ---- Franja de los últimos 14 días con actividad ----
+    // Escala SATURADA al percentil 75 de |neto|: sin saturar, un solo día grande aplasta a los
+    // otros trece y la franja no dice nada. El día que se sale se marca aparte, con su cifra.
+    const _pd = {};
+    _R.forEach(r=>{ const f=String(r.fecha||'').slice(0,10); if(!f) return;
+      const e=_pd[f]=_pd[f]||{g:0,p:0}; e.g+=Number(r.costo)||0; e.p+=premioNeto(r.premio); });
+    const _dias14 = Object.keys(_pd).sort().slice(-14).map(f=>({f, neto:_pd[f].p-_pd[f].g}));
+    let franjaHtml = '', franjaPie = '';
+    if(_dias14.length >= 3){
+      const abs = _dias14.map(x=>Math.abs(x.neto)).sort((a,b)=>a-b);
+      const sat = Math.max(1, abs[Math.min(abs.length-1, Math.floor(abs.length*0.75))]);
+      const nRojos = _dias14.filter(x=>x.neto<0).length;
+      const cima = _dias14.reduce((m,x)=> Math.abs(x.neto)>Math.abs(m.neto)?x:m, _dias14[0]);
+      franjaHtml = `<div class="pm-spark" role="img" aria-label="Últimos ${_dias14.length} días con actividad">` +
+        _dias14.map(x=>{
+          const h = Math.max(4, Math.min(100, Math.abs(x.neto)/sat*100));
+          const c = x.neto>=0 ? 'var(--ok)' : '#E24B4A';
+          return `<i style="height:${h.toFixed(0)}%;background:${c};" title="${x.f}: ${x.neto>=0?'+':''}${fmt(x.neto)}"></i>`;
+        }).join('') + `</div>`;
+      franjaPie = `<div class="pm-sub"><b class="${nRojos > _dias14.length/2 ? 'pm-bad':'pm-ok'}">${nRojos} de ${_dias14.length} días en rojo.</b> ` +
+        `El más extremo fue el ${cima.f.slice(5)}: <b class="${cima.neto>=0?'pm-ok':'pm-bad'}">${cima.neto>=0?'+':''}${fmt(cima.neto)}</b>.</div>` +
+        `<div class="pm-sub pm-faint">escala saturada en ${fmt(sat)} — si no, ese día aplasta al resto</div>`;
+    }
+
+    // ---- Ahorro por negociar el descuento (solo si existe) ----
+    let ahorroHtml = '';
+    try{
+      let ah=0, nL=0;
+      _R.forEach(r=>{ const n=Number(r.costoNominal); if(isFinite(n)) ah += Math.max(0, n-(Number(r.costo)||0)); });
+      nL = (data.lotes||[]).filter(l=>getDescuentoLote(l)>0).length;
+      if(ah > 0){
+        ahorroHtml = `<div class="pm-card pm-mini">
+          <div class="pm-lbl">Ahorrado por negociar</div>
+          <div class="pm-row"><span class="pm-n pm-blue">${fmt(ah)}</span><span class="pm-sub">${nL} taco(s)</span></div>
+        </div>`;
+      }
+    }catch(e){}
+
+    // ---- Estado del tope de gasto ----
+    let topeHtml;
+    try{
+      const tp = presupuestoConfig && presupuestoConfig.diario;
+      if(tp > 0){
+        const pct = Math.min(100, _dia.g/tp*100);
+        const pasado = _dia.g >= tp;
+        topeHtml = `<div class="pm-card pm-mini ${pasado?'pm-b-bad':''}">
+          <div class="pm-lbl">🛑 Tope del día</div>
+          <div class="pm-row"><span class="pm-n ${pasado?'pm-bad':''}">${fmt(_dia.g)}</span><span class="pm-sub">de ${fmt(tp)}</span></div>
+          <div class="pm-bar"><i style="width:${pct.toFixed(0)}%;background:${pasado?'#E24B4A':'var(--ok)'}"></i></div>
+        </div>`;
+      } else {
+        topeHtml = `<button id="pmPonerTope" class="pm-card pm-mini pm-b-warn" type="button" style="width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;">
+          <div class="pm-lbl">🛑 Tope del día</div>
+          <div class="pm-sub" style="margin-top:3px;"><b class="pm-warn">Sin configurar.</b> Hoy lleva ${fmt(_dia.g)} y nada lo detiene. <span class="pm-go">Ponerlo ›</span></div>
+        </button>`;
+      }
+    }catch(e){ topeHtml=''; }
+
+    // ---- Respaldo ----
+    let respaldoHtml = '';
+    try{
+      const bm = getBackupMeta();
+      const nuevos = bm.lotes!=null ? Math.max(0,(data.lotes||[]).length - bm.lotes) : (data.lotes||[]).length;
+      respaldoHtml = (!bm.fecha || nuevos>=5)
+        ? `<button id="pmRespaldar" class="pm-act pm-act-warn" type="button">
+             <span class="pm-act-ic">💾</span>
+             <span class="pm-act-tx"><b>Respaldar ahora</b><i>${!bm.fecha?'nunca ha exportado':nuevos+' taco(s) nuevos desde '+bm.fecha}</i></span>
+             <span class="pm-act-go">›</span></button>`
+        : `<div class="pm-min">💾 Respaldo al día · ${bm.fecha}</div>`;
+    }catch(e){}
+
     el.innerHTML = `
-      <div class="section" style="margin-bottom:14px;">
-        <div class="section-head"><span class="tag">🛒</span><h2>Centro de compra</h2></div>
-        <button id="ccModoCompra" style="width:100%; min-height:56px; font-size:17px; font-weight:800; border:none; border-radius:12px; background:var(--ink); color:var(--paper,#EDE6D6); cursor:pointer; margin-bottom:12px; box-shadow:0 3px 10px rgba(0,0,0,.18);">📱 Abrir modo compra</button>
-        ${tacoHtml}
-        ${seguirStrip}
-        ${cobrosStrip}
+      <div class="section pm-sec">
+        <div class="section-head"><span class="tag">MD</span><h2>Puesto de mando</h2>
+          <span class="hint">${escapeHtml(_hoyF)}${_hoyF!==todayStr()?' · fecha de sesión':''}</span></div>
+        <div class="pm-grid">
+
+          <div class="pm-col pm-c1">
+            <div class="pm-h"><span class="pm-tag">01</span>Hoy</div>
+            <div class="pm-card ${_dia.neto<0?'pm-b-bad':(_dia.neto>0?'pm-b-ok':'')}">
+              <div class="pm-n pm-xl ${_dia.neto>=0?'pm-ok':'pm-bad'}">${_dia.neto>=0?'+':''}${fmt(_dia.neto)}</div>
+              <div class="pm-sub">${_dia.n} boleto(s) · puso ${fmt(_dia.g)} · ganó ${fmt(_dia.p)}</div>
+              ${_dia.g>0?`<div class="pm-bar"><i style="width:${_recDia.toFixed(0)}%;background:${_dia.neto>=0?'var(--ok)':'#E24B4A'}"></i></div>
+              <div class="pm-sub">ha recuperado el <b>${_recDia.toFixed(0)}%</b> de lo que puso</div>`:''}
+            </div>
+            <div class="pm-card pm-mini">
+              <div class="pm-lbl">Este mes · ${_diasMes} día(s)</div>
+              <div class="pm-row"><span class="pm-n ${_mes.neto>=0?'pm-ok':'pm-bad'}">${_mes.neto>=0?'+':''}${fmt(_mes.neto)}</span><span class="pm-sub">${_mes.g>0?`RTP ${(_mes.p/_mes.g*100).toFixed(0)}%`:''}</span></div>
+            </div>
+            ${topeHtml}
+          </div>
+
+          <div class="pm-col pm-c2">
+            <div class="pm-h"><span class="pm-tag">02</span>Dinero</div>
+            <div class="pm-card">
+              <div class="pm-lbl">Neto de todo · los ${(data.juegos||[]).length} juegos</div>
+              <div class="pm-n pm-xl ${_tot.neto>=0?'pm-ok':'pm-bad'}">${_tot.neto>=0?'+':''}${fmt(_tot.neto)}</div>
+              <div class="pm-sub">${fmt(_tot.g)} puesto · ${fmt(_tot.p)} ganado${_tot.g>0?` · RTP ${(_tot.p/_tot.g*100).toFixed(1)}%`:''}</div>
+              ${franjaHtml}${franjaPie}
+            </div>
+            ${ahorroHtml}
+          </div>
+
+          <div class="pm-col pm-c3">
+            <div class="pm-h"><span class="pm-tag">03</span>Pendientes</div>
+            ${cobrosStrip || '<div class="pm-min">Nada por cobrar.</div>'}
+            ${seguirStrip}
+            ${tacoHtml}
+            ${respaldoHtml}
+          </div>
+
+        </div>
       </div>`;
-    document.getElementById('ccModoCompra').addEventListener('click', abrirModoCompra);
     document.getElementById('ccModoCobro')?.addEventListener('click', ()=> goTab('cobros'));
+    document.getElementById('ccAgotados')?.addEventListener('click', ()=> goTab('boletos'));
+    document.getElementById('pmPonerTope')?.addEventListener('click', ()=>{
+      document.getElementById('stopLossPanel')?.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    document.getElementById('pmRespaldar')?.addEventListener('click', ()=> goTab('export'));
     document.getElementById('ccSeguirCaptura')?.addEventListener('click', ()=>{
       if(!loteSeguir) return;
       activeLoteId = loteSeguir.id;
@@ -19201,7 +19277,6 @@
         const nav = b.dataset.nav;
         if(nav==='qr'){ goTab('qr'); setTimeout(function(){ if(typeof qrEnsureIframe==='function') qrEnsureIframe(); },30); return; }
         if(nav==='puntos'){ goTab('puntos'); setTimeout(function(){ try{window.scrollTo(0,0);}catch(e){} if(typeof pvEnsureIframe==='function') pvEnsureIframe(); if(typeof pvFitHost==='function') pvFitHost(); },30); return; }
-        if(nav==='__comprar'){ (typeof abrirModoCompra==='function') && abrirModoCompra(); return; }
         if(nav==='__mas'){ abrirMasSheet(); return; }
         goTab(nav);
       });
@@ -20700,8 +20775,7 @@
     syncSignIn, syncSignUp, syncSignOut, renderSyncPanel, get syncUser(){ return _fbUser; }, get syncOn(){ return _syncOn; },
     rgListaCompraFdr, rgPvalsPosicion, rgSuavizadoEspacial, runBacktestPolitica, renderPanelDecision,
     rgCurvaRacha, rgTestRachaCorta, rgEspacialCore, rgProbLoteEspacial, rgProbLote, loteCounts, getLotesDelJuegoActivo,
-    goTab, getMejorTacoAhora, marcarRapidoLote, marcarRangoLote, renderLoteDetail, abrirModoCompra, renderModoCompra,
-    renderDiarioSesiones, cargarDatosEjemplo, interpretarVoz, sincronizarDesdeArchivo, renderCobros,
+    goTab, getEstadoTacos, marcarRapidoLote, marcarRangoLote, renderLoteDetail,     renderDiarioSesiones, cargarDatosEjemplo, interpretarVoz, sincronizarDesdeArchivo, renderCobros,
     cobrosResumen, marcarCobradoLote,
     render, renderTodo, renderPestana, renderTable, renderMetrics, renderLoteList,
     sugerirSerieSiguiente, getCtxCompra, crearLoteIgual, revisarLoteAlCompletar,
