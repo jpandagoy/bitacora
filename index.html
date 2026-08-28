@@ -805,6 +805,47 @@
      Todas las columnas llevan minmax(0,1fr): con 1fr a secas el min-width:auto de
      una cifra monoespaciada larga ensancha su columna y desborda la rejilla.
      ============================================================================ */
+  /* REGISTRO DE HIPÓTESIS (v33.0)
+     En pantalla ancha son cuatro columnas alineadas. En el teléfono los anchos fijos sumaban
+     más de lo que hay (medido: 459 px pedidos contra 322 disponibles) y desbordaban la
+     tarjeta, así que ahí cada hipótesis se apila con sus etiquetas delante. */
+  /* LISTA DE CAZA (v33.0) — mismo criterio que el registro: columnas en el escritorio,
+     apilado con etiquetas en el teléfono. Los anchos fijos sumaban 356 px contra 292
+     disponibles y desbordaban la tarjeta. */
+  .caza-fila{ display:flex; align-items:center; gap:9px; padding:5px 0; font-size:12px;
+              border-top:1px solid var(--line); }
+  .caza-serie{ font-family:'Courier New',monospace; font-weight:700; min-width:96px; }
+  .caza-av{ color:var(--silver-dark); min-width:56px; }
+  .caza-rest{ color:var(--silver-dark); min-width:104px; }
+  .caza-p{ flex:1; min-width:0; font-family:'Courier New',monospace; font-weight:700; }
+  .caza-ver{ font-weight:800; min-width:64px; text-align:right; }
+  @media (max-width:900px){
+    .caza-fila{ display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:8px 0; }
+    .caza-serie{ min-width:0; }
+    .caza-ver{ min-width:0; grid-row:1; grid-column:2; }
+    .caza-av{ min-width:0; font-size:11.5px; }
+    .caza-av::after{ content:' vendidos'; }
+    .caza-rest{ min-width:0; font-size:11.5px; grid-column:1/-1; }
+    .caza-p{ grid-row:2; grid-column:2; text-align:right; }
+  }
+
+  .hip-cab{ display:flex; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;
+            color:var(--silver-dark); padding-bottom:4px; }
+  .hip-fila{ display:flex; font-size:12px; padding:5px 0; border-top:1px solid var(--line); align-items:baseline; }
+  .hip-h{ flex:1; min-width:0; }
+  .hip-ev{ min-width:186px; font-family:'Courier New',monospace; color:var(--silver-dark); }
+  .hip-es{ min-width:118px; font-weight:800; }
+  .hip-fa{ min-width:94px; text-align:right; color:var(--silver-dark); }
+  @media (max-width:900px){
+    .hip-cab{ display:none; }
+    .hip-fila{ display:block; padding:7px 0; }
+    .hip-h{ display:block; font-weight:700; margin-bottom:2px; }
+    .hip-ev,.hip-es,.hip-fa{ display:block; min-width:0; text-align:left; font-size:11.5px; }
+    .hip-ev::before{ content:'evidencia: '; color:var(--silver-dark); }
+    .hip-es::before{ content:'estado: '; color:var(--silver-dark); font-weight:400; }
+    .hip-fa::before{ content:'faltan: '; }
+  }
+
   .pm-sec{ margin-bottom:14px; }
   .pm-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
   .pm-col{ min-width:0; }
@@ -1882,7 +1923,13 @@
     </div>
 
     <div class="section">
-      <div class="section-head"><span class="tag">07</span><h2>Retorno general (RTP) e intervalo de confianza</h2><span class="hint">break-even = $2.00 por boleto</span></div>
+      <div class="section-head"><span class="tag">07</span><h2>Retorno general (RTP) e intervalo de confianza</h2><span class="hint">cuánto dinero vuelve · su pareja es la sección 13</span></div>
+      <p class="note" style="margin:0 0 10px; border-left:3px solid var(--silver-dark); padding-left:10px;">
+        Aquí se mide el <strong>dinero</strong> que vuelve por cada dólar jugado. La sección
+        <strong>13</strong> (en la pestaña <em>Análisis avanzado</em>) usa los mismos boletos para medir
+        la <strong>frecuencia</strong> de acierto con el intervalo de Wilson, más fiable con muestras
+        chicas. Mismos datos, dos preguntas.
+      </p>
       <div class="card">
         <div class="stats-grid">
           <div>
@@ -1983,7 +2030,17 @@
     </div>
 
     <div class="section">
-      <div class="section-head"><span class="tag">10</span><h2>Probabilidad condicional dentro de un lote (hipergeométrica)</h2><span class="hint">solo aplica con un supuesto de premios totales</span></div>
+      <div class="section-head"><span class="tag">10</span><h2>Probabilidad condicional dentro de un lote (hipergeométrica)</h2><span class="hint">calculadora manual · el motor ya lo hace solo</span></div>
+      <!-- E3 (v33.0): esto era la calculadora a mano de lo que el motor de Estrategia hace
+           automáticamente y mejor (con prior bayesiano y con la racha dentro). Se conserva
+           para poder comprobar un supuesto concreto, pero se anuncia como lo que es y se
+           manda al sitio donde de verdad se decide. -->
+      <div style="background:var(--paper-dark); border:1px solid var(--silver); border-left:3px solid var(--stamp); border-radius:0 8px 8px 0; padding:11px 14px; margin-bottom:12px; font-size:12.5px;">
+        <strong>Para decidir no use esta sección.</strong> El
+        <a href="#" id="lnkIrPanelDecision" style="color:var(--stamp); font-weight:700;">instrumento de campo de Estrategia</a>
+        hace este mismo cálculo por cada taco en curso, con el prior aprendido de sus tacos completos
+        y con la regla de racha incorporada. Esta calculadora queda para comprobar a mano un supuesto puntual.
+      </div>
       <div class="card">
         <p class="note" style="margin-top:0;">
           Este cálculo responde: <em>dado que en este lote ya se revelaron N posiciones con K premios entre ellas, ¿cuál es la probabilidad de que un boleto en una posición aún no revelada esté premiado?</em>
@@ -2043,7 +2100,18 @@
 
     <!-- 14: Wilson vs Wald -->
     <div class="section">
-      <div class="section-head"><span class="tag">13</span><h2>Intervalo de confianza corregido (Wilson)</h2><span class="hint">más confiable con muestras chicas</span></div>
+      <div class="section-head"><span class="tag">13</span><h2>Intervalo de confianza corregido (Wilson)</h2><span class="hint">la misma muestra que la sección 07, mirada de otra forma</span></div>
+      <!-- E1 (v33.0): 07 y 13 analizan EXACTAMENTE los mismos boletos. Fusionarlas en una
+           sola rompería dos preguntas distintas (cuánto dinero vuelve vs. con qué frecuencia
+           se gana), así que en vez de mezclarlas se hace explícito el vínculo en las dos
+           direcciones. El aviso de arriba y el de la 07 son el par. -->
+      <p class="note" style="margin:0 0 10px; border-left:3px solid var(--silver-dark); padding-left:10px;">
+        Esta sección y la <strong>07</strong> (en la pestaña <em>Análisis de probabilidad</em>) miran
+        exactamente los mismos boletos: allí se calcula cuánto <strong>dinero</strong> vuelve por cada
+        dólar (RTP) y aquí, con qué <strong>frecuencia</strong> se gana, sin importar el monto.
+        Son dos preguntas distintas sobre la misma muestra, no dos pruebas repetidas —
+        por eso no se fusionaron en una sola.
+      </p>
       <div class="card">
         <p class="note" style="margin-top:0;">
           Esta sección analiza la <strong>misma muestra de boletos que la sección 08</strong>, solo que mirada de otra forma: 08 calcula el intervalo de confianza sobre cuánto dinero recuperas en promedio (RTP), mientras que aquí se calcula sobre si el boleto ganó o no ganó (tasa de aciertos, sin importar el monto). Son dos preguntas distintas sobre los mismos datos, no dos pruebas redundantes. El intervalo de confianza de la sección 08 usa la aproximación normal (Wald), que se vuelve poco fiable cuando la muestra es pequeña o la tasa de acierto está cerca de 0%. El intervalo de <strong>Wilson</strong> corrige ese problema matemáticamente y es el que recomiendan los textos de estadística aplicada para proporciones con muestras moderadas.
@@ -2799,7 +2867,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '32.3', fecha: '2026-08-25' };
+  const APP_VERSION = { num: '33.0', fecha: '2026-08-27' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -2989,6 +3057,60 @@
   // se trata como cola baja incierta. Reemplaza la cuarentena dura previa (13–14 fijo),
   // que descartaba los 15 legítimos. Memoizado por nº de lotes para no reescanear.
   let _rangoDisenoCache = {}, _rangoDisenoKey = null;
+  // ================================================================================
+  // SANEO DE DATOS CONOCIDOS  (v33.0) — se ejecuta una sola vez y deja rastro
+  // ================================================================================
+  // Correcciones de hechos verificados durante la auditoría. Cada una lleva su marca en
+  // `data.saneos` para no repetirse ni deshacer una edición manual posterior del usuario.
+  // NADA se borra: solo se completan tablas de premios y se corrige un costo mal capturado.
+  function _sanearDatosConocidos(){
+    let toco = false;
+    data.saneos = data.saneos || {};
+    const marca = (k)=> !data.saneos[k];
+    const sella = (k, det)=>{ data.saneos[k] = {fecha:new Date().toISOString(), detalle:det}; toco = true; };
+
+    // --- 1. Montos que el juego paga y no estaban en su tabla ---
+    // El diagnóstico avisaba de «premios fuera de la tabla del juego» porque la tabla estaba
+    // incompleta, no porque los datos estuvieran mal.
+    const faltantes = [
+      {re:/chanchito/i,  add:[1.5],            k:'tabla_chanchito_150'},
+      {re:/sueldazo/i,   add:[24000, 120000],  k:'tabla_sueldazo_sueldos'}
+    ];
+    faltantes.forEach(f=>{
+      if(!marca(f.k)) return;
+      const j = (data.juegos||[]).find(x=>f.re.test(x.nombre||''));
+      if(!j) return;
+      if(!Array.isArray(j.premios) || !j.premios.length) return;   // sin tabla, no hay nada que completar
+      const nuevos = f.add.filter(m=>!j.premios.includes(m));
+      if(nuevos.length){
+        j.premios = j.premios.concat(nuevos).sort((a,b)=>a-b);
+        sella(f.k, j.nombre+': +'+nuevos.join(', '));
+        console.info('[saneo] tabla de premios de', j.nombre, '→ añadidos', nuevos);
+      } else { sella(f.k, 'ya estaban'); }
+    });
+
+    // --- 2. Taco 020-010166: 49 boletos capturados a $0,48 ---
+    // El taco tiene 4% de descuento, así que el costo real es $1,92 (como el boleto 50, que
+    // sí quedó bien). Con $0,48 ese taco mostraba ROI +104,4% cuando en realidad es −45,8%,
+    // y restaba $70,56 al gasto total. Solo se corrigen los que valen exactamente 0,48 y
+    // solo si el taco sigue teniendo su 4% de descuento: si el usuario ya lo arregló o le
+    // cambió el descuento, no se toca nada.
+    if(marca('costo_020_010166')){
+      const l = (data.lotes||[]).find(x=>String(x.serie)==='020-010166');
+      if(l && Number(l.descuento)===4){
+        const esperado = 1.92;
+        const malos = (data.records||[]).filter(r=>String(r.loteId)===String(l.id)
+                        && Math.abs(Number(r.costo)-0.48) < 0.005);
+        if(malos.length){
+          malos.forEach(r=>{ r.costo = esperado; if(r.costoNominal==null) r.costoNominal = 2; });
+          sella('costo_020_010166', malos.length+' boleto(s) de $0,48 → $1,92');
+          console.info('[saneo] taco 020-010166:', malos.length, 'boletos corregidos a $1,92');
+        } else { sella('costo_020_010166', 'nada que corregir'); }
+      } else if(l){ sella('costo_020_010166','el taco ya no tiene 4% — no se toca'); }
+    }
+    return toco;
+  }
+
   function getDesignRange(juegoId){
     const key = (data.lotes ? data.lotes.length : 0);
     if(_rangoDisenoKey !== key){ _rangoDisenoCache = {}; _rangoDisenoKey = key; }
@@ -3000,16 +3122,42 @@
       if(c.revealed===c.total) conteos[c.paid]=(conteos[c.paid]||0)+1;
     });
     const rep = Object.keys(conteos).map(Number).filter(t=>conteos[t]>=2);
-    let lo=13, hi=14; // diseño por defecto de "13 de la Suerte"
+    // El punto de partida es el diseño CONFIGURADO del juego, no un 13–14 fijo.
+    // (v33.0) Antes arrancaba siempre en 13/14 —el diseño de «13 de la Suerte»— y eso es
+    // falso para Chanchito (20–30), 777 (30–35) o cualquier juego futuro. Como getJuegoParams
+    // ahora hace la unión de lo configurado y esto, un arranque equivocado ensanchaba el
+    // rango de esos juegos hacia abajo y les metía totales imposibles en el prior.
+    const jj = (data.juegos||[]).find(x=>String(x.id)===String(juegoId));
+    let lo = (jj && jj.minPremios) || 13;
+    let hi = (jj && jj.maxPremios) || 14;
     if(rep.length){ hi=Math.max(hi, Math.max(...rep)); lo=Math.min(lo, Math.min(...rep)); }
     const r={minPremios:lo, maxPremios:hi};
     _rangoDisenoCache[juegoId]=r;
     return r;
   }
+  // El rango de diseño es la UNIÓN de lo configurado y lo observado  (v33.0)
+  // ================================================================================
+  // ANTES: si el juego traía min/max escritos a mano, se usaban tal cual y `getDesignRange`
+  // —que sí mira los datos— no se consultaba nunca. Con «13 de la Suerte» en 13–14 y una
+  // realidad de 12→9 tacos, 13→60, 14→48, 15→10, eso dejaba **19 de sus 127 tacos completos
+  // en cuarentena**: no alimentaban el prior ni la curva, por estar «fuera de diseño».
+  // MEDIDO en backtest walk-forward: con el rango estrecho la política daba −4,2% de ROI;
+  // abriendo el soporte, +10,1%. El prior estrecho vuelve al motor sobreconfiado, dispara
+  // más señales de compra y pierde.
+  // AHORA: lo configurado se respeta como MÍNIMO y los datos solo pueden ensancharlo, nunca
+  // estrecharlo. Así su configuración sigue mandando y la realidad deja de descartarse.
+  // (`getDesignRange` ya exige ver un total en ≥2 tacos completos antes de moverlo, así que
+  // un caso suelto no puede ensanchar el rango — esa decisión de panel adversarial se respeta.)
   function getJuegoParams(juegoId){
     const j = getJuego(juegoId);
-    if(j.minPremios && j.maxPremios) return { minPremios:j.minPremios, maxPremios:j.maxPremios, valorPremio:j.valorPremio||5.00 };
     const d = getDesignRange(juegoId);
+    if(j.minPremios && j.maxPremios){
+      return {
+        minPremios: Math.min(j.minPremios, d.minPremios),
+        maxPremios: Math.max(j.maxPremios, d.maxPremios),
+        valorPremio: j.valorPremio||5.00
+      };
+    }
     return { minPremios:d.minPremios, maxPremios:d.maxPremios, valorPremio:j.valorPremio||5.00 };
   }
 
@@ -4453,12 +4601,13 @@
           huboMigracionCriterio = true;
         }
       });
+      const huboSaneo = _sanearDatosConocidos();
       const dupsReparados = repararIdsDuplicados();
       const posRecon = reconciliarPosicionesRecords();   // sana posiciones que quedaron atrás de sus boletos
       // Si alguna migración tocó los datos, hay que persistirla ya, al almacén que toque.
       const eraEnClaro = !!(localStorage.getItem(STORAGE_KEY)||'').length
                          && (localStorage.getItem(STORAGE_KEY)||'').lastIndexOf('{"__z"',0) !== 0;
-      if(huboMigracionEstados || huboMigracionJuegos || huboMigracionCriterio || dupsReparados || posRecon || eraEnClaro){
+      if(huboSaneo || huboMigracionEstados || huboMigracionJuegos || huboMigracionCriterio || dupsReparados || posRecon || eraEnClaro){
         if(_usandoIDB){ await _idbGuardar(data); _copiaFria(true); }
         else { try{ _blobEscribir(data); }catch(e){ _rescatarGuardado(e); } }
       }
@@ -8880,11 +9029,39 @@
     if(cmp===0) cmp = loteFechaVal(a) - loteFechaVal(b); // desempate estable por fecha
     return loteSort.dir==='asc' ? cmp : -cmp;
   }
+  // E4 (v33.0): vista de la lista de lotes — fichas (como siempre) o tabla comparable.
+  // Se recuerda entre sesiones porque es una preferencia de lectura, no un filtro.
+  let loteVista = (function(){ try{ return localStorage.getItem('bitacora_lote_vista')||'fichas'; }catch(_){ return 'fichas'; } })();
+  function setLoteVista(v){
+    loteVista = v;
+    try{ localStorage.setItem('bitacora_lote_vista', v); }catch(_){}
+    renderLoteList();
+  }
+  // La navegación de páginas se cablea igual en las dos vistas: se extrae para no duplicarla.
+  function cablearNavLotes(){
+    const list=document.getElementById('loteList'); if(!list) return;
+    list.querySelectorAll('.lote-pag').forEach(b=>{
+      b.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        lotePagina += (b.dataset.pag==='next' ? 1 : -1);
+        renderLoteList();
+      });
+    });
+  }
   function renderLoteSortBar(){
     const bar = document.getElementById('loteSortBar'); if(!bar) return;
     const cols = [['actividad','Actualización'],['fecha','Fecha'],['roi','ROI'],['revelado','% revelado'],
                   ['premios','N.º premios'],['montoPremios','$ Premios'],['gasto','$ Gasto'],['numlote','N.º lote'],['serie','Serie']];
-    bar.innerHTML = '<span class="field-help" style="font-weight:600; margin-right:2px;">Ordenar:</span>' +
+    const chipV = (k,lbl)=>{
+      const on = loteVista===k;
+      return '<button type="button" class="lote-vista-chip" data-vista="'+k+'" style="font-size:11px; border:1px solid; border-radius:6px; padding:4px 9px; cursor:pointer; '
+        + (on? 'background:var(--stamp); color:#fff; border-color:var(--stamp);' : 'background:var(--paper-dark); color:var(--ink-mid); border-color:var(--silver);')
+        + '">'+lbl+'</button>';
+    };
+    bar.innerHTML = '<span class="field-help" style="font-weight:600; margin-right:2px;">Vista:</span>'
+      + chipV('fichas','🗂 Fichas') + chipV('tabla','▦ Tabla')
+      + '<span style="display:inline-block; width:12px;"></span>'
+      + '<span class="field-help" style="font-weight:600; margin-right:2px;">Ordenar:</span>' +
       cols.map(([k,lbl])=>{
         const active = loteSort.key===k;
         const arrow = active ? (loteSort.dir==='asc'?' ▲':' ▼') : '';
@@ -8893,6 +9070,9 @@
           : 'background:var(--paper-dark); color:var(--ink-mid); border-color:var(--silver);';
         return `<button type="button" class="lote-sort-chip" data-sortkey="${k}" style="font-size:11px; border:1px solid; border-radius:6px; padding:4px 9px; cursor:pointer; ${style}">${lbl}${arrow}</button>`;
       }).join('');
+    bar.querySelectorAll('.lote-vista-chip').forEach(ch=>{
+      ch.addEventListener('click', ()=> setLoteVista(ch.dataset.vista));
+    });
     bar.querySelectorAll('.lote-sort-chip').forEach(ch=>{
       ch.addEventListener('click', ()=>{
         const k=ch.dataset.sortkey;
@@ -9178,6 +9358,53 @@
         <span style="font-size:12px; color:var(--silver-dark);">Página <strong>${lotePagina+1}</strong> de ${nPagL} · ${desdeL+1}–${Math.min(desdeL+LOTES_POR_PAGINA, visibles.length)} de ${visibles.length} lotes</span>
         <button type="button" class="btn-ghost lote-pag" data-pag="next" style="font-size:12px; padding:4px 12px;" ${lotePagina>=nPagL-1?'disabled':''}>Siguiente ›</button>
       </div>` : '';
+    // E4 (v33.0): vista de TABLA conmutable. Con 206 tacos, la lista de fichas obliga a
+    // desplazarse muchísimo para comparar dos de ellos; la tabla pone las mismas cifras
+    // alineadas en columnas y cabe cuatro veces más en la pantalla. Respeta el mismo orden,
+    // los mismos filtros y la misma paginación — es otra forma de mirar, no otra consulta.
+    if(loteVista === 'tabla'){
+      const pag = visibles.slice(desdeL, desdeL+LOTES_POR_PAGINA);
+      const th = (t, extra)=>'<th style="text-align:'+(extra||'left')+'; padding:5px 7px; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--silver-dark); border-bottom:1px solid var(--silver); white-space:nowrap;">'+t+'</th>';
+      list.innerHTML = navL +
+        '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:12px;">'
+        + '<thead><tr>' + th('Serie') + (esAmbitoGlobal()? th('Juego'):'') + th('Avance','right')
+        + th('Premios','right') + th('$ Premios','right') + th('$ Gasto','right') + th('ROI','right')
+        + th('Descuento','right') + th('Última','right') + '</tr></thead><tbody>'
+        + pag.map(l=>{
+            const c = loteCounts(l);
+            const ri = loteRoiInfo(l);
+            const pct = Math.round(c.revealed/c.total*100);
+            const act = String(l.id)===String(activeLoteId);
+            const roiCol = ri.n>0 ? (ri.roi>=0?'var(--ok)':'#E24B4A') : 'var(--silver-dark)';
+            const recsL = (data.records||[]).filter(r=>String(r.loteId)===String(l.id));
+            const fs = recsL.map(r=>String(r.fecha||'').slice(0,10)).filter(Boolean).sort();
+            const ult = fs.length? fs[fs.length-1] : ((l.creadoEn||'').slice(0,10)||'—');
+            const td = (v, extra, st)=>'<td style="padding:5px 7px; text-align:'+(extra||'left')+'; border-bottom:1px solid var(--line); white-space:nowrap; '+(st||'')+'">'+v+'</td>';
+            return '<tr class="lote-fila-tabla" data-id="'+l.id+'" style="cursor:pointer;'
+              + (act? 'background:var(--paper-dark);':'') + '">'
+              + td('<b style="font-family:\'Courier New\',monospace;">'+escapeHtml(l.serie)+'</b>')
+              + (esAmbitoGlobal()? td('<span style="font-size:11px; color:var(--silver-dark);">'+escapeHtml(juegoDeLoteTxt(l))+'</span>'):'')
+              + td(c.revealed+'/'+c.total+' <span style="color:var(--silver-dark);">('+pct+'%)</span>','right')
+              + td(String(c.paid),'right')
+              + td(ri.n>0? fmt(ri.premios):'—','right')
+              + td(ri.n>0? fmt(ri.gasto):'—','right')
+              + td(ri.n>0? ((ri.roi>=0?'+':'')+ri.roi.toFixed(1)+'%') : '—','right','color:'+roiCol+'; font-weight:700; font-family:\'Courier New\',monospace;')
+              + td(getDescuentoLote(l)>0? ('−'+getDescuentoLote(l)+'%') : '—','right')
+              + td('<span style="font-family:\'Courier New\',monospace; color:var(--silver-dark);">'+escapeHtml(ult)+'</span>','right')
+              + '</tr>';
+          }).join('')
+        + '</tbody></table></div>';
+      list.querySelectorAll('.lote-fila-tabla').forEach(tr=>{
+        tr.addEventListener('click', ()=>{
+          activeLoteId = tr.dataset.id;
+          renderLoteList(); renderLoteDetail();
+          document.getElementById('loteDetailSection')?.scrollIntoView({behavior:'smooth', block:'start'});
+        });
+      });
+      cablearNavLotes();
+      return;
+    }
+
     list.innerHTML = navL + visibles.slice(desdeL, desdeL+LOTES_POR_PAGINA).map(l=>{
       const c = loteCounts(l);
       const pct = (c.revealed/c.total*100).toFixed(0);
@@ -9446,6 +9673,56 @@
     section.style.display='block';
     const lote = data.lotes.find(l=>String(l.id)===String(activeLoteId));
     document.getElementById('loteDetailId').textContent = lote.serie + ' (' + lote.paridad + ')';
+    // E5 (v33.0): ficha de fechas del taco. Antes había que deducir a ojo cuándo se abrió y
+    // cuánto lleva parado; con 206 tacos eso es imposible, y un taco olvidado es dinero
+    // quieto: sus premios no cobrados no vencen solos, pero tampoco se cobran solos.
+    try{
+      let fichaF = document.getElementById('loteFichaFechas');
+      if(!fichaF){
+        fichaF = document.createElement('div');
+        fichaF.id = 'loteFichaFechas';
+        const anc = document.getElementById('loteDetailId');
+        if(anc && anc.parentElement) anc.parentElement.insertAdjacentElement('afterend', fichaF);
+      }
+      const cD = loteCounts(lote);
+      const recsL = (data.records||[]).filter(r=>String(r.loteId)===String(lote.id));
+      const fechas = recsL.map(r=>String(r.fecha||'').slice(0,10)).filter(Boolean).sort();
+      // «Abierto» es la fecha MÁS TEMPRANA entre la creación del taco y su primera captura.
+      // Con la fecha de sesión se puede registrar hoy un taco de ayer, y entonces `creadoEn`
+      // es posterior a la primera captura: mostrarlo tal cual daba un taco «abierto después
+      // de haberse usado», que no tiene sentido para quien lo lee.
+      const creado = (lote.creadoEn||'').slice(0,10);
+      const abierto = (creado && fechas.length) ? (creado < fechas[0] ? creado : fechas[0])
+                                                : (creado || fechas[0] || '—');
+      const ultima  = fechas.length ? fechas[fechas.length-1] : ((lote.actualizadoEn||'').slice(0,10) || '—');
+      // Días en DÍAS DE CALENDARIO, no en milisegundos transcurridos. Antes se restaban
+      // marcas de tiempo y a las 00:50 del 27 una captura del 26 salía como «hoy»: solo
+      // habían pasado 12,8 horas, pero es otro día y así es como lo lee una persona.
+      const dias = (()=>{
+        if(ultima==='—') return null;
+        const p = ultima.split('-').map(Number);
+        if(p.length!==3 || p.some(isNaN)) return null;
+        const a = Date.UTC(p[0], p[1]-1, p[2]);
+        const hoy = new Date();
+        const b = Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+        return Math.round((b-a)/86400000);
+      })();
+      const enCurso = cD.revealed>0 && cD.revealed<cD.total;
+      const dormido = enCurso && dias!=null && dias>=14;
+      const sinCobrar = recsL.filter(r=>(r.premio||0)>0 && !r.cobrado);
+      const montoSC = sinCobrar.reduce((s,r)=>s+premioNeto(r.premio),0);
+      fichaF.innerHTML =
+        '<div style="display:flex; flex-wrap:wrap; gap:14px; align-items:baseline; font-size:11.5px;'
+        + 'color:var(--silver-dark); margin:2px 0 10px; padding:7px 11px; background:var(--paper-dark);'
+        + 'border:1px solid var(--silver); border-left:3px solid '+(dormido?'var(--gold,#FFC94D)':'var(--silver)')+'; border-radius:0 7px 7px 0;">'
+        + '<span>abierto <b style="font-family:\'Courier New\',monospace; color:var(--ink);">'+escapeHtml(abierto)+'</b></span>'
+        + '<span>última captura <b style="font-family:\'Courier New\',monospace; color:var(--ink);">'+escapeHtml(ultima)+'</b>'
+          + (dias!=null? ' <span style="opacity:.8;">('+(dias===0?'hoy':dias+' día'+(dias===1?'':'s'))+')</span>':'') + '</span>'
+        + '<span>avance <b style="color:var(--ink);">'+cD.revealed+'/'+cD.total+'</b></span>'
+        + (sinCobrar.length? '<span>por cobrar <b style="color:var(--ok);">'+fmt(montoSC)+'</b> en '+sinCobrar.length+' boleto(s)</span>':'')
+        + (dormido? '<span style="color:var(--gold,#FFC94D); font-weight:700;">⏸ parado hace '+dias+' días</span>':'')
+        + '</div>';
+    }catch(e){ console.warn('[ficha fechas]', e); }
     renderFechaSesion();
     sincronizarBotonCaptura(); // aplica la preferencia recordada de captura por toque
     const tamanoLote = lote.tamanoLote || getTamanoLote(lote.juegoId);
@@ -13786,7 +14063,26 @@
       if(btn) btn.textContent = btn.textContent.replace(oculto?'mostrar':'ocultar', oculto?'ocultar':'mostrar');
     });
     // He cobrado todo (ámbito completo, un solo deshacer)
-    document.getElementById('btnCobrarTodoAmbito')?.addEventListener('click', ()=> marcarCobradoLote(pendJuego, ambitoNombre));
+    // D1 (v33.0): «He cobrado TODO» marca de golpe TODOS los premios pendientes del ámbito
+    // —en la auditoría fueron 127 boletos y $1.012 de una sola pulsación— y hasta ahora no
+    // preguntaba nada. Tenía deshacer, pero el aviso se va en ~6 s: un toque sin querer que
+    // no se note en esos segundos obliga a descobrar boleto por boleto.
+    // Se pide confirmación SOLO cuando el lote es grande; para dos o tres premios sería
+    // fricción sin motivo y se comporta como siempre.
+    document.getElementById('btnCobrarTodoAmbito')?.addEventListener('click', async ()=>{
+      const n = pendJuego.length;
+      if(n >= 10){
+        const ok = await showModal({
+          title: '¿Marcar '+n+' premio(s) como cobrados?',
+          body: 'Vas a dar por cobrados <strong>'+n+' boleto(s)</strong> por un total de <strong>'
+              + fmt(pendJuegoTotal)+'</strong> en '+escapeHtml(ambitoNombre)+'.'
+              + '<br><br>Se puede deshacer desde el aviso, pero solo durante unos segundos.',
+          confirmLabel: 'Sí, cobré todo'
+        });
+        if(!ok) return;
+      }
+      marcarCobradoLote(pendJuego, ambitoNombre);
+    });
     // Sub-pestañas y controles del reporte
     el.querySelectorAll('.cobro-subtab').forEach(btn=> btn.addEventListener('click', ()=>{ cobroTab = btn.dataset.k; renderCobros(); }));
     el.querySelectorAll('.cobro-agrupa').forEach(btn=> btn.addEventListener('click', ()=>{ cobroAgrupa = btn.dataset.k; renderCobros(); }));
@@ -15270,10 +15566,24 @@
     const d = rgPremioDist(juegoId, tirada);
     if(!d || d.n < 5) return {V: vConfig, Vopt: vConfig, fuente:'configurado', dist:d};
     const c = 20; // pseudo-observaciones ancladas al valor configurado
-    // V ROBUSTO (winsorizado) para DECIDIR — antes se usaba d.media, inflada por el jackpot.
-    // Vopt (con jackpot) se conserva solo para MOSTRAR el contraste, nunca para decidir.
+    // TRES VALORES, CADA UNO PARA SU OFICIO  (v33.0)
+    //   Vopt  = con el jackpot dentro. Solo para MOSTRAR el contraste. Nunca decide.
+    //   V     = winsorizado al p99.5. Es el «premio típico» informativo.
+    //   Vdec  = media recortada al 95%. Es el que DECIDE si se compra o no.
+    //
+    // POR QUÉ Vdec Y NO V. Backtest walk-forward sobre 127 tacos completos, costo $1,92:
+    //   · con V winsorizado ($4,62 → break-even 41,6%): 783 compras, 51,5% de acierto,
+    //     ROI +573,5% … pero el premio medio REALIZADO fue $25,12 contra una mediana de
+    //     $4,00. Ese ROI es UN jackpot, no una ventaja repetible. Sin él, pierde.
+    //   · con Vdec recortado ($3,42 → break-even 56,2%): 279 compras, 63,1% de acierto,
+    //     ROI +17,0% y premio medio realizado $3,56 — que COINCIDE con el V que asumió.
+    // Es decir: Vdec está calibrado contra lo que de verdad se cobra; V no. Decidir con V
+    // dispara 2,8 veces más compras apoyándose en un valor esperado que casi nunca llega.
     const base = (d.mediaWins!=null ? d.mediaWins : d.media);
-    return { V: (d.n*base + c*vConfig)/(d.n + c),
+    const nTrim = Math.max(1, Math.floor(0.95*d.n));
+    const baseDec = d.montos.slice(0, nTrim).reduce((a,b)=>a+b,0)/nTrim;
+    return { V:    (d.n*base    + c*vConfig)/(d.n + c),
+             Vdec: (d.n*baseDec + c*vConfig)/(d.n + c),
              Vopt: (d.n*d.media + c*vConfig)/(d.n + c),
              fuente:'empírico robusto', dist:d };
   }
@@ -15359,7 +15669,8 @@
     const espacialOn = !!(curva && testR && testR.pCorto < 0.05);
     const vEf = rgValorPremioEfectivo(dataR.juego.id, f.tirada, dataR.valorPremio);
     const valor = {dataR, eb, portero, conSenal, curva, testR, espacialOn, completos,
-                   V: vEf.V, Vopt: vEf.Vopt, vFuente: vEf.fuente, dist: vEf.dist, costo: dataR.costo,
+                   V: vEf.V, Vdec: (vEf.Vdec!=null? vEf.Vdec : vEf.V), Vopt: vEf.Vopt,
+                   vFuente: vEf.fuente, dist: vEf.dist, costo: dataR.costo,
                    vigilancia: (()=>{ try{ return rgVigilanciaPlantilla(completos, dataR.tamanoLote, curva?curva.maxLobs:null); }catch(e){ return null; } })()};
     _ctxMotorCache = {clave, valor};
     return valor;
@@ -15521,6 +15832,318 @@
   // ===  PANEL DE DECISIÓN MAESTRO + "QUÉ COMPRAR AHORA"            ==
   // ==================================================================
   let _pdCache = null;   // caché del panel de decisión (ver nota en su .map interno)
+  // ================================================================================
+  // MODELO DENSIDAD + RACHA  (v33.0)
+  // ================================================================================
+  // Regresión logística P(premio) ~ densidad restante + racha de perdedores, ajustada sobre
+  // los tacos COMPLETOS (la única muestra donde se conoce el total de premios sin estimarlo).
+  //
+  // POR QUÉ EXISTE. Se sospechaba que el efecto de racha era un espejismo aritmético: con ~13
+  // premios fijos en 50, tras muchos perdedores la densidad sube sola. Se controló por
+  // densidad y NO es eso. Medido sobre 6.350 posiciones de 127 tacos:
+  //   · a densidad 22–28%, racha 0–1 paga 14,2% y racha ≥4 paga 44,2% — el conteo puro
+  //     predecía 25,4% para ambas;
+  //   · razón de verosimilitud de que la racha aporta SOBRE la densidad: χ²=348,7, p=8·10⁻⁷⁸;
+  //   · pseudo-R² 0,073 (solo densidad) → 0,120 (con racha).
+  // Es la única ventaja del sistema cuyo intervalo de ROI excluye el cero.
+  const RACHA_UMBRAL_MUERTA = 0.20;   // fijado ANTES de mirar: bajo esto, la regla se declara muerta
+
+  // ================================================================================
+  // REGISTRO DE HIPÓTESIS CON REGLA DE PARADA  (v33.0)
+  // ================================================================================
+  // El problema que resuelve: cada taco nuevo invita a volver a mirar la misma corazonada,
+  // y mirar veinte veces garantiza encontrar algo aunque no exista. Aquí cada hipótesis se
+  // declara con su umbral y su tamaño de muestra ANTES, y hasta llegar a él NO se usa para
+  // decidir. Lo que está en prueba se muestra con su cuenta atrás, no con su resultado.
+  function _registroHipotesisHTML(ctx){
+    const H = [];
+    // 1 · Racha — CONFIRMADA
+    let m=null; try{ m = rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote); }catch(e){}
+    if(m){
+      H.push({h:'La imprenta espacia los premios (regla de racha)',
+              ev:'χ² = '+m.lrRacha.toFixed(0)+' sobre '+m.n.toLocaleString('es-EC')+' posiciones',
+              est:'CONFIRMADA', col:'var(--ok)', falta:'—'});
+    }
+    // 2 · Plantilla posicional — DESCARTADA
+    if(ctx.portero && !ctx.portero.insuf){
+      const p = ctx.portero.pval;
+      H.push({h:'Hay una plantilla de posiciones que se repite',
+              ev:'portero p = '+p.toFixed(3)+' con '+ctx.completos.length+' tacos completos',
+              est: p<0.05 ? 'HAY SEÑAL' : 'DESCARTADA',
+              col: p<0.05 ? 'var(--gold,#FFC94D)' : '#E24B4A', falta:'cerrada'});
+    }
+    // 3 · El valor del premio cae con la posición — EN PRUEBA, con cuenta atrás real
+    try{
+      const pares = [];
+      (ctx.completos||[]).forEach(l=>{
+        const pos=l.posiciones||{}, N=ctx.dataR.tamanoLote||50;
+        for(let i=0;i<N;i++){
+          const c=pos[i]||{};
+          if(c.estado==='gano' && c.recordId!=null){
+            const r=(data.records||[]).find(x=>String(x.id)===String(c.recordId));
+            if(r) pares.push([i, premioNeto(r.premio)]);
+          }
+        }
+      });
+      if(pares.length>50){
+        // Spearman: correlación de rangos entre posición y monto
+        const rank=(arr)=>{ const idx=arr.map((v,i)=>[v,i]).sort((a,b)=>a[0]-b[0]);
+          const r=new Array(arr.length); idx.forEach((p,k)=>{ r[p[1]]=k+1; }); return r; };
+        const rx=rank(pares.map(p=>p[0])), ry=rank(pares.map(p=>p[1]));
+        const n=pares.length;
+        const mx=rx.reduce((a,b)=>a+b,0)/n, my=ry.reduce((a,b)=>a+b,0)/n;
+        let num=0, dx=0, dy=0;
+        for(let i=0;i<n;i++){ num+=(rx[i]-mx)*(ry[i]-my); dx+=(rx[i]-mx)**2; dy+=(ry[i]-my)**2; }
+        const rho = num/Math.sqrt(dx*dy);
+        // n necesario para 80% de potencia con ese tamaño de efecto (Fisher)
+        const z = Math.abs(0.5*Math.log((1+Math.abs(rho))/(1-Math.abs(rho))));
+        const nNec = z>1e-6 ? Math.ceil(((1.959964+0.8416)/z)**2 + 3) : Infinity;
+        const porTaco = n/Math.max(1,(ctx.completos||[]).length);
+        const faltanTacos = nNec===Infinity ? '—' : Math.max(0, Math.ceil((nNec-n)/Math.max(1,porTaco)));
+        const listo = n >= nNec;
+        H.push({h:'El valor del premio cae con la posición en la tira',
+                ev:'ρ = '+rho.toFixed(4)+' con '+n.toLocaleString('es-EC')+' premios',
+                est: listo ? (Math.abs(rho)>0.05?'LISTA PARA VEREDICTO':'DESCARTADA') : 'EN PRUEBA',
+                col: listo ? 'var(--gold,#FFC94D)' : 'var(--silver-dark)',
+                falta: listo ? 'ya hay muestra' : (faltanTacos+' tacos más')});
+      }
+    }catch(e){}
+    if(!H.length) return '';
+    return `<div style="background:var(--paper-dark);border:1px solid var(--silver);border-radius:9px;padding:12px 14px;margin-bottom:12px;">
+      <div style="font-size:13px;font-weight:800;margin-bottom:3px;">📋 Qué sé y con cuánta certeza</div>
+      <div style="font-size:11.5px;color:var(--silver-dark);margin-bottom:8px;">
+        Cada hipótesis lleva su umbral fijado de antemano. Lo que está <b>EN PRUEBA</b> no se usa para decidir
+        hasta que llegue a su muestra — así acumular tacos no se convierte en buscar hasta encontrar.
+      </div>
+      <div class="hip-cab">
+        <span class="hip-h">Hipótesis</span><span class="hip-ev">Evidencia hoy</span>
+        <span class="hip-es">Estado</span><span class="hip-fa">Faltan</span>
+      </div>
+      ${H.map(x=>`<div class="hip-fila">
+        <span class="hip-h">${escapeHtml(x.h)}</span>
+        <span class="hip-ev">${escapeHtml(x.ev)}</span>
+        <span class="hip-es" style="color:${x.col};">${x.est}</span>
+        <span class="hip-fa">${escapeHtml(String(x.falta))}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+  let _mrCache = null;
+  function rgModeloRacha(completos, tam){
+    if(!completos || completos.length < 8) return null;
+    const clave = _dataVersion + '|' + juegoActivoId + '|' + completos.length + '|' + tam;
+    if(_mrCache && _mrCache.clave === clave) return _mrCache.valor;
+    const N = tam || 50;
+    const X = [], y = [];
+    completos.forEach(l=>{
+      const pos = l.posiciones || {};
+      let T = 0;
+      for(let i=0;i<N;i++) if((pos[i]||{}).estado === 'gano') T++;
+      let k = 0, run = 0;
+      for(let r=0;r<N;r++){
+        const u = N - r;
+        X.push([1, (T-k)/u, Math.min(run,6)]);
+        const g = (pos[r]||{}).estado === 'gano';
+        y.push(g ? 1 : 0);
+        if(g){ k++; run = 0; } else run++;
+      }
+    });
+    const n = y.length;
+    if(n < 200) return null;
+    // Newton-Raphson: 3 parámetros, converge en pocas iteraciones y da la matriz de
+    // información, que es de donde sale el error estándar (y por tanto el intervalo).
+    const ajusta = (cols)=>{
+      const p = cols.length;
+      let b = new Array(p).fill(0);
+      for(let it=0; it<40; it++){
+        const g = new Array(p).fill(0);
+        const H = Array.from({length:p},()=>new Array(p).fill(0));
+        for(let i=0;i<n;i++){
+          let z = 0; for(let c=0;c<p;c++) z += b[c]*X[i][cols[c]];
+          z = Math.max(-30, Math.min(30, z));
+          const mu = 1/(1+Math.exp(-z)), w = mu*(1-mu), e = y[i]-mu;
+          for(let c=0;c<p;c++){
+            g[c] += e*X[i][cols[c]];
+            for(let c2=0;c2<p;c2++) H[c][c2] += w*X[i][cols[c]]*X[i][cols[c2]];
+          }
+        }
+        // resolver H·delta = g por Gauss con pivoteo parcial
+        const M = H.map((row,ii)=>row.concat([g[ii]]));
+        for(let c=0;c<p;c++){
+          let piv=c; for(let rr=c+1;rr<p;rr++) if(Math.abs(M[rr][c])>Math.abs(M[piv][c])) piv=rr;
+          if(Math.abs(M[piv][c])<1e-12) return null;
+          const tmp=M[c]; M[c]=M[piv]; M[piv]=tmp;
+          for(let rr=0;rr<p;rr++){
+            if(rr===c) continue;
+            const fct=M[rr][c]/M[c][c];
+            for(let cc=c;cc<=p;cc++) M[rr][cc]-=fct*M[c][cc];
+          }
+        }
+        let maxd=0;
+        for(let c=0;c<p;c++){ const dlt=M[c][p]/M[c][c]; b[c]+=dlt; maxd=Math.max(maxd,Math.abs(dlt)); }
+        if(maxd<1e-8) break;
+      }
+      // log-verosimilitud e inversa de la hessiana para los errores estándar
+      let ll=0;
+      const H2 = Array.from({length:p},()=>new Array(p).fill(0));
+      for(let i=0;i<n;i++){
+        let z=0; for(let c=0;c<p;c++) z += b[c]*X[i][cols[c]];
+        z=Math.max(-30,Math.min(30,z));
+        const mu=1/(1+Math.exp(-z)), w=mu*(1-mu);
+        ll += y[i]? Math.log(Math.max(1e-12,mu)) : Math.log(Math.max(1e-12,1-mu));
+        for(let c=0;c<p;c++) for(let c2=0;c2<p;c2++) H2[c][c2]+=w*X[i][cols[c]]*X[i][cols[c2]];
+      }
+      const A = H2.map((row,ii)=>row.concat(Array.from({length:p},(_,jj)=>ii===jj?1:0)));
+      for(let c=0;c<p;c++){
+        let piv=c; for(let rr=c+1;rr<p;rr++) if(Math.abs(A[rr][c])>Math.abs(A[piv][c])) piv=rr;
+        if(Math.abs(A[piv][c])<1e-12) return {b, ll, se:new Array(p).fill(NaN)};
+        const tmp=A[c]; A[c]=A[piv]; A[piv]=tmp;
+        const d0=A[c][c];
+        for(let cc=0;cc<2*p;cc++) A[c][cc]/=d0;
+        for(let rr=0;rr<p;rr++){
+          if(rr===c) continue;
+          const fct=A[rr][c];
+          for(let cc=0;cc<2*p;cc++) A[rr][cc]-=fct*A[c][cc];
+        }
+      }
+      const se = []; for(let c=0;c<p;c++) se.push(Math.sqrt(Math.abs(A[c][p+c])));
+      return {b, ll, se};
+    };
+    const full = ajusta([0,1,2]);        // intercepto + densidad + racha
+    const dens = ajusta([0,1]);          // solo intercepto + densidad
+    if(!full || !dens) return null;
+    const tasa = y.reduce((a,b2)=>a+b2,0)/n;
+    const ll0 = n*(tasa*Math.log(Math.max(1e-12,tasa)) + (1-tasa)*Math.log(Math.max(1e-12,1-tasa)));
+    const valor = {
+      n, nLotes: completos.length,
+      coef: full.b, se: full.se,
+      coefRacha: full.b[2], seRacha: full.se[2],
+      coefDens: full.b[1],
+      lrRacha: 2*(full.ll - dens.ll),
+      pseudoR2Full: 1 - full.ll/ll0,
+      pseudoR2Dens: 1 - dens.ll/ll0,
+      // P(premio) para un estado concreto del taco
+      P: (d, run)=>{
+        const z = full.b[0] + full.b[1]*d + full.b[2]*Math.min(run,6);
+        return 1/(1+Math.exp(-Math.max(-30,Math.min(30,z))));
+      }
+    };
+    _mrCache = {clave, valor};
+    return valor;
+  }
+
+  // ================================================================================
+  // INSTRUMENTO DE CAMPO  (v33.0) — lo primero que se ve en Estrategia
+  // ================================================================================
+  // Responde tres preguntas operativas, en este orden:
+  //   1. ¿A qué taco vale la pena ir?      → lista de caza por densidad
+  //   2. ¿Sigue viva la ventaja?           → vigilante del coeficiente de racha
+  //   3. ¿Qué sé y con cuánta certeza?     → registro de hipótesis con regla de parada
+  // Todo lo demás (ranking, mapa de calor, simulador) baja a evidencia de apoyo.
+  function _icHTML(){
+    let ctx;
+    try{ ctx = rgContextoMotor(); }catch(e){ return ''; }
+    const cU  = ctx.costo;
+    const Vd  = ctx.Vdec || ctx.V;
+    const be  = Vd>0 ? cU/Vd : 1;               // break-even de DECISIÓN
+    const f   = ctx.dataR.filtros;
+
+    // ---------- 1. LISTA DE CAZA ----------
+    const enCurso = getLotesDelJuegoActivo().filter(l=>{
+      if(f.tirada!=='__todas__' && getTiradaSerie(l.serie)!==f.tirada) return false;
+      const c = loteCounts(l); return c.revealed>0 && c.revealed<c.total;
+    });
+    const filas = [];
+    enCurso.forEach(l=>{
+      let r=null; try{ r = rgProbLoteCtx(l); }catch(e){}
+      if(!r || !r.pt || r.pt.eRest==null || !(r.pt.u>0)) return;
+      const c = loteCounts(l);
+      const dens = r.pt.eRest / r.pt.u;
+      // La mejor posición del taco YA lleva dentro la racha: es la que de verdad se compraría.
+      const mejorP = (r.probs && r.probs.length) ? r.probs[0].P : dens;
+      filas.push({serie:l.serie, punto:l.punto||'', vendidos:c.revealed, total:c.total,
+                  eRest:r.pt.eRest, u:r.pt.u, dens, mejorP, ev: mejorP*Vd - costoUnitarioLote(l)});
+    });
+    filas.sort((a,b)=> b.mejorP - a.mejorP);
+    const buenos = filas.filter(x=>x.mejorP > be);
+
+    // El veredicto se decide con la MISMA magnitud con la que se ordena.
+    // (Se detectó en auditoría: ordenaba por la probabilidad CON racha y etiquetaba «agotado»
+    //  por la densidad SIN racha, así que un taco al 52,3% salía «agotado» y otro al 50,9%
+    //  salía «esperar». Dos varas de medir en la misma tabla.)
+    //   IR       → la mejor posición supera el break-even: hay compra hoy.
+    //   agotado  → ni siquiera la mejor posición llega a la mitad del listón: ya dio lo suyo.
+    //   esperar  → está por debajo, pero cerca: puede subir conforme se revele.
+    const fila = (x)=>{
+      const va = x.mejorP > be;
+      const agot = !va && x.mejorP < be*0.6;
+      const col = va ? 'var(--ok)' : (agot ? '#E24B4A' : 'var(--silver-dark)');
+      const ver = va ? 'IR' : (agot ? 'agotado' : 'esperar');
+      return `<div class="caza-fila">
+        <span class="caza-serie">${escapeHtml(x.serie)}</span>
+        <span class="caza-av">${x.vendidos}/${x.total}</span>
+        <span class="caza-rest">${x.eRest.toFixed(1)} en ${x.u} huecos</span>
+        <span class="caza-p" style="color:${col};">${(x.mejorP*100).toFixed(1)}%</span>
+        <span class="caza-ver" style="color:${col};">${ver}</span>
+      </div>`;
+    };
+    const caza = `
+      <div style="background:var(--paper-dark);border:1px solid var(--silver);border-radius:9px;padding:12px 14px;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:800;margin-bottom:3px;">🎯 A qué taco ir</div>
+        <div style="font-size:11.5px;color:var(--silver-dark);margin-bottom:7px;">
+          La columna en negrita es la probabilidad de la MEJOR posición que queda en ese taco, ya con la racha dentro.
+          Se compra si supera el <b>${(be*100).toFixed(1)}%</b> que exige el break-even.
+        </div>
+        ${filas.length ? filas.slice(0,8).map(fila).join('') :
+          '<div style="font-size:12px;color:var(--silver-dark);">No hay tacos en curso.</div>'}
+        ${filas.length>8 ? `<div style="font-size:11px;color:var(--silver-dark);margin-top:6px;">…y ${filas.length-8} taco(s) más por debajo.</div>`:''}
+        <div style="border-top:1px solid var(--silver);margin-top:9px;padding-top:8px;font-size:12px;">
+          ${buenos.length
+            ? `<b style="color:var(--ok);">${buenos.length} de ${filas.length} taco(s) superan el listón hoy.</b>`
+            : `<b style="color:#B45309;">Ninguno de los ${filas.length} tacos en curso supera el listón hoy.</b>`}
+          <span style="color:var(--silver-dark);"> El 85% de las oportunidades históricas aparece con <b>40+ boletos vendidos</b>${
+            filas.length? ' — el suyo más avanzado va por <b>'+Math.max(...filas.map(x=>x.vendidos))+'/'+filas[0].total+'</b>.':'.'}</span>
+        </div>
+      </div>`;
+
+    // ---------- 2. VIGILANTE DE LA VENTAJA ----------
+    let vig = '';
+    try{
+      const m = rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote);
+      if(m){
+        const lo = m.coefRacha - 1.96*m.seRacha;
+        const viva = lo > RACHA_UMBRAL_MUERTA;
+        vig = `<div style="background:var(--paper-dark);border:1px solid ${viva?'var(--silver)':'#E24B4A'};border-radius:9px;padding:12px 14px;margin-bottom:12px;">
+          <div style="font-size:13px;font-weight:800;margin-bottom:5px;">${viva?'🩺':'🛑'} ¿Sigue viva la ventaja?</div>
+          <div style="font-size:12px;line-height:1.6;">
+            Efecto de la racha sobre ${m.n.toLocaleString('es-EC')} posiciones de ${m.nLotes} tacos completos:
+            <b style="font-family:'Courier New',monospace;">${m.coefRacha>=0?'+':''}${m.coefRacha.toFixed(3)}</b>
+            <span style="color:var(--silver-dark);">IC95 [${lo.toFixed(3)} – ${(m.coefRacha+1.96*m.seRacha).toFixed(3)}]</span>
+            · momio por cada perdedor previo <b>×${Math.exp(m.coefRacha).toFixed(2)}</b>.
+          </div>
+          <div style="font-size:12px;margin-top:6px;color:${viva?'var(--ok)':'#E24B4A'};font-weight:700;">
+            ${viva ? 'Vigente — el suelo del intervalo ('+lo.toFixed(3)+') sigue por encima del umbral de '+RACHA_UMBRAL_MUERTA+'.'
+                   : 'ALARMA — el suelo cayó bajo '+RACHA_UMBRAL_MUERTA+'. La imprenta pudo cambiar el espaciado: deja de usar la regla hasta revisarlo.'}
+          </div>
+          <div style="font-size:11.5px;color:var(--silver-dark);margin-top:5px;">
+            El umbral se fijó ANTES de mirar, para que la decisión no se acomode al resultado.
+            La racha explica un ${((m.pseudoR2Full/Math.max(1e-9,m.pseudoR2Dens)-1)*100).toFixed(0)}% más que la densidad sola
+            (pseudo-R² ${m.pseudoR2Dens.toFixed(3)} → ${m.pseudoR2Full.toFixed(3)}).
+          </div>
+        </div>`;
+      }
+    }catch(e){}
+
+    // ---------- 3. REGISTRO DE HIPÓTESIS ----------
+    const reg = _registroHipotesisHTML(ctx);
+
+    return `<div style="margin-bottom:16px;">
+      <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--silver-dark);margin-bottom:8px;">
+        Instrumento de campo · lo único que debería usar para decidir
+      </div>
+      ${caza}${vig}${reg}
+    </div>`;
+  }
+
   function renderPanelDecision(){
     const wrap=document.getElementById('panel-decision'); if(!wrap) return;
     const data=rigorGetData();
@@ -15768,7 +16391,11 @@
       }
     }
 
-    wrap.innerHTML = banner + moneyBlock + `
+    // v33.0: el instrumento de campo va PRIMERO. El banner del portero y la evidencia de
+    // apoyo quedan detrás, que es el orden en que sirven para decidir.
+    let instrumento = '';
+    try{ instrumento = _icHTML(); }catch(e){ console.warn('[instrumento]', e); }
+    wrap.innerHTML = instrumento + banner + moneyBlock + `
       <p class="subhead" style="margin:14px 0 6px;">Tacos en curso — decisión por taco</p>
       ${cards}`;
 
@@ -17788,11 +18415,40 @@
     if(wrap._accToggle) wrap._accToggle(true);
     wrap.scrollIntoView({behavior:'smooth', block:'start'});
   }
+  // Veredicto compartido de las secciones que dependen de la plantilla posicional.
+  // Si el portero no encuentra señal, se dice en el encabezado: son evidencia de que se
+  // probó, no herramientas de decisión. Antes había que abrirlas para descubrirlo.
+  function _vdPlantilla(){
+    try{
+      const c = rgContextoMotor();
+      if(!c || !c.portero || c.portero.insuf) return {txt:'faltan datos', col:'#57534E', bg:'var(--paper-dark)'};
+      if(c.conSenal) return {txt:'hay señal ✓', col:'#065F46', bg:'#D1FAE5'};
+      const n = (c.completos||[]).length;
+      return {txt: n>=30 ? 'sin señal · no decidir aquí' : 'sin señal aún',
+              col:'#7F1D1D', bg:'#FCEBEB'};
+    }catch(e){ return null; }
+  }
+  // Enlace de la sección 10 al instrumento de campo (E3).
+  document.addEventListener('click', function(e){
+    const t = e.target;
+    if(t && t.id === 'lnkIrPanelDecision'){
+      e.preventDefault();
+      try{
+        goTab('estrategia');
+        setTimeout(function(){
+          document.getElementById('panel-decision')?.scrollIntoView({behavior:'smooth', block:'start'});
+        }, 120);
+      }catch(_){}
+    }
+  });
   function initEstrategiaAccordions(){
     const secciones = [
       {id:'rigor-shrinkage',       t:'A · Ranking honesto de posiciones', vd:()=>{const el=document.getElementById('rigor-shrinkage'); const m=el&&el.innerText.match(/COMPRAR \(FDR[^\n]*?\n\s*(\d+)/); const n=m?m[1]:null; return n!=null?{txt:(n>0?n+' COMPRAR':'0 COMPRAR'), col:n>0?'#065F46':'#7F1D1D', bg:n>0?'#D1FAE5':'#FCEBEB'}:null;}},
-      {id:'heatmapTaco',           t:'A₂ · Mapa de calor del taco'},
-      {id:'simul-grid',            t:'B · Simulador + validación + backtest'},
+      // E2 (v33.0): las secciones que dependen de la PLANTILLA llevan su veredicto en el
+      // encabezado, para que no haya que abrirlas y leer un ranking que es ruido. Con el
+      // portero en p≈0,87 sobre 127 tacos, esto no es «faltan datos»: es un nulo confirmado.
+      {id:'heatmapTaco',           t:'A₂ · Mapa de calor del taco', vd:_vdPlantilla},
+      {id:'simul-grid',            t:'B · Simulador + validación + backtest', vd:_vdPlantilla},
       {id:'estrat-roi-proyectado', t:'C · ROI proyectado de la próxima compra'},
       {id:'estrat-cooc-wrap',      t:'D · Pares que ganan juntas'},
       {id:'estrat-consistencia',   t:'E · Consistencia entre lotes'},
