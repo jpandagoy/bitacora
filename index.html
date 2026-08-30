@@ -584,6 +584,54 @@
     font-family:'Courier New',monospace; font-size:11px; font-weight:800;
     padding:2px 7px; border-radius:2px; flex-shrink:0; white-space:nowrap;
   }
+  /* ═══ MÓDULO DE JUEGOS · lista + ficha  (v35.0) ═══════════════════════════════════ */
+  .jg-barra{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .jg-barra #juegoBuscar{flex:1; min-width:0; padding:9px 11px; border:1px solid var(--silver);
+    background:var(--paper-dark); color:var(--ink); border-radius:6px; font-size:13px; font-family:inherit;}
+  .jg-barra #juegoOrden{padding:9px 10px; border:1px solid var(--silver); background:var(--paper-dark);
+    color:var(--ink); border-radius:6px; font-size:12px; font-family:inherit;}
+  /* Fila de juego. A diferencia de .lote-row, las acciones van SIEMPRE a la derecha y separadas
+     del nombre: antes el ✎ estaba pegado al título, en mitad de la fila y a 20 px del objetivo
+     que activa el juego — dos acciones distintas compartiendo sitio. */
+  .jg-fila{display:flex; align-items:center; gap:11px; padding:11px 13px; background:var(--white);
+    border-bottom:1px solid var(--line); cursor:pointer;}
+  .jg-fila:hover{background:var(--paper-dark);}
+  .jg-fila.act{background:var(--paper-dark); border-left:4px solid var(--ok); padding-left:9px;}
+  .jg-fila.sinuso{opacity:.55;}
+  .jg-emoji{width:30px; height:30px; border-radius:6px; background:var(--paper-dark); display:flex;
+    align-items:center; justify-content:center; font-size:16px; flex-shrink:0;}
+  .jg-nom{font-weight:800; font-size:13.5px; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .jg-meta{font-family:'Courier New',monospace; font-size:11px; color:var(--silver-dark); white-space:nowrap;}
+  .jg-acc{display:flex; gap:5px; flex-shrink:0;}
+  .jg-acc button{border:1px solid var(--silver); background:var(--paper-dark); color:var(--ink);
+    border-radius:5px; min-width:34px; height:32px; cursor:pointer; font-size:13px; font-family:inherit;}
+  .jg-acc button:hover{border-color:var(--stamp); color:var(--stamp);}
+  .jg-sep{padding:7px 13px; font-size:10.5px; text-transform:uppercase; letter-spacing:.07em;
+    color:var(--silver-dark); background:var(--paper-dark); font-weight:700;}
+  .jg-sum{cursor:pointer; padding:12px 15px; background:var(--white); display:flex;
+    justify-content:space-between; align-items:center; gap:10px; list-style:none; font-size:13.5px;}
+  .jg-sum::-webkit-details-marker{display:none;}
+  details[open] .jg-caret{transform:rotate(180deg);}
+  .jg-caret{transition:transform .15s ease; color:var(--silver-dark);}
+  .jg-migas{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:13px;
+    padding-bottom:11px; border-bottom:1px solid var(--line);}
+  .jg-titulo{font-weight:800; font-size:16px;}
+  .jg-tabs{display:flex; gap:3px; margin-bottom:14px; flex-wrap:wrap;}
+  .jg-tab{border:1px solid var(--silver); border-bottom:none; background:var(--paper-dark);
+    color:var(--silver-dark); border-radius:7px 7px 0 0; padding:8px 15px; cursor:pointer;
+    font-size:12.5px; font-weight:700; font-family:inherit;}
+  .jg-tab.active{background:var(--white); color:var(--ink); border-bottom:2px solid var(--stamp);}
+  /* En pantallas estrechas la fila se parte en dos líneas en vez de comprimir el nombre a nada:
+     con 19 juegos y nombres como «Chanchito del la Suerte 3» el truncado se comía la información. */
+  @media (max-width:900px){
+    .jg-fila{flex-wrap:wrap; gap:7px 10px;}
+    .jg-nom{flex:1 1 100%; white-space:normal;}
+    .jg-meta{flex:1 1 auto;}
+    .jg-acc{margin-left:auto;}
+    .jg-tab{flex:1 1 auto; text-align:center; padding:8px 9px;}
+    .jg-barra #juegoBuscar{flex:1 1 100%;}
+    .jg-barra #juegoOrden, .jg-barra .btn-primary{flex:1 1 auto;}
+  }
   .lote-roi-chip.pos{background:rgba(63,91,63,0.15); color:var(--ok); border:1px solid var(--ok);}
   .lote-roi-chip.neg{background:rgba(168,51,43,0.12); color:var(--stamp); border:1px solid var(--stamp);}
   .lote-roi-chip.neutral{background:var(--paper-dark); color:var(--silver-dark); border:1px solid var(--silver);}
@@ -1140,44 +1188,78 @@
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-juegos">
 
-    <div class="section">
-      <div class="section-head"><span class="tag">00</span><h2>Juego activo</h2><span class="hint">define el contexto de toda la bitácora</span></div>
-      <div class="card">
-        <p class="note" style="margin-top:0;">
-          Esta bitácora puede llevar el registro de varios juegos de raspaditas a la vez (distintos nombres, tamaños de lote, costos). Selecciona cuál está activo: <strong>Mis boletos, Lotes / Posiciones y todas las secciones de análisis se filtran automáticamente para mostrar solo los datos de ese juego.</strong>
-        </p>
-        <div id="juegoActivoList" style="margin-top:14px;"></div>
+    <!-- ══════════════════════════════════════════════════════════════════════════════
+         NIVEL 1 — LA LISTA  (v35.0)
+         Antes esta pestaña eran cuatro secciones globales apiladas: la lista, un panel de
+         sonidos con 95 botones, el comparador y —al final de todo, tras 4.615 px de scroll—
+         el formulario. MEDIDO: 5.032 px de alto y 133 controles, de los cuales 95 (71%)
+         servían a los sonidos, una preferencia que ninguno de sus 19 juegos había tocado.
+         Ahora la pestaña muestra UNA cosa: la lista. Todo lo de un juego vive en su ficha.
+         ══════════════════════════════════════════════════════════════════════════════ -->
+    <div id="juegosNivel1">
+      <div class="section">
+        <div class="section-head"><span class="tag">01</span><h2>Mis juegos</h2><span class="hint">el activo filtra toda la bitácora</span></div>
+        <div class="card">
+          <div class="jg-barra">
+            <input type="search" id="juegoBuscar" placeholder="🔎 Buscar juego…" autocomplete="off">
+            <select id="juegoOrden" title="Ordenar la lista">
+              <option value="gasto">Orden: gasto ▾</option>
+              <option value="lotes">Orden: lotes ▾</option>
+              <option value="nombre">Orden: nombre A-Z</option>
+              <option value="rtp">Orden: RTP ▾</option>
+            </select>
+            <button class="btn-primary" id="btnNuevoJuego">+ Nuevo juego</button>
+          </div>
+          <div id="juegoActivoList" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <details id="juegosComparadorAcc">
+          <summary class="jg-sum">
+            <span><strong>Comparador de juegos</strong> <span class="hint" id="juegosComparadorResumen">— cuánto te devuelve cada uno por cada dólar</span></span>
+            <span class="jg-caret">▾</span>
+          </summary>
+          <div class="section-body" style="padding-top:12px;">
+            <p class="note" style="margin-top:0;">
+              RTP = premios ÷ gasto. Bajo 100% el juego te devuelve menos de lo que pones. El veredicto usa el
+              <strong>intervalo de confianza del 95%</strong>: solo dice <em>descartar</em> cuando el techo del intervalo
+              sigue por debajo del 100%, es decir cuando ya no es mala suerte sino el juego.
+              <strong>El premio mayor se muestra aparte</strong> porque un solo boleto puede voltear el signo de todo.
+            </p>
+            <div id="comparadorJuegos"></div>
+          </div>
+        </details>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-head"><span class="tag">01c</span><h2>Sonidos al pistolear</h2><span class="hint">qué suena según el tamaño del premio</span></div>
-      <div class="section-body">
-        <p class="note" style="margin-top:0;">
-          Los tramos salen de la <strong>tabla de premios de cada juego</strong>, partida en tercios: el premio
-          máximo tiene su propia fanfarria. Un juego nuevo queda configurado solo con cargar su tabla.
-          Puedes escuchar cada nivel y, si algún juego lo amerita, fijar los cortes a mano.
-        </p>
-        <div id="sonidosPorJuego"></div>
-      </div>
-    </div>
+    <!-- ══════════════════════════════════════════════════════════════════════════════
+         NIVEL 2 — LA FICHA DE UN JUEGO
+         Todo lo de un juego, junto: datos, tabla de premios, sonido y rendimiento. El
+         formulario es EL MISMO de siempre (mismos ids, mismos manejadores, mismas reglas);
+         solo se ha repartido entre pestañas. Crear y editar usan esta misma ficha.
+         ══════════════════════════════════════════════════════════════════════════════ -->
+    <div id="juegosNivel2" style="display:none;">
+      <div class="section">
+        <div class="card">
+          <div class="jg-migas">
+            <button type="button" class="btn-ghost" id="btnVolverJuegos">‹ Juegos</button>
+            <span id="fichaTitulo" class="jg-titulo">Nuevo juego</span>
+            <span id="fichaEstado"></span>
+            <span style="flex:1;"></span>
+            <button type="button" class="btn-ghost" id="btnActivarDesdeFicha" style="display:none;">Activar</button>
+            <button type="button" class="btn-ghost" id="btnBorrarJuego" style="display:none; color:var(--stamp); border-color:var(--stamp);">🗑 Eliminar</button>
+          </div>
 
-    <div class="section">
-      <div class="section-head"><span class="tag">01b</span><h2>Comparador de juegos</h2><span class="hint">cuánto te devuelve cada uno por cada dólar</span></div>
-      <div class="section-body">
-        <p class="note" style="margin-top:0;">
-          RTP = premios ÷ gasto. Bajo 100% el juego te devuelve menos de lo que pones. El veredicto usa el
-          <strong>intervalo de confianza del 95%</strong>: solo dice <em>descartar</em> cuando el techo del intervalo
-          sigue por debajo del 100%, es decir cuando ya no es mala suerte sino el juego.
-          <strong>El premio mayor se muestra aparte</strong> porque un solo boleto puede voltear el signo de todo.
-        </p>
-        <div id="comparadorJuegos"></div>
-      </div>
-    </div>
+          <div class="jg-tabs" id="fichaTabs">
+            <button type="button" class="jg-tab active" data-ftab="datos">Datos</button>
+            <button type="button" class="jg-tab" data-ftab="premios">Premios</button>
+            <button type="button" class="jg-tab" data-ftab="sonido">Sonido</button>
+            <button type="button" class="jg-tab" data-ftab="rend">Rendimiento</button>
+          </div>
 
-    <div class="section">
-      <div class="section-head"><span class="tag">00b</span><h2>Gestionar juegos</h2><span class="hint">crea, edita o elimina juegos</span></div>
-      <div class="card">
+          <!-- ─────────── PESTAÑA: DATOS ─────────── -->
+          <div class="jg-pane" id="fpane-datos">
         <div class="field" style="margin-bottom:12px;">
           <label for="juegoPreset">Cargar juego oficial <span style="text-transform:none; font-weight:400; color:var(--silver-dark);">— rellena nombre, costo, emoji y tabla de premios de la Lotería Nacional</span></label>
           <select id="juegoPreset"><option value="">— elegir de la lista (opcional) —</option></select>
@@ -1226,8 +1308,22 @@
           </div>
         </div>
 
-        <!-- Tabla de premios del juego: los montos que este juego puede pagar -->
-        <div style="margin-top:14px; padding-top:14px; border-top:1px dashed var(--silver-dark);">
+        <!-- Relación entre lo CONFIGURADO y lo OBSERVADO. (v35.0)
+             `getJuegoParams` hace la unión de los dos y es el rango que de verdad usa el motor,
+             pero eso ocurría a espaldas del usuario: ninguna pantalla lo mostraba. Con sus datos,
+             «13 de la Suerte» está configurado 13–15 y sus 139 tacos completos dicen 12–15. -->
+        <div id="juegoRangoReal" style="margin-top:14px;"></div>
+        <!-- Picker de emojis -->
+        <div id="emojiPickerWrap" style="display:none; margin-top:10px; padding:12px; border:1px solid var(--silver); border-radius:8px; background:var(--paper-dark);">
+          <p style="margin:0 0 8px; font-size:12px; color:var(--silver-dark);">Toca un emoji para seleccionarlo · O escribe para filtrar</p>
+          <input type="text" id="emojiSearch" placeholder="buscar…" style="width:100%; margin-bottom:10px; padding:6px 8px; border:1px solid var(--silver); border-radius:5px; font-size:13px; background:var(--paper); color:var(--ink);">
+          <div id="emojiGrid" style="display:flex; flex-wrap:wrap; gap:4px; max-height:200px; overflow-y:auto;"></div>
+        </div>
+          </div><!-- /fpane-datos -->
+
+          <!-- ─────────── PESTAÑA: PREMIOS ─────────── -->
+          <div class="jg-pane" id="fpane-premios" style="display:none;">
+        <div>
           <label style="display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-soft); font-weight:700; margin-bottom:6px;">
             Tabla de premios <span style="text-transform:none; font-weight:400; color:var(--silver-dark);">— todos los montos que este juego puede pagar (van al reverso del boleto)</span>
           </label>
@@ -1241,13 +1337,27 @@
           </div>
           <p class="field-help" id="juegoPremiosHelp" style="margin-top:8px;"></p>
         </div>
-        <!-- Picker de emojis -->
-        <div id="emojiPickerWrap" style="display:none; margin-top:10px; padding:12px; border:1px solid var(--silver); border-radius:8px; background:var(--paper-dark);">
-          <p style="margin:0 0 8px; font-size:12px; color:var(--silver-dark);">Toca un emoji para seleccionarlo · O escribe para filtrar</p>
-          <input type="text" id="emojiSearch" placeholder="buscar…" style="width:100%; margin-bottom:10px; padding:6px 8px; border:1px solid var(--silver); border-radius:5px; font-size:13px; background:var(--paper); color:var(--ink);">
-          <div id="emojiGrid" style="display:flex; flex-wrap:wrap; gap:4px; max-height:200px; overflow-y:auto;"></div>
-        </div>
-        <div class="form-actions" style="margin-top:10px;">
+          </div><!-- /fpane-premios -->
+
+          <!-- ─────────── PESTAÑA: SONIDO ─────────── -->
+          <!-- Antes esto era una sección global con 4 botones × 19 juegos + 19 de «cortes» = 95
+               controles y 1.800 px, para una preferencia que 0 de sus 19 juegos había tocado.
+               Aquí son 4 botones, y solo los del juego que está mirando. -->
+          <div class="jg-pane" id="fpane-sonido" style="display:none;">
+            <p class="note" style="margin-top:0;">
+              Los tramos salen de la <strong>tabla de premios de este juego</strong>, partida en tercios: el premio
+              máximo tiene su propia fanfarria. Con la tabla cargada ya queda configurado — solo toca fijar los
+              cortes a mano si algún juego lo amerita.
+            </p>
+            <div id="sonidosPorJuego"></div>
+          </div><!-- /fpane-sonido -->
+
+          <!-- ─────────── PESTAÑA: RENDIMIENTO ─────────── -->
+          <div class="jg-pane" id="fpane-rend" style="display:none;">
+            <div id="fichaRendimiento"></div>
+          </div><!-- /fpane-rend -->
+
+        <div class="form-actions" style="margin-top:14px;">
           <span class="field-help" id="juegoFormHelp"></span>
           <div class="btn-row">
             <button class="btn-ghost" id="btnCancelJuegoEdit" style="display:none;">Cancelar edición</button>
@@ -1256,6 +1366,7 @@
         </div>
       </div>
     </div>
+    </div><!-- /juegosNivel2 -->
   </div>
 
   <!-- =================================================== -->
@@ -2867,7 +2978,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '34.1', fecha: '2026-08-28' };
+  const APP_VERSION = { num: '35.0', fecha: '2026-08-30' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -7788,85 +7899,282 @@
     alto:  ['Alto',  '#f0a828', '5 notas'],
     mayor: ['Mayor', '#E8336D', 'fanfarria 6 notas']
   };
+  // Sonido de UN juego — el de la ficha abierta.  (v35.0)
+  // Antes esto pintaba los 19 juegos a la vez: 4 botones de prueba + 1 de cortes por juego =
+  // 95 controles y 1.800 px permanentes, para una preferencia que 0 de sus 19 juegos había
+  // tocado nunca. Se toca dentro del juego, así que se muestra dentro del juego.
   function renderSonidosPorJuego(){
     const el = document.getElementById('sonidosPorJuego'); if(!el) return;
-    const filas = (data.juegos||[]).map(j=>{
-      const c = cortesSonido(j);
-      const tabla = (c.tabla||[]);
-      const mayor = tabla.length ? tabla[tabla.length-1] : null;
-      // Agrupa los montos reales de la tabla por nivel, que es lo que de verdad vas a oír.
-      const porNivel = {bajo:[],medio:[],alto:[],mayor:[]};
-      tabla.forEach(v=>{ porNivel[nivelPremio(v, j).nivel === 'nada' ? 'bajo' : nivelPremio(v, j).nivel].push(v); });
-      const chips = ['bajo','medio','alto','mayor'].map(n=>{
-        const [lbl,col] = NIVEL_INFO[n];
-        const vals = porNivel[n];
-        if(!vals.length) return '';
-        const txt = vals.length>4 ? (fmt(vals[0])+'–'+fmt(vals[vals.length-1])) : vals.map(fmt).join(' ');
-        return `<button class="btn-ghost sonido-probar" data-nivel="${n}" data-jid="${j.id}"
-          title="Escuchar el sonido de nivel ${lbl}"
-          style="font-size:10.5px;padding:3px 9px;border-color:${col};color:${col};white-space:nowrap;">▶ ${lbl}: ${txt}</button>`;
-      }).join(' ');
-      return `<div class="lote-row" style="flex-wrap:wrap;gap:8px;">
-        <span class="lid" style="min-width:150px;">${j.emoji||'🎟️'} ${escapeHtml(j.nombre)}</span>
-        <span style="display:flex;gap:5px;flex-wrap:wrap;flex:1;">${chips||'<span style="font-size:11px;color:var(--silver-dark);">sin tabla de premios</span>'}</span>
-        ${c.manual?'<span class="lote-roi-chip" style="background:#FAEEDA;color:#854F0B;">manual</span>':''}
-        <button class="btn-ghost sonido-editar" data-jid="${j.id}" style="font-size:10.5px;padding:3px 9px;" title="Fijar los cortes a mano para este juego">✎ cortes</button>
+    const j = editingJuegoId ? data.juegos.find(x=>String(x.id)===String(editingJuegoId)) : null;
+    if(!j){ el.innerHTML = '<p class="note" style="margin:0;">Guarda el juego para configurar su sonido.</p>'; return; }
+    const c = cortesSonido(j);
+    const tabla = (c.tabla||[]);
+    const porNivel = {bajo:[],medio:[],alto:[],mayor:[]};
+    tabla.forEach(v=>{ porNivel[nivelPremio(v, j).nivel === 'nada' ? 'bajo' : nivelPremio(v, j).nivel].push(v); });
+    const chips = ['bajo','medio','alto','mayor'].map(n=>{
+      const [lbl,col,desc] = NIVEL_INFO[n];
+      const vals = porNivel[n];
+      if(!vals.length) return '';
+      const txt = vals.length>4 ? (fmt(vals[0])+'–'+fmt(vals[vals.length-1])) : vals.map(fmt).join(' ');
+      return `<button class="btn-ghost sonido-probar" data-nivel="${n}"
+        title="Escuchar el sonido de nivel ${lbl} — ${desc}"
+        style="font-size:12px;padding:7px 13px;border-color:${col};color:${col};white-space:nowrap;">▶ ${lbl}: ${txt}</button>`;
+    }).join(' ');
+    el.innerHTML = `
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px;">
+        ${chips||'<span style="font-size:12px;color:var(--silver-dark);">Este juego no tiene tabla de premios: añádela en la pestaña <strong>Premios</strong> y el sonido queda configurado solo.</span>'}
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <span style="font-size:12px;color:var(--silver-dark);">
+          Cortes actuales: <span style="font-family:'Courier New',monospace;font-weight:800;">${c.cortes.map(x=>fmt(x)).join(' · ')}</span>
+        </span>
+        ${c.manual?'<span class="lote-roi-chip" style="background:#FAEEDA;color:#854F0B;">fijados a mano</span>'
+                  :'<span class="lote-roi-chip" style="background:#EDEBE6;color:#5c5b58;">automáticos</span>'}
+        <button class="btn-ghost" id="sonidoEditar" style="font-size:12px;">✎ Fijar cortes a mano</button>
+        ${c.manual?'<button class="btn-ghost" id="sonidoAuto" style="font-size:12px;">↺ Volver a automáticos</button>':''}
       </div>`;
-    }).join('');
-    el.innerHTML = filas || '<p class="note" style="margin:0;">Sin juegos registrados.</p>';
     el.querySelectorAll('.sonido-probar').forEach(b=>{
       b.onclick = ()=>{
-        const j = data.juegos.find(x=>String(x.id)===String(b.dataset.jid));
-        const c = cortesSonido(j), n = b.dataset.nivel;
-        // Monto representativo del nivel para que suene exactamente lo que oirías.
+        const n = b.dataset.nivel;
         const monto = n==='bajo'? c.cortes[0] : n==='medio'? c.cortes[1] : n==='alto'? c.cortes[2] : (c.cortes[2]*2);
         try{ playWinSound(monto, j); }catch(e){}
       };
     });
-    el.querySelectorAll('.sonido-editar').forEach(b=>{
-      b.onclick = ()=>{
-        const j = data.juegos.find(x=>String(x.id)===String(b.dataset.jid)); if(!j) return;
-        const c = cortesSonido(j);
-        const v = prompt('Cortes de sonido para '+j.nombre+'\n\nEscribe los TRES montos que separan bajo/medio/alto/mayor,\nseparados por coma. Deja vacío para volver al cálculo automático.\n\nActual: '+c.cortes.map(x=>fmt(x)).join(', '),
-                         c.manual ? c.cortes.join(', ') : '');
-        if(v===null) return;
-        if(!String(v).trim()){ delete j.umbralesSonido; save(); render(); toast('Cortes automáticos restaurados'); return; }
-        const nums = String(v).split(',').map(x=>parseFloat(String(x).replace(/[^\d.]/g,''))).filter(x=>isFinite(x)&&x>0);
-        if(nums.length!==3){ toast('Escribe exactamente tres montos separados por coma'); return; }
-        j.umbralesSonido = nums.sort((a,b)=>a-b);
-        save(); render(); toast('Cortes fijados para '+j.nombre);
-      };
-    });
+    const auto = el.querySelector('#sonidoAuto');
+    if(auto) auto.onclick = ()=>{ delete j.umbralesSonido; save(); renderSonidosPorJuego(); toast('Cortes automáticos restaurados'); };
+    // Se sustituye el `prompt()` del navegador por el modal de la app: mismo dato, pero
+    // dentro de la interfaz, con el valor actual precargado y validación de verdad.
+    const ed = el.querySelector('#sonidoEditar');
+    if(ed) ed.onclick = async ()=>{
+      const v = await showModal({
+        title:'Cortes de sonido · '+j.nombre,
+        body:'Escribe los <strong>tres montos</strong> que separan los niveles '
+            +'<em>bajo / medio / alto / mayor</em>, separados por coma.<br><br>'
+            +'Ahora mismo: <span style="font-family:\'Courier New\',monospace;font-weight:800;">'
+            + c.cortes.map(x=>fmt(x)).join(', ') + '</span> '
+            + (c.manual?'(fijados a mano)':'(calculados por tercios de la tabla)')
+            + '<br><br><span style="color:var(--silver-dark);">Déjalo vacío para volver al cálculo automático.</span>',
+        withInput:true,
+        inputValue: c.manual ? c.cortes.join(', ') : '',
+        confirmLabel:'Guardar cortes'
+      });
+      if(v===null || v===undefined || v===false) return;
+      if(!String(v).trim()){ delete j.umbralesSonido; save(); renderSonidosPorJuego(); toast('Cortes automáticos restaurados'); return; }
+      const nums = String(v).split(',').map(x=>parseFloat(String(x).replace(/[^\d.]/g,''))).filter(x=>isFinite(x)&&x>0);
+      if(nums.length!==3){ toast('Escribe exactamente tres montos separados por coma'); return; }
+      j.umbralesSonido = nums.sort((a,b)=>a-b);
+      save(); renderSonidosPorJuego(); toast('Cortes fijados para '+j.nombre);
+    };
+  }
+  // ════════════════════════════════════════════════════════════════════════════════════
+  // LISTA DE JUEGOS  (v35.0) — nivel 1 de la pestaña
+  // Con 19 juegos, 90,6% del gasto en uno solo y 12 con ≤2 lotes, una lista plana de filas
+  // idénticas obliga a leerlas todas. Ahora: buscador, orden, el veredicto del comparador en
+  // cada fila, y los que no se han usado agrupados al final en vez de mezclados.
+  // ════════════════════════════════════════════════════════════════════════════════════
+  let _juegoFiltro = '', _juegoOrden = 'gasto';
+  // ¿Se puede borrar este juego? Solo si no arrastra nada y no es el juego base: `migrarJuegos`
+  // lo recrearía en el siguiente arranque, así que dejar borrarlo sería mentir.
+  function juegoBorrable(j){
+    if(!j) return {ok:false, motivo:'no existe'};
+    if(String(j.id)===String(JUEGO_DEFECTO_ID)) return {ok:false, motivo:'es el juego base de la bitácora'};
+    const nL = (data.lotes||[]).filter(l=>String(l.juegoId)===String(j.id)).length;
+    if(nL) return {ok:false, motivo:'tiene '+nL+' lote(s) registrado(s)'};
+    return {ok:true, motivo:''};
   }
   function renderJuegoActivoList(){
     const list = document.getElementById('juegoActivoList');
     if(!list) return;
-    if(!data.juegos.length){ list.innerHTML = '<p class="note" style="margin:0;">Sin juegos todavía. Crea uno abajo.</p>'; return; }
-    list.innerHTML = data.juegos.map(j=>{
-      const nLotes = data.lotes.filter(l=>String(l.juegoId)===String(j.id)).length;
-      const isActive = String(j.id)===String(juegoActivoId);
-      return `<div class="lote-row ${isActive?'active':''}" data-juego-id="${j.id}" style="cursor:pointer;">
-        <span class="lid"><span style="margin-right:6px;">${j.emoji||'🎟️'}</span>${escapeHtml(j.nombre)}</span>
-        <button class="edit-btn juego-edit-btn" data-id="${j.id}" title="Editar juego">✎</button>
-        <span style="font-size:10.5px; color:var(--silver-dark); text-transform:uppercase;">${j.tamanoLote} posiciones · ${fmt(j.costoDefecto)}</span>
-        <span class="lstat">${nLotes} lote(s) registrado(s)</span>
-        ${isActive ? '<span class="lote-roi-chip pos">ACTIVO</span>' : ''}
+    if(!data.juegos.length){ list.innerHTML = '<p class="note" style="margin:0;">Sin juegos todavía. Crea uno con «+ Nuevo juego».</p>'; return; }
+    // Estadísticas del comparador, indexadas por juego, para poner el veredicto en la fila.
+    let porId = {};
+    try{ statsPorJuego().forEach(s=>{ porId[String(s.juego.id)] = s; }); }catch(e){}
+    const VER = { descartar:['DESCARTAR','#FCEBEB','#7F1D1D'], seguir:['SEGUIR','#D1FAE5','#065F46'],
+                  indeciso:['SIN VEREDICTO','#FAEEDA','#854F0B'] };
+    const q = _juegoFiltro.trim().toLowerCase();
+    let arr = data.juegos.filter(j=> !q || String(j.nombre||'').toLowerCase().includes(q));
+    const datos = j=>{
+      const s = porId[String(j.id)];
+      const nL = (data.lotes||[]).filter(l=>String(l.juegoId)===String(j.id)).length;
+      return { nL, gasto:(s?s.gasto:0), rtp:(s&&s.rtp!==null?s.rtp:-1), ver:(s?s.veredicto:'sin-datos') };
+    };
+    const cmp = {
+      gasto:  (a,b)=> datos(b).gasto - datos(a).gasto,
+      lotes:  (a,b)=> datos(b).nL - datos(a).nL,
+      nombre: (a,b)=> String(a.nombre).localeCompare(String(b.nombre),'es'),
+      rtp:    (a,b)=> datos(b).rtp - datos(a).rtp
+    }[_juegoOrden] || ((a,b)=>0);
+    arr = arr.slice().sort(cmp);
+    // Los que nunca se han usado van al final: son ruido en la lista de trabajo, pero no se
+    // ocultan porque es justo desde donde se borran.
+    const usados = arr.filter(j=>datos(j).nL>0), sinUso = arr.filter(j=>datos(j).nL===0);
+    const fila = (j, apagado)=>{
+      const d = datos(j);
+      const act = String(j.id)===String(juegoActivoId);
+      const v = VER[d.ver];
+      const brr = juegoBorrable(j);
+      return `<div class="jg-fila ${act?'act':''} ${apagado?'sinuso':''}" data-jid="${escapeHtml(String(j.id))}">
+        <span class="jg-emoji">${j.emoji||'🎟️'}</span>
+        <span class="jg-nom">${escapeHtml(j.nombre)}</span>
+        <span class="jg-meta">${d.nL?d.nL+' lotes · '+fmt(d.gasto):'sin usar'} · ${j.tamanoLote} pos.</span>
+        ${act?'<span class="lote-roi-chip" style="background:#D1FAE5;color:#065F46;">ACTIVO</span>':''}
+        ${v?`<span class="lote-roi-chip" style="background:${v[1]};color:${v[2]};">${v[0]}</span>`:''}
+        <span class="jg-acc">
+          ${brr.ok?`<button type="button" class="jg-del" data-jid="${escapeHtml(String(j.id))}" title="Eliminar ${escapeHtml(j.nombre)}">🗑</button>`:''}
+          <button type="button" class="jg-abrir" data-jid="${escapeHtml(String(j.id))}" title="Abrir la ficha de ${escapeHtml(j.nombre)}">✎</button>
+        </span>
       </div>`;
-    }).join('');
-    list.querySelectorAll('.lote-row').forEach(row=>{
-      row.addEventListener('click', (e)=>{
-        if(e.target.classList.contains('juego-edit-btn')) return;
-        setJuegoActivo(row.dataset.juegoId);
-      });
+    };
+    list.innerHTML =
+      (usados.length ? usados.map(j=>fila(j,false)).join('') : '')
+      + (sinUso.length ? `<div class="jg-sep">${sinUso.length} juego(s) sin usar todavía</div>` + sinUso.map(j=>fila(j,true)).join('') : '')
+      + (!usados.length && !sinUso.length ? '<p class="note" style="margin:10px 0 0;">Ningún juego coincide con «'+escapeHtml(_juegoFiltro)+'».</p>' : '');
+    // Toda la fila activa el juego; las acciones van aparte y detienen la propagación.
+    list.querySelectorAll('.jg-fila').forEach(f=>{
+      f.addEventListener('click', ()=> setJuegoActivo(f.dataset.jid));
     });
-    list.querySelectorAll('.juego-edit-btn').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        startEditJuego(btn.dataset.id);
-      });
+    list.querySelectorAll('.jg-abrir').forEach(b=>{
+      b.addEventListener('click', e=>{ e.stopPropagation(); startEditJuego(b.dataset.jid); });
     });
+    list.querySelectorAll('.jg-del').forEach(b=>{
+      b.addEventListener('click', e=>{ e.stopPropagation(); borrarJuego(b.dataset.jid); });
+    });
+    // Resumen del comparador en la cabecera del acordeón, para no tener que abrirlo.
+    const res = document.getElementById('juegosComparadorResumen');
+    if(res){
+      try{
+        const S = statsPorJuego();
+        const nD = S.filter(x=>x.veredicto==='descartar').length;
+        res.textContent = nD>0
+          ? `— ${nD} juego(s) con evidencia para descartar`
+          : `— ningún juego con muestra suficiente para descartarlo`;
+      }catch(e){ res.textContent = '— cuánto te devuelve cada uno por cada dólar'; }
+    }
+  }
+  // Borrado de juego. No existía: la cabecera decía «crea, edita o elimina» y no había función
+  // ninguna, así que los juegos probados una vez se quedaban para siempre en la lista y en el
+  // selector. Solo se permite cuando no hay nada que perder (0 lotes) — nunca borra datos.
+  async function borrarJuego(id){
+    const j = data.juegos.find(x=>String(x.id)===String(id)); if(!j) return;
+    const b = juegoBorrable(j);
+    if(!b.ok){ toast('No se puede eliminar: '+b.motivo); return; }
+    const ok = await showModal({
+      title:'Eliminar «'+j.nombre+'»',
+      body:'Este juego <strong>no tiene ningún lote ni boleto</strong> registrado, así que no se pierde nada.<br><br>Se quitará de la lista y del selector de juegos.',
+      confirmLabel:'Eliminar juego'
+    });
+    if(!ok) return;
+    data.juegos = data.juegos.filter(x=>String(x.id)!==String(id));
+    // Si era el activo, hay que pasar el foco a otro o la bitácora se queda sin contexto.
+    if(String(juegoActivoId)===String(id)){
+      const otro = data.juegos[0];
+      if(otro) setJuegoActivo(otro.id);
+    }
+    save(); render();
+    toast('Juego «'+j.nombre+'» eliminado');
   }
 
+  // ════════════════════════════════════════════════════════════════════════════════════
+  // FICHA DEL JUEGO  (v35.0) — nivel 2 de la pestaña
+  // Antes los ajustes de un juego vivían repartidos en tres secciones distintas y ninguna los
+  // mostraba juntos: «¿cómo está configurado el Chanchito?» no tenía respuesta en una pantalla.
+  // El formulario es EL MISMO (mismos ids, mismos manejadores, mismas reglas de guardado): lo
+  // único que cambia es dónde vive y cómo se reparte.
+  // ════════════════════════════════════════════════════════════════════════════════════
+  function mostrarNivelJuegos(nivel){
+    const n1=document.getElementById('juegosNivel1'), n2=document.getElementById('juegosNivel2');
+    if(!n1||!n2) return;
+    n1.style.display = (nivel===2)?'none':'';
+    n2.style.display = (nivel===2)?'':'none';
+    if(nivel!==2) return;
+    try{ n2.scrollIntoView({behavior:'smooth', block:'start'}); }catch(_){}
+  }
+  function fichaTab(cual){
+    document.querySelectorAll('#fichaTabs .jg-tab').forEach(b=>{
+      b.classList.toggle('active', b.dataset.ftab===cual);
+    });
+    ['datos','premios','sonido','rend'].forEach(t=>{
+      const p=document.getElementById('fpane-'+t); if(p) p.style.display = (t===cual)?'':'none';
+    });
+    // Las dos pestañas calculadas se pintan al abrirlas, no antes: con 19 juegos pintarlas
+    // siempre era justo el desperdicio que hacía pesada la pestaña.
+    if(cual==='sonido') try{ renderSonidosPorJuego(); }catch(e){}
+    if(cual==='rend')   try{ renderFichaRendimiento(); }catch(e){}
+  }
+  document.getElementById('fichaTabs')?.addEventListener('click', e=>{
+    const b = e.target.closest('.jg-tab'); if(b) fichaTab(b.dataset.ftab);
+  });
+  document.getElementById('btnVolverJuegos')?.addEventListener('click', ()=>{ cancelEditJuego(); });
+  document.getElementById('btnNuevoJuego')?.addEventListener('click', ()=>{ nuevoJuego(); });
+  document.getElementById('btnActivarDesdeFicha')?.addEventListener('click', ()=>{
+    if(editingJuegoId){ setJuegoActivo(editingJuegoId); pintarCabeceraFicha(); }
+  });
+  document.getElementById('btnBorrarJuego')?.addEventListener('click', ()=>{
+    if(editingJuegoId) borrarJuego(editingJuegoId);
+  });
+  document.getElementById('juegoBuscar')?.addEventListener('input', e=>{
+    _juegoFiltro = e.target.value; renderJuegoActivoList();
+  });
+  document.getElementById('juegoOrden')?.addEventListener('change', e=>{
+    _juegoOrden = e.target.value; renderJuegoActivoList();
+  });
+  function pintarCabeceraFicha(){
+    const j = editingJuegoId ? data.juegos.find(x=>String(x.id)===String(editingJuegoId)) : null;
+    const tit=document.getElementById('fichaTitulo'), est=document.getElementById('fichaEstado');
+    const bAct=document.getElementById('btnActivarDesdeFicha'), bDel=document.getElementById('btnBorrarJuego');
+    if(tit) tit.textContent = j ? ((j.emoji||'🎟️')+' '+j.nombre) : 'Nuevo juego';
+    const activo = j && String(j.id)===String(juegoActivoId);
+    if(est) est.innerHTML = activo ? '<span class="lote-roi-chip" style="background:#D1FAE5;color:#065F46;">ACTIVO</span>' : '';
+    if(bAct) bAct.style.display = (j && !activo) ? '' : 'none';
+    if(bDel){
+      const b = juegoBorrable(j);
+      bDel.style.display = (j && b.ok) ? '' : 'none';
+      bDel.title = b.ok ? 'Eliminar este juego' : ('No se puede eliminar: '+b.motivo);
+    }
+  }
+  // Abrir la ficha en blanco. Los valores por defecto ya no son fijos (ver `defectosJuego`).
+  function nuevoJuego(){
+    cancelEditJuego(true);
+    editingJuegoId = null;
+    aplicarDefectosJuego();
+    pintarCabeceraFicha();
+    fichaTab('datos');
+    mostrarNivelJuegos(2);
+    document.getElementById('juegoNombre')?.focus();
+  }
+  // DEFECTOS ADAPTATIVOS. Antes el formulario arrancaba siempre en 50 posiciones · 13–14
+  // premios · $5,00 por premio: el diseño de «13 de la Suerte» aplicado a todo. MEDIDO sobre
+  // sus 19 juegos: 17 son de 100 posiciones (el defecto fallaba el 89% de las veces), solo 1
+  // conserva el valor por premio y 5 se quedaron en 13–14 probablemente porque venía puesto.
+  // Ahora el punto de partida es la MODA de lo que usted ya tiene, no el diseño de un juego.
+  function defectosJuego(){
+    const J = data.juegos||[];
+    const moda = (lista, fb)=>{
+      const c={}; lista.forEach(v=>{ if(v!=null && isFinite(v)) c[v]=(c[v]||0)+1; });
+      const k=Object.keys(c).sort((a,b)=>c[b]-c[a])[0];
+      return k!=null ? Number(k) : fb;
+    };
+    return {
+      tamano: moda(J.map(j=>j.tamanoLote), 50),
+      costo:  moda(J.map(j=>j.costoDefecto), 2),
+      min:    moda(J.map(j=>j.minPremios), 13),
+      max:    moda(J.map(j=>j.maxPremios), 14),
+      valor:  moda(J.map(j=>j.valorPremio), 5)
+    };
+  }
+  function aplicarDefectosJuego(){
+    const d = defectosJuego();
+    const set=(id,v)=>{ const e=document.getElementById(id); if(e) e.value=v; };
+    set('juegoTamano', String(d.tamano));
+    set('juegoCosto', Number(d.costo).toFixed(2));
+    set('juegoMinPremios', d.min);
+    set('juegoMaxPremios', d.max);
+    set('juegoValorPremio', Number(d.valor).toFixed(2));
+    const t=document.getElementById('juegoTamano'); if(t) t.disabled=false;
+    const h=document.getElementById('juegoFormHelp');
+    if(h) h.textContent = 'Los valores vienen de lo más habitual en tus juegos ('+d.tamano+' posiciones, '+fmt(d.costo)+'). Ajústalos a este juego.';
+    try{ renderRangoReal(); }catch(e){}
+  }
   function startEditJuego(id){
     const juego = data.juegos.find(j=>String(j.id)===String(id));
     if(!juego) return;
@@ -7881,25 +8189,28 @@
     juegoPremiosEdit = Array.isArray(juego.premios) ? juego.premios.slice() : [];
     renderJuegoPremiosChips();
     setJuegoEmoji(juego.emoji || '🎟️');
-    document.getElementById('juegoFormHelp').textContent = 'Editando "' + juego.nombre + '". El tamaño de lote no se puede cambiar si ya tiene lotes registrados.';
-    document.getElementById('juegoTamano').disabled = data.lotes.some(l=>String(l.juegoId)===String(juego.id));
+    const tieneLotes = data.lotes.some(l=>String(l.juegoId)===String(juego.id));
+    document.getElementById('juegoFormHelp').textContent = tieneLotes
+      ? 'El tamaño de lote está bloqueado: este juego ya tiene lotes registrados y cambiarlo dejaría boletos fuera de rango.'
+      : 'Este juego todavía no tiene lotes, así que puedes cambiarlo todo.';
+    document.getElementById('juegoTamano').disabled = tieneLotes;
     document.getElementById('btnSaveJuego').textContent = 'Guardar cambios';
     document.getElementById('btnCancelJuegoEdit').style.display = 'inline-block';
-    document.querySelector('#panel-juegos .section:nth-child(2) .card').scrollIntoView({behavior:'smooth', block:'start'});
+    renderRangoReal();
+    pintarCabeceraFicha();
+    fichaTab('datos');
+    mostrarNivelJuegos(2);
   }
 
-  function cancelEditJuego(){
+  // `silencioso` evita volver a la lista: lo usa `nuevoJuego` para limpiar el formulario sin
+  // cerrar la ficha que está a punto de abrir.
+  function cancelEditJuego(silencioso){
     editingJuegoId = null;
     const _pSel=document.getElementById('juegoPreset'); if(_pSel) _pSel.value='';
     const _pInfo=document.getElementById('juegoPresetInfo'); if(_pInfo) _pInfo.style.display='none';
     document.getElementById('juegoNombre').value = '';
     document.getElementById('juegoSeriePrefijo').value = '';
-    document.getElementById('juegoTamano').value = '50';
-    document.getElementById('juegoTamano').disabled = false;
-    document.getElementById('juegoCosto').value = '2.00';
-    document.getElementById('juegoMinPremios').value = '13';
-    document.getElementById('juegoMaxPremios').value = '14';
-    document.getElementById('juegoValorPremio').value = '5.00';
+    aplicarDefectosJuego();                 // en vez de los 50 / 13-14 / $5 fijos de antes
     juegoPremiosEdit = [];
     document.getElementById('juegoPremioNuevo').value = '';
     renderJuegoPremiosChips();
@@ -7908,6 +8219,73 @@
     document.getElementById('juegoFormHelp').textContent = '';
     document.getElementById('btnSaveJuego').textContent = '+ Crear juego';
     document.getElementById('btnCancelJuegoEdit').style.display = 'none';
+    if(silencioso!==true){ mostrarNivelJuegos(1); renderJuegoActivoList(); }
+  }
+  // Lo que el motor usa DE VERDAD como rango de premios por lote. `getJuegoParams` hace la
+  // unión de lo configurado y lo observado en tacos completos, y hasta ahora eso ocurría sin
+  // que ninguna pantalla lo dijera: usted configuraba 13–14 y el motor trabajaba con 12–15.
+  function renderRangoReal(){
+    const el = document.getElementById('juegoRangoReal'); if(!el) return;
+    if(!editingJuegoId){ el.innerHTML=''; return; }
+    const j = data.juegos.find(x=>String(x.id)===String(editingJuegoId)); if(!j){ el.innerHTML=''; return; }
+    // Totales de premios de los tacos COMPLETOS de este juego.
+    const tot=[];
+    (data.lotes||[]).forEach(l=>{
+      if(String(l.juegoId)!==String(j.id)) return;
+      const c=loteCounts(l);
+      if(c.revealed===c.total && c.total>0) tot.push(c.paid);
+    });
+    const cfg = (j.minPremios&&j.maxPremios) ? (j.minPremios+'–'+j.maxPremios) : '—';
+    let obs = 'sin tacos completos todavía', usa = cfg, nota='';
+    if(tot.length){
+      obs = Math.min(...tot)+'–'+Math.max(...tot)+' <span style="color:var(--silver-dark);">('+tot.length+' taco'+(tot.length===1?'':'s')+')</span>';
+      try{
+        const p = getJuegoParams(j.id);
+        usa = p.minPremios+'–'+p.maxPremios;
+        if(usa!==cfg) nota = 'El motor <strong>ensancha</strong> tu rango con lo que ha visto en tus tacos. Nunca lo estrecha: lo que configuras es el mínimo.';
+      }catch(e){}
+    } else {
+      nota = 'Sin tacos completos no hay con qué contrastar tu configuración.';
+    }
+    el.innerHTML = `<div style="background:var(--paper-dark); border-radius:8px; padding:10px 13px; font-size:12.5px; line-height:1.6;">
+      <strong style="display:block; margin-bottom:5px;">Premios por lote</strong>
+      configurado <span style="font-family:'Courier New',monospace; font-weight:800;">${cfg}</span>
+      · observado <span style="font-family:'Courier New',monospace; font-weight:800;">${obs}</span>
+      · <span style="color:var(--gold);">el motor usa <span style="font-family:'Courier New',monospace; font-weight:800;">${usa}</span></span>
+      ${nota?`<br><span style="color:var(--silver-dark);">${nota}</span>`:''}
+    </div>`;
+  }
+  // Rendimiento de ESTE juego, con las mismas cifras y el mismo veredicto del comparador.
+  function renderFichaRendimiento(){
+    const el = document.getElementById('fichaRendimiento'); if(!el) return;
+    if(!editingJuegoId){ el.innerHTML='<p class="note" style="margin:0;">Guarda el juego para empezar a medir su rendimiento.</p>'; return; }
+    let s=null; try{ s = statsPorJuego().find(x=>String(x.juego.id)===String(editingJuegoId)); }catch(e){}
+    if(!s){ el.innerHTML='<p class="note" style="margin:0;">Este juego todavía no tiene boletos registrados.</p>'; return; }
+    const COL={descartar:['#FCEBEB','#7F1D1D','DESCARTAR'],seguir:['#D1FAE5','#065F46','SEGUIR'],
+               indeciso:['#FAEEDA','#854F0B','SIN VEREDICTO'],'sin-datos':['#EDEBE6','#5c5b58','SIN DATOS']};
+    const c=COL[s.veredicto]||COL['sin-datos'];
+    const neto=s.premios-s.gasto;
+    const cel=(t,v,col)=>`<div style="background:var(--paper-dark);border-radius:8px;padding:9px 12px;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--silver-dark);">${t}</div>
+      <div style="font-family:'Courier New',monospace;font-weight:800;font-size:15px;${col?'color:'+col+';':''}">${v}</div></div>`;
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap;">
+        <span style="font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:5px;background:${c[0]};color:${c[1]};">${c[2]}</span>
+        <span style="font-size:12.5px;color:var(--silver-dark);">${escapeHtml(s.txt)}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;">
+        ${cel('Boletos', s.n)}
+        ${cel('Lotes', s.nLotes)}
+        ${cel('Gasto', fmt(s.gasto))}
+        ${cel('Premios', fmt(s.premios))}
+        ${cel('Neto', (neto>=0?'+':'')+fmt(neto), neto>=0?'#2EE6A6':'#FF6B6B')}
+        ${cel('RTP', s.rtp===null?'—':s.rtp.toFixed(1)+'%', (s.rtp!==null&&s.rtp>=100)?'#2EE6A6':'#FF6B6B')}
+        ${cel('IC95 del RTP', s.lo===null?'—':(Math.max(0,s.lo).toFixed(0)+'–'+s.hi.toFixed(0)+'%'))}
+        ${cel('Premio mayor', s.mayor>0?fmt(s.mayor):'—')}
+      </div>
+      <p class="note" style="margin:11px 0 0;">El <strong>premio mayor va aparte</strong> porque un solo boleto puede
+      voltear el signo de todo. Sin él, el RTP de este juego sería
+      <strong>${s.rtpSinMayor===null?'—':s.rtpSinMayor.toFixed(1)+'%'}</strong>.</p>`;
   }
 
   document.getElementById('btnCancelJuegoEdit').addEventListener('click', cancelEditJuego);
@@ -7922,6 +8300,36 @@
     const nombreDuplicado = data.juegos.some(j=> j.nombre.toLowerCase()===nombre.toLowerCase() && String(j.id)!==String(editingJuegoId));
     if(nombreDuplicado){ toast('Ya existe un juego con ese nombre'); return; }
 
+    // ═══ VALIDACIONES QUE FALTABAN  (v35.0) ═══════════════════════════════════════════
+    // REPRODUCIDO EN NAVEGADOR: se podía guardar un juego con mínimo 40 y máximo 5 premios
+    // por lote. Se guardaba sin una sola advertencia, y después `rgPriorTotales` devolvía
+    // `{soporte:[], nCompletos:0}` — soporte VACÍO. Todas las probabilidades de ese juego
+    // pasaban a no significar nada y ninguna pantalla lo decía. Dos dígitos mal puestos
+    // inutilizaban el análisis en silencio.
+    const _minP = parseInt(document.getElementById('juegoMinPremios').value,10);
+    const _maxP = parseInt(document.getElementById('juegoMaxPremios').value,10);
+    if(!isFinite(_minP) || !isFinite(_maxP) || _minP<1 || _maxP<1){
+      toast('Los premios mínimos y máximos por lote deben ser números mayores que 0'); return;
+    }
+    if(_minP > _maxP){
+      toast('El mínimo de premios ('+_minP+') no puede ser mayor que el máximo ('+_maxP+')'); return;
+    }
+    if(_maxP > tamanoLote){
+      toast('No puede haber más premios ('+_maxP+') que posiciones en el lote ('+tamanoLote+')'); return;
+    }
+    // El `|| 5.00` de reserva convertía un 0 en 5,00 sin decir nada: el usuario creía haber
+    // escrito una cosa y quedaba guardada otra. Ahora se avisa en vez de sustituir a escondidas.
+    const _valP = parseFloat(document.getElementById('juegoValorPremio').value);
+    if(!isFinite(_valP) || _valP <= 0){
+      toast('El valor estimado por premio debe ser mayor que 0'); return;
+    }
+    // Igual con el prefijo: «ABC-XYZ» se convertía en cadena vacía en silencio.
+    const _prefCrudo = String(document.getElementById('juegoSeriePrefijo').value||'').trim();
+    const _prefNorm  = normPrefijoSerie(_prefCrudo);
+    if(_prefCrudo && !_prefNorm){
+      toast('La serie inicial debe ser numérica (ej. 020). Corrígela o déjala vacía'); return;
+    }
+
     // Tabla de premios: se guarda ordenada y sin duplicados. Vacía = el campo NO se escribe,
     // así el juego hereda la tabla por defecto y su JSON queda igual que antes de esta función.
     const premiosTabla = [...new Set(juegoPremiosEdit.map(v=>Math.round(Number(v)*100)/100))]
@@ -7932,10 +8340,10 @@
       juego.nombre = nombre;
       juego.emoji = document.getElementById('juegoEmoji').value || '🎟️';
       juego.costoDefecto = costoDefecto;
-      juego.minPremios = parseInt(document.getElementById('juegoMinPremios').value,10)||13;
-      juego.maxPremios = parseInt(document.getElementById('juegoMaxPremios').value,10)||14;
-      juego.valorPremio = parseFloat(document.getElementById('juegoValorPremio').value)||5.00;
-      juego.seriePrefijo = normPrefijoSerie(document.getElementById('juegoSeriePrefijo').value);
+      juego.minPremios = _minP;          // ya validados arriba: sin `|| 13` que enmascare
+      juego.maxPremios = _maxP;
+      juego.valorPremio = _valP;
+      juego.seriePrefijo = _prefNorm;
       if(premiosTabla.length) juego.premios = premiosTabla; else delete juego.premios;
       // El tamaño de lote no se modifica si ya hay lotes registrados (evitaría grids inconsistentes
       // con boletos ya guardados en posiciones que podrían quedar fuera de rango).
@@ -7946,16 +8354,12 @@
       toast('Juego actualizado' + (premiosTabla.length ? ` · tabla de ${premiosTabla.length} premio(s)` : ''));
     } else {
       const emojiNuevo = document.getElementById('juegoEmoji').value || '🎟️';
-      const minP = parseInt(document.getElementById('juegoMinPremios').value,10)||13;
-      const maxP = parseInt(document.getElementById('juegoMaxPremios').value,10)||14;
-      const valP = parseFloat(document.getElementById('juegoValorPremio').value)||5.00;
-      const prefijoNuevo = normPrefijoSerie(document.getElementById('juegoSeriePrefijo').value);
-      const nuevoJuego = { id: 'juego-'+Date.now()+'-'+Math.round(Math.random()*1000), nombre, tamanoLote, costoDefecto, emoji: emojiNuevo, minPremios: minP, maxPremios: maxP, valorPremio: valP, seriePrefijo: prefijoNuevo };
-      if(premiosTabla.length) nuevoJuego.premios = premiosTabla;
-      data.juegos.push(nuevoJuego);
+      const nuevoJuegoObj = { id: 'juego-'+Date.now()+'-'+Math.round(Math.random()*1000), nombre, tamanoLote, costoDefecto, emoji: emojiNuevo, minPremios: _minP, maxPremios: _maxP, valorPremio: _valP, seriePrefijo: _prefNorm };
+      if(premiosTabla.length) nuevoJuegoObj.premios = premiosTabla;
+      data.juegos.push(nuevoJuegoObj);
       save();
       cancelEditJuego();
-      setJuegoActivo(nuevoJuego.id); // al crear un juego nuevo, lo activamos de inmediato
+      setJuegoActivo(nuevoJuegoObj.id); // al crear un juego nuevo, lo activamos de inmediato
       toast('Juego creado: ' + nombre + ' — ya está activo');
     }
   });
@@ -7979,7 +8383,12 @@
         info.innerHTML = `<strong>${escapeHtml(j.emoji+' '+j.nombre)}</strong> · costo ${fmt(j.costo)} · premio mayor <strong>${fmt(j.mayor)}</strong> · plan +${fmt(j.plan)}<br>`+
           `<span style="color:var(--silver-dark);">Tabla (${j.premios.length}): ${j.premios.map(p=>fmt(p)).join(', ')}</span><br>`+
           `<span style="color:var(--silver-dark);">Mecánica: ${escapeHtml(j.mec)}</span><br>`+
-          `<span style="color:var(--ink-soft);">Ajusta el tamaño de lote, el prefijo de serie y min/máx de premios según tus tacos.</span>`;
+          // El atajo rellena 4 campos de 11 porque JUEGOS_OFICIALES no guarda los otros. Decirlo
+          // evita que se guarde un juego con el tamaño y el rango de premios equivocados por
+          // creer que el preset ya lo había dejado todo listo.
+          `<span style="color:var(--gold);">Esto rellena <strong>nombre, costo, emoji y tabla de premios</strong>. `+
+          `Te faltan por revisar: <strong>posiciones por lote, serie inicial, mín/máx de premios y valor por premio</strong> `+
+          `— la lista oficial no publica esos datos.</span>`;
       }
     });
   })();
