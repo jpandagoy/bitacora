@@ -1806,64 +1806,6 @@
       </div>
     </div>
 
-    <!-- v36.0 — «Historial de mis boletos» pasa a vivir DENTRO del Archivo y plegado.
-         Listaba los MISMOS lotes que la sección 03, con 5 filtros propios que repetían los de
-         arriba (buscar por serie, punto de venta) y una segunda paginación distinta (20 por
-         página frente a 25). Lo único que aporta y la 03 no es desplegar los boletos de cada
-         lote, así que no se elimina: se guarda donde corresponde y deja de ocupar 2.035 px
-         del flujo principal. -->
-    <div class="section" id="histSection">
-      <details id="histAcc">
-      <summary class="jg-sum"><span><strong>Historial boleto a boleto</strong>
-        <span class="hint" id="tableHint"></span></span><span class="jg-caret">▾</span></summary>
-
-      <div class="card" style="margin:12px 0 14px;">
-        <div class="grid">
-          <div class="field wide">
-            <label for="histSearch">🔍 Buscar por serie de lote</label>
-            <input type="text" id="histSearch" placeholder="ej. 019033 o 020-019033-001">
-          </div>
-          <div class="field">
-            <label for="histCiudad">Filtrar por ciudad</label>
-            <select id="histCiudad"><option value="">Todas</option></select>
-          </div>
-          <div class="field">
-            <label for="histPunto">Filtrar por punto de venta</label>
-            <select id="histPunto"><option value="">Todos</option></select>
-          </div>
-          <div class="field">
-            <label for="histPremio">Filtrar por premio</label>
-            <select id="histPremio">
-              <option value="">Todos</option>
-              <option value="con">Solo con premio</option>
-              <option value="sin">Solo sin premio</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="histLoteEstado">Filtrar por estado de lote</label>
-            <select id="histLoteEstado">
-              <option value="">Todos</option>
-              <option value="completo">Solo lotes completos (100% revelado)</option>
-              <option value="curso">Solo lotes en curso</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-actions" style="margin-top:10px;">
-          <span class="field-help" id="histFilterSummary"></span>
-          <button class="btn-ghost" id="btnHistClear">Limpiar filtros</button>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap;">
-        <span style="font-size:12px; color:var(--silver-dark); font-weight:600;">Vista:</span>
-        <button class="btn-ghost" id="histViewGrouped" style="font-size:12px; padding:4px 10px;">🗂 Agrupado por lote</button>
-        <button class="btn-ghost" id="histViewFlat" style="font-size:12px; padding:4px 10px;">📋 Lista completa</button>
-        <span style="font-size:11px; color:var(--silver-dark); margin-left:auto;">Clic en una columna para ordenar ▲▼</span>
-      </div>
-
-      <div id="histGroups"></div>
-      </details>
-    </div>
   </div>
 
   <!-- =================================================== -->
@@ -2585,6 +2527,65 @@
   </div>
   <div class="tabpanel" id="panel-reporte">
 
+    <!-- v38.1 — «Historial boleto a boleto» se muda a Reporte. Medido: en Boletos y
+         lotes ocupaba 43 px plegado (1,1% de la pestaña) y no aportaba nada que el
+         detalle del taco no hiciera ya. Lo único suyo era buscar un boleto entre
+         VARIOS tacos a la vez, y eso es consultar, no capturar: su sitio es Reporte.
+         No se elimina para no perder esa búsqueda cruzada. -->
+    <div class="section" id="histSection">
+      <details id="histAcc">
+      <summary class="jg-sum"><span><strong>Historial boleto a boleto</strong>
+        <span class="hint" id="tableHint"></span></span><span class="jg-caret">▾</span></summary>
+
+      <div class="card" style="margin:12px 0 14px;">
+        <div class="grid">
+          <div class="field wide">
+            <label for="histSearch">🔍 Buscar por serie de lote</label>
+            <input type="text" id="histSearch" placeholder="ej. 019033 o 020-019033-001">
+          </div>
+          <div class="field">
+            <label for="histCiudad">Filtrar por ciudad</label>
+            <select id="histCiudad"><option value="">Todas</option></select>
+          </div>
+          <div class="field">
+            <label for="histPunto">Filtrar por punto de venta</label>
+            <select id="histPunto"><option value="">Todos</option></select>
+          </div>
+          <div class="field">
+            <label for="histPremio">Filtrar por premio</label>
+            <select id="histPremio">
+              <option value="">Todos</option>
+              <option value="con">Solo con premio</option>
+              <option value="sin">Solo sin premio</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="histLoteEstado">Filtrar por estado de lote</label>
+            <select id="histLoteEstado">
+              <option value="">Todos</option>
+              <option value="completo">Solo lotes completos (100% revelado)</option>
+              <option value="curso">Solo lotes en curso</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions" style="margin-top:10px;">
+          <span class="field-help" id="histFilterSummary"></span>
+          <button class="btn-ghost" id="btnHistClear">Limpiar filtros</button>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap;">
+        <span style="font-size:12px; color:var(--silver-dark); font-weight:600;">Vista:</span>
+        <button class="btn-ghost" id="histViewGrouped" style="font-size:12px; padding:4px 10px;">🗂 Agrupado por lote</button>
+        <button class="btn-ghost" id="histViewFlat" style="font-size:12px; padding:4px 10px;">📋 Lista completa</button>
+        <span style="font-size:11px; color:var(--silver-dark); margin-left:auto;">Clic en una columna para ordenar ▲▼</span>
+      </div>
+
+      <div id="histGroups"></div>
+      </details>
+    </div>
+
+
     <div class="folio" style="margin-bottom:20px;">
       <div class="folio-top" style="padding:16px 22px;">
         <div>
@@ -3110,7 +3111,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '38.0', fecha: '2026-09-05' };
+  const APP_VERSION = { num: '38.1', fecha: '2026-09-06' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -4436,6 +4437,29 @@
       /* ---- Fechas dentro de la fila de un lote ---- */
       .lote-fechas { display:flex; gap:14px; flex-wrap:wrap; font-size:11px; color:var(--silver-dark);
         font-family:'Courier New',monospace; width:100%; margin-top:3px; }
+      /* v38.1 — FICHA COMPACTA. La fila medía 90 px porque tanto el desglose de ROI como la
+         línea de fechas se llevaban su propio renglón (3 en total). Ninguno de los dos es
+         motivo para venir aquí: para el detalle está «Estado del lote». Ahora las fechas
+         solo aparecen al pasar el ratón, y el desglose se aprieta en la misma línea.
+         MEDIDO: 90 px → 36 px, de 10 a 25 tacos por pantalla. */
+      .lote-list.compacta .lote-row { padding:6px 12px; gap:9px; }
+      .lote-list.compacta .lote-fechas { display:none; }
+      .lote-list.compacta .lote-row:hover .lote-fechas { display:flex; }
+      .lote-list.compacta .hist-group-summary { gap:11px; padding:0; margin-left:auto; }
+      .lote-list.compacta .hist-group-summary .g-lbl { display:none; }
+      .lote-list.compacta .lbar { width:64px; }
+      @media (max-width:900px){
+        /* En el teléfono no hay ratón que pase por encima: las fechas se quedan fuera y el
+           desglose baja a una segunda línea, que ahí sí cabe. */
+        .lote-list.compacta .lote-row:hover .lote-fechas { display:none; }
+        .lote-list.compacta .hist-group-summary { margin-left:0; flex-basis:100%; justify-content:flex-start; }
+        /* Y fuera los chips de ANÁLISIS. MEDIDO a 375 px: un taco en curso llegaba a 140 px
+           y 5 líneas porque arrastraba «🏆 Máx $20», «2/~12 premios» y «prob. próximo 22%».
+           Eso es apoyo a la decisión —su sitio es «Estado del lote»—, no información de
+           lista: aquí solo estorba entre un taco y el siguiente. Se quedan serie, avance,
+           ROI, descuento y estado de cobro, que es lo que se compara de un vistazo. */
+        .lote-list.compacta .lote-extra { display:none; }
+      }
       .lote-fechas .lf-x { white-space:nowrap; }
       .lote-fechas .lf-x strong { color:var(--ink-soft); font-weight:700; }
       /* ---- Captura rápida ---- */
@@ -4887,31 +4911,78 @@
     const puntos  = [...new Set((data.lotes||[]).map(l=>l.punto).filter(Boolean))].sort();
     const ciudades= [...new Set((data.lotes||[]).map(l=>l.ciudad).filter(Boolean))].sort();
     const opt = (arr,v)=>['<option value=""></option>'].concat(arr.map(x=>`<option value="${escapeHtml(x)}"${String(x)===String(v||'')?' selected':''}>${escapeHtml(x)}</option>`)).join('');
+    // v38.1 — REDISEÑO. El anterior era un formulario: cinco casillas vacías con un guion y
+    // un cartel que te regañaba («Aún no has puesto ningún valor») antes de que hicieras
+    // nada. Ahora se lee como una FICHA: etiqueta a la izquierda, valor a la derecha, y lo
+    // que no vas a tocar dice «sin cambios» en gris en vez de estar en blanco. El descuento
+    // trae atajos con los porcentajes que TÚ usas de verdad —sacados de tus propios tacos—
+    // para no teclear, y el impacto en dinero se muestra grande porque es lo único que hay
+    // que mirar antes de aceptar.
+    const usados = (function(){
+      const c = {};
+      (data.lotes||[]).forEach(l=>{ const d0=getDescuentoLote(l); if(d0>0) c[d0]=(c[d0]||0)+1; });
+      return Object.keys(c).sort((a,b)=>c[b]-c[a]).slice(0,4);
+    })();
+    const fila = (id, etiqueta, extra, valor, mono)=>`
+      <div class="mm-fila" style="display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line);">
+        <label for="${id}" style="font-size:12.5px; color:var(--ink-soft); width:112px; flex:none;">${etiqueta}</label>
+        <div style="flex:1; min-width:0;">
+          <input id="${id}" value="${escapeHtml(valor||'')}" placeholder="sin cambios" ${extra}
+            style="width:100%; border:none; border-bottom:1.5px solid var(--line); background:transparent; padding:5px 2px; font:600 14px inherit; ${mono?"font-family:'Courier New',monospace;":''} color:var(--ink); outline:none;">
+        </div>
+      </div>`;
     const cuerpo = `
-      <p style="margin:0 0 10px; font-size:13px;"><strong>${ids.length} taco(s)</strong> · ${nBol} boleto(s). Rellena SOLO lo que quieras cambiar; lo que dejes en blanco no se toca.</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:9px;">
-        <label style="font-size:12px;">Descuento (%)<br><input type="text" inputmode="decimal" id="mmDesc" value="${escapeHtml(s.descuento!=null?String(s.descuento):'')}" placeholder="—" style="width:100%; font-family:'Courier New',monospace;"></label>
-        <label style="font-size:12px;">Punto de venta<br><input list="mmPuntos" id="mmPunto" value="${escapeHtml(s.punto||'')}" placeholder="—" style="width:100%;"><datalist id="mmPuntos">${opt(puntos)}</datalist></label>
-        <label style="font-size:12px;">Ciudad<br><input list="mmCiudades" id="mmCiudad" value="${escapeHtml(s.ciudad||'')}" placeholder="—" style="width:100%;"><datalist id="mmCiudades">${opt(ciudades)}</datalist></label>
-        <label style="font-size:12px;">Color del taco<br><input list="mmColores" id="mmColor" value="${escapeHtml(s.color||'')}" placeholder="—" style="width:100%;"><datalist id="mmColores">${opt(colores)}</datalist></label>
-        <label style="font-size:12px;">Inicia en<br><input type="text" inputmode="numeric" id="mmInicio" value="${escapeHtml(s.inicioNum||'')}" placeholder="—" style="width:100%; font-family:'Courier New',monospace;"></label>
+      <div style="display:flex; gap:12px; align-items:flex-start; padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:4px;">
+        <div style="width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#1565C0,#065F46); display:grid; place-items:center; font-size:17px; flex:none;">✎</div>
+        <div style="flex:1; min-width:0;">
+          <div style="font-weight:800; font-size:15.5px;">${ids.length} taco${ids.length===1?'':'s'} marcado${ids.length===1?'':'s'}</div>
+          <div style="font-size:11.5px; color:var(--silver-dark); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${nBol} boletos · ${lotes.slice(0,3).map(l=>escapeHtml(l.serie)).join(' · ')}${lotes.length>3?` y ${lotes.length-3} más`:''}</div>
+        </div>
       </div>
-      <div id="mmPrevio" style="margin-top:11px; font-size:12.5px; background:var(--paper-dark); border-radius:8px; padding:9px 11px; min-height:38px;"></div>
-      <details style="margin-top:9px;"><summary style="cursor:pointer; font-size:12px; color:var(--ink-soft);">Ver los ${ids.length} tacos que se van a tocar</summary>
-        <div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:7px;">
-          ${lotes.map(l=>`<span style="font:700 10.5px 'Courier New',monospace; background:var(--paper-dark); border-radius:20px; padding:2px 9px;">${escapeHtml(l.serie)}</span>`).join('')}
-        </div></details>`;
+      ${fila('mmDesc','Descuento','type="text" inputmode="decimal"', s.descuento!=null?String(s.descuento):'', true)}
+      ${usados.length?`<div style="display:flex; gap:5px; flex-wrap:wrap; margin:-4px 0 8px 124px;">
+        ${usados.map(v=>`<button type="button" class="mm-sug" data-v="${v}" style="font:700 11px 'Courier New',monospace; background:var(--paper-dark); border:1px solid var(--silver); border-radius:20px; padding:4px 10px; cursor:pointer; color:var(--ink-soft);">${v}%</button>`).join('')}
+      </div>`:''}
+      ${fila('mmPunto','Punto de venta',`list="mmPuntos"`, s.punto||'')}<datalist id="mmPuntos">${opt(puntos)}</datalist>
+      ${fila('mmCiudad','Ciudad',`list="mmCiudades"`, s.ciudad||'')}<datalist id="mmCiudades">${opt(ciudades)}</datalist>
+      ${fila('mmColor','Color',`list="mmColores"`, s.color||'')}<datalist id="mmColores">${opt(colores)}</datalist>
+      ${fila('mmInicio','Inicia en','type="text" inputmode="numeric"', s.inicioNum||'', true)}
+      <div id="mmPrevio" style="margin-top:13px;"></div>`;
     // El previo se recalcula en vivo mientras se escribe: el usuario ve el dinero ANTES.
     const pintarPrevio = ()=>{
       const c = leerCambios();
       const el = document.getElementById('mmPrevio'); if(!el) return;
-      const algo = Object.keys(c).length;
-      if(!algo){ el.innerHTML = '<span style="color:var(--silver-dark);">Aún no has puesto ningún valor.</span>'; return; }
+      const btn = document.getElementById('modalConfirm');
+      // El campo tocado se pinta en azul: de un vistazo sabes qué estás cambiando.
+      [['mmDesc','descuento'],['mmPunto','punto'],['mmCiudad','ciudad'],['mmColor','color'],['mmInicio','inicioNum']]
+        .forEach(([id,k])=>{ const e=document.getElementById(id); if(!e) return;
+          const on = c[k]!=null && c[k]!=='';
+          e.style.borderBottomColor = on ? '#1565C0' : 'var(--line)';
+          e.style.color = on ? '#1565C0' : 'var(--ink)'; });
+      if(!Object.keys(c).length){
+        // Sin cartel que regañe: el botón apagado ya dice que todavía no hay nada que hacer.
+        el.innerHTML = '';
+        if(btn){ btn.disabled = true; btn.textContent = 'Aplicar'; btn.style.opacity='.45'; }
+        return;
+      }
       const p = previoMasivo(ids, c);
-      const partes = [];
-      if(c.descuento != null) partes.push(`<strong>${p.nBoletos}</strong> boleto(s) pasan de <strong>${fmt(p.deA)}</strong> a <strong>${fmt(p.aB)}</strong> · ahorro <strong>${fmt(p.ahorro)}</strong>`);
-      CAMPOS_MASIVOS.filter(x=>!x.tocaBoletos && c[x.k]!=null).forEach(x=>partes.push(`${x.etiqueta.toLowerCase()} → <strong>${escapeHtml(String(c[x.k]))}</strong>`));
-      el.innerHTML = partes.join('<br>') + (p.pisa ? `<br><span style="color:#92400E;">⚠ ${p.pisa} taco(s) ya tenían un valor distinto y se van a pisar.</span>` : '');
+      const otros = CAMPOS_MASIVOS.filter(x=>!x.tocaBoletos && c[x.k]!=null)
+        .map(x=>`${x.etiqueta.toLowerCase()} → <strong>${escapeHtml(String(c[x.k]))}</strong>`);
+      let html = '';
+      if(c.descuento != null){
+        html += `<div style="background:linear-gradient(180deg,#F0FDF4,#ECFDF5); border:1px solid #A7F3D0; border-radius:12px; padding:12px 14px;">
+          <div style="display:flex; align-items:baseline; gap:9px; flex-wrap:wrap;">
+            <span style="font:800 21px/1.15 'Courier New',monospace; color:#065F46;">−${fmt(p.ahorro)}</span>
+            <span style="font-weight:700; color:#065F46;">de gasto</span></div>
+          <div style="font-size:11.5px; color:#065F46; margin-top:3px;">${p.nBoletos} boletos pasan de ${fmt(p.deA)} a ${fmt(p.aB)}${otros.length?' · '+otros.join(' · '):''}</div>
+        </div>`;
+      } else if(otros.length){
+        html += `<div style="background:var(--paper-dark); border-radius:10px; padding:10px 13px; font-size:12.5px;">${otros.join('<br>')}</div>`;
+      }
+      if(p.pisa) html += `<div style="margin-top:8px; font-size:12px; background:#FEF3C7; border:1px solid #FCD34D; border-radius:9px; padding:8px 11px; color:#92400E;">⚠ ${p.pisa} taco${p.pisa===1?'':'s'} ya tenía${p.pisa===1?'':'n'} un valor distinto y se va${p.pisa===1?'':'n'} a pisar.</div>`;
+      el.innerHTML = html;
+      if(btn){ btn.disabled = false; btn.style.opacity='';
+               btn.textContent = `Aplicar a ${ids.length} taco${ids.length===1?'':'s'}`; }
     };
     const leerCambios = ()=>{
       const g=id=>{ const e=document.getElementById(id); return e ? String(e.value||'').trim() : ''; };
@@ -4921,9 +4992,36 @@
       const ini=g('mmInicio'); if(ini!=='') c.inicioNum=ini;
       return c;
     };
-    setTimeout(()=>{ ['mmDesc','mmPunto','mmCiudad','mmColor','mmInicio'].forEach(id=>{
-      document.getElementById(id)?.addEventListener('input', pintarPrevio); }); pintarPrevio(); }, 60);
-    const ok = await showModal({ title: titulo || `Actualizar ${ids.length} taco(s)`, body: cuerpo, confirmLabel:'Aplicar' });
+    setTimeout(()=>{
+      ['mmDesc','mmPunto','mmCiudad','mmColor','mmInicio'].forEach(id=>{
+        document.getElementById(id)?.addEventListener('input', pintarPrevio); });
+      // Atajos de descuento: un toque escribe el valor y repinta el impacto.
+      document.querySelectorAll('.mm-sug').forEach(b=>b.addEventListener('click', e=>{
+        e.preventDefault();
+        const i = document.getElementById('mmDesc'); if(!i) return;
+        i.value = (i.value===b.dataset.v) ? '' : b.dataset.v;   // volver a tocarlo lo quita
+        document.querySelectorAll('.mm-sug').forEach(x=>{
+          const on = x.dataset.v===i.value;
+          x.style.background = on ? '#1565C0' : 'var(--paper-dark)';
+          x.style.color = on ? '#fff' : 'var(--ink-soft)';
+          x.style.borderColor = on ? '#1565C0' : 'var(--silver)';
+        });
+        pintarPrevio();
+      }));
+      // El botón de ESTE diálogo no grita. `.btn-primary` fuerza mayúsculas en toda la app,
+      // pero aquí el texto es una frase («Aplicar a 2 tacos»), no una etiqueta: en versales
+      // se lee peor y suena a orden. Se toca solo este botón y se devuelve al cerrar, para
+      // no cambiarle el estilo a los demás modales.
+      const _b = document.getElementById('modalConfirm');
+      if(_b){ _b.style.textTransform='none'; _b.style.letterSpacing='0'; }
+      pintarPrevio();
+    }, 60);
+    // El título va vacío cuando la cabecera del cuerpo ya dice cuántos tacos son: repetirlo
+    // arriba y abajo era ruido. La tanda sí trae título, porque ahí importa QUÉ compra es.
+    const ok = await showModal({ title: titulo || 'Editar en bloque', body: cuerpo, confirmLabel:'Aplicar' });
+    // Devolver el botón a su estilo de siempre: el resto de la app sí usa versales.
+    (function(){ const b=document.getElementById('modalConfirm');
+      if(b){ b.style.textTransform=''; b.style.letterSpacing=''; b.disabled=false; b.style.opacity=''; } })();
     if(!ok) return false;
     const cambios = leerCambios();
     if(!Object.keys(cambios).length){ toast('No pusiste ningún valor — no se cambió nada.'); return false; }
@@ -5037,11 +5135,15 @@
         else todosFiltrados.forEach(id=>loteSel.add(id));
         renderLoteList(); return;
       }
+      if(t.id === 'loteSelNada'){
+        e.preventDefault(); e.stopPropagation();
+        loteSel.clear(); renderLoteList(); return;
+      }
       if(t.id === 'loteSelAplicar'){
         e.preventDefault(); e.stopPropagation();
         if(!loteSel.size){ toast('Marca al menos un taco.'); return; }
-        const ok = await pedirCambiosMasivos([...loteSel], `Actualizar ${loteSel.size} taco(s) marcados`, {});
-        if(ok){ loteSel.clear(); loteSelModo=false; }
+        const ok = await pedirCambiosMasivos([...loteSel], null, {});
+        if(ok) loteSel.clear();
         renderLoteList(); return;
       }
     }, true);
@@ -6400,7 +6502,7 @@
       ['renderLoteList', ()=>renderLoteList()],
       ['renderTandas', ()=>renderTandas()],
       ['initGridKeyboardNav', ()=>initGridKeyboardNav()],
-      ['renderTable', ()=>renderTable(), true],
+      // renderTable ya NO vive aquí: el Historial se mudó a Reporte (v38.1).
     ],
     qr: [ ['mkPintar', ()=>mkPintar()], ['renderTacoVivo', ()=>renderTacoVivo()] ],
     estrategia: [ ['renderEstrategia', ()=>renderEstrategia(), true] ],
@@ -6419,6 +6521,8 @@
     rendimiento: [ ['renderRendimiento', ()=>renderRendimiento()] ],
     cobros: [ ['renderCobros', ()=>renderCobros()] ],
     reporte: [
+      // v38.1 — el Historial se mudó aquí desde Boletos y lotes: su renderer viaja con él.
+      ['renderTable', ()=>renderTable(), true],
       ['renderReporte', ()=>renderReporte()],
       ['renderCierreMensual', ()=>renderCierreMensual()],
       ['renderCurvaROI', ()=>renderCurvaROI()],
@@ -10086,10 +10190,9 @@
 
   // ---- Orden de la lista de lotes ----
   let loteSort = { key:'actividad', dir:'desc' };
-  // v38.0 — modo selección de «Mis tacos». Apagado por defecto y NO se recuerda entre
-  // sesiones a propósito: es una herramienta puntual, no un estado en el que vivir. Si se
-  // guardara, un día abrirías la app con casillas por todas partes sin saber por qué.
-  let loteSelModo = false;
+  // v38.1 — la casilla está SIEMPRE. Ya no hay modo que encender: marcar un taco es lo que
+  // despierta la barra de edición masiva. La selección no se recuerda entre sesiones —
+  // abrir la app con 30 tacos marcados de ayer sería una trampa.
   const loteSel = new Set();
   function loteFechaVal(l){ return rgLoteTime(l); }
   // Última actividad del lote: lo más reciente entre su fecha de actualización explícita, su
@@ -10192,7 +10295,18 @@
   }
   // E4 (v33.0): vista de la lista de lotes — fichas (como siempre) o tabla comparable.
   // Se recuerda entre sesiones porque es una preferencia de lectura, no un filtro.
-  let loteVista = (function(){ try{ return localStorage.getItem('bitacora_lote_vista')||'fichas'; }catch(_){ return 'fichas'; } })();
+  // v38.1 — la vista por defecto depende de la PANTALLA, no de un gusto fijo.
+  // MEDIDO: la tabla da 25 px por taco (36 por pantalla) frente a los 90 px de la ficha (10).
+  // En la PC eso es 3,6× más tacos a la vista, que es exactamente lo que se pedía. Pero sus 9
+  // columnas no caben en 375 px, así que en el teléfono manda la ficha. Si tú eliges una
+  // vista a mano, se recuerda y esta regla ya no vuelve a opinar.
+  let loteVista = (function(){
+    try{
+      const guardada = localStorage.getItem('bitacora_lote_vista');
+      if(guardada) return guardada;
+    }catch(_){ }
+    try{ return (window.innerWidth >= 901) ? 'tabla' : 'fichas'; }catch(_){ return 'fichas'; }
+  })();
   function setLoteVista(v){
     loteVista = v;
     try{ localStorage.setItem('bitacora_lote_vista', v); }catch(_){}
@@ -10358,18 +10472,9 @@
           ? 'background:var(--ink); color:var(--white); border-color:var(--ink);'
           : 'background:var(--paper-dark); color:var(--ink-mid); border-color:var(--silver);';
         return `<button type="button" class="lote-sort-chip" data-sortkey="${k}" style="font-size:11px; border:1px solid; border-radius:6px; padding:4px 9px; cursor:pointer; ${style}">${lbl}${arrow}</button>`;
-      }).join('')
-      // v38.0 — el modo selección se ENCIENDE. Las casillas no viven siempre en la lista:
-      // recargarla de cajitas era justo lo contrario de lo que buscábamos al simplificarla.
-      + '<span style="display:inline-block; width:12px;"></span>'
-      + `<button type="button" id="loteSelToggle" style="font-size:11px; border:1px solid; border-radius:6px; padding:4px 9px; cursor:pointer; `
-      + (loteSelModo ? 'background:#1565C0; color:#fff; border-color:#1565C0;' : 'background:var(--paper-dark); color:var(--ink-mid); border-color:var(--silver);')
-      + `">${loteSelModo?'✓ Seleccionando':'☑ Seleccionar varios'}</button>`;
-    bar.querySelector('#loteSelToggle')?.addEventListener('click', ()=>{
-      loteSelModo = !loteSelModo;
-      if(!loteSelModo) loteSel.clear();
-      renderLoteList();
-    });
+      }).join('');
+      // v38.1 — se quitó el botón «Seleccionar varios». La casilla vive siempre en cada taco
+      // y marcar una es lo que despierta la edición masiva: un modo menos que encender.
     bar.querySelectorAll('.lote-vista-chip').forEach(ch=>{
       ch.addEventListener('click', ()=> setLoteVista(ch.dataset.vista));
     });
@@ -10474,6 +10579,23 @@
     // Limpia el conmutador si quedó pintado por una versión anterior.
     const viejo = document.getElementById('loteVistaToggle');
     if(viejo) viejo.remove();
+  }
+  // v38.1 — la barra de selección la comparten la ficha y la tabla: una sola fuente para que
+  // no puedan enseñar cuentas distintas. Solo existe si hay algo marcado, y va pegada abajo
+  // porque con 30 tacos en pantalla una barra arriba se pierde al desplazarse.
+  function barraSeleccionHTML(visiblesIds){
+    if(!loteSel.size) return '';
+    const marcados = (visiblesIds||[]).filter(id=>loteSel.has(String(id))).length;
+    const nBol = (data.records||[]).filter(r=>loteSel.has(String(r.loteId))).length;
+    const todos = visiblesIds && visiblesIds.length && marcados===visiblesIds.length;
+    return `<div id="loteSelBar" style="position:sticky; bottom:8px; z-index:40; display:flex; gap:8px; align-items:center; flex-wrap:wrap; background:var(--ink); color:#fff; border-radius:13px; padding:10px 13px; margin-top:8px; box-shadow:0 -6px 26px -8px rgba(0,0,0,.45);">
+      <span style="font-weight:800; font-size:13.5px;">${loteSel.size} taco${loteSel.size===1?'':'s'}</span>
+      <span style="opacity:.7; font-size:11.5px;">· ${nBol} boletos</span>
+      <span style="flex:1"></span>
+      <button class="btn-ghost" id="loteSelTodos" style="font-size:11.5px; padding:8px 11px; min-height:42px; background:transparent; color:#fff; border-color:rgba(255,255,255,.4);">${todos?'Quitar':'Los'} ${(visiblesIds||[]).length} filtrados</button>
+      <button class="btn-ghost" id="loteSelAplicar" style="font-size:12px; padding:8px 14px; min-height:42px; font-weight:800; background:var(--stamp); color:#fff; border-color:var(--stamp);">✎ Cambiar campos</button>
+      <button class="btn-ghost" id="loteSelNada" title="Desmarcar todo" style="font-size:14px; padding:8px 11px; min-height:42px; background:transparent; color:#fff; border-color:transparent;">✕</button>
+    </div>`;
   }
   function renderLoteTabla(visibles){
     const list = document.getElementById('loteList');
@@ -10646,7 +10768,11 @@
     // taco que se está trabajando está arriba, y esta lista sirve para SALTAR a otro. MEDIDO:
     // 25 tarjetas ocupaban 2.819 px y empujaban el historial fuera de vista. Con 12 la lista
     // cabe de un vistazo y quien busca algo concreto usa el buscador, que está justo encima.
-    const LOTES_POR_PAGINA = 12;
+    // v38.1 — de 12 a 30. MEDIDO a 1440×900: la fila de ficha ocupa 90 px y la de tabla 25,
+    // así que en una pantalla caben 10 y 36 respectivamente… pero solo se pintaban 12. El
+    // tope, no la altura, era lo que te obligaba a paginar con 255 tacos. 30 llena la
+    // pantalla en tabla y deja margen sin volver el repintado lento.
+    const LOTES_POR_PAGINA = 30;
     const nPagL = Math.max(1, Math.ceil(visibles.length/LOTES_POR_PAGINA));
     if(lotePagina >= nPagL) lotePagina = nPagL-1;
     if(lotePagina < 0) lotePagina = 0;
@@ -10657,6 +10783,14 @@
         <span style="font-size:12px; color:var(--silver-dark);">Página <strong>${lotePagina+1}</strong> de ${nPagL} · ${desdeL+1}–${Math.min(desdeL+LOTES_POR_PAGINA, visibles.length)} de ${visibles.length} lotes</span>
         <button type="button" class="btn-ghost lote-pag" data-pag="next" style="font-size:12px; padding:4px 12px;" ${lotePagina>=nPagL-1?'disabled':''}>Siguiente ›</button>
       </div>` : '';
+    // v38.1 — la barra de selección y la lista de ids visibles se calculan ANTES de elegir
+    // vista, porque las dos vistas —ficha y tabla— las necesitan igual. `visiblesIds` es lo
+    // que convierte los filtros que ya existen en la herramienta de selección: «los N
+    // filtrados» marca TODO lo filtrado, no solo la página que se está viendo.
+    const visiblesIds = visibles.map(l=>String(l.id));
+    window.__ultimosVisiblesLote = visiblesIds;
+    const selBar = barraSeleccionHTML(visiblesIds);
+
     // E4 (v33.0): vista de TABLA conmutable. Con 206 tacos, la lista de fichas obliga a
     // desplazarse muchísimo para comparar dos de ellos; la tabla pone las mismas cifras
     // alineadas en columnas y cabe cuatro veces más en la pantalla. Respeta el mismo orden,
@@ -10666,7 +10800,7 @@
       const th = (t, extra)=>'<th style="text-align:'+(extra||'left')+'; padding:5px 7px; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--silver-dark); border-bottom:1px solid var(--silver); white-space:nowrap;">'+t+'</th>';
       list.innerHTML = navL +
         '<div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; font-size:12px;">'
-        + '<thead><tr>' + th('Serie') + (esAmbitoGlobal()? th('Juego'):'') + th('Avance','right')
+        + '<thead><tr>' + th('') + th('Serie') + (esAmbitoGlobal()? th('Juego'):'') + th('Avance','right')
         + th('Premios','right') + th('$ Premios','right') + th('$ Gasto','right') + th('ROI','right')
         + th('Descuento','right') + th('Última','right') + '</tr></thead><tbody>'
         + pag.map(l=>{
@@ -10679,8 +10813,15 @@
             const fs = recsL.map(r=>String(r.fecha||'').slice(0,10)).filter(Boolean).sort();
             const ult = fs.length? fs[fs.length-1] : (fechaLocalDe(l.creadoEn)||'—');   // día LOCAL, no UTC (v37.2)
             const td = (v, extra, st)=>'<td style="padding:5px 7px; text-align:'+(extra||'left')+'; border-bottom:1px solid var(--line); white-space:nowrap; '+(st||'')+'">'+v+'</td>';
+            const marc = loteSel.has(String(l.id));
             return '<tr class="lote-fila-tabla" data-id="'+l.id+'" style="cursor:pointer;'
-              + (act? 'background:var(--paper-dark);':'') + '">'
+              + (marc? 'background:#EFF6FF;' : (act? 'background:var(--paper-dark);':'')) + '">'
+              // v38.1 — la casilla vive SIEMPRE en la fila; marcar es lo que despierta la
+              // edición en bloque. Va en su propia celda para no competir con la serie.
+              + '<td style="padding:4px 6px; width:28px; border-bottom:1px solid var(--line);">'
+              + '<span class="lote-chk" data-sel="'+l.id+'" role="checkbox" aria-checked="'+marc+'" title="Marcar para editar en bloque" '
+              + 'style="display:grid; place-items:center; width:19px; height:19px; border:2px solid '+(marc?'#1565C0':'var(--silver)')+'; '
+              + (marc?'background:#1565C0; color:#fff;':'opacity:.45;')+' border-radius:5px; font-size:11px; cursor:pointer;">'+(marc?'✓':'')+'</span></td>'
               + td('<b style="font-family:\'Courier New\',monospace;">'+escapeHtml(l.serie)+'</b>')
               + (esAmbitoGlobal()? td('<span style="font-size:11px; color:var(--silver-dark);">'+escapeHtml(juegoDeLoteTxt(l))+'</span>'):'')
               + td(c.revealed+'/'+c.total+' <span style="color:var(--silver-dark);">('+pct+'%)</span>','right')
@@ -10692,7 +10833,7 @@
               + td('<span style="font-family:\'Courier New\',monospace; color:var(--silver-dark);">'+escapeHtml(ult)+'</span>','right')
               + '</tr>';
           }).join('')
-        + '</tbody></table></div>';
+        + '</tbody></table></div>' + selBar;
       list.querySelectorAll('.lote-fila-tabla').forEach(tr=>{
         tr.addEventListener('click', ()=>{
           activeLoteId = tr.dataset.id;
@@ -10704,24 +10845,8 @@
       return;
     }
 
-    // v38.0 — barra de acciones del modo selección. Se dibuja ARRIBA de la lista y solo
-    // cuando el modo está encendido; `visiblesIds` permite «marcar todos los que se ven»,
-    // que es lo que convierte los filtros que ya existen en la herramienta de selección.
-    const visiblesIds = visibles.map(l=>String(l.id));
-    window.__ultimosVisiblesLote = visiblesIds;   // lo lee «marcar los que se ven»
-    let selBar = '';
-    if(loteSelModo){
-      const marcados = visiblesIds.filter(id=>loteSel.has(id)).length;
-      const nBolSel = (data.records||[]).filter(r=>loteSel.has(String(r.loteId))).length;
-      selBar = `<div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; background:var(--ink); color:#fff; border-radius:10px; padding:9px 11px; margin-bottom:8px;">
-        <span style="font-weight:700; font-size:13px;">${loteSel.size} taco(s)</span>
-        <span style="opacity:.7; font-size:11.5px;">${loteSel.size?('· '+nBolSel+' boletos'):'· marca los que quieras cambiar'}</span>
-        <span style="flex:1"></span>
-        <button class="btn-ghost" id="loteSelTodos" style="font-size:11.5px; padding:7px 10px; min-height:40px; background:transparent; color:#fff; border-color:rgba(255,255,255,.45);">${marcados===visiblesIds.length&&visiblesIds.length?'Desmarcar':'Marcar'} los ${visiblesIds.length} que se ven</button>
-        <button class="btn-ghost" id="loteSelAplicar" ${loteSel.size?'':'disabled'} style="font-size:11.5px; padding:7px 12px; min-height:40px; font-weight:700; ${loteSel.size?'background:var(--stamp); color:#fff; border-color:var(--stamp);':'background:transparent; color:rgba(255,255,255,.4); border-color:rgba(255,255,255,.2);'}">✎ Cambiar campos</button>
-      </div>`;
-    }
-    list.innerHTML = selBar + navL + visibles.slice(desdeL, desdeL+LOTES_POR_PAGINA).map(l=>{
+    list.classList.add('compacta');               // v38.1 — ficha de una línea
+    list.innerHTML = navL + visibles.slice(desdeL, desdeL+LOTES_POR_PAGINA).map(l=>{
       const c = loteCounts(l);
       const pct = (c.revealed/c.total*100).toFixed(0);
       const roiInfo = loteRoiInfo(l);
@@ -10740,7 +10865,7 @@
       }
       const tirada = getTiradaSerie(l.serie);
       return `<div class="lote-row ${String(l.id)===String(activeLoteId)?'active':''}" data-id="${l.id}">
-        ${loteSelModo ? `<span class="lote-chk" data-sel="${l.id}" role="checkbox" aria-checked="${loteSel.has(String(l.id))}" style="flex:none; width:26px; height:26px; min-width:26px; border:2px solid ${loteSel.has(String(l.id))?'#1565C0':'var(--silver)'}; ${loteSel.has(String(l.id))?'background:#1565C0; color:#fff;':''} border-radius:6px; display:grid; place-items:center; font-size:15px; cursor:pointer;">${loteSel.has(String(l.id))?'✓':''}</span>` : ''}
+        <span class="lote-chk" data-sel="${l.id}" role="checkbox" aria-checked="${loteSel.has(String(l.id))}" title="Marcar para editar en bloque" style="flex:none; width:24px; height:24px; min-width:24px; border:2px solid ${loteSel.has(String(l.id))?'#1565C0':'var(--silver)'}; ${loteSel.has(String(l.id))?'background:#1565C0; color:#fff;':'opacity:.5;'} border-radius:6px; display:grid; place-items:center; font-size:14px; cursor:pointer;">${loteSel.has(String(l.id))?'✓':''}</span>
         <span class="lid">${escapeHtml(l.serie)}</span>
         ${esAmbitoGlobal()?`<span class="lote-juego-chip" title="Juego al que pertenece este taco">${escapeHtml(juegoDeLoteTxt(l))}</span>`:''}
         <button class="edit-btn lote-edit-btn" data-id="${l.id}" title="Editar serie">✎</button>
@@ -10757,7 +10882,7 @@
           if(pm.max <= 0) return '';
           const cnt = pm.veces > 1 ? `<span style="background:#4A1B0C;color:#F5C4B3;padding:0 5px;border-radius:8px;margin-left:3px;">×${pm.veces}</span>` : '';
           const tit = `Premio más alto registrado en este lote: ${fmt(pm.max)}${pm.veces>1?` — se repite ${pm.veces} veces`:''} (valor de cara del boleto)`;
-          return `<span style="font-size:10px;padding:1px 7px;border-radius:4px;background:#F0997B;color:#4A1B0C;font-weight:700;white-space:nowrap;" title="${escapeHtml(tit)}">🏆 Máx ${fmt(pm.max)}${cnt}</span>`;
+          return `<span class="lote-extra" style="font-size:10px;padding:1px 7px;border-radius:4px;background:#F0997B;color:#4A1B0C;font-weight:700;white-space:nowrap;" title="${escapeHtml(tit)}">🏆 Máx ${fmt(pm.max)}${cnt}</span>`;
         })()}
         <div class="lbar"><div class="lbar-fill" style="width:${pct}%;"></div></div>
         <span class="lstat">${c.revealed}/${c.total} reveladas</span>
@@ -10766,14 +10891,14 @@
           const completo = c.revealed === c.total;
           if(completo){
             if(c.paid >= MIN_PREMIOS && c.paid <= MAX_PREMIOS){
-              return `<span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:#D1FAE5;color:#065F46;white-space:nowrap;">${c.paid} premios ✓ íntegro</span>`;
+              return `<span class="lote-extra" style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:#D1FAE5;color:#065F46;white-space:nowrap;">${c.paid} premios ✓ íntegro</span>`;
             }
             if(c.paid > MAX_PREMIOS){
               // Más premios de los esperados: distintivo POSITIVO (lote afortunado), no alerta.
-              return `<span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:700;background:#FEF3C7;color:#92400E;white-space:nowrap;" title="Este lote trajo más premios que el rango típico (${MIN_PREMIOS}–${MAX_PREMIOS}). ¡Buen taco!">🍀 ${c.paid} premios · ¡sobre lo esperado!</span>`;
+              return `<span class="lote-extra" style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:700;background:#FEF3C7;color:#92400E;white-space:nowrap;" title="Este lote trajo más premios que el rango típico (${MIN_PREMIOS}–${MAX_PREMIOS}). ¡Buen taco!">🍀 ${c.paid} premios · ¡sobre lo esperado!</span>`;
             }
             // Menos premios de los esperados en un lote completo: sí es señal de posible error de captura.
-            return `<span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:700;background:#FCEBEB;color:#7F1D1D;white-space:nowrap;" title="Un lote completo debería tener al menos ${MIN_PREMIOS} premios. Revisa la captura.">⚠ ${c.paid} premios (esperado ${MIN_PREMIOS}–${MAX_PREMIOS})</span>`;
+            return `<span class="lote-extra" style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:700;background:#FCEBEB;color:#7F1D1D;white-space:nowrap;" title="Un lote completo debería tener al menos ${MIN_PREMIOS} premios. Revisa la captura.">⚠ ${c.paid} premios (esperado ${MIN_PREMIOS}–${MAX_PREMIOS})</span>`;
           } else {
             const restPos = c.total - c.revealed;
             const restPrem = Math.max(0, MIN_PREMIOS - c.paid);
@@ -10781,8 +10906,8 @@
             const saturado = c.paid >= MIN_PREMIOS;
             const prizeBg = saturado ? 'var(--bg-warning)' : 'var(--bg-accent)';
             const prizeTx = saturado ? 'var(--text-warning)' : 'var(--text-accent)';
-            return `<span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:${prizeBg};color:${prizeTx};white-space:nowrap;">${c.paid}/~${MIN_PREMIOS} premios${saturado?' ⚠':''}</span>` +
-              `<span style="font-size:11px;padding:2px 8px;border-radius:4px;background:var(--surface-1);color:var(--text-secondary);white-space:nowrap;">prob. próximo: ${probPct}%</span>`;
+            return `<span class="lote-extra" style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:${prizeBg};color:${prizeTx};white-space:nowrap;">${c.paid}/~${MIN_PREMIOS} premios${saturado?' ⚠':''}</span>` +
+              `<span class="lote-extra" style="font-size:11px;padding:2px 8px;border-radius:4px;background:var(--surface-1);color:var(--text-secondary);white-space:nowrap;">prob. próximo: ${probPct}%</span>`;
           }
         })()}
         ${(()=>{
@@ -10810,7 +10935,7 @@
           </div>`;
         })()}
       </div>`;
-    }).join('');
+    }).join('') + selBar;
     list.querySelectorAll('.lote-pag').forEach(b=>{
       b.addEventListener('click', (e)=>{
         e.stopPropagation();
@@ -10823,15 +10948,9 @@
         if(e.target.classList.contains('lote-pag')) return;                 // navegación de página
         if(e.target.classList.contains('lote-edit-btn') || e.target.classList.contains('lote-clone-btn')) return; // botones se manejan aparte
         if(!row.dataset.id) return;                                          // fila de paginación
-        // v38.0 — con el modo selección encendido, tocar la FILA marca o desmarca. Apuntar a
-        // una casilla de 26 px con el dedo es pedir errores; y es lo que hace cualquier lista
-        // con selección (correo, archivos). El modo se apaga solo, así que abrir el taco
-        // tocándolo sigue siendo lo normal el 99% del tiempo.
-        if(loteSelModo){
-          const id = String(row.dataset.id);
-          if(loteSel.has(id)) loteSel.delete(id); else loteSel.add(id);
-          renderLoteList(); return;
-        }
+        // v38.1 — la fila vuelve a hacer SIEMPRE lo mismo: abrir el taco. Con la casilla
+        // permanente ya no hay modo, y sin modo la fila no puede significar dos cosas según
+        // un estado invisible. Marcar es tocar la casilla, y nada más.
         activeLoteId = row.dataset.id ? (data.lotes.find(l=>String(l.id)===row.dataset.id)||{}).id : null;
         renderLoteList(); renderLoteDetail();
         if(activeLoteId) setTimeout(()=>{ document.getElementById('loteDetailSection').scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
