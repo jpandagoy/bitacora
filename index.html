@@ -1793,7 +1793,10 @@
         <div class="note" id="loteDetailNote">
           Toca cualquier posición para abrir un formulario: si está vacía, registra un boleto nuevo en esa posición; si ya tiene un boleto tuyo, lo abre para editarlo (costo, premio, fecha, etc.) o eliminarlo. El punto de venta y la ciudad se heredan automáticamente del lote.
         </div>
-        <div class="form-actions" style="margin-top:14px; flex-wrap:wrap; gap:8px;">
+        <!-- v38.7 — id en el CONTENEDOR de acciones. Antes solo lo tenía el <span> de texto de
+             dentro (#loteDetailSummary), y al recolocarlo en las disposiciones se arrancaba
+             ese span de su fila y se perdía al restaurar. Lo que se mueve es el bloque. -->
+        <div class="form-actions" id="loteAccionesTaco" style="margin-top:14px; flex-wrap:wrap; gap:8px;">
           <span class="field-help" id="loteDetailSummary"></span>
           <div class="btn-row">
             <button class="btn-ghost" id="btnCompletarLote" style="font-size:12px; color:#065F46; border-color:#00C853; display:none;">✓ Completar lote</button>
@@ -1813,7 +1816,9 @@
           </div>
         </div>
         <!-- Notas del lote -->
-        <details style="margin-top:18px; padding-top:14px; border-top:1px dashed var(--silver-dark);">
+        <!-- v38.7 — id añadido para poder recolocar el bloque en las disposiciones con
+             pestañas internas. No cambia nada de su contenido ni de su comportamiento. -->
+        <details id="loteNotasWrap" style="margin-top:18px; padding-top:14px; border-top:1px dashed var(--silver-dark);">
           <!-- v36.0 — Notas y etiquetas del lote pasan a un desplegable cerrado. MEDIDO: 0 de 218
                tacos tienen nota y 0 tienen etiquetas. No se elimina el campo (los datos futuros
                siguen cabiendo y `renderLoteDetail` lo sigue leyendo), pero deja de ocupar espacio
@@ -3136,7 +3141,7 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '38.6', fecha: '2026-09-08' };
+  const APP_VERSION = { num: '38.7', fecha: '2026-09-08' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+Math.random(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -4758,36 +4763,36 @@
          el ROI. Las consultas de medios miran el ANCHO DE VENTANA, no el del panel, así que
          allí no se enteraban. Dentro del panel se usa la ficha de DOS LÍNEAS que ya está
          probada en el teléfono: mismo alto uniforme, cero desborde, nada recortado. */
-      .disp-col.izq .lote-list.compacta .lote-cab{ display:none; }
-      .disp-col.izq .lote-list.compacta .lote-row{
+      .disp-col.izq .lote-list.compacta .lote-cab, .disp-drawer-cuerpo .lote-list.compacta .lote-cab{ display:none; }
+      .disp-col.izq .lote-list.compacta .lote-row, .disp-drawer-cuerpo .lote-list.compacta .lote-row{
         grid-template-columns:4px 22px 1fr 72px 74px 34px; gap:2px 8px; padding:7px 10px 7px 0;
         grid-template-areas:'cinta chk serie fecha cobro acc'
                             'cinta chk barra ganado roi  acc';
         contain-intrinsic-size: auto 29px; }
-      .disp-col.izq .lote-list.compacta .lote-cinta{ grid-area:cinta; }
-      .disp-col.izq .lote-list.compacta .lote-chk{ grid-area:chk; align-self:center; }
-      .disp-col.izq .lote-list.compacta .lid{ grid-area:serie; align-self:end; justify-self:start; }
-      .disp-col.izq .lote-list.compacta .lactualizado{ grid-area:fecha; align-self:end; justify-self:end; font-size:9.5px; }
-      .disp-col.izq .lote-list.compacta .lest{ grid-area:cobro; justify-self:end; align-self:end; }
-      .disp-col.izq .lote-list.compacta .lbar{ grid-area:barra; width:100%; align-self:center; max-width:none; }
-      .disp-col.izq .lote-list.compacta .lote-acciones{ grid-area:acc; align-self:center; justify-self:end; }
-      .disp-col.izq .lote-list.compacta .lganado{ grid-area:ganado; align-self:center; font-size:11px; padding-left:8px; }
-      .disp-col.izq .lote-list.compacta .lroi{ grid-area:roi; align-self:center; font-size:11.5px; padding-left:8px; }
+      .disp-col.izq .lote-list.compacta .lote-cinta, .disp-drawer-cuerpo .lote-list.compacta .lote-cinta{ grid-area:cinta; }
+      .disp-col.izq .lote-list.compacta .lote-chk, .disp-drawer-cuerpo .lote-list.compacta .lote-chk{ grid-area:chk; align-self:center; }
+      .disp-col.izq .lote-list.compacta .lid, .disp-drawer-cuerpo .lote-list.compacta .lid{ grid-area:serie; align-self:end; justify-self:start; }
+      .disp-col.izq .lote-list.compacta .lactualizado, .disp-drawer-cuerpo .lote-list.compacta .lactualizado{ grid-area:fecha; align-self:end; justify-self:end; font-size:9.5px; }
+      .disp-col.izq .lote-list.compacta .lest, .disp-drawer-cuerpo .lote-list.compacta .lest{ grid-area:cobro; justify-self:end; align-self:end; }
+      .disp-col.izq .lote-list.compacta .lbar, .disp-drawer-cuerpo .lote-list.compacta .lbar{ grid-area:barra; width:100%; align-self:center; max-width:none; }
+      .disp-col.izq .lote-list.compacta .lote-acciones, .disp-drawer-cuerpo .lote-list.compacta .lote-acciones{ grid-area:acc; align-self:center; justify-self:end; }
+      .disp-col.izq .lote-list.compacta .lganado, .disp-drawer-cuerpo .lote-list.compacta .lganado{ grid-area:ganado; align-self:center; font-size:11px; padding-left:8px; }
+      .disp-col.izq .lote-list.compacta .lroi, .disp-drawer-cuerpo .lote-list.compacta .lroi{ grid-area:roi; align-self:center; font-size:11.5px; padding-left:8px; }
       .disp-col.izq .lote-list.compacta .lcreado,
       .disp-col.izq .lote-list.compacta .lgasto,
       .disp-col.izq .lote-list.compacta .lprem,
       .disp-col.izq .lote-list.compacta .lstat,
-      .disp-col.izq .lote-list.compacta .lote-clone-btn{ display:none !important; }
+      .disp-col.izq .lote-list.compacta .lote-clone-btn, .disp-drawer-cuerpo .lote-list.compacta .lote-clone-btn{ display:none !important; }
       /* La paginación, igual que en el teléfono: tres columnas y el texto corto. */
-      .disp-col.izq .lote-nav{
+      .disp-col.izq .lote-nav, .disp-drawer-cuerpo .lote-nav{
         display:grid !important; grid-template-columns:auto 1fr auto; gap:8px;
         align-items:center; padding:8px 10px !important; }
-      .disp-col.izq .lote-nav .lote-pag{ min-height:38px; padding:6px 10px !important; font-size:11.5px !important; white-space:nowrap; }
-      .disp-col.izq .lote-nav .nav-largo{ display:none !important; }
-      .disp-col.izq .lote-nav .nav-corto{ display:block !important; white-space:nowrap; text-align:center; }
+      .disp-col.izq .lote-nav .lote-pag, .disp-drawer-cuerpo .lote-nav .lote-pag{ min-height:38px; padding:6px 10px !important; font-size:11.5px !important; white-space:nowrap; }
+      .disp-col.izq .lote-nav .nav-largo, .disp-drawer-cuerpo .lote-nav .nav-largo{ display:none !important; }
+      .disp-col.izq .lote-nav .nav-corto, .disp-drawer-cuerpo .lote-nav .nav-corto{ display:block !important; white-space:nowrap; text-align:center; }
       /* La fila desplegada de edición también se estrecha a dos columnas. */
-      .disp-col.izq .lote-edicion{ padding:11px 12px 12px 16px; }
-      .disp-col.izq .lote-edicion .le-campos{ grid-template-columns:1fr 1fr; }
+      .disp-col.izq .lote-edicion, .disp-drawer-cuerpo .lote-edicion{ padding:11px 12px 12px 16px; }
+      .disp-col.izq .lote-edicion .le-campos, .disp-drawer-cuerpo .lote-edicion .le-campos{ grid-template-columns:1fr 1fr; }
       /* Nada dentro de las columnas puede desbordar horizontalmente: si algo pide más ancho
          del que hay, se recorta, no saca barra. */
       .disp-col{ overflow-x:hidden; }
@@ -4798,41 +4803,110 @@
          búsqueda, 87 la barra de orden y 137 el aviso de abandonados — y quedaba sitio para
          DOS tacos. Eso mata justamente lo que A viene a resolver.
          Aquí la cabecera se aprieta y se pega arriba, y la lista se queda con el resto. */
-      .disp-col.izq > .section > .section-head{
+      .disp-col.izq > .section > .section-head, .disp-drawer-cuerpo > .section > .section-head{
         position:sticky; top:0; z-index:8; background:var(--white);
         padding:6px 10px; margin:0; border-bottom:1px solid var(--silver); min-height:0; }
-      .disp-col.izq > .section > .section-head .hint{ display:none; }   /* «toca uno para trabajarlo arriba» ya no aplica: el taco está al lado */
-      .disp-col.izq > .section > .card{
+      .disp-col.izq > .section > .section-head .hint, .disp-drawer-cuerpo > .section > .section-head .hint{ display:none; }   /* «toca uno para trabajarlo arriba» ya no aplica: el taco está al lado */
+      .disp-col.izq > .section > .card, .disp-drawer-cuerpo > .section > .card{
         position:sticky; top:34px; z-index:7; background:var(--white);
         padding:7px 10px; margin:0; border:none; border-bottom:1px solid var(--silver); border-radius:0; }
       /* Buscar y Estado en UNA línea: son dos campos, no dos bloques. */
-      .disp-col.izq > .section > .card > .grid{ display:grid !important; grid-template-columns:1fr 132px; gap:6px !important; }
+      .disp-col.izq > .section > .card > .grid, .disp-drawer-cuerpo > .section > .card > .grid{ display:grid !important; grid-template-columns:1fr 132px; gap:6px !important; }
       /* Los dos campos caían uno debajo del otro aunque la rejilla tuviera dos columnas: la
          hoja base les da «grid-column:1/-1». MEDIDO: 106 px para dos campos de 50. */
-      .disp-col.izq > .section > .card > .grid > .field{ grid-column:auto !important; }
-      .disp-col.izq > .section > .card .field{ margin-bottom:0 !important; }
-      .disp-col.izq > .section > .card label{ font-size:9px !important; letter-spacing:.05em; margin-bottom:1px !important; }
+      .disp-col.izq > .section > .card > .grid > .field, .disp-drawer-cuerpo > .section > .card > .grid > .field{ grid-column:auto !important; }
+      .disp-col.izq > .section > .card .field, .disp-drawer-cuerpo > .section > .card .field{ margin-bottom:0 !important; }
+      .disp-col.izq > .section > .card label, .disp-drawer-cuerpo > .section > .card label{ font-size:9px !important; letter-spacing:.05em; margin-bottom:1px !important; }
       .disp-col.izq > .section > .card input,
-      .disp-col.izq > .section > .card select{ min-height:32px !important; font-size:12px !important; padding:5px 8px !important; }
-      .disp-col.izq > .section > .card .form-actions{ margin-top:6px !important; padding-top:0 !important; border-top:none !important; }
-      .disp-col.izq #masFiltrosLotes{ margin:5px 0 0 !important; }
-      .disp-col.izq #masFiltrosLotes > summary{ font-size:10.5px; padding:4px 0; }
+      .disp-col.izq > .section > .card select, .disp-drawer-cuerpo > .section > .card select{ min-height:32px !important; font-size:12px !important; padding:5px 8px !important; }
+      .disp-col.izq > .section > .card .form-actions, .disp-drawer-cuerpo > .section > .card .form-actions{ margin-top:6px !important; padding-top:0 !important; border-top:none !important; }
+      .disp-col.izq #masFiltrosLotes, .disp-drawer-cuerpo #masFiltrosLotes{ margin:5px 0 0 !important; }
+      .disp-col.izq #masFiltrosLotes > summary, .disp-drawer-cuerpo #masFiltrosLotes > summary{ font-size:10.5px; padding:4px 0; }
       /* La barra de orden pasa a UNA línea con desplazamiento lateral: nueve criterios
          apilados ocupaban 87 px para algo que se toca una vez cada tanto. */
-      .disp-col.izq #loteSortBar{
+      .disp-col.izq #loteSortBar, .disp-drawer-cuerpo #loteSortBar{
         position:sticky; top:110px; z-index:6; background:var(--paper-dark);
         display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:5px;
         padding:6px 10px; margin:0; border-bottom:1px solid var(--silver);
         scrollbar-width:thin; }
-      .disp-col.izq #loteSortBar > *{ flex:none; }
+      .disp-col.izq #loteSortBar > *, .disp-drawer-cuerpo #loteSortBar > *{ flex:none; }
       .disp-col.izq #loteSortBar .lote-sort-chip,
-      .disp-col.izq #loteSortBar .lote-vista-chip{ min-height:28px; padding:4px 9px; font-size:10.5px; }
+      .disp-col.izq #loteSortBar .lote-vista-chip, .disp-drawer-cuerpo #loteSortBar .lote-vista-chip{ min-height:28px; padding:4px 9px; font-size:10.5px; }
       /* El aviso de abandonados, en versión breve: lo largo está a un clic en «Ver solo estos». */
-      .disp-col.izq #loteTotales{ margin:0; }
-      .disp-col.izq #loteTotales > div{ padding:7px 34px 7px 11px !important; font-size:11px !important; line-height:1.45 !important; }
-      .disp-col.izq #loteTotales > div > div{ display:none; }   /* las 3 series de ejemplo */
-      .disp-col.izq #loteTotales button#btnVerAbandonados{ margin-top:5px !important; padding:3px 9px !important; font-size:10.5px !important; }
-      .disp-col.izq #tandasWrap{ margin:8px 10px 10px !important; }
+      .disp-col.izq #loteTotales, .disp-drawer-cuerpo #loteTotales{ margin:0; }
+      .disp-col.izq #loteTotales > div, .disp-drawer-cuerpo #loteTotales > div{ padding:7px 34px 7px 11px !important; font-size:11px !important; line-height:1.45 !important; }
+      .disp-col.izq #loteTotales > div > div, .disp-drawer-cuerpo #loteTotales > div > div{ display:none; }   /* las 3 series de ejemplo */
+      .disp-col.izq #loteTotales button#btnVerAbandonados, .disp-drawer-cuerpo #loteTotales button#btnVerAbandonados{ margin-top:5px !important; padding:3px 9px !important; font-size:10.5px !important; }
+      .disp-col.izq #tandasWrap, .disp-drawer-cuerpo #tandasWrap{ margin:8px 10px 10px !important; }
+
+      /* ---- Pestañas internas del taco (A+B y B) ---- */
+      .disp-tabtaco{ display:flex; gap:5px; flex-wrap:wrap; padding:0 0 9px; margin-bottom:10px;
+        border-bottom:1px solid var(--silver); position:sticky; top:0; z-index:5; background:var(--white); }
+      .disp-tabtaco button{ font-size:11.5px; font-weight:700; border-radius:8px; padding:6px 11px;
+        background:var(--paper-dark); border:1px solid var(--silver); color:var(--ink-soft);
+        cursor:pointer; min-height:34px; font-family:inherit; white-space:nowrap; }
+      .disp-tabtaco button.on{ background:var(--ink); border-color:var(--ink); color:var(--paper,#EDE6D6); }
+      .disp-tabpan{ display:none; }
+      .disp-tabpan.abierto{ display:block; }
+
+      /* ---- Arquitectura B: el taco a pantalla completa ---- */
+      .disp-b-lienzo{ border:1px solid var(--silver); border-top:none; border-radius:0 0 11px 11px;
+        background:var(--white); min-height:340px; display:flex; flex-direction:column; }
+      .disp-b-lienzo > .section{ margin-bottom:0; border:none; border-radius:0; }
+      /* Cajón lateral de la lista. Cubre la pantalla porque en B la lista es un menú, no la
+         vista: aparece, eliges y se retira. */
+      .disp-drawer{ position:fixed; inset:0; z-index:9990; display:none; }
+      .disp-drawer.abierto{ display:block; }
+      .disp-drawer-fondo{ position:absolute; inset:0; background:rgba(0,0,0,.42); }
+      .disp-drawer-caja{ position:absolute; top:0; left:0; bottom:0; width:min(440px,92vw);
+        background:var(--white); border-right:2px solid var(--ink); display:flex; flex-direction:column;
+        box-shadow:14px 0 40px -14px rgba(0,0,0,.5); }
+      .disp-drawer-cab{ display:flex; align-items:center; gap:10px; padding:11px 13px;
+        border-bottom:1px solid var(--silver); background:var(--paper-dark); }
+      .disp-drawer-cab b{ font-size:14px; }
+      .disp-drawer-cab button{ margin-left:auto; width:34px; height:34px; display:grid; place-items:center;
+        border:1px solid var(--silver); background:var(--paper); color:var(--ink-soft);
+        font-size:16px; border-radius:8px; cursor:pointer; }
+      .disp-drawer-cuerpo{ flex:1; overflow:auto; }
+      .disp-drawer-cuerpo > .section{ margin-bottom:0; border:none; border-radius:0; }
+
+      /* ---- Arquitectura C: carril de copiloto ---- */
+      .disp-c-wrap{ display:grid; grid-template-columns:1fr 262px; gap:12px; align-items:start; }
+      .disp-c-main{ min-width:0; }
+      .disp-c-rail{ position:sticky; top:8px; display:flex; flex-direction:column; gap:9px;
+        max-height:calc(100vh - 24px); overflow:auto; }
+      .disp-c-rail .r-card{ background:var(--paper-dark); border:1px solid var(--silver);
+        border-radius:11px; padding:10px 12px; }
+      .disp-c-rail h5{ margin:0 0 7px; font-size:9.5px; text-transform:uppercase; letter-spacing:.07em;
+        color:var(--silver-dark); font-weight:800; }
+      .disp-c-rail .r-serie{ font-family:'Courier New',monospace; font-weight:800; font-size:13.5px; margin-bottom:6px; }
+      .disp-c-rail .r-par{ font-size:10px; font-weight:400; color:var(--silver-dark); text-transform:uppercase; }
+      .disp-c-rail .r-grid{ display:grid; grid-template-columns:1fr 1fr; gap:5px 8px; }
+      .disp-c-rail .r-lbl{ display:block; font-size:8.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); }
+      .disp-c-rail .r-val{ font-family:'Courier New',monospace; font-size:12px; font-weight:700; }
+      .disp-c-rail .r-fechas{ margin-top:7px; font-family:'Courier New',monospace; font-size:9.5px; color:var(--silver-dark); }
+      .disp-c-rail .r-btns{ display:flex; gap:5px; margin-top:9px; flex-wrap:wrap; }
+      .disp-c-rail .r-b{ font-size:10.5px; font-weight:700; border-radius:7px; padding:6px 9px;
+        background:var(--paper); border:1px solid var(--silver); color:var(--ink-soft);
+        cursor:pointer; min-height:32px; font-family:inherit; flex:1; }
+      .disp-c-rail .r-b.pri{ background:var(--ink); border-color:var(--ink); color:var(--paper,#EDE6D6); }
+      .disp-c-rail .r-vacio{ font-size:11.5px; color:var(--silver-dark); line-height:1.6; }
+      .disp-c-rail .r-lista{ font-size:11px; line-height:1.85; color:var(--ink-soft); }
+      .disp-c-rail .r-espera{ background:#FAEEDA; border-color:#F0C583; }
+      .disp-c-rail .r-espera h5{ color:#8A6100; }
+      .disp-c-rail .r-espera .r-lista{ color:#6B4A08; }
+      /* Los botones de acción del taco, ya dentro del carril, se apilan en su ancho. */
+      .disp-c-rail #loteAccionesTaco{ display:flex !important; flex-wrap:wrap; gap:4px; margin:0 !important;
+        padding:0 !important; border:none !important; }
+      .disp-c-rail #loteAccionesTaco button{ font-size:10px !important; padding:5px 8px !important;
+        min-height:32px !important; flex:1 1 auto; }
+      @media (max-width:1100px){
+        /* Sin ancho para el carril, C vuelve a ser exactamente la página de siempre y el
+           carril se coloca arriba, plegado en una tira. */
+        .disp-c-wrap{ grid-template-columns:1fr; }
+        .disp-c-rail{ position:static; max-height:none; flex-direction:row; flex-wrap:wrap; }
+        .disp-c-rail .r-card{ flex:1 1 240px; }
+      }
 
       /* Marcador cuando no hay taco abierto: el panel derecho no puede quedarse en blanco
          sin decir por qué. */
@@ -11093,7 +11167,10 @@
   const DISP_CLAVE = 'bitacora_disposicion';
   const DISP_MODOS = [
     { k:'actual', et:'Actual',  ay:'La vista de hoy, sin tocar nada' },
-    { k:'A',      et:'A · Dos paneles', ay:'Lista fija a la izquierda, taco a la derecha. Cambiar de taco no desplaza nada.' }
+    { k:'A',      et:'A · Dos paneles', ay:'Lista fija a la izquierda, taco a la derecha. Cambiar de taco no desplaza nada.' },
+    { k:'AB',     et:'A+B · Paneles con pestañas', ay:'Como A, pero el taco se organiza en pestañas: Rejilla · Premios · Acciones · Notas. No crece hacia abajo.' },
+    { k:'B',      et:'B · Taco a pantalla completa', ay:'Un taco a la vez ocupando todo, con pestañas. La lista vive en un cajón lateral que entra con ☰ Mis tacos.' },
+    { k:'C',      et:'C · Carril de copiloto', ay:'La página vertical de siempre, con un carril fijo a la derecha: taco activo, acciones y lo que te espera.' }
   ];
   // Orden original de las secciones del panel. Se toma UNA vez, antes de mover nada, para
   // que restaurar sea exacto y no dependa de recordarlo a mano.
@@ -11110,22 +11187,82 @@
       return DISP_MODOS.some(m=>m.k===v) ? v : 'actual';
     }catch(_){ return 'actual'; }
   }
+  // ---- Pestañas internas del taco (las usan A+B y B) --------------------------------
+  // La tarjeta del taco tiene ocho bloques apilados. Aquí se agrupan en cuatro pestañas
+  // MOVIENDO esos mismos bloques, nunca copiándolos: el grid sigue siendo #posGrid y su
+  // renderizador no se entera de nada. El orden original se guarda para poder devolverlo.
+  const DISP_TABS_TACO = [
+    { k:'rejilla', et:'▦ Rejilla',  ids:['fechaSesionBar','__leyenda','posGrid','posPendientesBand'] },
+    { k:'premios', et:'🏆 Premios', ids:['posPremiadasBand'] },
+    { k:'acciones',et:'⚡ Acciones',ids:['loteDetailNote','loteAccionesTaco'] },
+    { k:'notas',   et:'📝 Notas',   ids:['loteNotasWrap'] }
+  ];
+  let _dispOrdenTaco = null;   // {card, hijos:[...]}
+  function _dispCapturarOrdenTaco(){
+    if(_dispOrdenTaco) return _dispOrdenTaco;
+    const sec = document.getElementById('loteDetailSection');
+    const card = sec && sec.querySelector(':scope > .card');
+    if(!card) return null;
+    _dispOrdenTaco = { card, hijos:[...card.children] };
+    return _dispOrdenTaco;
+  }
+  function _dispMontarTabsTaco(){
+    const o = _dispCapturarOrdenTaco();
+    if(!o) throw new Error('no se encontró la tarjeta del taco');
+    const { card } = o;
+    if(card.querySelector(':scope > .disp-tabtaco')) return;   // ya montado
+    const buscar = id => id === '__leyenda' ? card.querySelector(':scope > .pos-legend') || document.querySelector('#loteDetailSection .pos-legend')
+                                            : document.getElementById(id);
+    const barra = document.createElement('div');
+    barra.className = 'disp-tabtaco';
+    barra.innerHTML = DISP_TABS_TACO.map((t,i)=>
+      `<button type="button" data-tabtaco="${t.k}" class="${i===0?'on':''}">${escapeHtml(t.et)}</button>`).join('');
+    card.insertBefore(barra, card.firstChild);
+    DISP_TABS_TACO.forEach((t,i)=>{
+      const pan = document.createElement('div');
+      pan.className = 'disp-tabpan' + (i===0 ? ' abierto' : '');
+      pan.dataset.tabpan = t.k;
+      card.appendChild(pan);
+      t.ids.forEach(id => { const el = buscar(id); if(el) pan.appendChild(el); });
+    });
+    barra.querySelectorAll('[data-tabtaco]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        barra.querySelectorAll('[data-tabtaco]').forEach(x=>x.classList.remove('on'));
+        b.classList.add('on');
+        card.querySelectorAll(':scope > .disp-tabpan').forEach(p=>
+          p.classList.toggle('abierto', p.dataset.tabpan === b.dataset.tabtaco));
+      });
+    });
+  }
+  // Devuelve SIEMPRE los ocho bloques a la tarjeta en su orden original. Se ejecuta aunque
+  // no hubiera pestañas montadas, porque la disposición C también se lleva prestado uno de
+  // ellos (#loteAccionesTaco, al carril) y tiene que volver igual.
+  function _dispDesmontarTabsTaco(){
+    const o = _dispOrdenTaco;
+    if(!o) return;
+    const { card, hijos } = o;
+    hijos.forEach(el => card.appendChild(el));     // appendChild reordena y reubica
+    card.querySelectorAll(':scope > .disp-tabtaco, :scope > .disp-tabpan').forEach(x=>x.remove());
+  }
   // Devuelve el panel a su estado de fábrica: las secciones vuelven a colgar directamente
   // de #panel-boletos, en su orden original, y el andamio desaparece del DOM.
   function dispRestaurar(){
     const p = document.getElementById('panel-boletos');
     const orden = _dispCapturarOrden();
     if(!p || !orden) return;
+    _dispDesmontarTabsTaco();
     orden.forEach(sec => p.appendChild(sec));          // appendChild MUEVE, no copia
     p.querySelectorAll(':scope > .disp-andamio').forEach(a=>a.remove());
-    p.classList.remove('disp-modo-A');
+    p.classList.remove('disp-modo-A','disp-modo-AB','disp-modo-B','disp-modo-C');
   }
   function dispAplicar(modo, avisar){
     const p = document.getElementById('panel-boletos');
     if(!p) return;
     try{
       dispRestaurar();
-      if(modo === 'A') _dispMontarA(p);
+      if(modo === 'A' || modo === 'AB') _dispMontarA(p, modo === 'AB');
+      else if(modo === 'B') _dispMontarB(p);
+      else if(modo === 'C') _dispMontarC(p);
       p.dataset.disposicion = modo;
       try{ localStorage.setItem(DISP_CLAVE, modo); }catch(_){}
       dispRenderBarra();
@@ -11145,8 +11282,8 @@
       console.error('[disposicion]', e);
     }
   }
-  // ---- Andamio de la arquitectura A -------------------------------------------------
-  function _dispMontarA(p){
+  // ---- Andamio de la arquitectura A (y A+B, que es A con pestañas en el taco) --------
+  function _dispMontarA(p, conTabs){
     const sec = id => document.getElementById(id);
     const resumen = sec('secResumenRoi'), crear = sec('secCrearLote'),
           bandejas = sec('boletosBandejas'), tacos = sec('archivoSection'),
@@ -11182,7 +11319,7 @@
         </div>
       </div>`;
     p.appendChild(and);
-    p.classList.add('disp-modo-A');
+    p.classList.add(conTabs ? 'disp-modo-AB' : 'disp-modo-A');
 
     // Reparto de las secciones REALES. Nada se clona.
     const meter = (el, destino) => { if(el && destino) destino.appendChild(el); };
@@ -11217,7 +11354,176 @@
         pn.classList.toggle('movil-taco',  b.dataset.mtab==='taco');
       });
     });
+    if(conTabs) _dispMontarTabsTaco();
     _dispSincronizarVacio();
+  }
+
+  // ---- Andamio de la arquitectura B: el taco a pantalla completa + cajón de la lista --
+  function _dispMontarB(p){
+    const sec = id => document.getElementById(id);
+    const resumen = sec('secResumenRoi'), crear = sec('secCrearLote'),
+          bandejas = sec('boletosBandejas'), tacos = sec('archivoSection'),
+          detalle = sec('loteDetailSection'), bulk = sec('bulkEntrySection');
+    if(!tacos || !detalle) throw new Error('faltan secciones base');
+
+    const and = document.createElement('div');
+    and.className = 'disp-andamio';
+    and.innerHTML = `
+      <div class="disp-mando" id="dispMando">
+        <button type="button" class="m-chip" id="dispAbrirCajon">☰ Mis tacos</button>
+        <button type="button" class="m-chip" data-panel="crear">＋ Crear lote</button>
+        <button type="button" class="m-chip" data-panel="resumen">📊 Resumen ROI</button>
+        <button type="button" class="m-chip" data-panel="bandejas">🗂 Bandejas</button>
+        <span style="flex:1"></span>
+        <button type="button" class="m-chip" id="dispTacoPrev" title="Taco anterior de la lista">‹ anterior</button>
+        <button type="button" class="m-chip" id="dispTacoNext" title="Taco siguiente de la lista">siguiente ›</button>
+      </div>
+      <div class="disp-cajon" id="dispCajon">
+        <div class="disp-slot" data-slot="resumen"></div>
+        <div class="disp-slot" data-slot="crear"></div>
+        <div class="disp-slot" data-slot="bandejas"></div>
+      </div>
+      <div class="disp-b-lienzo" id="dispBLienzo">
+        <div class="disp-vacio" id="dispVacio">
+          <b>Ningún taco abierto</b>
+          Pulsa <b>☰ Mis tacos</b> para elegir uno.<br>Ocupará toda la pantalla.
+        </div>
+      </div>
+      <div class="disp-drawer" id="dispDrawer" aria-hidden="true">
+        <div class="disp-drawer-fondo" id="dispDrawerFondo"></div>
+        <div class="disp-drawer-caja" id="dispDrawerCaja">
+          <div class="disp-drawer-cab">
+            <b>Mis tacos</b>
+            <button type="button" id="dispCerrarCajon" title="Cerrar (Esc)">✕</button>
+          </div>
+          <div class="disp-drawer-cuerpo" id="dispDrawerCuerpo"></div>
+        </div>
+      </div>`;
+    p.appendChild(and);
+    p.classList.add('disp-modo-B');
+
+    const meter = (el, d) => { if(el && d) d.appendChild(el); };
+    meter(resumen,  and.querySelector('[data-slot="resumen"]'));
+    meter(crear,    and.querySelector('[data-slot="crear"]'));
+    meter(bandejas, and.querySelector('[data-slot="bandejas"]'));
+    meter(tacos,    and.querySelector('#dispDrawerCuerpo'));   // la lista vive en el cajón
+    meter(detalle,  and.querySelector('#dispBLienzo'));
+    meter(bulk,     and.querySelector('#dispBLienzo'));
+    _dispMontarTabsTaco();
+
+    // Cajón de la barra de mando (mismos tres paneles que en A).
+    and.querySelectorAll('#dispMando .m-chip[data-panel]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const q = b.dataset.panel, ya = b.classList.contains('on');
+        and.querySelectorAll('#dispMando .m-chip[data-panel]').forEach(x=>x.classList.remove('on'));
+        and.querySelectorAll('.disp-slot').forEach(x=>x.classList.remove('abierto'));
+        if(!ya){ b.classList.add('on'); and.querySelector(`.disp-slot[data-slot="${q}"]`)?.classList.add('abierto'); }
+      });
+    });
+    // Cajón lateral de la lista.
+    and.querySelector('#dispAbrirCajon').addEventListener('click', ()=>dispCajonTacos(true));
+    and.querySelector('#dispCerrarCajon').addEventListener('click', ()=>dispCajonTacos(false));
+    and.querySelector('#dispDrawerFondo').addEventListener('click', ()=>dispCajonTacos(false));
+    // ‹ anterior / siguiente ›: recorren la MISMA lista filtrada y ordenada que ves en el
+    // cajón, no un orden inventado — así la tanda del día se recorre sin abrir nada.
+    and.querySelector('#dispTacoPrev').addEventListener('click', ()=>_dispSaltarTaco(-1));
+    and.querySelector('#dispTacoNext').addEventListener('click', ()=>_dispSaltarTaco(+1));
+    _dispSincronizarVacio();
+  }
+  function dispCajonTacos(abrir){
+    const d = document.getElementById('dispDrawer');
+    if(!d) return;
+    d.classList.toggle('abierto', !!abrir);
+    d.setAttribute('aria-hidden', abrir ? 'false' : 'true');
+    if(abrir) setTimeout(()=>document.getElementById('loteSearch')?.focus(), 60);
+  }
+  function _dispSaltarTaco(paso){
+    const ids = window.__ultimosVisiblesLote || [];
+    if(!ids.length){ toast('No hay tacos en la lista actual'); return; }
+    const i = ids.indexOf(String(activeLoteId));
+    const j = i < 0 ? 0 : Math.min(ids.length-1, Math.max(0, i + paso));
+    if(i >= 0 && j === i){ toast(paso>0 ? 'Ya es el último de la lista' : 'Ya es el primero de la lista'); return; }
+    const l = (data.lotes||[]).find(x=>String(x.id)===String(ids[j]));
+    if(!l) return;
+    activeLoteId = l.id;
+    renderLoteList(); renderLoteDetail();
+    anunciar('Taco ' + l.serie);
+  }
+
+  // ---- Andamio de la arquitectura C: la página de siempre + carril de copiloto -------
+  function _dispMontarC(p){
+    const orden = _dispCapturarOrden();
+    const and = document.createElement('div');
+    and.className = 'disp-andamio disp-c-wrap';
+    and.innerHTML = `<div class="disp-c-main" id="dispCMain"></div><aside class="disp-c-rail" id="dispCRail"></aside>`;
+    p.appendChild(and);
+    p.classList.add('disp-modo-C');
+    const main = and.querySelector('#dispCMain');
+    // Las seis secciones entran en el mismo orden de siempre: C no reubica nada.
+    orden.forEach(sec => main.appendChild(sec));
+    _dispPintarCarril();
+  }
+  // El carril se vuelve a pintar cuando cambia el taco o los datos. Las ACCIONES no se
+  // duplican: se mueve ahí el bloque real de botones (#loteAccionesTaco), así que siguen
+  // siendo los mismos con sus mismos manejadores.
+  function _dispPintarCarril(){
+    const rail = document.getElementById('dispCRail');
+    if(!rail) return;
+    const lote = (data.lotes||[]).find(l=>String(l.id)===String(activeLoteId));
+    const ab = (typeof resumenAbandonados === 'function') ? resumenAbandonados() : {n:0, sinRaspar:0, capital:0};
+    const sinPunto = (data.records||[]).filter(r=>!String(r.punto||'').trim()).length;
+    let pend = 0, nPend = 0;
+    (data.records||[]).forEach(r=>{ if((Number(r.premio)||0)>0 && !r.cobrado){ pend += premioNeto(r.premio); nPend++; } });
+
+    let htmlTaco;
+    if(lote){
+      const c = loteCounts(lote), ri = loteRoiInfo(lote), cb = loteCobroEstado(lote);
+      const est = estadoTaco(lote);
+      const cifra = (et, v, col) => `<div><span class="r-lbl">${et}</span><b class="r-val" ${col?`style="color:${col}"`:''}>${v}</b></div>`;
+      htmlTaco = `
+        <div class="r-serie">${escapeHtml(lote.serie)} <span class="r-par">${escapeHtml(lote.paridad||'')}</span></div>
+        <div class="r-grid">
+          ${cifra('Avance', c.revealed+'/'+c.total)}
+          ${cifra('Premios', String(c.paid))}
+          ${cifra('Gasto', ri.n>0?fmt(ri.gasto):'—')}
+          ${cifra('Ganado', ri.n>0?fmt(ri.premios):'—', ri.n>0&&ri.roi>=0?'var(--ok)':'')}
+          ${cifra('ROI', ri.n>0?((ri.roi>=0?'+':'')+ri.roi.toFixed(1)+'%'):'—', ri.n>0&&ri.roi>=0?'var(--ok)':'')}
+          ${cifra('Cobro', cb.estado==='sin-premios'?'—':cb.estado==='total'?'Cobrado':fmt(cb.pendiente),
+                  cb.pendiente>0?'#8A6100':(cb.estado==='total'?'var(--ok)':''))}
+        </div>
+        <div class="r-fechas">${escapeHtml(fechaHoraCorta(loteFechaVal(lote)))} → ${escapeHtml(fechaHoraCorta(loteUltimaActividad(lote)))}</div>
+        <div class="r-btns">
+          <button type="button" class="r-b pri" id="rirRejilla">▦ Ir a la rejilla</button>
+          <button type="button" class="r-b" id="rirCerrar">✕ Cerrar</button>
+        </div>`;
+    } else {
+      htmlTaco = `<div class="r-vacio">Ningún taco abierto.<br>Toca una serie en «Mis tacos».</div>`;
+    }
+    rail.innerHTML = `
+      <div class="r-card"><h5>Taco activo</h5>${htmlTaco}</div>
+      <div class="r-card r-acciones"><h5>Acciones del taco</h5><div id="dispRailAcciones"></div></div>
+      <div class="r-card r-espera"><h5>Te espera</h5>
+        <div class="r-lista">
+          <div><b>${fmt(pend)}</b> sin cobrar · ${nPend} boleto(s)</div>
+          <div><b>${ab.n}</b> taco(s) parado(s) ≈ <b>${fmt(ab.capital)}</b></div>
+          <div><b>${sinPunto.toLocaleString('es-EC')}</b> boleto(s) sin punto de venta</div>
+        </div>
+      </div>`;
+    // Se MUEVE el bloque real de acciones al carril; al salir de C vuelve a su sitio.
+    const acc = document.getElementById('loteAccionesTaco');
+    const hueco = document.getElementById('dispRailAcciones');
+    if(acc && hueco) hueco.appendChild(acc);
+    rail.querySelector('#rirRejilla')?.addEventListener('click', ()=>
+      document.getElementById('posGrid')?.scrollIntoView({behavior:'smooth', block:'center'}));
+    rail.querySelector('#rirCerrar')?.addEventListener('click', ()=>cerrarDetalleLote());
+  }
+  // En B, elegir un taco en el cajón lo cierra: si se quedara abierto taparía justo lo que
+  // acabas de pedir ver.
+  function _dispCerrarCajonSiHayTaco(){
+    const d = document.getElementById('dispDrawer');
+    if(!d || !d.classList.contains('abierto')) return;
+    const s = document.getElementById('loteDetailSection');
+    if(s && s.style.display !== 'none') dispCajonTacos(false);
   }
   // El marcador de «ningún taco abierto» se enciende y apaga según haya taco. Se consulta
   // el display de la sección, que es de quien depende — no se le escribe.
@@ -12050,11 +12356,11 @@
     // a hacer a esta pestaña. Ya no se autoselecciona ningún taco.
     if(!activeLoteId || !data.lotes.some(l=>String(l.id)===String(activeLoteId))){
       section.style.display='none';
-      try{ _dispSincronizarVacio(); }catch(_){}   // v38.6 — el panel derecho dice por qué está vacío
+      try{ _dispSincronizarVacio(); _dispPintarCarril(); _dispCerrarCajonSiHayTaco(); }catch(_){}   // v38.6 — el panel derecho dice por qué está vacío
       return;
     }
     section.style.display='block';
-    try{ _dispSincronizarVacio(); }catch(_){}
+    try{ _dispSincronizarVacio(); _dispPintarCarril(); _dispCerrarCajonSiHayTaco(); }catch(_){}
     // v38.6 — en la disposición de dos paneles el taco NO está debajo de la lista sino al
     // lado, así que el desplazamiento automático que trae el flujo vertical sobra: mover la
     // página cuando el contenido ya está a la vista solo desorienta.
