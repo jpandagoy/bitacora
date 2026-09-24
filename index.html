@@ -291,6 +291,13 @@
   #pvHost{width:calc(100% + 40px); margin-left:-20px; height:calc(100dvh - 150px); min-height:420px;
           border:0; border-radius:0; overflow:hidden; background:#0c1428; position:relative;}
   .pv-head{margin-bottom:8px}
+  /* v40.2 — en Puntos el botón flotante 🔍 tapaba «Más», los botones «Ir» y la ficha; el
+     módulo ya trae su propio buscador arriba. */
+  body[data-tab-activo="puntos"] #gsFab{display:none !important;}
+  #pvHost.pv-fijo{position:fixed !important; left:0; right:0; top:0; width:auto !important; margin:0 !important; z-index:5;}
+  /* En PC el «100% + 40px» quedaba RECORTADO por el contenedor: el mapa mostraba 20px menos a
+     cada lado y cortaba el botón de filtros. Ahora es una tarjeta alineada con el encabezado. */
+  @media(min-width:601px){ #pvHost{width:100% !important; margin-left:0 !important; border-radius:14px;} }
   @media(max-width:600px){
     /* .section-head se declara DESPUÉS con la misma especificidad, así que hay que subirla
        aquí (.section-head.pv-head) o el encabezado nunca se oculta y roba altura al mapa. */
@@ -1592,7 +1599,11 @@
         <div class="grid" style="margin-bottom:4px;">
           <div class="field">
             <label for="newLotePunto">Punto de venta <span style="text-transform:none; font-weight:400;">(opcional)</span></label>
-            <input type="text" id="newLotePunto" list="puntosVentaConocidos" placeholder="ej. Kiosco La 10" autocomplete="off">
+            <div style="display:flex; gap:6px; align-items:stretch;">
+              <input type="text" id="newLotePunto" list="puntosVentaConocidos" placeholder="ej. Kiosco La 10" autocomplete="off" style="flex:1; min-width:0;">
+              <button type="button" class="btn-ghost" id="btnPuntoCerca" title="Elegir el punto del mapa oficial más cercano a ti (usa tu ubicación)" aria-label="Elegir el punto más cercano" style="flex:none; padding:0 12px; font-size:16px;">📍</button>
+            </div>
+            <div id="puntoCercaLista" style="display:none;"></div>
             <datalist id="puntosVentaConocidos"></datalist>
           </div>
           <div class="field">
@@ -3241,7 +3252,10 @@
   //            de calibración), agrupamiento parcial por punto, paridad por permutación de tacos.
   // v40.1 (24-sep-2026) — decisiones de JP: diseños de juegos ajustados a lo observado (saneo 7),
   //   separador de miles en los montos («$21,284.55») y fuera el tope de gasto diario.
-  const APP_VERSION = { num: '40.1', fecha: '2026-09-24' };
+  // v40.2 (24-sep-2026) — Puntos de venta: mapa base sin marca de agua (CARTO con clave u
+  //   OpenStreetMap), módulo a sangre completa sin marco, navegación móvil sin doble barra,
+  //   tus puntos de compra enlazados al mapa y botón 📍 para elegir el punto al registrar.
+  const APP_VERSION = { num: '40.2', fecha: '2026-09-24' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -10130,6 +10144,66 @@
     if(ciudad){ setCiudadEnFormulario(ciudad); renderLoteChipsCtx(); }
   }
 
+  // v40.2 — Catálogo oficial de puntos, leído del propio módulo (una sola fuente) más los que
+  // agregaste o corregiste con «Buscar cambios» (misma clave que usa el módulo).
+  var _catalogoPV=null;
+  function catalogoPuntos(){
+    if(_catalogoPV) return _catalogoPV;
+    var arr=[];
+    try{ var t=document.getElementById('pvSrc').textContent; var i=t.indexOf('const PUNTOS = ');
+         var a=t.indexOf('[', i), b=t.indexOf('];', a); arr=JSON.parse(t.slice(a, b+1)); }catch(e){ arr=[]; }
+    try{ var cam=JSON.parse(localStorage.getItem('pv_catalogo_cambios')||'null');
+         if(cam){ var mv=cam.mov||{}; arr.forEach(function(p){ var m=mv[p.id]; if(m){ p.lat=m[0]; p.lon=m[1]; } });
+                  (cam.extra||[]).forEach(function(p){ if(p && p.id!=null && !arr.some(function(x){return x.id===p.id;})) arr.push(p); }); } }catch(e){}
+    _catalogoPV=arr; return arr;
+  }
+  function _distKm(a,b){ var R=6371, r=Math.PI/180, dLa=(b.lat-a.lat)*r, dLo=(b.lon-a.lon)*r;
+    var h=Math.sin(dLa/2)*Math.sin(dLa/2)+Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLo/2)*Math.sin(dLo/2);
+    return 2*R*Math.asin(Math.sqrt(h)); }
+  function _aliasDePunto(pid){ var e=(data.puntos||[]).find(function(x){ return String(x.id)===String(pid); });
+    return (e && Array.isArray(e.alias) && e.alias.length) ? e.alias[0] : ''; }
+  function puntoCercaElegir(){
+    var box=document.getElementById('puntoCercaLista'); if(!box) return;
+    if(!navigator.geolocation){ toast('Este navegador no da la ubicación'); return; }
+    box.style.display='block';
+    box.innerHTML='<p class="field-help" style="margin:6px 0;">📍 Buscando tu ubicación…</p>';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var yo={lat:pos.coords.latitude, lon:pos.coords.longitude};
+      var cer=catalogoPuntos().map(function(p){ return {p:p, d:_distKm(yo,p)}; }).sort(function(a,b){ return a.d-b.d; }).slice(0,6);
+      if(!cer.length){ box.innerHTML='<p class="field-help">No se pudo leer el catálogo de puntos.</p>'; return; }
+      var kmT=function(d){ return d<1 ? Math.round(d*1000)+' m' : d.toFixed(1)+' km'; };
+      var aviso = cer[0].d>2 ? '<p class="field-help" style="margin:4px 0; color:#854F0B;">El punto oficial más cercano está a '+kmT(cer[0].d)+': quizá este kiosco no esté en el catálogo. Puedes escribir el nombre a mano.</p>' : '';
+      box.innerHTML = aviso + '<div style="display:flex; flex-direction:column; gap:6px; margin:6px 0 8px;">'
+        + cer.map(function(x,i){ var tuyo=_aliasDePunto(x.p.id);
+            return '<button type="button" class="btn-ghost" data-pc="'+i+'" style="text-align:left; display:flex; justify-content:space-between; gap:10px; padding:9px 12px;">'
+              + '<span style="min-width:0;"><b>'+escapeHtml(tuyo||x.p.nom)+'</b>'+(tuyo&&tuyo!==x.p.nom?' <span style="opacity:.65; font-size:11.5px;">('+escapeHtml(x.p.nom)+')</span>':'')
+              + '<br><span style="font-size:11.5px; opacity:.7;">'+escapeHtml(String(x.p.dir||'').slice(0,60))+'</span></span>'
+              + '<span style="flex:none; font-size:12px; font-weight:700;">'+kmT(x.d)+'</span></button>'; }).join('')
+        + '<button type="button" class="btn-ghost" data-pc="x" style="font-size:12px;">Cerrar</button></div>';
+      box.querySelectorAll('[data-pc]').forEach(function(b){ b.addEventListener('click', function(){
+        var k=b.getAttribute('data-pc'); box.style.display='none'; box.innerHTML='';
+        if(k==='x') return;
+        var p=cer[+k].p, nombre=_aliasDePunto(p.id)||p.nom;
+        var inp=document.getElementById('newLotePunto'); if(inp){ inp.value=nombre; }
+        setCiudadEnFormulario(p.ciudad||'');
+        // Enlace al mapa: si el punto aún no tiene nombre tuyo, este queda como tal.
+        if(!_aliasDePunto(p.id)){
+          var arr=data.puntos||(data.puntos=[]);
+          var e=arr.find(function(x){ return String(x.id)===String(p.id); });
+          if(e){ e.alias=[nombre]; e._lm=Date.now(); }
+          else arr.push({id:p.id, status:'pendiente', last:null, notes:[], alias:[nombre], _lm:Date.now()});
+          try{ save(); }catch(_){ } try{ _syncSchedulePush(); }catch(_){ }
+        }
+        try{ renderLoteChipsCtx(); }catch(_){ }
+        toast('📍 '+nombre+(p.ciudad?' · '+p.ciudad:''));
+      }); });
+    }, function(err){
+      box.innerHTML='<p class="field-help" style="margin:6px 0; color:#7F1D1D;">No se pudo obtener tu ubicación'
+        +(err&&err.code===1?' (permiso denegado: actívalo para este sitio en el navegador)':'')+'. Escribe el punto a mano.</p>';
+    }, {enableHighAccuracy:true, timeout:12000, maximumAge:60000});
+  }
+  window.catalogoPuntos=catalogoPuntos;
+
   // Escribe una ciudad en el par select + "otro", que es la forma en que la guarda el formulario.
   function setCiudadEnFormulario(ciudad){
     const sel = document.getElementById('newLoteCiudad');
@@ -10705,6 +10779,11 @@
     elC?.addEventListener('input', renderLoteChipsCtx);
     elC?.addEventListener('change', renderLoteChipsCtx);
   });
+  // v40.2 — 📍 PUNTO MÁS CERCANO. En el kiosco, con el teléfono, se toca 📍 y se elige de los
+  // puntos oficiales a tu alrededor: el nombre queda IGUAL cada vez (sin «CCI» un día y «Cc Cci»
+  // otro) y el taco sale ya enlazado al mapa. Si ese punto ya tiene un nombre tuyo, se usa el
+  // tuyo, para no partir tu historial en dos.
+  document.getElementById('btnPuntoCerca')?.addEventListener('click', puntoCercaElegir);
   // Mejora: al salir del campo de punto (o elegir uno del datalist), precarga su ciudad.
   document.getElementById('newLotePunto')?.addEventListener('change', precargarCiudadPorPunto);
   document.getElementById('newLotePunto')?.addEventListener('blur', precargarCiudadPorPunto);
@@ -24731,6 +24810,10 @@
   // ===== INTEGRACION: modulo Puntos de venta (iframe aislado + sync sin fotos) =====
   data.puntos = data.puntos || [];
   var _pvIframe = null;
+  // v40.2 — clave de CARTO para el mapa base. Vacía → OpenStreetMap. Es una clave de cliente
+  // (viaja en cada tesela, igual que la de Firebase): su protección es la restricción por
+  // dominio que se configura en el panel de CARTO, no el secreto.
+  window.CARTO_KEY = window.CARTO_KEY || '';
   // ======================================================
   // SEGURIDAD · VALIDACIÓN DE MENSAJES ENTRE VENTANAS
   // Los manejadores de `message` aceptaban CUALQUIER emisor. Como la app vive en una URL
@@ -24780,6 +24863,7 @@
     _CAMPOS_TEXTO.forEach(k=>{ if(typeof o[k]==='string') o[k]=_limpiarTexto(o[k], k); });
     // Etiquetas y posiciones anidadas
     if(Array.isArray(o.tags)) o.tags = o.tags.map(t=> typeof t==='string' ? _limpiarTexto(t) : t);
+    if(Array.isArray(o.alias)) o.alias = o.alias.filter(t=> typeof t==='string').map(t=> _limpiarTexto(t).slice(0,80));
     return o;
   }
   function sanearPaquete(d){
@@ -24810,29 +24894,53 @@
   function _pvPostState(){
     try{
       if(!(_pvIframe&&_pvIframe.contentWindow)) return;
-      var recs=(data.puntos||[]).map(function(e){ return {id:e.id, status:e.status, last:e.last, notes:e.notes||[]}; });
+      var recs=(data.puntos||[]).map(function(e){ return {id:e.id, status:e.status, last:e.last, notes:e.notes||[], alias:e.alias||[]}; });
       _pvIframe.contentWindow.postMessage({type:'pv:state', recs:recs}, '*');
     }catch(e){}
   }
   window.addEventListener('message', function(ev){
     if(!_msgConfiable(ev)) return;            // solo nuestros iframes (ver _msgConfiable)
     var m=ev.data||{};
-    if(m.type==='pv:ready'){ _pvPostTheme(); _pvPostState(); return; }
+    if(m.type==='pv:ready'){ _pvPostTheme(); _pvPostState(); _pvPostCompras(); return; }
     if(m.type==='pv:rec'){
       var id=m.id; if(id==null) return;
       var arr=data.puntos||(data.puntos=[]);
       var idx=arr.findIndex(function(e){return String(e.id)===String(id);});
-      var vacio=((m.status==='pendiente')||!m.status) && (!m.notes || !m.notes.length);
+      // v40.2 — `alias`: los nombres con que registras tus tacos en este punto. Un punto con
+      // alias NO está vacío aunque siga «pendiente»: borrarlo perdería el enlace.
+      var alias=Array.isArray(m.alias)? m.alias.filter(function(a){return typeof a==='string'&&a.trim();}).map(function(a){return _limpiarTexto(a).slice(0,80);}) : [];
+      var vacio=((m.status==='pendiente')||!m.status) && (!m.notes || !m.notes.length) && !alias.length;
       if(vacio){ if(idx>=0) arr.splice(idx,1); }
       else { var ent={id:id, status:m.status, last:m.last||null, notes:m.notes||[], _lm:Date.now()};
+             if(alias.length) ent.alias=alias;
              if(idx>=0) arr[idx]=ent; else arr.push(ent); }
       try{ save(); }catch(e){}
       try{ _syncSchedulePush(); }catch(e){}
       return;
     }
   });
+  // v40.2 — TUS COMPRAS POR PUNTO (para el mapa). Solo cifras descriptivas por el nombre con
+  // que registraste el punto: el taco cuenta por su punto; el dinero por el boleto (su propio
+  // punto o, si no tiene, el de su taco). Todos los juegos. No se escribe nada.
+  function _pvCompras(){
+    var porLote=new Map(); (data.lotes||[]).forEach(function(l){ porLote.set(String(l.id), l); });
+    var acc=new Map();
+    function slot(n, ciudad){ var k=n.toLowerCase(); var a=acc.get(k);
+      if(!a){ a={n:n, ciudad:ciudad||'', tacos:0, boletos:0, gasto:0, premio:0, ult:''}; acc.set(k,a); }
+      if(!a.ciudad && ciudad) a.ciudad=ciudad; return a; }
+    (data.lotes||[]).forEach(function(l){ var n=String(l.punto||'').trim(); if(n) slot(n, l.ciudad).tacos++; });
+    (data.records||[]).forEach(function(r){ var l=porLote.get(String(r.loteId));
+      var n=String(r.punto||(l&&l.punto)||'').trim(); if(!n) return;
+      var a=slot(n, r.ciudad||(l&&l.ciudad)); a.boletos++; a.gasto+=Number(r.costo)||0; a.premio+=Number(r.premio)||0;
+      if(r.fecha && r.fecha>a.ult) a.ult=r.fecha; });
+    return Array.from(acc.values()).map(function(a){ a.gasto=Math.round(a.gasto*100)/100; a.premio=Math.round(a.premio*100)/100; return a; });
+  }
+  function _pvPostCompras(){
+    try{ if(_pvIframe&&_pvIframe.contentWindow) _pvIframe.contentWindow.postMessage({type:'pv:compras', items:_pvCompras()}, '*'); }catch(e){}
+  }
+  window.__pvCompras=_pvCompras;
   function pvEnsureIframe(){
-    _pvPostTheme(); _pvPostState();
+    _pvPostTheme(); _pvPostState(); _pvPostCompras();
     if(_pvIframe) return;
     var host=document.getElementById('pvHost'); if(!host) return;
     var src=document.getElementById('pvSrc'); if(!src) return;
@@ -24855,8 +24963,18 @@
     var nav=document.getElementById('bottomNav');
     var navH=0;
     try{ if(nav && getComputedStyle(nav).display!=='none') navH=nav.getBoundingClientRect().height; }catch(e){}
+    // v40.2 — MÓVIL A PANTALLA COMPLETA. El ancho fijo «100% + 40px» suponía 20px de padding,
+    // pero en el móvil el panel suma otros 10px: quedaba una franja a cada lado y otra arriba
+    // (el «marco»). Medir y compensar resultó frágil (cambia al abrir hojas y al girar), así
+    // que en el móvil el mapa se fija a la pantalla, de borde a borde, hasta la barra inferior.
+    if((window.innerWidth||0)<=600){
+      host.classList.add('pv-fijo');
+      var hm=Math.round((window.innerHeight||0) - navH); if(hm>200) host.style.height=hm+'px';
+      return;
+    }
+    host.classList.remove('pv-fijo');
     var top=host.getBoundingClientRect().top;           // ya relativo al viewport
-    var h=Math.round((window.innerHeight||0) - top - navH - 6);
+    var h=Math.round((window.innerHeight||0) - top - navH);
     if(!(h>0)) return;
     if(h<320) h=320;
     host.style.height=h+'px';
@@ -26348,7 +26466,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#14284B">
-<title>Bitácora de Puntos · Quito</title>
+<title>Puntos de venta · Bitácora</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.min.css" integrity="sha384-uIZNAcoEHVWMk8LrCSX95DJk6FQzH6zG00LQC9BykRY1UKKpkDzDhbDLYQ1Ho3mI" crossorigin="anonymous">
 <style>
@@ -26597,6 +26715,63 @@
   .regionbar{display:flex;gap:8px;background:var(--navy2);padding:8px 10px}
   .rsel{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:10px;
     padding:9px 10px;font-size:13px;font-weight:600;color:var(--ink);max-width:100%}
+  /* ===== v40.2 — SIN MARCO =====
+     El buscador vivía en una franja propia (color --navy2, que el tema pinta gris): era el marco
+     que rodeaba el mapa. Ahora flota SOBRE el mapa, como en cualquier app de mapas, y el mapa
+     ocupa todo. La barra inferior propia (Mapa · Ruta · Más) se va: en el móvil se apilaba
+     con la de la app (dos barras = 130px sin mapa). «Ruta» pasa junto al botón principal y
+     «Más» al botón ⋯ del buscador. */
+  body{position:relative}
+  .topsearch{position:absolute;top:0;left:0;right:0;z-index:700;background:transparent!important;
+    padding:10px 10px 0;pointer-events:none}
+  .topsearch>*{pointer-events:auto}
+  .tsinput,.tsbtn{box-shadow:0 4px 14px -6px rgba(20,40,75,.45)}
+  .regionbar{padding:6px 0 0!important;gap:6px}
+  .regionbar .rsel{box-shadow:0 4px 14px -8px rgba(20,40,75,.45)}
+  .prog{top:66px}
+  body.region-on .prog{top:112px}
+  .tabbar{display:none!important}
+  body.en-mas .topsearch{display:none}
+  .view{padding:12px 12px calc(env(safe-area-inset-bottom) + 24px)}
+  .toast{bottom:84px}
+  .mapcta{right:118px}
+  .rutacta{position:absolute;right:12px;bottom:14px;z-index:500;width:98px;display:flex;align-items:center;justify-content:center;gap:6px;
+    background:#fff;color:#5B34C4;border:2px solid #5B34C4;border-radius:14px;padding:13px 8px;font-size:14px;font-weight:800;
+    cursor:pointer;box-shadow:0 8px 22px -10px rgba(46,20,92,.6)}
+  .rutacta.hide{display:none}
+  .volver{display:inline-flex;align-items:center;gap:6px;margin:0 0 12px;padding:9px 14px;border-radius:10px;
+    background:#5B34C4;color:#fff;font-weight:800;font-size:13px}
+  /* OSM es más cargado que Voyager: se suaviza un poco para que los pines manden. */
+  .base-osm .leaflet-tile-pane{filter:saturate(.72) brightness(1.04) contrast(.94)}
+  /* Tus puntos de compra: aro dorado y número de tacos. */
+  .mkp.mio i{border-color:#F2B705;border-width:3.5px;box-shadow:0 0 0 3px rgba(242,183,5,.35),0 2px 6px rgba(0,0,0,.4)}
+  .mkp .mkn{position:absolute;top:-9px;right:-12px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;
+    background:#F2B705;color:#1a1300;font:800 10.5px/18px system-ui,sans-serif;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+  .mkp{position:relative}
+  .nchip.mio{background:#FDF3C4;color:#6B4E00;margin-left:4px}
+  .mis-card{border:2px solid #F2B705;border-radius:14px;padding:12px 14px;margin:0 0 12px;background:#FFFBEA;color:#2a2200}
+  .mis-t{font-weight:800;font-size:14px;margin-bottom:8px}
+  .mis-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+  .mis-g b{display:block;font-size:15px}
+  .mis-g span{font-size:10.5px;opacity:.75;font-weight:700}
+  .mis-g .pos{color:#0F6E56}.mis-g .neg{color:#9A2B14}
+  .mis-s{font-size:11.5px;opacity:.8;margin-top:8px;line-height:1.45}
+  .mrow{padding:10px 0;border-top:1px solid var(--line)}
+  .mrow:first-child{border-top:0}
+  .mrow .mn{font-weight:800;font-size:13.5px}
+  .mrow .mi{font-size:12px;opacity:.8;margin-top:2px}
+  .mrow .ma{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;align-items:center}
+  .mrow select{flex:1;min-width:0;padding:8px;border-radius:9px;border:1px solid var(--line);font-size:12.5px;background:#fff;color:#14284B}
+  .mrow .mb{padding:8px 12px;border-radius:9px;background:#5B34C4;color:#fff;font-weight:800;font-size:12px}
+  .mrow .mb.gh{background:transparent;color:#5B34C4;border:1px solid #5B34C4}
+  .mrow .ok{color:#0F6E56;font-weight:700}.mrow .pend{color:#854F0B;font-weight:800}
+  /* En pantallas anchas las hojas son un panel lateral: la lista y la ficha no tapan el mapa. */
+  @media(min-width:900px){
+    .nearsheet{left:12px;right:auto;width:430px;bottom:12px;border-radius:18px;max-height:calc(100% - 90px)}
+    .sheet{left:auto;right:12px;width:460px;bottom:12px;border-radius:18px;max-height:calc(100% - 24px)}
+    .sheet:not(.show){transform:translateY(calc(100% + 40px))}
+    .scrim.show{background:rgba(8,16,30,.18)}
+  }
 </style>
 </head>
 <body>
@@ -26615,11 +26790,14 @@
 <div class="topsearch">
   <div class="tsrow">
     <input id="q" class="tsinput" placeholder="Buscar punto o dirección…" autocomplete="off">
-    <button class="tsbtn" id="tsClear" title="Limpiar búsqueda y filtros, y volver a mi ubicación" onclick="limpiarTodo()">
+    <button class="tsbtn" id="tsClear" title="Limpiar búsqueda y filtros, y volver a mi ubicación" aria-label="Limpiar búsqueda y filtros" onclick="limpiarTodo()">
       <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#B4381F" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
-    <button class="tsbtn" id="tsFilt" title="Filtros" onclick="toggleRegion()">
+    <button class="tsbtn" id="tsFilt" title="Filtros" aria-label="Filtros por provincia, ciudad y tipo" onclick="toggleRegion()">
       <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#5B34C4" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+    </button>
+    <button class="tsbtn" id="tsMas" title="Más: tus puntos de compra, resumen, catálogo, mapa base y respaldos" aria-label="Más opciones" onclick="show('set')">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="#5B34C4"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
     </button>
   </div>
   <div class="regionbar" id="regionBar" style="display:none">
@@ -26648,6 +26826,7 @@
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
       Ver puntos cerca de ti
     </button>
+    <button class="rutacta" id="rutaCta" onclick="show('route')" title="Ruta optimizada por tus pendientes">🧭 Ruta</button>
     <!-- HOJA TRANSITORIA: NO permanece abierta. Se abre al pedirla (CTA o tocar un grupo) y
          se cierra con la ✕. Antes era fija y hacía imposible navegar en el móvil. -->
     <div class="nearsheet" id="nearSheet">
@@ -26660,6 +26839,7 @@
       <div class="nsheet-tools" id="nsheetTools">
         <div class="filters">
           <button class="fchip on" data-f="cerca">Cercanos</button>
+          <button class="fchip" data-f="mios">🎟 Mis puntos</button>
           <button class="fchip" data-f="todos">Todos</button>
           <button class="fchip" data-f="pendiente">Pendientes</button>
           <button class="fchip" data-f="visitado">Visitados</button>
@@ -26672,18 +26852,17 @@
 
   <!-- AJUSTES -->
   <section class="view hidden" id="v-set">
-    <div class="lbl">Resumen</div>
+    <button class="volver" onclick="show('map')">← Volver al mapa</button>
+    <div class="card" id="cardMios">
+      <h3 id="miosTit">Tus puntos de compra</h3>
+      <p>Enlaza el nombre con que registras cada taco con su punto del mapa oficial. Así el mapa marca dónde compras (aro dorado) y la ficha muestra tu historial allí.</p>
+      <div id="miosList"><div class="hint">Cargando tus compras…</div></div>
+    </div>
+    <div class="lbl">Resumen de visitas</div>
     <div class="stat-grid">
       <div class="stat"><b id="stTot">0</b><span>Total</span></div>
       <div class="stat"><b id="stVis" style="color:var(--green)">0</b><span>Visitados</span></div>
       <div class="stat"><b id="stNov" style="color:var(--red)">0</b><span>Novedades</span></div>
-    </div>
-    <div class="card" id="gpsHelp">
-      <h3>Cómo activar el GPS</h3>
-      <p>El navegador bloquea la ubicación si la app se abre como archivo (<b>file://</b> o <b>content://</b>, como desde el explorador). Necesita abrirse desde un enlace seguro. Opciones, de la más fácil a la más técnica:</p>
-      <p style="margin-bottom:6px"><b>1. Subirla a un hosting gratis (recomendado).</b> Arrastra este archivo a <b>app.netlify.com/drop</b> o súbelo a GitHub Pages. Te da un enlace <b>https://</b> que abres en Chrome y el GPS funciona. Ideal para el campo.</p>
-      <p style="margin-bottom:6px"><b>2. Servidor local en el teléfono.</b> Con Termux: <code>python3 -m http.server 8000</code> en la carpeta del archivo y abre <b>http://localhost:8000</b>. <b>localhost</b> cuenta como seguro, así que el GPS funciona 100% sin internet.</p>
-      <p style="margin-bottom:0"><b>3. En PC.</b> <code>python -m http.server</code> y ábrela en <b>http://localhost:8000</b>.</p>
     </div>
     <div class="card">
       <h3>Actualizar catálogo</h3>
@@ -26701,14 +26880,14 @@
         <input type="file" id="impJson" accept="application/json" class="hidden"></label>
     </div>
     <div class="card">
-      <h3>Instalar en el teléfono</h3>
-      <p>Añádela a tu pantalla de inicio para abrirla como una app y trabajar sin conexión.</p>
-      <button class="btn btn-navy" id="installBtn">Instalar app</button>
+      <h3>Mapa base</h3>
+      <p id="baseTxt">—</p>
+      <div style="display:flex;gap:8px;"><input id="cartoKey" class="rsel" placeholder="Clave de CARTO (opcional)" autocomplete="off" style="flex:1"><button class="btn btn-navy" id="cartoGuardar" style="width:auto;margin:0;padding:0 14px;">Guardar</button></div>
     </div>
     <div class="card">
       <h3>Zona de datos</h3>
-      <p>Reinicia todos los estados y notas (no borra los puntos). Esta acción no se puede deshacer.</p>
-      <button class="btn btn-ghost" id="resetBtn" style="color:var(--red)">Reiniciar bitácora</button>
+      <p>Vuelve todos los puntos a «pendiente» y borra sus notas y fotos. No toca tus tacos, tus boletos ni los enlaces de tus puntos de compra. No se puede deshacer.</p>
+      <button class="btn btn-ghost" id="resetBtn" style="color:var(--red)">Reiniciar visitas y notas</button>
     </div>
   </section>
 </div>
@@ -26996,6 +27175,7 @@ function toggleRegion(){
   if(!r) return;
   const on = r.style.display==='none';
   r.style.display = on?'flex':'none';
+  document.body.classList.toggle('region-on', on);
   if(b) b.classList.toggle('on', on);
   if(map) setTimeout(()=>map.invalidateSize(),120);
 }
@@ -27010,7 +27190,7 @@ function _rowSheet(p,distTxt,st,idx,legTxt){
   return `<div class="nrow" onclick="openDetail(${p.id})">
     <div class="nic">${idx!=null?('<b>'+(idx+1)+'</b>'):'📍'}</div>
     <div class="ntx"><div class="nnm">${esc(p.nom)}</div><div class="nad">${esc(shortAddr(p.dir))}</div>
-      ${pf?`<span class="npref" title="Tipo de punto según su código">${esc(pf)}</span>`:''}${_chipEstado(st)}</div>
+      ${pf?`<span class="npref" title="Tipo de punto según su código">${esc(pf)}</span>`:''}${_chipEstado(st)}${(typeof MIS!=='undefined'&&MIS[p.id])?`<span class="nchip mio">🎟 ${MIS[p.id].tacos} taco${MIS[p.id].tacos===1?'':'s'}</span>`:''}</div>
     <div class="ndist">${distTxt||''}${legTxt?('<br><span style="font-size:9.5px;opacity:.6;font-weight:600;">'+legTxt+'</span>'):''}</div>
     <button class="ngo" onclick="event.stopPropagation();navTo(${jsp(p)})">Ir</button>
   </div>`;
@@ -27021,15 +27201,25 @@ function renderCerca(){
   const q=(document.getElementById('q').value||'').toLowerCase().trim();
   if(title) title.textContent = q?'Resultados':'Puntos cerca de ti';
   let arr=visPuntos().map(p=>({p,d:myPos?haversine(myPos,p):null,st:rec(p.id).status}));
-  if(curFilter!=='todos'&&curFilter!=='cerca') arr=arr.filter(x=>x.st===curFilter);
+  if(curFilter==='mios') arr=arr.filter(x=>MIS[x.p.id]);
+  else if(curFilter!=='todos'&&curFilter!=='cerca') arr=arr.filter(x=>x.st===curFilter);
   // Busca también por prefijo/tipo, ciudad y provincia: escribir "PDSLL" o "Azuay" filtra.
   if(q) arr=arr.filter(x=>(x.p.nom+' '+x.p.dir+' '+(x.p.code||'')+' '+(x.p.ciudad||'')+' '+(x.p.prov||'')).toLowerCase().includes(q));
-  if(myPos) arr.sort((a,b)=>(a.d??1e9)-(b.d??1e9)); else arr.sort((a,b)=>a.p.nom.localeCompare(b.p.nom,'es'));
+  if(curFilter==='mios') arr.sort((a,b)=>MIS[b.p.id].tacos-MIS[a.p.id].tacos);
+  else if(myPos) arr.sort((a,b)=>(a.d??1e9)-(b.d??1e9)); else arr.sort((a,b)=>a.p.nom.localeCompare(b.p.nom,'es'));
   const pend=visPuntos().filter(p=>rec(p.id).status==='pendiente').length;
   const cap = q?arr.length:Math.min(arr.length,40);
   const MC=modoActual();
   const selModo=['pie','bus','auto'].map(k=>{ const m=MODOS_VIAJE[k];
     return '<button class="rchip'+(modoViaje===k?' on':'')+'" onclick="event.stopPropagation();setModoViaje(\''+k+'\')" title="'+m.lbl+'">'+m.icono+'</button>'; }).join('');
+  if(curFilter==='mios' && !q){
+    const pend=_miosPendientes();
+    if(sub) sub.innerHTML = arr.length+' punto(s) donde compraste, por número de tacos'
+      + (pend?'<br><span style="color:#854F0B;font-weight:700;">⚠ '+pend+' nombre(s) por enlazar — <a href="#" onclick="event.preventDefault();event.stopPropagation();show(\'set\')">enlázalos en Más</a></span>':'');
+    body.innerHTML = arr.length ? arr.map(({p,d,st})=>_rowSheet(p, d!=null?kmRealTxt(d):'', st, null, fmtUsd(MIS[p.id].gasto)+' gastado')).join('')
+      : '<div style="padding:16px 18px;color:#6b7a90;font-size:13px;">Aún no hay puntos enlazados. Enlázalos en Más (botón ⋯).</div>';
+    return;
+  }
   if(sub) sub.innerHTML = q ? (arr.length+' coincidencia(s)')
     : (myPos ? (cap+' cercanos · '+pend+' pendientes'
                +'<br><span style="font-size:11px;opacity:.85;">Distancia y tiempo estimados '+MC.icono+' '+MC.lbl.toLowerCase()+'</span>'
@@ -27101,6 +27291,7 @@ function abrirCercanos(){
 }
 // Cerrar la hoja SIEMPRE devuelve el mapa limpio con su CTA.
 function cerrarHoja(){
+  if(nsMode==='ruta'){ show('map'); return; }
   toggleNearSheet(false);
   if(nsMode==='cluster'){ nsMode='cerca'; _clusterIds=[]; }
   const q=document.getElementById('q'); if(q&&q.value){ q.value=''; renderSheet(); }
@@ -27111,6 +27302,7 @@ function salirCluster(){ abrirCercanos(); }
 function actualizarCta(){
   const b=document.getElementById('mapCta'); if(!b) return;
   b.classList.toggle('hide', _nsheetOpen || nsMode==='ruta');
+  const r=document.getElementById('rutaCta'); if(r) r.classList.toggle('hide', _nsheetOpen || nsMode==='ruta');
 }
 function renderSheet(){ if(nsMode==='ruta') renderRuta(); else if(nsMode==='cluster') renderCluster(); else renderCerca(); }
 // Compatibilidad con las llamadas existentes en toda la app:
@@ -27246,12 +27438,13 @@ async function syncPuntosBuscar(){
     if(ba) ba.onclick=()=>{
       let maxId=PUNTOS.reduce((m,p)=>Math.max(m,+p.id||0),0);
       d.nuevos.forEach(p=>{ PUNTOS.push({id:++maxId, nom:p.nom.replace(/^[A-ZÁÉÍÓÚÑ]{2,8}\s+/,''), code:p.nom,
-        dir:p.dir||'', lat:p.lat, lon:p.lon, ciudad:p.ciudad||'', prov:'', capa:p.capa||'Locales'}); });
+        dir:p.dir||'', lat:p.lat, lon:p.lon, ciudad:p.ciudad||'', prov:'', capa:p.capa||'Locales', _extra:true}); });
       guardarPuntosLocales(); initMapMarkers(); toast('✓ '+d.nuevos.length+' punto(s) agregados');
       syncPuntosBuscar();
     };
     const bm=document.getElementById('btnSyncMover');
-    if(bm) bm.onclick=()=>{ d.movidos.forEach(x=>{ x.de.lat=x.a.lat; x.de.lon=x.a.lon; });
+    if(bm) bm.onclick=()=>{ d.movidos.forEach(x=>{ x.de.lat=x.a.lat; x.de.lon=x.a.lon; x.de._movido=true;
+        if(markers[x.de.id]) markers[x.de.id].setLatLng([x.de.lat,x.de.lon]); });
       guardarPuntosLocales(); initMapMarkers(); toast('✓ '+d.movidos.length+' ubicación(es) corregidas'); syncPuntosBuscar(); };
   }catch(e){
     // El mensaje se ajusta a la CAUSA. Antes siempre decía «revisa el proxy», así que un
@@ -27279,11 +27472,26 @@ async function syncPuntosBuscar(){
   }
 }
 // Los puntos añadidos se guardan aparte del catálogo de fábrica, para no perderlos al actualizar.
+// v40.2 — se guardaban en `pv_puntos_extra` pero NADIE los leía al arrancar, y el filtro
+// (`_extra || id>10000`) dejaba fuera a los nuevos (ids 517…) y a los movidos: todo lo aplicado
+// con «Buscar cambios» se perdía al recargar. Ahora: nuevos + coordenadas corregidas, y se
+// aplican al arrancar (y la app usa lo mismo para el botón 📍 del registro).
 function guardarPuntosLocales(){
-  try{ localStorage.setItem('pv_puntos_extra', JSON.stringify(PUNTOS.filter(p=>p._extra||p.id>10000))); }catch(_){}
+  try{
+    const extra=PUNTOS.filter(p=>p._extra), mov={};
+    PUNTOS.forEach(p=>{ if(!p._extra && p._movido) mov[p.id]=[p.lat,p.lon]; });
+    localStorage.setItem('pv_catalogo_cambios', JSON.stringify({extra, mov}));
+  }catch(_){}
+}
+function cargarPuntosLocales(){
+  try{
+    const c=JSON.parse(localStorage.getItem('pv_catalogo_cambios')||'null'); if(!c) return;
+    const mv=c.mov||{}; PUNTOS.forEach(p=>{ const m=mv[p.id]; if(m){ p.lat=m[0]; p.lon=m[1]; p._movido=true; } });
+    (c.extra||[]).forEach(p=>{ if(p && p.id!=null && !PUNTOS.some(x=>x.id===p.id)) PUNTOS.push(Object.assign({},p,{_extra:true})); });
+  }catch(_){}
 }
 function initMapMarkers(){
-  try{ PUNTOS.forEach(p=>{ if(!markers[p.id]){ const m=L.marker([p.lat,p.lon],{icon:mkIcon(rec(p.id).status)});
+  try{ PUNTOS.forEach(p=>{ if(!markers[p.id]){ const m=L.marker([p.lat,p.lon],{icon:mkIcon(rec(p.id).status,p.id)});
     m._pvId=p.id; m.on('click',()=>openDetail(p.id)); markers[p.id]=m; (cluster||map).addLayer(m); } });
     fillProv(); fillCity(); fillPref(); applyGeo(); }catch(e){}
 }
@@ -27349,8 +27557,18 @@ function initMap(){
   map=L.map('map',{zoomControl:false}).setView([-1.6,-79.0],6);
   // Zoom a la IZQUIERDA: a la derecha se encimaba con el botón de "mi ubicación".
   L.control.zoom({position:'bottomleft'}).addTo(map);
-  // Tema CLARO (CARTO Voyager) — mapa limpio y legible como la referencia, en vez del oscuro.
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  // v40.2 — MAPA BASE. Desde el 23-sep-2026 CARTO marca con «API KEY REQUIRED» toda tesela
+  // pedida sin clave (cambio de sus condiciones, no de la app). Con clave se conserva Voyager;
+  // sin ella, OpenStreetMap. La política de OSM pide saber desde qué sitio se piden sus teselas
+  // y la app declara `no-referrer`: aquí se envía SOLO el origen (el dominio), nunca la ruta.
+  var _ck=''; try{ _ck=(localStorage.getItem('bitacora_carto_key')||'').trim() || String((parent&&parent.CARTO_KEY)||'').trim(); }catch(e){}
+  if(_ck){
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key='+encodeURIComponent(_ck),{maxZoom:20,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(map);
+  } else {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,referrerPolicy:'strict-origin-when-cross-origin',attribution:'© OpenStreetMap'}).addTo(map);
+    try{ document.documentElement.classList.add('base-osm'); }catch(e){}
+  }
+  window._mapaBase = _ck ? 'carto' : 'osm';
   // CLUSTERING: con 516 puntos, pintarlos sueltos es pesado y visualmente ruidoso. Al alejar
   // se agrupan en círculos morados con el conteo (como la referencia); al acercar se abren.
   if(typeof L.markerClusterGroup==='function'){
@@ -27372,7 +27590,7 @@ function initMap(){
     map.addLayer(cluster);
   }
   PUNTOS.forEach(p=>{
-    const m=L.marker([p.lat,p.lon],{icon:mkIcon(rec(p.id).status)});
+    const m=L.marker([p.lat,p.lon],{icon:mkIcon(rec(p.id).status,p.id)});
     m._pvId=p.id;   // para poder listar los hijos de un grupo al tocarlo
     m.on('click',()=>openDetail(p.id));
     markers[p.id]=m;
@@ -27383,11 +27601,12 @@ function initMap(){
   // Al arrastrar el mapa, la hoja se aparta (como la app de referencia): navegar es lo primero.
   map.on('dragstart', ()=>{ if(_nsheetOpen && nsMode==='cerca') toggleNearSheet(false); });
 }
-function mkIcon(st){
+function mkIcon(st,id){
+  const mi=(id!=null && typeof MIS!=='undefined') ? MIS[id] : null;
   return L.divIcon({className:'mk',iconSize:[26,26],iconAnchor:[13,26],
-    html:`<div class="mkp"><i style="background:${STCOL[st]}"></i></div>`});
+    html:`<div class="mkp${mi?' mio':''}"><i style="background:${STCOL[st]}"></i>${mi?`<span class="mkn">${mi.tacos}</span>`:''}</div>`});
 }
-function refreshMarker(id){ if(markers[id]) markers[id].setIcon(mkIcon(rec(id).status)); }
+function refreshMarker(id){ if(markers[id]) markers[id].setIcon(mkIcon(rec(id).status,id)); }
 
 /* ---------- RENDER: LIST ---------- */
 function statusDot(st){return `<span class="dot ${st}"></span>`;}
@@ -27444,6 +27663,7 @@ function renderDetail(){
     || '<div class="hint" style="padding:12px">Aún no hay visitas registradas.</div>';
 
   document.getElementById('dBody').innerHTML=`
+    ${_bloqueMis(id)}
     ${sug}
     <div class="statusrow">
       ${['pendiente','visitado','novedad'].map(s=>`<button class="st ${s} ${r.status===s?'on':''}" onclick="setStatus('${s}')">${cap(s)}</button>`).join('')}
@@ -27569,9 +27789,11 @@ function dl(blob,name){const a=document.createElement('a');a.href=URL.createObje
 /* ---------- NAV ---------- */
 function show(v){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===v));
+  document.body.classList.toggle('en-mas', v==='set');
   if(v==='set'){
     document.querySelectorAll('.view').forEach(s=>s.classList.add('hidden'));
     document.getElementById('v-set').classList.remove('hidden');
+    try{ renderMios(); renderBase(); }catch(e){}
     return;
   }
   // 'map' y 'route' comparten el MISMO mapa persistente; solo cambia el modo de la hoja.
@@ -27608,27 +27830,145 @@ document.getElementById('expPdf').onclick=exportPdf;
 document.getElementById('impJson').onchange=e=>{if(e.target.files[0])importJson(e.target.files[0]);};
 document.getElementById('resetBtn').onclick=async()=>{
   if(!confirm('¿Reiniciar todos los estados y notas?'))return;
-  for(const p of PUNTOS){await Store.del('pt:'+p.id);} REC={};
+  for(const k of Object.keys(REC)){ const r=REC[k]; if(!r) continue;
+    r.status='pendiente'; r.notes=[]; r.photos=[]; r.last=null; await saveRec(k); }
   PUNTOS.forEach(p=>refreshMarker(p.id)); updateProgress(); renderList(); refreshRoute(); toast('Bitácora reiniciada');
 };
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-document.getElementById('installBtn').onclick=async()=>{
-  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}
-  else toast('Usa el menú del navegador → “Añadir a pantalla de inicio”');
-};
 
-/* ---------- PWA manifest (inline) ---------- */
+
+/* ---------- v40.2 · TUS PUNTOS DE COMPRA ----------
+   La app manda (pv:compras) tus cifras por el NOMBRE con que registraste el punto en cada taco.
+   Aquí se resuelve cada nombre a un punto del catálogo:
+     1) enlace tuyo (alias guardado en el punto, se sincroniza con tus datos);
+     2) automático SOLO si hay un único candidato en esa ciudad con nombre idéntico o que
+        contiene todas tus palabras («GRANADOS PLAZA» → «Cc Granados Plaza»);
+     3) si no, queda «por enlazar» y se elige en Más. Nunca se adivina entre dos locales. */
+let COMPRAS=[], MIS={}, RESUELTO={};
+const _STOPW=new Set(['cc','c','de','del','la','las','el','los','y','av','sup','centro','comercial']);
+function _nrm(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim(); }
+function _toks(s){ return _nrm(s).split(' ').filter(t=>t && !_STOPW.has(t)); }
+function _bigr(s){ const x=_nrm(s).replace(/^cc /,'').replace(/ /g,''); const o=[]; for(let i=0;i<x.length-1;i++) o.push(x.slice(i,i+2)); return o; }
+function _dice(a,b){ const A=_bigr(a), B=_bigr(b); if(!A.length||!B.length) return 0; const m=new Map(); A.forEach(x=>m.set(x,(m.get(x)||0)+1)); let c=0; B.forEach(x=>{ const k=m.get(x); if(k){ c++; m.set(x,k-1);} }); return 2*c/(A.length+B.length); }
+function _enCiudad(p,c){ return !c || _nrm(p.ciudad)===_nrm(c); }
+function _todas(tq,p){ const w=_nrm(p.nom).split(' '); return tq.length>0 && tq.every(t=>w.some(x=>x===t||(t.length>=3&&x.startsWith(t)))); }
+function _candidatos(nombre, ciudad){
+  const tq=_toks(nombre);
+  return PUNTOS.filter(p=>_enCiudad(p,ciudad)).map(p=>{
+    const w=(_nrm(p.nom)+' '+_nrm(p.code||'')).split(' ');
+    let s=0; tq.forEach(t=>{ if(w.includes(t)) s+=2; else if(t.length>=3 && w.some(x=>x.startsWith(t)||(x.length>=3&&t.startsWith(x)))) s+=1; });
+    if(_nrm(p.nom)===_nrm(nombre)) s+=10;
+    const dz=_dice(nombre,p.nom); if(dz>=0.6) s+=3;
+    return {p,s};
+  }).filter(x=>x.s>0).sort((a,b)=>b.s-a.s || a.p.nom.localeCompare(b.p.nom,'es'));
+}
+function _aliasMapa(){ const m={}; Object.keys(REC).forEach(k=>{ const r=REC[k]; (r&&Array.isArray(r.alias)?r.alias:[]).forEach(a=>{ m[_nrm(a)]=k; }); }); return m; }
+function resolverCompras(){
+  const man=_aliasMapa(); RESUELTO={}; const nuevo={};
+  COMPRAS.forEach(c=>{
+    const k=_nrm(c.n); let id=null, modo='pend';
+    if(man[k]!=null){ id = man[k]==='sin-catalogo' ? null : man[k]; modo = man[k]==='sin-catalogo' ? 'ninguno' : 'manual'; }
+    else {
+      const enC=PUNTOS.filter(p=>_enCiudad(p,c.ciudad));
+      const ex=enC.filter(p=>_nrm(p.nom)===k);
+      const to=enC.filter(p=>_todas(_toks(c.n),p));
+      if(ex.length===1){ id=ex[0].id; modo='auto'; }
+      else if(!ex.length && to.length===1){ id=to[0].id; modo='auto'; }
+    }
+    RESUELTO[k]={id,modo,c};
+    if(id!=null){ const pid=PUNTOS.some(p=>String(p.id)===String(id)) ? PUNTOS.find(p=>String(p.id)===String(id)).id : null;
+      if(pid==null) return;
+      const a=nuevo[pid]||(nuevo[pid]={tacos:0,boletos:0,gasto:0,premio:0,ult:'',nombres:[]});
+      a.tacos+=c.tacos; a.boletos+=c.boletos; a.gasto+=c.gasto; a.premio+=c.premio; if(c.ult>a.ult) a.ult=c.ult; a.nombres.push(c.n); }
+  });
+  // Los enlaces automáticos se GUARDAN como enlace (alias): así el botón 📍 del registro usa tu
+  // mismo nombre («GRANADOS PLAZA», no «Cc Granados Plaza») y tu historial no se parte en dos;
+  // además viajan con tus datos a los otros dispositivos. Se pueden cambiar en Más.
+  const autos=Object.values(RESUELTO).filter(x=>x.modo==='auto' && x.id!=null);
+  if(autos.length) (async()=>{ for(const x of autos){ const r=rec(x.id);
+    if(!(Array.isArray(r.alias)?r.alias:[]).some(a=>_nrm(a)===_nrm(x.c.n))){ r.alias=(Array.isArray(r.alias)?r.alias:[]).concat([x.c.n]); await saveRec(x.id); } } })();
+  const antes=Object.keys(MIS); MIS=nuevo;
+  new Set(antes.concat(Object.keys(MIS))).forEach(id=>{ try{ refreshMarker(isNaN(+id)?id:+id); }catch(e){} });
+}
+function _miosPendientes(){ return Object.values(RESUELTO).filter(x=>x.modo==='pend').length; }
+function fmtUsd(n){ const v=Math.round((Number(n)||0)*100)/100; const [e,d]=Math.abs(v).toFixed(2).split('.'); return (v<0?'−$':'$')+e.replace(/\B(?=(\d{3})+(?!\d))/g,',')+'.'+d; }
+function _fechaCorta(f){ if(!f) return '—'; const x=new Date(f+'T12:00:00'); return isNaN(x)?f:x.toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'}); }
+function _bloqueMis(id){
+  const m=MIS[id]; if(!m) return '';
+  const neto=m.premio-m.gasto;
+  return `<div class="mis-card"><div class="mis-t">🎟 Tus compras aquí</div>
+    <div class="mis-g"><div><b>${m.tacos}</b><span>tacos</span></div><div><b>${fmtUsd(m.gasto)}</b><span>gastado</span></div>
+    <div><b>${fmtUsd(m.premio)}</b><span>en premios</span></div><div><b class="${neto>=0?'pos':'neg'}">${(neto>=0?'+':'')+fmtUsd(neto)}</b><span>neto</span></div></div>
+    <div class="mis-s">${m.boletos} boletos · último taco: ${esc(_fechaCorta(m.ult))} · registrado como «${m.nombres.map(esc).join('», «')}».<br>
+    Son tus cifras históricas aquí (todos los juegos). Con estas muestras no permiten afirmar que un punto pague más que otro.</div></div>`;
+}
+async function enlazarNombre(nombre, destino){
+  const k=_nrm(nombre);
+  for(const key of Object.keys(REC)){ const r=REC[key];
+    if(r && Array.isArray(r.alias) && r.alias.some(a=>_nrm(a)===k)){ r.alias=r.alias.filter(a=>_nrm(a)!==k); await saveRec(key); } }
+  const r=rec(destino); r.alias=(Array.isArray(r.alias)?r.alias:[]).concat([nombre]); await saveRec(destino);
+  resolverCompras(); renderMios(); if(_nsheetOpen) renderSheet();
+  toast(destino==='sin-catalogo' ? '«'+nombre+'» queda sin punto del mapa' : '✓ «'+nombre+'» enlazado');
+}
+let _miosEditando=null;
+function renderMios(){
+  const box=document.getElementById('miosList'), tit=document.getElementById('miosTit'); if(!box) return;
+  if(!COMPRAS.length){ box.innerHTML='<div class="hint">Aún no hay tacos con punto de venta.</div>'; return; }
+  const filas=Object.values(RESUELTO).sort((a,b)=>b.c.tacos-a.c.tacos);
+  const pend=filas.filter(x=>x.modo==='pend').length;
+  if(tit) tit.innerHTML='Tus puntos de compra'+(pend?` <span style="color:#854F0B;font-size:12px;">· ${pend} por enlazar</span>`:'');
+  box.innerHTML=filas.map((x,i)=>{
+    const c=x.c, p=x.id!=null?PUNTOS.find(q=>String(q.id)===String(x.id)):null;
+    const edit = x.modo==='pend' || _miosEditando===_nrm(c.n);
+    let estado;
+    if(x.modo==='ninguno') estado='<span class="ok" style="color:#5b6b82">— sin punto del mapa</span>';
+    else if(p) estado=`<span class="ok">✓ ${esc(p.nom)}</span> <span style="opacity:.65">· ${esc(p.ciudad||'')}${x.modo==='auto'?' · automático':''}</span>`;
+    else estado='<span class="pend">⚠ Elige su punto</span>';
+    let acc='';
+    if(edit){
+      const cands=_candidatos(c.n,c.ciudad).slice(0,12);
+      const opts=cands.map(y=>`<option value="${esc(String(y.p.id))}"${p&&String(p.id)===String(y.p.id)?' selected':''}>${esc(y.p.nom)} · ${esc(String(y.p.code||'').split(',').slice(-1)[0].trim().slice(0,22)||y.p.ciudad)}</option>`).join('');
+      acc=`<select id="msel${i}">${opts||'<option value="">(sin parecidos en '+esc(c.ciudad||'el catálogo')+')</option>'}<option value="sin-catalogo">— No está en el mapa —</option></select>
+        <button class="mb" onclick="(function(){const v=document.getElementById('msel${i}').value; if(!v) return; _miosEditando=null; enlazarNombre(${esc(JSON.stringify(c.n))}, v==='sin-catalogo'?v:(isNaN(+v)?v:+v));})()">Guardar</button>
+        ${x.modo!=='pend'?`<button class="mb gh" onclick="_miosEditando=null;renderMios()">Cancelar</button>`:''}`;
+    } else {
+      acc=`<button class="mb gh" onclick="_miosEditando=${esc(JSON.stringify(_nrm(c.n)))};renderMios()">Cambiar</button>`
+        +(p?` <button class="mb gh" onclick="show('map');openDetail(${jsp(p.id)})">Ver en el mapa</button>`:'');
+    }
+    return `<div class="mrow"><div class="mn">${esc(c.n)} <span style="font-weight:600;opacity:.6;font-size:12px;">${esc(c.ciudad||'sin ciudad')}</span></div>
+      <div class="mi">${c.tacos} taco${c.tacos===1?'':'s'} · ${fmtUsd(c.gasto)} gastado</div>
+      <div class="mi">${estado}</div><div class="ma">${acc}</div></div>`;
+  }).join('');
+}
+function renderBase(){
+  const t=document.getElementById('baseTxt'), inp=document.getElementById('cartoKey'); if(!t) return;
+  let k=''; try{ k=localStorage.getItem('bitacora_carto_key')||''; }catch(e){}
+  if(inp && !inp.value) inp.value=k;
+  t.innerHTML = window._mapaBase==='carto'
+    ? 'Usando <b>CARTO Voyager</b> con tu clave.'
+    : 'Usando <b>OpenStreetMap</b> (gratis, sin clave). CARTO exige clave desde el 23-sep-2026; si creas una gratis en carto.com (uso personal), pégala aquí para volver a su estilo.';
+}
 (function(){
-  const mani={name:'Bitácora de Puntos · Ecuador',short_name:'Bitácora',display:'standalone',
-    background_color:'#14284B',theme_color:'#14284B',start_url:'.',icons:[]};
-  const blob=new Blob([JSON.stringify(mani)],{type:'application/json'});
-  const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(blob);document.head.appendChild(l);
+  const b=document.getElementById('cartoGuardar'); if(!b) return;
+  b.onclick=()=>{ const v=(document.getElementById('cartoKey').value||'').trim().replace(/[^A-Za-z0-9_\-.]/g,'');
+    try{ if(v) localStorage.setItem('bitacora_carto_key', v); else localStorage.removeItem('bitacora_carto_key'); }catch(e){}
+    toast(v?'Clave guardada: recargando el mapa…':'Clave quitada: se usará OpenStreetMap'); setTimeout(()=>location.reload(), 700); };
 })();
+window.pvSetCompras=function(items){
+  COMPRAS=(Array.isArray(items)?items:[]).filter(c=>c && typeof c.n==='string' && c.n.trim())
+    .map(c=>({n:c.n.trim(), ciudad:String(c.ciudad||''), tacos:+c.tacos||0, boletos:+c.boletos||0, gasto:+c.gasto||0, premio:+c.premio||0, ult:String(c.ult||'')}));
+  resolverCompras();
+  try{ if(!document.getElementById('v-set').classList.contains('hidden')) renderMios(); }catch(e){}
+  try{ if(_nsheetOpen) renderSheet(); }catch(e){}
+  try{ if(curDetailId!=null) renderDetail(); }catch(e){}
+};
 
 /* ---------- BOOT ---------- */
 (async function(){
   await Store.init();
+  cargarPuntosLocales();
   for(const p of PUNTOS){ const r=await Store.get('pt:'+p.id); if(r) REC[p.id]=r; }
+  { const r=await Store.get('pt:sin-catalogo'); if(r) REC['sin-catalogo']=r; }
   initMap(); bindGeo(); updateProgress(); renderList();
   if(Store.mode()==='mem') toast('Vista previa: descarga el archivo para guardar tus datos');
   // Ask for location right away so everything anchors on where you are
@@ -27645,7 +27985,8 @@ PVX_SCRIPT_CLOSE>
       try{
         var r=REC[id]||{};
         parent.postMessage({type:'pv:rec', id:id, status:r.status||'pendiente', last:r.last||null,
-          notes:(r.notes||[]).map(function(n){return {text:n.text||'', tags:n.tags||[], ts:n.ts||null};})}, '*');
+          notes:(r.notes||[]).map(function(n){return {text:n.text||'', tags:n.tags||[], ts:n.ts||null};}),
+        alias:Array.isArray(r.alias)?r.alias:[]}, '*');
       }catch(e){}
     };
   }
@@ -27709,16 +28050,18 @@ PVX_SCRIPT_CLOSE>
     if(ev.source !== window.parent) return;
     var m=ev.data||{};
     if(m.type==='pv:theme'){ applyTheme(m.vars); }
+    else if(m.type==='pv:compras'){ try{ if(typeof window.pvSetCompras==='function') window.pvSetCompras(m.items); }catch(e){} }
     else if(m.type==='pv:state'){
       (m.recs||[]).forEach(function(e){
         var r=(typeof rec==='function')?rec(e.id):null; if(!r) return;
-        r.status=(['pendiente','visitado','novedad'].indexOf(e.status)>=0)?e.status:'pendiente'; if(e.last) r.last=e.last;   /* v39.9: solo estados conocidos (antes se pintaba sin escapar) */ if(e.notes) r.notes=e.notes;
+        r.status=(['pendiente','visitado','novedad'].indexOf(e.status)>=0)?e.status:'pendiente'; if(e.last) r.last=e.last;   /* v39.9: solo estados conocidos (antes se pintaba sin escapar) */ if(e.notes) r.notes=e.notes; if(Array.isArray(e.alias)) r.alias=e.alias.filter(function(a){return typeof a==='string';});
         if(_origSaveRec) _origSaveRec(e.id);
       });
       try{ if(typeof PUNTOS!=='undefined') PUNTOS.forEach(function(p){ if(typeof refreshMarker==='function') refreshMarker(p.id); }); }catch(e){}
       try{ if(typeof updateProgress==='function') updateProgress(); }catch(e){}
       try{ if(typeof renderList==='function') renderList(); }catch(e){}
       try{ if(typeof refreshRoute==='function') refreshRoute(); }catch(e){}
+      try{ if(typeof resolverCompras==='function' && COMPRAS.length) resolverCompras(); }catch(e){}
     }
   });
   (function ready(){ if(window.map){ try{ parent.postMessage({type:'pv:ready'},'*'); }catch(e){} } else setTimeout(ready,120); })();
