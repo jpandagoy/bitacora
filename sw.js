@@ -1,4 +1,4 @@
-/* Bitácora de Raspaditas · service worker (v39.4)
+/* Bitácora de Raspaditas · service worker (v40.0)
  *
  * POR QUÉ EXISTE. Sin service worker, abrir la app sin señal dependía de que el navegador
  * todavía guardara la página (GitHub la marca con max-age=600: diez minutos). En el kiosco,
@@ -13,10 +13,31 @@
  *   · NO toca Firebase, la API de Google ni el Worker del portal: los datos y las consultas
  *     de premios nunca se sirven desde una copia.
  *
+ * v40.0:
+ *   · Las librerías viven en una caché PROPIA (`bitacora-libs`) que ya no se borra al cambiar
+ *     de versión: antes cada versión nueva tiraba lo descargado y, hasta volver a tener red,
+ *     el lector QR podía quedarse sin su motor zxing.
+ *   · Al instalarse, precarga lo que el kiosco necesita SIN señal: el motor zxing (su .js y
+ *     su .wasm, que antes solo se descargaba la primera vez que se usaba la cámara con red),
+ *     jsQR y el SDK de Firebase. Es «mejor esfuerzo»: si una falla, el resto se guarda igual.
+ *   · El nombre de la caché de la página sigue la versión de la app.
+ *
  * SI ALGO SALE MAL: borrar este archivo del repositorio basta; la app sigue funcionando igual
  * que antes (la registra de forma tolerante a fallos).
  */
-const CACHE = 'bitacora-v39.4';
+const CACHE = 'bitacora-v40.0';
+const LIBS = 'bitacora-libs';
+// Versiones fijas (las mismas que carga la app, con su SRI). Si se cambia una versión en la
+// app, hay que cambiarla aquí o se descargará igual la primera vez que se use.
+const PRECARGA = [
+  'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js',
+  'https://cdn.jsdelivr.net/npm/zxing-wasm@2.1.0/dist/es/reader/index.js',
+  'https://cdn.jsdelivr.net/npm/zxing-wasm@2.1.0/dist/es/share.js',
+  'https://fastly.jsdelivr.net/npm/zxing-wasm@2.1.0/dist/reader/zxing_reader.wasm',
+  'https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js',
+  'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js',
+  'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js',
+];
 const CDN = ['www.gstatic.com', 'cdnjs.cloudflare.com', 'cdn.jsdelivr.net', 'fastly.jsdelivr.net',
              'fonts.googleapis.com', 'fonts.gstatic.com'];
 const ESPERA_RED_MS = 4000;
@@ -26,6 +47,7 @@ self.addEventListener('install', (e) => {
     caches.open(CACHE)
       .then((c) => c.add(new Request('./', {cache: 'no-store'})))
       .catch(() => {})
+      .then(() => precargarLibrerias())
       .then(() => self.skipWaiting())
   );
 });
@@ -33,7 +55,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((ks) => Promise.all(ks.filter((k) => k.startsWith('bitacora-') && k !== CACHE).map((k) => caches.delete(k))))
+      .then((ks) => Promise.all(ks.filter((k) => k.startsWith('bitacora-') && k !== CACHE && k !== LIBS).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -77,9 +99,22 @@ async function paginaRedPrimero(req, url) {
   );
 }
 
+// Cada librería por separado y sin tumbar la instalación: si una CDN falla, las demás quedan.
+async function precargarLibrerias() {
+  const c = await caches.open(LIBS);
+  await Promise.all(PRECARGA.map(async (u) => {
+    try {
+      if (await c.match(u)) return;
+      const r = await fetch(new Request(u, {mode: 'cors', credentials: 'omit'}));
+      if (r && r.ok) await c.put(u, r);
+    } catch (_) { /* sin red: se bajará la primera vez que se use */ }
+  }));
+}
+
 async function libreriaCachePrimero(req) {
-  const c = await caches.open(CACHE);
-  const guardada = await c.match(req);
+  const c = await caches.open(LIBS);
+  // Compatibilidad: lo que la v39.4 guardó en su caché de página también vale.
+  const guardada = (await c.match(req)) || (await caches.match(req));
   if (guardada) return guardada;
   const r = await fetch(req);
   if (r && r.ok) c.put(req, r.clone());

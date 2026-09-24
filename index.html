@@ -34,8 +34,14 @@
      (cada una además con hash SRI). connect-src: la app solo puede hablar con Google
      (Firebase), con el Worker y con jsDelivr (el .wasm del lector). Aunque un script de terceros
      llegara alterado, no podría enviar tus datos a otro servidor. 'wasm-unsafe-eval' lo exige
-     el lector zxing; 'unsafe-inline' es inevitable en una app de un solo archivo. -->
-<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.gstatic.com https://apis.google.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fastly.jsdelivr.net; connect-src 'self' https://*.googleapis.com https://*.workers.dev https://cdn.jsdelivr.net https://fastly.jsdelivr.net data: blob:;">
+     el lector zxing; 'unsafe-inline' es inevitable en una app de un solo archivo.
+     v39.9 — connect-src con NOMBRES EXACTOS en vez de comodines. Antes `*.workers.dev` dejaba
+     hablar con el Worker de CUALQUIERA en Cloudflare y `*.googleapis.com` con cualquier API de
+     Google: justo los dos caminos que usaría un script alterado para sacar tus datos. Ahora solo
+     Firestore, el acceso de Firebase (identitytoolkit + securetoken), TU Worker y jsDelivr.
+     Si algún día cambias la dirección del Worker en Ajustes, hay que añadirla aquí; el monitor
+     de abajo lo avisaría en pantalla en vez de fallar en silencio. -->
+<meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://www.gstatic.com https://apis.google.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fastly.jsdelivr.net; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://raspaditas-qr.andagoya922.workers.dev https://cdn.jsdelivr.net https://fastly.jsdelivr.net data: blob:;">
 <meta name="referrer" content="no-referrer">
 <script>
 /* PROTECCIÓN DE MARCO (anti-incrustación).
@@ -540,6 +546,8 @@
   .btn-primary{background:var(--ink); color:var(--white); padding:11px 22px; font-weight:700; font-size:13px; letter-spacing:0.04em; text-transform:uppercase;}
   .btn-primary:hover{background:var(--stamp);}
   .btn-ghost{background:transparent; color:var(--ink-soft); border:1px solid var(--silver); padding:8px 14px; font-size:12px;}
+  /* v39.9: el atributo hidden siempre gana (botones del respaldo semanal se muestran/ocultan con él). */
+  [hidden]{display:none!important}
   .btn-ghost:hover{border-color:var(--ink); color:var(--ink);}
   .btn-ghost.active{background:var(--ink); color:var(--white); border-color:var(--ink);}
   .btn-row{display:flex; gap:8px; flex-wrap:wrap;}
@@ -1169,7 +1177,10 @@
     </div>
   </div>
 
-  <div class="note" id="notaComoLeer" style="margin-bottom:20px;">
+  <!-- v39.9: plegada por defecto. La auditoría midió que este texto de manual ocupaba la zona más
+       valiosa de Inicio en CADA visita; se abre solo mientras no hay ningún taco registrado. -->
+  <details class="note" id="notaComoLeer" style="margin-bottom:20px;">
+    <summary style="cursor:pointer; font-weight:700;">¿Cómo leer esta bitácora?</summary>
     <strong>Cómo leer esta bitácora:</strong> un <em>taco</em> (o lote) es el bloque de posiciones
     —50 o 100 según el juego— que comparte una misma serie. Cada boleto que registras ocupa una
     posición dentro de su taco. Un taco queda <strong>completo</strong> cuando tiene todas sus
@@ -1178,7 +1189,7 @@
     <br><br>
     El número que manda para decidir es el <strong>neto operativo</strong> (el neto sin el premio
     mayor): describe tu compra habitual en vez de un golpe de suerte irrepetible.
-  </div>
+  </details>
 
   <!-- ===== TABS ===== -->
   <!-- Navegación ordenada por INTENCIÓN (mejora #7, opción A). Los grupos son ETIQUETAS
@@ -2218,6 +2229,11 @@
       <div class="section-head"><span class="tag">08</span><h2>Posición dentro del lote vs. tasa de acierto</h2><span class="hint">¿hay posiciones más calientes?</span></div>
       <div class="card">
         <div id="avisoPosSinSenal"></div>
+        <!-- v39.9 (E5): con el portero sin señal, las tablas por posición quedan PLEGADAS tras un
+             aviso. Mostrarlas abiertas invitaba a leer ruido como patrón (jardín de senderos que
+             se bifurcan). Siguen ahí, completas, a un clic. -->
+        <details id="posTablasDet" open>
+        <summary style="cursor:pointer; font-size:12.5px; font-weight:700; margin-bottom:8px;" id="posTablasSum">Ver las tablas por posición</summary>
         <p class="note" style="margin-top:0;">
           Se agrupan las 50 posiciones (000–049) en 5 bloques (000–009, 010–019, 020–029, 030–039, 040–049) usando <strong>todas las posiciones reveladas de todos los lotes</strong> (no solo tus compras), porque cada vez que ves el taco también observas el resultado de boletos que no compraste.
         </p>
@@ -2246,6 +2262,7 @@
           <p class="note" id="posExactaPowerNote" style="margin-top:12px;"></p>
           <div class="verdict" id="posExactaVerdict" style="margin-top:10px;"></div>
         </div>
+        </details>
       </div>
     </div>
 
@@ -2496,6 +2513,12 @@
         </p>
         <div id="tablaEntradaWrap" style="margin-top:12px;"></div>
       </div>
+    </div>
+
+    <!-- v40.0 — VIGILANCIA ESTADÍSTICA (auditoría E2, N3, N5, N6, N7). Solo lectura. -->
+    <div class="section">
+      <div class="section-head"><span class="tag">V</span><h2>Vigilancia: ¿sigue valiendo lo que sabemos?</h2><span class="hint">control de totales · cambio de imprenta · e-proceso · riesgo del día · calibración</span></div>
+      <div id="vigilanciaWrap"><p class="note">Calculando…</p></div>
     </div>
   </div>
 
@@ -2804,6 +2827,17 @@
             <button id="btnSyncArchivo" class="btn-ghost" style="font-size:12px; border-color:#1565C0; color:#1565C0;">🔄 Sincronizar desde el archivo vinculado</button>
             <span id="estadoSync" style="display:flex; align-items:center; font-size:12px; color:var(--silver-dark);"></span>
           </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="section-head"><span class="tag">21w</span><h3 style="margin:0; font-size:15px;">Respaldo semanal en una carpeta de tu PC</h3><span class="hint">fuera del navegador</span></div>
+        <p class="note" style="margin-top:8px;margin-bottom:8px;">La nube de Firebase no guarda copias propias: si algo borrara tus datos allí, no habría vuelta atrás. Elige una carpeta (por ejemplo, una de OneDrive o Google&nbsp;Drive) y la app guardará ahí una copia completa cada 7 días al abrirla en esta PC, con el nombre <code>bitacora_semanal_AAAA-MM-DD.json</code>. Conserva las 6 más recientes y no toca ningún otro archivo de la carpeta.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <button type="button" id="btnRsemCarpeta" class="btn-primary" style="font-size:12px;">Elegir carpeta y guardar ahora</button>
+          <button type="button" id="btnRsemAhora" class="btn-ghost" style="font-size:12px;" hidden>Guardar ahora</button>
+          <button type="button" id="btnRsemQuitar" class="btn-ghost" style="font-size:12px;" hidden>Desactivar</button>
+          <span id="respaldoSemanalEstado" style="font-size:12px; color:var(--silver-dark);"></span>
         </div>
       </div>
 
@@ -3197,7 +3231,15 @@
 <script>
 (function(){
   const STORAGE_KEY = 'bitacora_13_suerte_v2';
-  const APP_VERSION = { num: '39.8', fecha: '2026-09-22' };
+  // v40.0 (23-sep-2026) — cierre de la ruta de la auditoría v39:
+  //   datos: punto heredado del taco (550 boletos) y campos retirados (propio/premiosJuegos);
+  //   seguridad: connect-src exacto, lista blanca de campos, escape en Puntos, [hidden] real;
+  //   respaldo: aviso por riesgo REAL + respaldo semanal en carpeta (21w);
+  //   fluidez: Estrategia 640→~165 ms y Avanzado 390→~120 ms (medido en PC), memoria de
+  //            permutaciones en disco, un renderer pesado por turno ocioso;
+  //   estadística: sección V (control I-MR, punto de cambio, e-proceso, VaR/CVaR, historial
+  //            de calibración), agrupamiento parcial por punto, paridad por permutación de tacos.
+  const APP_VERSION = { num: '40.0', fecha: '2026-09-23' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -3491,6 +3533,47 @@
         // dispararía una escritura a disco que no corrige nada.
         } else if(marca('costo_020_010166')){ sella('costo_020_010166', 'nada que corregir'); }
       } else if(l && marca('costo_020_010166')){ sella('costo_020_010166','el taco ya no tiene 4% — no se toca'); }
+    }
+
+    // --- v39.9 · 5. Boletos sin punto de venta cuyo TACO sí lo tiene ---
+    // MEDIDO el 23-sep sobre la base en vivo: 11.361 boletos tienen el mismo punto que su taco
+    // y 0 lo tienen distinto (un taco se compra entero en un solo kiosco). Los 550 boletos de
+    // los 11 tacos del 02–05-sep quedaron sin punto porque se asignó el punto al taco ANTES
+    // de v38.2, cuando la edición masiva todavía no lo propagaba a los boletos. Heredarlo no
+    // inventa nada: copia el dato que el propio taco ya tiene. Se evalúa sobre el ESTADO REAL
+    // (no con un sello), para que un boleto que vuelva de la nube sin punto se repare igual.
+    // Nunca pisa un punto o ciudad que el boleto ya tenga.
+    {
+      const porId = new Map((data.lotes||[]).map(l=>[String(l.id), l]));
+      let n = 0;
+      (data.records||[]).forEach(r=>{
+        if(r.punto) return;
+        const l = porId.get(String(r.loteId));
+        if(!l || !l.punto) return;
+        r.punto = l.punto;
+        if(!r.ciudad && l.ciudad) r.ciudad = l.ciudad;
+        tocado(r); n++;
+      });
+      if(n){ sella('punto_heredado_'+new Date().toISOString().slice(0,10), n+' boleto(s) heredaron el punto de su taco');
+             console.info('[saneo] punto heredado del taco en', n, 'boletos'); }
+    }
+
+    // --- v39.9 · 6. Campos de funciones ya retiradas ---
+    // `propio` (función «propio vs observado», revertida: todo lo registrado lo compró y raspó
+    // el usuario) y `premiosJuegos` (desglose por casilla, erradicado). Ningún código los lee.
+    // MEDIDO el 23-sep: `propio` en 1.411 boletos y `premiosJuegos` en 8. Solo ocupan espacio y
+    // viajan a la nube en cada copia. `tzOff` NO se toca: la auditoría lo dio por muerto, pero
+    // lo escribe selloCreacion() en cada taco nuevo (zona horaria del aparato que lo creó).
+    {
+      let n = 0;
+      (data.records||[]).forEach(r=>{
+        let t2 = false;
+        if('propio' in r){ delete r.propio; t2 = true; }
+        if('premiosJuegos' in r){ delete r.premiosJuegos; t2 = true; }
+        if(t2){ tocado(r); n++; }
+      });
+      if(n){ sella('campos_retirados_'+new Date().toISOString().slice(0,10), n+' boleto(s) sin propio/premiosJuegos');
+             console.info('[saneo] campos retirados en', n, 'boletos'); }
     }
     return toco;
   }
@@ -5651,10 +5734,14 @@
       if(!g[k]) g[k] = { fecha:f, punto:p, lotes:[] };
       g[k].lotes.push(l);
     });
+    // v39.9: boletos por taco contados UNA vez. Antes cada tanda recorría todos los boletos y,
+    // por cada uno, todos sus tacos (~100 tandas × 12.900 boletos): 204 ms medidos al abrir Boletos.
+    const _nPorLote = new Map();
+    (data.records||[]).forEach(r=>{ const k2=String(r.loteId); _nPorLote.set(k2, (_nPorLote.get(k2)||0)+1); });
     const arr = Object.keys(g).map(k=>{
       const t = g[k];
       t.n = t.lotes.length;
-      t.boletos = (data.records||[]).filter(r=>t.lotes.some(l=>String(l.id)===String(r.loteId))).length;
+      t.boletos = t.lotes.reduce((s,l)=> s + (_nPorLote.get(String(l.id))||0), 0);
       const j = getJuego(t.lotes[0].juegoId);
       t.juego = j ? ((j.emoji||'🎟️')+' '+j.nombre) : '(sin juego)';
       // Descuentos presentes en la tanda: si hay más de uno, está mezclada; si hay tacos
@@ -5945,6 +6032,7 @@
       }
       _pedirPersistencia();   // que el navegador no pueda desalojar esto
       setTimeout(_limpiezaRestos, 8000);   // v39.1: restos de versiones viejas, una sola vez
+      setTimeout(()=>{ rsemAutomatico().catch(()=>{}); }, 15000);   // v39.9: respaldo semanal si toca
     }catch(e){
       const raw = localStorage.getItem(STORAGE_KEY);
       if(raw) localStorage.setItem('bitacora_corrupto_rescate', raw);
@@ -7066,9 +7154,15 @@
   // simulaciones, pinte primero la pestaña que pinte. (Los ids siguen usando Math.random.)
   let _rndAnalisisF = Math.random;
   function _rndAnalisis(){ return _rndAnalisisF(); }
+  // v39.9 — cuánto tardó cada renderer la última vez (ms). Sin esto, «Avanzado tarda 1,7 s»
+  // no decía QUÉ parte tardaba. Se consulta con __rg.renderTiempos.
+  const _renderTiempos = {};
+  // Cronómetro para las partes internas de un renderer pesado (queda en __rg.renderTiempos).
+  function _cron(nombre, fn){ const a = performance.now(); try{ return fn(); } finally { _renderTiempos[nombre] = Math.round(performance.now()-a); } }
   function _safe(nombre, fn){
     try{ _rndAnalisisF = _rngSemilla(SEMILLA_PERM ^ (_h53(String(nombre)) >>> 0)); }catch(_){}
-    try{ fn(); }
+    const _t0 = performance.now();
+    try{ fn(); _renderTiempos[nombre] = Math.round(performance.now()-_t0); }
     catch(e){
       console.error('[render] falló ' + nombre + ':', e);
       if(!_renderErrores.includes(nombre)) _renderErrores.push(nombre);
@@ -7076,8 +7170,36 @@
   }
 
   // Renderers que se ejecutan SIEMPRE: cabecera, selectores compartidos y navegación.
+  // v39.9 — ACCESIBILIDAD: nombre accesible para los 26 campos que no tenían etiqueta (medido en
+  // vivo recorriendo las 13 pestañas). Un lector de pantalla los anunciaba como «campo de
+  // edición» a secas. Solo añade aria-label si el campo no tiene ya un nombre.
+  const _A11Y_ETIQUETAS = {
+    gsInput:'Buscar serie, punto, juego o monto', juegoBuscar:'Buscar juego', emojiSearch:'Buscar emoji',
+    juegoPremioNuevo:'Nuevo monto de premio', newLoteInicioOtro:'Número de inicio del taco (otro)',
+    loteFiltroColor:'Filtrar tacos por color', loteFiltroInicio:'Filtrar tacos por número de inicio',
+    loteFiltroPremMax:'Premios máximos del taco', loteFechaCampo:'Fecha por la que filtrar',
+    loteFechaDesde:'Fecha desde', loteFechaHasta:'Fecha hasta', fechaSesionInput:'Fecha de la sesión',
+    loteNotaTexto:'Nota del taco', 'rigor-tirada':'Tirada a analizar', 'simul-topN':'Cuántas posiciones simular',
+    'rigor-val-k':'Número de grupos de validación', 'rigor-pow-efecto':'Tamaño de efecto para la potencia',
+    fileImport:'Archivo JSON a importar', fileImportMerge:'Archivo JSON a fusionar',
+    saludPuntoSel:'Punto de venta a asignar', saludPuntoNuevo:'Nombre del punto de venta nuevo',
+    saludLoteSel:'Taco a corregir', retroPct:'Porcentaje de descuento', retroLoteSel:'Tacos a los que aplicar el descuento',
+    prefEndpoint:'Dirección del Worker de consultas', modalInput:'Respuesta'
+  };
+  function _notaComoLeerEstado(){
+    const n = document.getElementById('notaComoLeer');
+    if(n && !n._tocada && !(data.lotes||[]).length) n.open = true;
+  }
+  function a11yEtiquetas(){
+    _notaComoLeerEstado();
+    for(const id in _A11Y_ETIQUETAS){
+      const el = document.getElementById(id);
+      if(el && !el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) el.setAttribute('aria-label', _A11Y_ETIQUETAS[id]);
+    }
+  }
   const RENDER_SIEMPRE = [
     ['renderFolio', ()=>renderFolio()],
+    ['a11yEtiquetas', ()=>a11yEtiquetas()],
     // Refleja en Preferencias lo que esté guardado. Son 4 getElementById: al lado de los
     // 34 ms que cuesta un render completo, no se nota, y evita que la casilla mienta.
     ['prefsPintar', ()=>{ try{ prefsPintar(); aplicarRail(); }catch(_){} }],
@@ -7147,6 +7269,7 @@
     avanzado: [
       ['renderAvanzado', ()=>renderAvanzado()],
       ['renderMultComp', ()=>renderMultComp()],
+      ['renderVigilancia', ()=>renderVigilancia(), true],   // v40.0 · pesado: se pinta en tiempo ocioso
     ],
     rendimiento: [ ['renderRendimiento', ()=>renderRendimiento()] ],
     cobros: [ ['renderCobros', ()=>renderCobros()] ],
@@ -7160,6 +7283,7 @@
     export: [
       ['renderStorageUsage', ()=>renderStorageUsage()],
       ['renderBackupStatus', ()=>renderBackupStatus()],
+      ['renderRespaldoSemanal', ()=>renderRespaldoSemanal()],
       ['renderSnapshotsList', ()=>renderSnapshotsList()],
       ['renderPanelSalud', ()=>renderPanelSalud()],
       ['renderAutoRespaldoEstado', ()=>renderAutoRespaldoEstado()],
@@ -7201,9 +7325,20 @@
     try{ mostrarCargando(true); }catch(e){}
     _pesadoTimer = setTimeout(()=>{
       const tanda = _pesadosPend; _pesadosPend = new Map();
+      // v39.9 — un renderer pesado por turno ocioso, no todos seguidos. Antes la tanda entera
+      // corría de un tirón y la pantalla quedaba sin responder la suma de todos; ahora entre uno y
+      // otro el navegador atiende toques y pinta, así que el bloqueo máximo es el del más lento.
       const correr = ()=>{
-        try{ tanda.forEach((f,n)=> _safe(n, f)); }
-        finally{ try{ if(!_pesadosPend.size) mostrarCargando(false); }catch(e){} }
+        const cola = [...tanda.entries()];
+        const fin = ()=>{ try{ if(!_pesadosPend.size) mostrarCargando(false); }catch(e){} };
+        const paso = ()=>{
+          const it = cola.shift();
+          if(!it){ fin(); return; }
+          _safe(it[0], it[1]);
+          if(!cola.length){ fin(); return; }
+          if(window.requestIdleCallback) requestIdleCallback(paso, {timeout:500}); else setTimeout(paso, 0);
+        };
+        paso();
       };
       if(window.requestIdleCallback) requestIdleCallback(correr, {timeout:1500});
       else correr();
@@ -12914,14 +13049,37 @@
     const pPool = (gp.paid+gi.paid)/(gp.revealed+gi.revealed);
     const se = Math.sqrt(pPool*(1-pPool)*(1/gp.revealed+1/gi.revealed));
     const z = se>0 ? (p1-p2)/se : 0;
-    rgPushPval('Paridad de serie par vs impar', 2*(1-rgNormCdf(Math.abs(z))));
-    verdict.className = 'verdict ' + (Math.abs(z)>1.96 ? 'gold' : '');
-    if(Math.abs(z) > 1.96){
-      verdict.innerHTML = `Diferencia estadísticamente significativa al 95% (z = ${z.toFixed(2)}) entre series pares (${(p1*100).toFixed(1)}%) e impares (${(p2*100).toFixed(1)}%). Esto sería inusual si la paridad de la serie no importara — vale la pena seguir confirmando con más lotes antes de decidir basándote en esto.`;
+    // v40.0 (E7) — la z de arriba trata cada POSICIÓN como independiente, pero dentro de un taco
+    // el total de premios está fijado por la imprenta: las posiciones no lo son. La unidad
+    // correcta es el TACO. p por permutación de las etiquetas par/impar entre tacos (semilla
+    // fija, memorizado) e intervalo de la diferencia por bootstrap de tacos. Es este p —no el de
+    // la z— el que entra en la corrección múltiple común (sección 12).
+    const _tacosPar = lotesDelJuego.map(l=>{ const c=loteCounts(l); return {par: l.paridad==='par', k:c.paid, n:c.revealed}; }).filter(x=>x.n>0);
+    const _perm = _memoPermGet('paridad|'+_h53(JSON.stringify(_tacosPar.map(x=>[x.par?1:0,x.k,x.n]))), ()=>{
+      const rnd=_rngSemilla(SEMILLA_PERM), B=2000, nPar=_tacosPar.filter(x=>x.par).length;
+      const dif=(arr)=>{ let kp=0,np=0,ki=0,ni=0; arr.forEach((x,i)=>{ if(x){ kp+=_tacosPar[i].k; np+=_tacosPar[i].n; } else { ki+=_tacosPar[i].k; ni+=_tacosPar[i].n; } }); return (np&&ni)? kp/np-ki/ni : 0; };
+      const obs=dif(_tacosPar.map(x=>x.par)); let ge=0;
+      const et=_tacosPar.map((x,i)=>i<nPar);
+      for(let b=0;b<B;b++){ for(let i=et.length-1;i>0;i--){ const r=Math.floor(rnd()*(i+1)); const tt=et[i]; et[i]=et[r]; et[r]=tt; } if(Math.abs(dif(et))>=Math.abs(obs)-1e-12) ge++; }
+      // bootstrap por tacos dentro de cada grupo
+      const P=_tacosPar.filter(x=>x.par), I=_tacosPar.filter(x=>!x.par), bs=[];
+      for(let b=0;b<B;b++){ let kp=0,np=0,ki=0,ni=0;
+        for(let i=0;i<P.length;i++){ const x=P[Math.floor(rnd()*P.length)]; kp+=x.k; np+=x.n; }
+        for(let i=0;i<I.length;i++){ const x=I[Math.floor(rnd()*I.length)]; ki+=x.k; ni+=x.n; }
+        if(np&&ni) bs.push(kp/np-ki/ni); }
+      bs.sort((a,b)=>a-b);
+      return {p:(ge+1)/(B+1), lo:bs[Math.floor(bs.length*0.025)], hi:bs[Math.floor(bs.length*0.975)], B};
+    });
+    rgPushPval('Paridad de serie par vs impar', _perm.p);
+    const _sigPerm = _perm.p < 0.05;
+    verdict.className = 'verdict ' + (_sigPerm ? 'gold' : '');
+    const _efecto = ` Diferencia ${((p1-p2)*100).toFixed(1)} puntos (IC 95% por tacos: ${(_perm.lo*100).toFixed(1)} a ${(_perm.hi*100).toFixed(1)}); p por permutación de tacos = ${_perm.p.toFixed(3)}.`;
+    if(_sigPerm){
+      verdict.innerHTML = `Diferencia estadísticamente significativa al 95% (z = ${z.toFixed(2)}) entre series pares (${(p1*100).toFixed(1)}%) e impares (${(p2*100).toFixed(1)}%).${_efecto} Esto sería inusual si la paridad de la serie no importara — vale la pena seguir confirmando con más lotes antes de decidir basándote en esto.`;
     } else {
-      verdict.innerHTML = `Sin diferencia estadísticamente significativa (z = ${z.toFixed(2)}) entre series pares (${(p1*100).toFixed(1)}%) e impares (${(p2*100).toFixed(1)}%) por ahora.`;
+      verdict.innerHTML = `Sin diferencia estadísticamente significativa (z = ${z.toFixed(2)}) entre series pares (${(p1*100).toFixed(1)}%) e impares (${(p2*100).toFixed(1)}%) por ahora.${_efecto}`;
     }
-    testStatus.paridad = (Math.abs(z)>1.96) ? 'significativo' : 'no-significativo';
+    testStatus.paridad = _sigPerm ? 'significativo' : 'no-significativo';
   }
 
   // ---------- DESGLOSE EXPLORATORIO POR ÚLTIMO DÍGITO (no es prueba de hipótesis) ----------
@@ -13349,13 +13507,13 @@
   }
 
   function renderAvanzado(){
-    renderWilson();
-    renderBondadAjuste();
-    renderRachas();
-    renderDireccionTira();
-    renderPuntoVentaCiudad();
-    renderCriterio();
-    renderTablaEntrada();
+    _cron('av.wilson', renderWilson);
+    _cron('av.bondad', renderBondadAjuste);
+    _cron('av.rachas', renderRachas);
+    _cron('av.direccion', renderDireccionTira);
+    _cron('av.punto', renderPuntoVentaCiudad);
+    _cron('av.criterio', renderCriterio);
+    _cron('av.entrada', renderTablaEntrada);
   }
 
   // B7d: test de asimetría direccional + toggles de dirección de venta por tirada.
@@ -15272,7 +15430,9 @@
     }
     // ---- Paso 2: en la caja. El número dice lo que FALTA, y baja según vas tachando.
     const pagados = new Set(s.pagados||[]);
-    const lleva = s.lleva.map(id=>data.records.find(r=>String(r.id)===String(id))).filter(Boolean);
+    // v39.9: índice por id (antes un .find lineal sobre todos los boletos por cada boleto a cobrar).
+    const _porIdCobro = new Map(data.records.map(r=>[String(r.id), r]));
+    const lleva = s.lleva.map(id=>_porIdCobro.get(String(id))).filter(Boolean);
     let faltaN = 0, cobradoN = 0;
     const pend = [];
     lleva.forEach(function(r){
@@ -17892,6 +18052,9 @@
       return mx;
     }
     let obs=0; ganadores.forEach(g=>{ obs+=maxRun(g.N,g.pos); }); obs/=ganadores.length;
+    // v39.9 — memorizado por el contenido (mismo criterio que asimetría y portero): mismos
+    // tacos completos ⇒ mismo p exacto, sin volver a barajar al abrir la app.
+    return _memoPermGet('rachaCorta|'+B+'|'+_h53(JSON.stringify(ganadores.map(g=>[g.N,g.pos]))), ()=>{
     // un array de índices POR tamaño de lote (compartir uno entre tamaños distintos corrompía el muestreo)
     const idxPorN={};
     const getIdx=(N)=> idxPorN[N] || (idxPorN[N]=Array.from({length:N},(_,i)=>i));
@@ -17906,6 +18069,7 @@
       if(mx/ganadores.length<=obs+1e-9) ge++;
     }
     return {pCorto:(ge+1)/(B+1), obsMax:obs};
+    });
   }
 
   // Núcleo del forward-backward. obs[i] ∈ {1,0,null}. Devuelve posterior de T,
@@ -18411,12 +18575,16 @@
     // 3 · El valor del premio cae con la posición — EN PRUEBA, con cuenta atrás real
     try{
       const pares = [];
+      // v39.9 — índice por id construido UNA vez. Antes cada premio hacía un .find() lineal
+      // sobre los ~12.900 boletos: ~2.800 premios × 12.900 = 36 M comparaciones. MEDIDO en
+      // la PC: esta tarjeta sola se llevaba 306 ms de los 640 ms de la pestaña Estrategia.
+      const _recPorId = new Map((data.records||[]).map(x=>[String(x.id), x]));
       (ctx.completos||[]).forEach(l=>{
         const pos=l.posiciones||{}, N=ctx.dataR.tamanoLote||50;
         for(let i=0;i<N;i++){
           const c=pos[i]||{};
           if(c.estado==='gano' && c.recordId!=null){
-            const r=(data.records||[]).find(x=>String(x.id)===String(c.recordId));
+            const r=_recPorId.get(String(c.recordId));
             if(r) pares.push([i, premioNeto(r.premio)]);
           }
         }
@@ -18468,6 +18636,26 @@
     if(!completos || completos.length < 8) return null;
     const clave = _dataVersion + '|' + juegoActivoId + '|' + completos.length + '|' + tam;
     if(_mrCache && _mrCache.clave === clave) return _mrCache.valor;
+    // v39.9 — además, memoria que sobrevive a recargar, con la HUELLA de los tacos completos
+    // (qué posiciones pagaron). El ajuste logístico costaba ~65 ms en cada apertura aunque
+    // ningún taco completo hubiera cambiado. Mismos datos ⇒ mismo resultado exacto.
+    const _huella = 'modeloRacha|'+(tam||50)+'|'+_h53(JSON.stringify(completos.map(l=>{
+      const pos=l.posiciones||{}, N=tam||50, g=[];
+      for(let i=0;i<N;i++) if((pos[i]||{}).estado==='gano') g.push(i);
+      return g;
+    })));
+    const _base = _memoPermGet(_huella, ()=> _rgModeloRachaCalc(completos, tam));
+    const _valor = _base ? Object.assign({}, _base, {
+      // P(premio) para un estado concreto del taco
+      P: (d, run)=>{
+        const z = _base.coef[0] + _base.coef[1]*d + _base.coef[2]*Math.min(run,6);
+        return 1/(1+Math.exp(-Math.max(-30,Math.min(30,z))));
+      }
+    }) : null;
+    _mrCache = {clave, valor:_valor};
+    return _valor;
+  }
+  function _rgModeloRachaCalc(completos, tam){
     const N = tam || 50;
     const X = [], y = [];
     completos.forEach(l=>{
@@ -18557,13 +18745,8 @@
       lrRacha: 2*(full.ll - dens.ll),
       pseudoR2Full: 1 - full.ll/ll0,
       pseudoR2Dens: 1 - dens.ll/ll0,
-      // P(premio) para un estado concreto del taco
-      P: (d, run)=>{
-        const z = full.b[0] + full.b[1]*d + full.b[2]*Math.min(run,6);
-        return 1/(1+Math.exp(-Math.max(-30,Math.min(30,z))));
-      }
+      // (v39.9) P(premio) se añade fuera: este objeto se guarda en disco y debe ser solo datos.
     };
-    _mrCache = {clave, valor};
     return valor;
   }
 
@@ -18588,7 +18771,7 @@
       if(f.tirada!=='__todas__' && getTiradaSerie(l.serie)!==f.tirada) return false;
       const c = loteCounts(l); return c.revealed>0 && c.revealed<c.total;
     });
-    const filas = [];
+    const filas = []; const _ic0=performance.now();
     enCurso.forEach(l=>{
       let r=null; try{ r = rgProbLoteCtx(l); }catch(e){}
       if(!r || !r.pt || r.pt.eRest==null || !(r.pt.u>0)) return;
@@ -18599,7 +18782,7 @@
       filas.push({serie:l.serie, punto:l.punto||'', vendidos:c.revealed, total:c.total,
                   eRest:r.pt.eRest, u:r.pt.u, dens, mejorP, ev: mejorP*Vd - costoUnitarioLote(l)});
     });
-    filas.sort((a,b)=> b.mejorP - a.mejorP);
+    filas.sort((a,b)=> b.mejorP - a.mejorP); _renderTiempos['ic.filas']=Math.round(performance.now()-_ic0); _renderTiempos['ic.nTacos']=enCurso.length;
     const buenos = filas.filter(x=>x.mejorP > be);
 
     // El veredicto se decide con la MISMA magnitud con la que se ordena.
@@ -18644,7 +18827,7 @@
     // ---------- 2. VIGILANTE DE LA VENTAJA ----------
     let vig = '';
     try{
-      const m = rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote);
+      const m = _cron('ic.modelo', ()=>rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote));
       if(m){
         const lo = m.coefRacha - 1.96*m.seRacha;
         const viva = lo > RACHA_UMBRAL_MUERTA;
@@ -18670,7 +18853,7 @@
     }catch(e){}
 
     // ---------- 3. REGISTRO DE HIPÓTESIS ----------
-    const reg = _registroHipotesisHTML(ctx);
+    const reg = _cron('ic.hipotesis', ()=>_registroHipotesisHTML(ctx));
 
     return `<div style="margin-bottom:16px;">
       <div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--silver-dark);margin-bottom:8px;">
@@ -18682,6 +18865,7 @@
 
   function renderPanelDecision(){
     const wrap=document.getElementById('panel-decision'); if(!wrap) return;
+    const _pdT0=performance.now(); const _pm=(k)=>{ _renderTiempos['pd@'+k]=Math.round(performance.now()-_pdT0); };
     const data=rigorGetData();
     const {costo}=data;
     if(!data.lotesMat.length){
@@ -18691,16 +18875,20 @@
     // B4: el EV ya no valora todo premio al valorPremio configurado (que para "13 de la
     // Suerte" ni existe y caía a $5). Usa el premio medio REAL de los datos, encogido hacia
     // el configurado si hay pocos ganadores. ctxMotor centraliza esto para todas las pantallas.
-    const ctxM = rgContextoMotor();
+    _pm('0datos'); const ctxM = rgContextoMotor(); _pm('1ctx');
     const valorPremio = ctxM.V;
     const distPremios = ctxM.dist;
-    const eb=rigorEB(data);
-    const portero = data.lotesMat.length>=3 ? rigorPortero(data,1500) : {insuf:true};
+    const eb=_cron('pd.eb', ()=>rigorEB(data));
+    const portero = data.lotesMat.length>=3 ? _cron('pd.portero', ()=>rigorPortero(data,1500)) : {insuf:true};
     if(!portero.insuf) rgPushPval('Patrón posicional (portero, permutación)', portero.pval);
     const conSenal = !portero.insuf && portero.pval<0.05;
     const marginal = !portero.insuf && portero.pval>=0.05 && portero.pval<0.15;
-    const fdr = eb ? rgListaCompraFdr(data, eb) : null;
+    // v39.9 — la lista FDR (con su suavizado espacial validado por LOLO) solo alimenta el banner
+    // cuando HAY señal posicional. Sin señal se calculaba igual y se tiraba: 167 ms medidos en la
+    // PC en cada apertura de Estrategia. El resultado en pantalla es idéntico.
+    const fdr = (eb && conSenal) ? _cron('pd.fdr', ()=>rgListaCompraFdr(data, eb)) : null;
 
+    _pm('2fdr');
     // ---------- 1) Banner maestro ----------
     let color, bg, icono, titulo, cuerpo;
     const chipsLista = fdr && fdr.lista.length ? fdr.lista.map(f=>
@@ -18766,14 +18954,20 @@
     // Motor espacial v2: si el límite de racha está confirmado (test rápido sobre los
     // lotes completos del filtro), cada posición se pondera por el patrón de rachas
     // ya revelado a su alrededor. Si no, motor condicional v1 (plantilla/uniforme).
+    _pm('3dinero');
     const completosPanel=getLotesDelJuegoActivo().filter(l=>{
       if(f.tirada!=='__todas__' && getTiradaSerie(l.serie)!==f.tirada) return false;
       const c=loteCounts(l); return c.revealed===c.total;
     });
-    const curvaR=rgCurvaRacha(completosPanel, data.tamanoLote);
-    const testR=curvaR ? rgTestRachaCorta(completosPanel, data.tamanoLote, 400) : null;
+    // v39.9 — son exactamente los mismos tacos completos (mismo juego y filtro) que ya usó el
+    // contexto compartido del motor: se reutiliza su curva y su prueba en vez de recalcularlas.
+    const _mismos = ctxM && Array.isArray(ctxM.completos) && ctxM.completos.length===completosPanel.length
+      && ctxM.completos.every((l,i)=>l===completosPanel[i]);
+    const curvaR=_mismos ? ctxM.curva : _cron('pd.curva', ()=>rgCurvaRacha(completosPanel, data.tamanoLote));
+    const testR=_mismos ? ctxM.testR : (curvaR ? _cron('pd.testRacha', ()=>rgTestRachaCorta(completosPanel, data.tamanoLote, 400)) : null);
     const espacialOn = !!(curvaR && testR && testR.pCorto<0.05);
 
+    _pm('4racha');
     let cards='';
     if(!enCurso.length){
       cards='<p class="note" style="margin:0;">No hay tacos en curso (parcialmente revelados) para este juego con el filtro actual.</p>';
@@ -18786,7 +18980,7 @@
       const _pdClave = _dataVersion+'|'+juegoActivoId+'|'+(espacialOn?1:0)+'|'+(conSenal?1:0)
         +'|'+enCurso.slice(0,8).map(l=>String(l.id)+':'+(l.actualizadoEn||'')).join(',');
       const infos = (_pdCache && _pdCache.clave===_pdClave) ? _pdCache.infos : enCurso.slice(0,8).map(lote=>{
-        const res=rgProbLote(lote,{curvaRacha: espacialOn?curvaR:null, conSenal, eb, counts:data.counts});
+        const res=_cron('pd.probLote', ()=>rgProbLote(lote,{curvaRacha: espacialOn?curvaR:null, conSenal, eb, counts:data.counts}));
         if(!res) return null;
         const {pt,probs}=res;
         // Cada taco se evalúa con SU costo real: si se compró con descuento, su break-even es
@@ -18840,7 +19034,7 @@
         // un "+$0.20 de EV" se lea como "gano seguro".
         let sesionTxt='';
         if(compras.length){
-          const S = pSesionRentable(lote, 3000);
+          const _ts0=performance.now(); const S = pSesionRentable(lote, 3000); _renderTiempos['pd.sesion+'] = (_renderTiempos['pd.sesion+']||0) + Math.round(performance.now()-_ts0);
           if(S){
             const cS = S.p>=0.5 ? '#065F46' : S.p>=0.3 ? '#854F0B' : '#7F1D1D';
             sesionTxt = `<div style="font-size:11.5px; margin-top:5px; color:var(--ink-soft); line-height:1.5;">
@@ -18878,6 +19072,7 @@
       // 🏆 RANKING de todos los tacos en curso, ordenado por EV de su mejor boleto.
       // Antes solo se nombraba UNO y había que abrir taco por taco para comparar. Aquí se ve
       // de un vistazo a cuál ir primero, cuáles todavía sirven y cuáles ya están agotados.
+      _pm('5tacos');
       const rank = infos.filter(x=>x.mejorEv!=null).sort((a,b)=>b.mejorEv-a.mejorEv);
       const nPos = rank.filter(x=>x.mejorEv>0).length;
       // 🛡 Vigilancia de plantilla: si la imprenta cambió, la regla de racha deja de valer.
@@ -18930,13 +19125,15 @@
     // v33.0: el instrumento de campo va PRIMERO. El banner del portero y la evidencia de
     // apoyo quedan detrás, que es el orden en que sirven para decidir.
     let instrumento = '';
-    try{ instrumento = _icHTML(); }catch(e){ console.warn('[instrumento]', e); }
+    _pm('6resumen');
+    try{ instrumento = _cron('pd.instrumento', _icHTML); }catch(e){ console.warn('[instrumento]', e); }
     wrap.innerHTML = instrumento + banner + moneyBlock + `
       <p class="subhead" style="margin:14px 0 6px;">Tacos en curso — decisión por taco</p>
       ${cards}`;
 
     const bkIn=document.getElementById('pd-bankroll');
     if(bkIn){ bkIn.addEventListener('change', ()=>{ localStorage.setItem('bitacora_bankroll', bkIn.value||''); renderPanelDecision(); }); }
+    _pm('9fin');
   }
 
   // ---- Filtros activos del panel de rigor (tirada + solo completos + préstamo λ) ----
@@ -19096,11 +19293,32 @@
       t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   }
   const _memoPerm = new Map();
+  // v39.9 — la memoria de permutaciones también SOBREVIVE a recargar la app. La clave ya es la
+  // huella del contenido de los datos (y la semilla es fija), así que el resultado guardado es
+  // exactamente el que se recalcularía. MEDIDO: el test de asimetría costaba 279 ms en cada
+  // apertura aunque ningún taco hubiera cambiado. Solo se guardan números (unos pocos KB) y
+  // la versión del algoritmo va en la clave: si se cambia el cálculo, se invalida sola.
+  const MEMO_PERM_LS = 'bitacora_memo_perm_v1', MEMO_PERM_MAX = 24;
+  let _memoPermDisco = null;
+  function _memoPermCargar(){
+    if(_memoPermDisco) return _memoPermDisco;
+    try{ _memoPermDisco = JSON.parse(localStorage.getItem(MEMO_PERM_LS)||'{}') || {}; }catch(_){ _memoPermDisco = {}; }
+    return _memoPermDisco;
+  }
   function _memoPermGet(clave, fn){
     if(_memoPerm.has(clave)) return _memoPerm.get(clave);
+    const disco = _memoPermCargar();
+    const kd = 'a1|'+clave;
+    if(disco[kd] && typeof disco[kd].v === 'object'){ _memoPerm.set(clave, disco[kd].v); return disco[kd].v; }
     const v = fn();
     if(_memoPerm.size > 40) _memoPerm.clear();
     _memoPerm.set(clave, v);
+    try{
+      disco[kd] = {t: Date.now(), v};
+      const ks = Object.keys(disco);
+      if(ks.length > MEMO_PERM_MAX) ks.sort((a,b)=>(disco[a].t||0)-(disco[b].t||0)).slice(0, ks.length-MEMO_PERM_MAX).forEach(k=>{ delete disco[k]; });
+      localStorage.setItem(MEMO_PERM_LS, JSON.stringify(disco));
+    }catch(_){}
     return v;
   }
   function rigorPortero(data, nPermIgnorado){
@@ -19410,6 +19628,8 @@
     const brierBase=pares.reduce((s,x)=>s+(base-x.y)*(base-x.y),0)/pares.length;
     const skill=brierBase>0 ? (1-brier/brierBase) : 0;
     const nDentro=bins.filter(b=>b.dentro).length;
+    // v40.0 (N3): cada calibración queda en un historial para vigilar si el motor se descalibra.
+    try{ _calibGuardar({fecha:todayStr(), juego:juego.id, n:pares.length, brier, skill, dentro:nDentro, grupos:bins.length, nCompletos:_vCompletosOrdenados().length}); }catch(_){}
 
     // Gráfico de calibración (SVG inline, sin librerías).
     const W=320,H=220,pad=34;
@@ -20867,10 +21087,10 @@
     // SOLO lo que se ve al entrar. Las secciones A–J nacen PLEGADAS en acordeón, así que
     // calcularlas aquí era computar 10 análisis pesados que nadie podía ver: por eso la
     // pestaña tardaba tanto en abrir. Ahora cada una se calcula al desplegarla.
-    try{ renderRiesgoRacha(); }catch(e){ console.warn('[riesgo racha]', e); }   // v39.6
-    renderPanelDecision();
-    renderRigorPortero();
-    renderRigorDiagnostico();
+    try{ _cron('estr.riesgoRacha', renderRiesgoRacha); }catch(e){ console.warn('[riesgo racha]', e); }   // v39.6
+    _cron('estr.panelDecision', renderPanelDecision);
+    _cron('estr.portero', renderRigorPortero);
+    _cron('estr.diagnostico', renderRigorDiagnostico);
 
     // Si alguna sección quedó ABIERTA de antes, se repinta para que refleje los datos nuevos.
     try{ estratRepintarAbiertas(); }catch(e){}
@@ -21189,14 +21409,156 @@
 
     const alertWrap = document.getElementById('backupAlertWrap');
     if(!alertWrap) return;
-    const UMBRAL_LOTES = 5;
-    if(!meta.fecha){
-      alertWrap.innerHTML = `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;"><span style="font-size:16px;">⚠️</span><span>Nunca has exportado un respaldo. <strong>Exporta un JSON ahora</strong> para proteger tus ${totalRec} registros.</span></div>`;
-    } else if(nuevosLotes >= UMBRAL_LOTES){
-      alertWrap.innerHTML = `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;"><span style="font-size:16px;">⚠️</span><span>Han pasado <strong>${nuevosLotes} lotes nuevos</strong> desde tu último respaldo (${meta.fecha}). Se recomienda exportar.</span></div>`;
+    // v39.9: el estado se decide por el RIESGO REAL (¿hay alguna copia fuera de este aparato?),
+    // no por cuántos lotes van desde la última exportación manual.
+    const rr = riesgoRespaldo(), rs = _rsemMeta();
+    const partes = [];
+    if(rr.nubeOk) partes.push('nube sincronizada');
+    if(rs.fecha) partes.push('copia semanal en carpeta: ' + escapeHtml(rs.fecha));
+    if(meta.fecha) partes.push('última exportación manual: ' + escapeHtml(meta.fecha));
+    if(rr.riesgo){
+      alertWrap.innerHTML = `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start;"><span style="font-size:16px;">⚠️</span><span>${escapeHtml(rr.motivo)} <strong>Exporta un JSON ahora</strong> o elige una carpeta para el respaldo semanal (21w).</span></div>`;
     } else {
-      alertWrap.innerHTML = `<div style="background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;border-radius:4px;padding:8px 14px;font-size:12px;margin-bottom:12px;">✓ Respaldo al día — último: ${meta.fecha} · ${nuevosDesde} registro(s) nuevo(s) desde entonces.</div>`;
+      alertWrap.innerHTML = `<div style="background:#D1FAE5;color:#065F46;border:1px solid #6EE7B7;border-radius:4px;padding:8px 14px;font-size:12px;margin-bottom:12px;">✓ Tus datos tienen copia fuera de este aparato — ${partes.join(' · ')}.</div>`;
     }
+  }
+
+  // ================================================================================
+  // v39.9 — RIESGO REAL DE RESPALDO + RESPALDO SEMANAL EN UNA CARPETA DE LA PC
+  // ================================================================================
+  // ANTES: el aviso de Inicio decía «N lotes nuevos desde el último respaldo» contando solo
+  // las exportaciones manuales. Con los datos en IndexedDB y en la nube asustaba sin motivo
+  // (salía casi siempre) y, peor, NO avisaba del único riesgo real: que no exista NINGUNA
+  // copia fuera de este navegador (nube sin sincronizar y ningún archivo reciente).
+  // Además la auditoría pidió una copia automática semanal FUERA del navegador: el plan Spark
+  // de Firebase no guarda copias propias, así que si algo borra la nube, los JSON son la única
+  // red. Se guarda el acceso a una carpeta (Chrome/Edge de escritorio) y cada 7 días se escribe
+  // `bitacora_semanal_AAAA-MM-DD.json`, conservando los 6 más recientes de ese patrón. Solo se
+  // borran archivos con ESE nombre exacto: nada más de la carpeta se toca.
+  const RSEM_DB = 'bitacora_carpeta', RSEM_META = 'bitacora_semanal_meta', RSEM_DIAS = 7, RSEM_CONSERVAR = 6;
+  const RSEM_RE = /^bitacora_semanal_\d{4}-\d{2}-\d{2}\.json$/;
+  let _rsemPermisoPendiente = false, _rsemEnCurso = false;
+  function _rsemSoportado(){ return typeof window.showDirectoryPicker === 'function'; }
+  function _rsemMeta(){ try{ return JSON.parse(localStorage.getItem(RSEM_META)||'{}'); }catch(_){ return {}; } }
+  function _rsemIdb(modo, fn){
+    return new Promise(res=>{
+      let q; try{ q = indexedDB.open(RSEM_DB, 1); }catch(_){ return res(null); }
+      q.onupgradeneeded = ()=>{ try{ q.result.createObjectStore('kv'); }catch(_){} };
+      q.onerror = q.onblocked = ()=> res(null);
+      q.onsuccess = ()=>{
+        const db = q.result;
+        try{
+          const tx = db.transaction('kv', modo), st = tx.objectStore('kv');
+          const r = fn(st);
+          tx.oncomplete = ()=>{ db.close(); res(r && 'result' in r ? r.result : true); };
+          tx.onerror = tx.onabort = ()=>{ db.close(); res(null); };
+        }catch(_){ try{ db.close(); }catch(__){} res(null); }
+      };
+    });
+  }
+  const _rsemLeerHandle = ()=> _rsemIdb('readonly', st=>st.get('carpeta'));
+  const _rsemGuardarHandle = (h)=> _rsemIdb('readwrite', st=>st.put(h, 'carpeta'));
+  const _rsemBorrarHandle = ()=> _rsemIdb('readwrite', st=>st.delete('carpeta'));
+  // Días desde la última copia FUERA del navegador que se pueda recuperar sin esta app
+  // (archivo semanal o exportación manual). null = nunca.
+  function _diasDesdeCopiaExterna(){
+    const hoy = new Date(todayStr()+'T00:00:00');
+    const f = [ _rsemMeta().fecha, getBackupMeta().fecha ].filter(Boolean).sort().pop();
+    if(!f) return null;
+    return Math.round((hoy - new Date(f+'T00:00:00'))/86400000);
+  }
+  // Riesgo REAL: sin nube sincronizada en las últimas 48 h Y sin copia externa de ≤ 8 días.
+  function riesgoRespaldo(){
+    const usuario = (typeof _fbUser!=='undefined' && _fbUser) ? _fbUser : null;
+    const nubeOk = !!(usuario && _syncUltimoOk && (Date.now()-_syncUltimoOk) < 48*3600e3 && !_syncUltimoError);
+    const dias = _diasDesdeCopiaExterna();
+    const externaOk = dias != null && dias <= RSEM_DIAS + 1;
+    if(nubeOk || externaOk) return { riesgo:false, dias, nubeOk, externaOk };
+    const motivo = !usuario ? 'Tus datos solo viven en este aparato (sin sesión en la nube)'
+                 : (_syncUltimoError ? 'La nube dio error y no hay copia reciente en archivo'
+                 : 'La nube no ha sincronizado en 48 h');
+    return { riesgo:true, dias, motivo: motivo + (dias==null ? ' y nunca exportaste un respaldo.' : ` y tu última copia en archivo tiene ${dias} día(s).`) };
+  }
+  async function rsemElegirCarpeta(){
+    if(!_rsemSoportado()){ toast('Este navegador no permite elegir carpetas. Usa Chrome o Edge en la PC.'); return; }
+    let h;
+    try{ h = await window.showDirectoryPicker({ id:'bitacora-respaldo', mode:'readwrite', startIn:'documents' }); }
+    catch(e){ return; }   // canceló el selector
+    await _rsemGuardarHandle(h);
+    const m = _rsemMeta(); m.carpeta = h.name; try{ localStorage.setItem(RSEM_META, JSON.stringify(m)); }catch(_){}
+    await rsemHacer(true);
+  }
+  async function rsemQuitarCarpeta(){
+    await _rsemBorrarHandle();
+    const m = _rsemMeta(); delete m.carpeta; try{ localStorage.setItem(RSEM_META, JSON.stringify(m)); }catch(_){}
+    _rsemPermisoPendiente = false; toast('✓ Respaldo semanal desactivado (los archivos ya guardados siguen en la carpeta)');
+    try{ renderRespaldoSemanal(); renderSaludSistema(); }catch(_){}
+  }
+  // manual=true: viene de un clic (puede pedir permiso). Devuelve 'ok' | 'permiso' | 'sin-carpeta' | 'error'.
+  async function rsemHacer(manual){
+    if(_rsemEnCurso) return 'error';
+    const h = await _rsemLeerHandle();
+    if(!h) return 'sin-carpeta';
+    _rsemEnCurso = true;
+    try{
+      let perm = 'denied';
+      try{ perm = await h.queryPermission({mode:'readwrite'}); }catch(_){}
+      if(perm !== 'granted' && manual){ try{ perm = await h.requestPermission({mode:'readwrite'}); }catch(_){} }
+      if(perm !== 'granted'){ _rsemPermisoPendiente = true; return 'permiso'; }
+      _rsemPermisoPendiente = false;
+      const fecha = todayStr(), nombre = 'bitacora_semanal_'+fecha+'.json';
+      const n = { r:(data.records||[]).length, l:(data.lotes||[]).length, j:(data.juegos||[]).length };
+      const txt = JSON.stringify(data);
+      const fh = await h.getFileHandle(nombre, {create:true});
+      const w = await fh.createWritable(); await w.write(txt); await w.close();
+      // Verificación: se relee el archivo y se comparan los conteos. Una copia que no se puede
+      // volver a abrir no es una copia.
+      const leido = JSON.parse(await (await fh.getFile()).text());
+      const ok = leido && (leido.records||[]).length===n.r && (leido.lotes||[]).length===n.l && (leido.juegos||[]).length===n.j;
+      if(!ok) throw new Error('la copia releída no cuadra');
+      // Rotación: solo archivos con el nombre exacto de este respaldo.
+      const nuestros = [];
+      for await (const [nom, ent] of h.entries()){ if(ent.kind==='file' && RSEM_RE.test(nom)) nuestros.push(nom); }
+      nuestros.sort().reverse().slice(RSEM_CONSERVAR).forEach(nom=>{ h.removeEntry(nom).catch(()=>{}); });
+      const m = _rsemMeta(); Object.assign(m, { fecha, archivo:nombre, carpeta:h.name, registros:n.r, lotes:n.l, bytes:txt.length });
+      try{ localStorage.setItem(RSEM_META, JSON.stringify(m)); }catch(_){}
+      try{ auditLog({phase:'respaldo_semanal', archivo:nombre, registros:n.r, bytes:txt.length}); }catch(_){}
+      if(manual) toast('✓ Respaldo guardado en «'+h.name+'»: '+nombre);
+      return 'ok';
+    }catch(e){
+      console.warn('[respaldo semanal]', e && e.message);
+      if(manual) toast('No se pudo escribir el respaldo: '+(e && e.message || 'error'));
+      return 'error';
+    }finally{
+      _rsemEnCurso = false;
+      try{ renderRespaldoSemanal(); renderSaludSistema(); }catch(_){}
+    }
+  }
+  // Al abrir: si toca (≥ 7 días) y el permiso sigue concedido, se hace solo. Si el navegador
+  // pide confirmar el permiso, se deja un botón en la tarjeta de salud (un clic).
+  async function rsemAutomatico(){
+    if(!_rsemSoportado()) return;
+    const h = await _rsemLeerHandle(); if(!h) return;
+    const f = _rsemMeta().fecha;
+    const dias = f ? Math.round((new Date(todayStr()+'T00:00:00') - new Date(f+'T00:00:00'))/86400000) : 999;
+    if(dias < RSEM_DIAS) return;
+    await rsemHacer(false);
+  }
+  function renderRespaldoSemanal(){
+    const el = document.getElementById('respaldoSemanalEstado'); if(!el) return;
+    const bSel = document.getElementById('btnRsemCarpeta'), bYa = document.getElementById('btnRsemAhora'), bQuit = document.getElementById('btnRsemQuitar');
+    if(!_rsemSoportado()){
+      el.textContent = 'Este navegador no permite elegir carpetas (en el teléfono no existe). Hazlo desde Chrome o Edge en la PC.';
+      [bSel,bYa,bQuit].forEach(b=>{ if(b) b.hidden = true; }); return;
+    }
+    const m = _rsemMeta();
+    const tiene = !!m.carpeta;
+    if(bSel) bSel.textContent = tiene ? 'Cambiar carpeta' : 'Elegir carpeta y guardar ahora';
+    if(bYa) bYa.hidden = !tiene; if(bQuit) bQuit.hidden = !tiene;
+    el.innerHTML = !tiene ? 'Sin carpeta elegida.'
+      : `Carpeta: <strong>${escapeHtml(m.carpeta)}</strong> · último: <strong>${escapeHtml(m.fecha||'nunca')}</strong>`
+        + (m.registros!=null ? ` · ${m.registros} boletos` : '')
+        + (_rsemPermisoPendiente ? ' · <span style="color:var(--stamp);font-weight:700;">el navegador pide confirmar el permiso: pulsa «Guardar ahora»</span>' : '');
   }
 
   // ================================================================================
@@ -21234,6 +21596,10 @@
     if(_saludPersistido === false) avisos.push('el navegador puede borrar la app');
     if(_snapIndiceListo && !snaps.length) avisos.push('sin puntos de restauración');
     if(usuario && _syncUltimoError) avisos.push('la nube dio error');
+    const _rr = riesgoRespaldo();   // v39.9
+    if(_rr.riesgo) avisos.push('sin copia fuera de este aparato');
+    if(_rsemPermisoPendiente) avisos.push('respaldo semanal espera tu permiso');
+    const _rsm = _rsemMeta();
     const ok = !avisos.length;
     const fila = (ic, t, v, mal)=>`<div style="display:flex; gap:8px; align-items:baseline; padding:3px 0; font-size:12.5px;">
         <span style="width:18px; text-align:center;">${ic}</span><span style="flex:1; color:var(--ink-soft);">${t}</span>
@@ -21252,6 +21618,7 @@
         ${fila('🔒','Protegida contra borrado del navegador', _saludPersistido===null?'…':(_saludPersistido?'sí':'NO'), _saludPersistido===false)}
         ${fila('🧊','Copia fría en localStorage', _hace(tsFria), false)}
         ${fila('⏪','Puntos de restauración', snaps.length ? snaps.length+' · último '+escapeHtml(ultimo.fecha||'') : (_snapIndiceListo?'ninguno':'cargando…'), _snapIndiceListo && !snaps.length)}
+        ${fila('📁','Respaldo semanal en carpeta', _rsemSoportado() ? (_rsm.carpeta ? (escapeHtml(_rsm.fecha||'pendiente')+' · '+escapeHtml(_rsm.carpeta)+(_rsemPermisoPendiente?' · <button type="button" id="btnRsemPermiso" style="font-size:11px;">Autorizar y guardar</button>':'')) : 'sin carpeta (Exportar › 21w)') : 'no disponible en este navegador', _rsemPermisoPendiente)}
         ${fila('☁','Nube', usuario ? ((_syncUltimoOk?'sincronizada '+_hace(_syncUltimoOk):'conectando…') + (_syncUltimoError?' · '+escapeHtml(_syncUltimoError):'')) : 'sin sesión (solo este aparato)', !!(usuario && _syncUltimoError))}
       </div>
     </details>`;
@@ -21397,6 +21764,273 @@
     s += `<text x="${l+pw/2}" y="${H-4}" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">boletos comprados en el punto (escala logarítmica)</text>`;
     return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Embudo de tasa de acierto por punto de venta">${s}</svg>`;
   }
+  // ================================================================================
+  // v40.0 — VIGILANCIA ESTADÍSTICA  (auditoría: E2, E4, N3, N4, N5, N6, N7)
+  // ================================================================================
+  // Todo aquí es de SOLO LECTURA: no cambia el motor ni sus decisiones. Añade las preguntas que
+  // la auditoría dejó abiertas, cada una con su supuesto a la vista:
+  //   · E2 — ¿se puede mirar el portero cada día sin inflar el error?  → e-proceso por tandas.
+  //   · N6 — ¿los tacos siguen trayendo los premios de siempre?        → gráfico de control I-MR.
+  //   · N5 — ¿cambió la imprenta?                                       → punto de cambio bayesiano en línea.
+  //   · N7 — ¿cuánto puedo perder en un mal día?                        → VaR y CVaR al 95%.
+  //   · N3 — ¿el motor SIGUE calibrado?                                 → historial de calibraciones.
+  //   · E4 — ¿algún punto de venta paga más?                            → agrupamiento parcial (Beta-Binomial).
+  //   · N4 — ficha técnica al pie de cada resultado (n, datos, semilla, error de Monte Carlo).
+  function _vCompletosOrdenados(){
+    return getLotesDelJuegoActivo().filter(l=>{ const c=loteCounts(l); return c.revealed===c.total; })
+      .slice().sort((a,b)=> rgLoteTime(a)-rgLoteTime(b));
+  }
+  function _vCuantil(ordenado, q){
+    if(!ordenado.length) return NaN;
+    const pos=(ordenado.length-1)*q, lo=Math.floor(pos), hi=Math.ceil(pos);
+    return ordenado[lo]+(ordenado[hi]-ordenado[lo])*(pos-lo);
+  }
+  function _vMediana(a){ const s=a.slice().sort((x,y)=>x-y); return _vCuantil(s,0.5); }
+  // ln Γ(x) por Lanczos (g=7): se necesita para la densidad t de Student del punto de cambio.
+  function _vLgamma(x){
+    const c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
+      -176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+    if(x<0.5) return Math.log(Math.PI/Math.abs(Math.sin(Math.PI*x))) - _vLgamma(1-x);
+    x-=1; let a=c[0]; const t=x+7.5;
+    for(let i=1;i<9;i++) a+=c[i]/(x+i);
+    return 0.5*Math.log(2*Math.PI)+(x+0.5)*Math.log(t)-t+Math.log(a);
+  }
+  function _vFicha(partes){
+    const f = [];
+    if(partes.n!=null) f.push('n = '+partes.n);
+    f.push('datos al '+todayStr());
+    f.push('app v'+APP_VERSION.num);
+    if(partes.semilla) f.push('semilla '+SEMILLA_PERM);
+    if(partes.mc!=null) f.push('error Monte Carlo ± '+partes.mc);
+    if(partes.extra) f.push(partes.extra);
+    return `<div style="font-size:10.5px; color:var(--silver-dark); margin-top:6px; font-family:'Courier New',monospace;">Ficha técnica · ${escapeHtml(f.join(' · '))}</div>`;
+  }
+
+  // ---- N6 · Gráfico de control I-MR de los premios por taco completo ----
+  // Límites calculados con la PRIMERA MITAD de la serie (fase I) y aplicados a toda ella: así un
+  // cambio reciente no ensancha sus propios límites y se esconde. σ = rango móvil medio / 1,128.
+  function rgControlTotales(){
+    const comp=_vCompletosOrdenados(); if(comp.length<10) return null;
+    const tot=comp.map(l=>loteCounts(l).paid);
+    const nI=Math.max(10, Math.floor(tot.length/2)), base=tot.slice(0,nI);
+    const media=base.reduce((a,b)=>a+b,0)/base.length;
+    let mr=0; for(let i=1;i<base.length;i++) mr+=Math.abs(base[i]-base[i-1]); mr/=(base.length-1);
+    const sigma=Math.max(mr/1.128, 1e-9);
+    const lcs=media+3*sigma, lci=Math.max(0, media-3*sigma);
+    const d=getJuegoParams(getJuegoActivo().id);
+    const marcas=tot.map((t,i)=>({i, t, serie:comp[i].serie, fuera:t>lcs+1e-9||t<lci-1e-9, fueraDiseno:t<d.minPremios||t>d.maxPremios}));
+    // Regla de Nelson 2: 9 puntos seguidos del mismo lado de la media (deriva sostenida).
+    let rach=0, lado=0, rachMax=0, finRach=-1;
+    tot.forEach((t,i)=>{ const s=t>media?1:(t<media?-1:0); if(s!==0 && s===lado) rach++; else { lado=s; rach=s!==0?1:0; } if(rach>rachMax){ rachMax=rach; finRach=i; } });
+    return {tot, series:comp.map(l=>l.serie), media, sigma, lcs, lci, marcas, nI, rachMax, finRach, disMin:d.minPremios, disMax:d.maxPremios};
+  }
+  function _svgControl(c){
+    const W=640, H=190, pl=34, pr=10, pt=10, pb=24, n=c.tot.length;
+    const ymin=Math.min(c.lci, ...c.tot)-1, ymax=Math.max(c.lcs, ...c.tot)+1;
+    const X=i=> pl + (n<=1?0:(i/(n-1))*(W-pl-pr)), Y=v=> pt + (1-(v-ymin)/(ymax-ymin))*(H-pt-pb);
+    const linea=(v,col,dash,et)=>`<line x1="${pl}" x2="${W-pr}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="${col}" stroke-width="1" ${dash?'stroke-dasharray="4 3"':''}/><text x="${W-pr}" y="${(Y(v)-3).toFixed(1)}" text-anchor="end" font-size="9.5" fill="${col}">${et}</text>`;
+    const pts=c.tot.map((t,i)=>`${X(i).toFixed(1)},${Y(t).toFixed(1)}`).join(' ');
+    const marcas=c.marcas.map(m=> (m.fuera||m.fueraDiseno) ? `<circle cx="${X(m.i).toFixed(1)}" cy="${Y(m.t).toFixed(1)}" r="4" fill="${m.fuera?'#B42318':'#B45309'}"><title>${escapeHtml(m.serie)}: ${m.t} premios</title></circle>` : '').join('');
+    const ticks=[]; for(let v=Math.ceil(ymin); v<=Math.floor(ymax); v++) ticks.push(`<text x="${pl-5}" y="${(Y(v)+3).toFixed(1)}" text-anchor="end" font-size="9.5" fill="var(--silver-dark)">${v}</text>`);
+    return `<div style="overflow-x:auto;"><svg viewBox="0 0 ${W} ${H}" style="width:100%; min-width:320px; height:auto;" role="img" aria-label="Premios por taco completo en orden de compra, con sus límites de control">
+      <rect x="${pl}" y="${Y(c.disMax+0.5).toFixed(1)}" width="${W-pl-pr}" height="${Math.max(0,Y(c.disMin-0.5)-Y(c.disMax+0.5)).toFixed(1)}" fill="var(--ok)" opacity="0.08"/>
+      ${ticks.join('')}
+      ${linea(c.lcs,'#B42318',true,'LCS '+c.lcs.toFixed(1))}${linea(c.lci,'#B42318',true,'LCI '+c.lci.toFixed(1))}
+      <line x1="${pl}" x2="${W-pr}" y1="${Y(c.media).toFixed(1)}" y2="${Y(c.media).toFixed(1)}" stroke="var(--ok)" stroke-width="1.2"/>
+      <text x="${pl+4}" y="${(Y(c.lcs)+12).toFixed(1)}" font-size="9.5" fill="var(--ok)">media ${c.media.toFixed(2)} (línea verde)</text>
+      <line x1="${X(c.nI-0.5).toFixed(1)}" x2="${X(c.nI-0.5).toFixed(1)}" y1="${pt}" y2="${H-pb}" stroke="var(--silver-dark)" stroke-dasharray="2 3"/>
+      <text x="${(X(c.nI-0.5)+4).toFixed(1)}" y="${H-pb+14}" font-size="9.5" fill="var(--silver-dark)">← fase I (fija los límites) · vigilancia →</text>
+      <polyline points="${pts}" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+      ${marcas}
+    </svg></div>`;
+  }
+
+  // ---- N5 · Punto de cambio bayesiano en línea (Adams & MacKay, 2007) ----
+  // Modelo: totales ~ Normal con media y varianza desconocidas (conjugada Normal-Gamma-Inversa),
+  // riesgo de cambio constante 1/100 por taco. Devuelve la probabilidad de que el régimen
+  // actual haya empezado en los últimos 10 tacos. Los totales son enteros: la normal es una
+  // aproximación, y por eso se exige una probabilidad alta (≥ 50%) antes de avisar.
+  function rgCambioImprenta(tot){
+    const n=tot.length; if(n<15) return null;
+    const H=1/100, K=10;
+    const ini=tot.slice(0,10), m0=ini.reduce((a,b)=>a+b,0)/ini.length;
+    let v0=ini.reduce((s,x)=>s+(x-m0)*(x-m0),0)/(ini.length-1); if(!(v0>0.05)) v0=0.5;
+    let R=[1], mu=[m0], ka=[1], al=[1], be=[v0];
+    const hist=[];
+    for(let t=0;t<n;t++){
+      const x=tot[t], L=R.length, pred=new Array(L);
+      for(let i=0;i<L;i++){
+        const nu=2*al[i], s2=be[i]*(ka[i]+1)/(al[i]*ka[i]), z=(x-mu[i])*(x-mu[i])/(nu*s2);
+        pred[i]=Math.exp(_vLgamma((nu+1)/2)-_vLgamma(nu/2)-0.5*Math.log(nu*Math.PI*s2)-((nu+1)/2)*Math.log(1+z));
+      }
+      let cp=0; const nuevo=new Array(L+1);
+      for(let i=0;i<L;i++){ const w=R[i]*pred[i]; nuevo[i+1]=w*(1-H); cp+=w*H; }
+      nuevo[0]=cp;
+      const tot2=nuevo.reduce((a,b)=>a+b,0)||1; for(let i=0;i<=L;i++) nuevo[i]/=tot2;
+      const mu2=[m0], ka2=[1], al2=[1], be2=[v0];
+      for(let i=0;i<L;i++){
+        mu2.push((ka[i]*mu[i]+x)/(ka[i]+1)); ka2.push(ka[i]+1); al2.push(al[i]+0.5);
+        be2.push(be[i]+ka[i]*(x-mu[i])*(x-mu[i])/(2*(ka[i]+1)));
+      }
+      R=nuevo; mu=mu2; ka=ka2; al=al2; be=be2;
+      let pr=0; for(let i=0;i<Math.min(K,R.length);i++) pr+=R[i];
+      hist.push(pr);
+    }
+    let map=0; R.forEach((p,i)=>{ if(p>R[map]) map=i; });
+    const pReciente=hist[hist.length-1];
+    const mediaActual = mu[map];
+    return {pReciente, runMap:map, mediaActual, hist};
+  }
+
+  // ---- E2 · e-proceso para el portero posicional ----
+  // El p del portero se recalcula con cada boleto; mirarlo a diario y actuar cuando baje de
+  // 0,05 infla el falso positivo. Solución anytime-valid: se parte la historia en TANDAS
+  // CONSECUTIVAS de 20 tacos completos que no se solapan, se calcula el p del portero DENTRO
+  // de cada tanda y se convierte en e-valor con el calibrador de Vovk–Sellke (e = 1/(2√p)).
+  // Como las tandas son independientes bajo el nulo, el producto es un e-proceso: por la
+  // desigualdad de Ville, P(algún día E ≥ 20) ≤ 5% aunque se mire todos los días.
+  const EPROC_TANDA = 20, EPROC_UMBRAL = 20;
+  function rgEProcesoPortero(){
+    const dataR=rigorGetData();
+    const porId=new Map(dataR.lotesMat.map(m=>[String(m.id), m]));
+    const mats=_vCompletosOrdenados().map(l=>porId.get(String(l.id))).filter(Boolean);
+    const nT=Math.floor(mats.length/EPROC_TANDA);
+    if(nT<1) return {insuf:true, n:mats.length};
+    const filas=[]; let E=1;
+    for(let k=0;k<nT;k++){
+      const lote=mats.slice(k*EPROC_TANDA,(k+1)*EPROC_TANDA);
+      let pr=0, rv=0; lote.forEach(m=>{ pr+=m.nPrizes; rv+=m.nRevealed; });
+      const sub={tamanoLote:dataR.tamanoLote, lotesMat:lote, tasaGlobal: rv?pr/rv:0};
+      const clave='eport|'+EPROC_TANDA+'|'+_h53(JSON.stringify(lote.map(m=>[m.revealedPos,m.prized])));
+      const r=_memoPermGet(clave, ()=>_rigorPorteroCalc(sub, 1000));
+      if(!r || r.insuf) continue;
+      const e=0.5/Math.sqrt(Math.max(r.pval,1e-6)); E*=e;
+      filas.push({k:k+1, desde:lote[0].serie, hasta:lote[lote.length-1].serie, p:r.pval, e, E});
+    }
+    return {insuf:false, filas, E, n:mats.length, sobrantes:mats.length-nT*EPROC_TANDA};
+  }
+
+  // ---- N7 · Riesgo de un día de compra: VaR y CVaR al 95% ----
+  // (a) Empírico: el resultado neto (premios netos de retención − costo) de cada día en que
+  //     compraste este juego. (b) Simulado: un día de tu tamaño mediano armado remuestreando tus
+  //     boletos reales. (b) supone boletos independientes; dentro de un taco los premios están
+  //     fijos, así que la simulación exagera un poco la dispersión: es la cota prudente.
+  function rgRiesgoDia(){
+    const recs=getRecordsDelJuegoActivo(); const porDia=new Map();
+    recs.forEach(r=>{ const d=r.fecha||''; if(!d) return; const e=porDia.get(d)||{net:0,n:0}; e.net+=premioNeto(r.premio)-(r.costo||0); e.n++; porDia.set(d,e); });
+    const dias=[...porDia.values()]; if(dias.length<15) return null;
+    const nets=dias.map(d=>d.net).sort((a,b)=>a-b);
+    const q05=_vCuantil(nets,0.05), cola=nets.filter(x=>x<=q05+1e-9);
+    const cvar=cola.reduce((a,b)=>a+b,0)/cola.length;
+    const nMed=Math.round(_vMediana(dias.map(d=>d.n)));
+    const v=recs.map(r=>premioNeto(r.premio)-(r.costo||0));
+    const clave='riesgoDia|'+nMed+'|'+_h53(JSON.stringify(v));
+    const sim=_memoPermGet(clave, ()=>{
+      const rnd=_rngSemilla(SEMILLA_PERM), S=4000, out=new Array(S);
+      for(let s=0;s<S;s++){ let t=0; for(let j=0;j<nMed;j++) t+=v[Math.floor(rnd()*v.length)]; out[s]=t; }
+      out.sort((a,b)=>a-b);
+      const q=_vCuantil(out,0.05), c=out.filter(x=>x<=q+1e-9);
+      return {q05:q, cvar:c.reduce((a,b)=>a+b,0)/c.length, med:_vCuantil(out,0.5), pGanar:out.filter(x=>x>0).length/S, S};
+    });
+    return {nDias:dias.length, q05, cvar, peor:nets[0], med:_vCuantil(nets,0.5), nMed, sim};
+  }
+
+  // ---- N3 · Historial de calibraciones ----
+  const CALIB_HIST = 'bitacora_calib_hist';
+  function _calibHist(){ try{ return JSON.parse(localStorage.getItem(CALIB_HIST)||'[]')||[]; }catch(_){ return []; } }
+  function _calibGuardar(e){
+    try{ const h=_calibHist(); h.push(e); while(h.length>30) h.shift(); localStorage.setItem(CALIB_HIST, JSON.stringify(h)); }catch(_){}
+  }
+
+  // ---- E4 · Agrupamiento parcial por punto de venta (Beta-Binomial, empírico) ----
+  // Cada punto se encoge hacia la media en proporción a lo poco que se sabe de él: un punto con
+  // 30 boletos casi no se mueve de la media; uno con 3.000 conserva su propia tasa.
+  function rgPuntosEncogidos(puntos){
+    const N=puntos.reduce((s,p)=>s+p.n,0), K=puntos.reduce((s,p)=>s+p.k,0); if(!N) return null;
+    const P=K/N;
+    let vObs=0, vEsp=0; puntos.forEach(p=>{ const r=p.k/p.n; vObs+=p.n*(r-P)*(r-P); vEsp+=p.n*(P*(1-P)/p.n); });
+    vObs/=N; vEsp/=N;
+    const tau2=Math.max(vObs-vEsp, 0);
+    const M = tau2>1e-9 ? Math.min(1e5, Math.max(2, P*(1-P)/tau2 - 1)) : 1e5;
+    const a=P*M, b=(1-P)*M;
+    return {P, M, filas: puntos.map(p=>{ const A=a+p.k, B=b+p.n-p.k;
+      return {nombre:p.nombre, n:p.n, k:p.k, cruda:p.k/p.n, enc:A/(A+B), lo:rgBetaQuantile(0.025,A,B), hi:rgBetaQuantile(0.975,A,B)}; })
+      .sort((x,y)=>y.enc-x.enc)};
+  }
+
+  function renderVigilancia(){
+    const el=document.getElementById('vigilanciaWrap'); if(!el) return;
+    const j=getJuegoActivo(); if(!j){ el.innerHTML=''; return; }
+    const partes=[];
+    // N6 + N5
+    const c=_cron('vg.control', rgControlTotales);
+    if(!c){ partes.push(`<p class="note">El gráfico de control necesita al menos 10 tacos completos de ${escapeHtml(j.nombre)}.</p>`); }
+    else {
+      const fc=c.marcas.filter(m=>m.fuera), fd=c.marcas.filter(m=>m.fueraDiseno&&!m.fuera);
+      const cp=_cron('vg.cambio', ()=>rgCambioImprenta(c.tot));
+      const derivaReciente = c.rachMax>=9 && c.finRach>=c.tot.length-9;
+      const alerta = fc.some(m=>m.i>=c.nI) || derivaReciente || (cp && cp.pReciente>=0.5);
+      partes.push(`<div class="card" style="margin-bottom:12px;">
+        <div style="font-weight:800; font-size:13px; margin-bottom:4px;">${alerta?'⚠':'✓'} ¿Los tacos siguen trayendo los premios de siempre?</div>
+        <p class="note" style="margin:0 0 8px;">Premios de cada taco completo de ${escapeHtml(j.nombre)}, en el orden en que los compraste. La franja verde es el diseño del juego (${c.disMin}–${c.disMax}); las líneas rojas, los límites de control calculados con los primeros ${c.nI} tacos.</p>
+        ${_svgControl(c)}
+        <p class="note" style="margin:8px 0 0;">
+          ${fc.length ? `<strong>${fc.length} taco(s) fuera de los límites de control</strong>: ${fc.slice(-6).map(m=>escapeHtml(m.serie)+' ('+m.t+')').join(', ')}. ` : 'Ningún taco fuera de los límites de control. '}
+          ${fd.length ? `${fd.length} fuera del diseño configurado pero dentro de control (cola del juego, no alarma). ` : ''}
+          Racha más larga del mismo lado de la media: <strong>${c.rachMax}</strong>${c.rachMax>=9?' (≥ 9: deriva sostenida)':' (se avisa desde 9)'}.
+          ${cp ? `<br>Punto de cambio bayesiano: probabilidad de que el régimen actual haya empezado en los últimos 10 tacos = <strong>${(cp.pReciente*100).toFixed(0)}%</strong>${cp.pReciente>=0.5?' — <strong style="color:var(--stamp);">posible cambio de imprenta: revisa antes de confiar en el motor</strong>':' (se avisa desde 50%)'}. Media del régimen actual: ${cp.mediaActual.toFixed(2)} premios por taco.` : ''}
+        </p>
+        ${_vFicha({n:c.tot.length+' tacos completos', extra:'I-MR (σ = MR/1,128); Adams-MacKay, riesgo 1/100'})}
+      </div>`);
+    }
+    // E2
+    const ep=_cron('vg.eproceso', rgEProcesoPortero);
+    if(ep && !ep.insuf){
+      const sup = ep.E>=EPROC_UMBRAL;
+      partes.push(`<div class="card" style="margin-bottom:12px;">
+        <div style="font-weight:800; font-size:13px; margin-bottom:4px;">¿Hay plantilla posicional? — versión que se puede mirar a diario</div>
+        <p class="note" style="margin:0 0 8px;">El portero normal se recalcula con cada boleto, y mirarlo todos los días infla los falsos positivos. Aquí la historia se parte en tandas de ${EPROC_TANDA} tacos completos que no se solapan; cada tanda aporta un e-valor y se multiplican. Solo si el producto llega a <strong>${EPROC_UMBRAL}</strong> hay evidencia al 5%, lo mires cuando lo mires.</p>
+        <div class="table-wrap"><table><thead><tr><th>Tanda</th><th>Tacos</th><th>p (portero)</th><th>e-valor</th><th>E acumulado</th></tr></thead><tbody>
+          ${ep.filas.map(f=>`<tr><td>${f.k}</td><td style="font-family:monospace; font-size:11px;">${escapeHtml(f.desde)} → ${escapeHtml(f.hasta)}</td><td>${f.p.toFixed(3)}</td><td>${f.e.toFixed(2)}</td><td><strong>${f.E.toFixed(2)}</strong></td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="note" style="margin:8px 0 0;"><strong style="color:${sup?'var(--stamp)':'var(--ok)'};">${sup?'E ≥ '+EPROC_UMBRAL+': hay evidencia de plantilla posicional':'E = '+ep.E.toFixed(2)+' < '+EPROC_UMBRAL+': sin evidencia de plantilla posicional'}</strong>. ${ep.sobrantes} taco(s) completo(s) esperan a completar la siguiente tanda.</p>
+        ${_vFicha({n:ep.n+' tacos completos', semilla:true, extra:'1.000 permutaciones por tanda; calibrador de Vovk–Sellke'})}
+      </div>`);
+    }
+    // N7
+    const rd=_cron('vg.riesgo', rgRiesgoDia);
+    if(rd){
+      partes.push(`<div class="card" style="margin-bottom:12px;">
+        <div style="font-weight:800; font-size:13px; margin-bottom:4px;">¿Cuánto puedo perder en un mal día?</div>
+        <div class="metrics" style="margin:6px 0;">
+          <div class="metric"><div class="num">${fmt(rd.q05)}</div><div class="lbl">VaR 95% · 1 de cada 20 días quedas así o peor</div></div>
+          <div class="metric"><div class="num">${fmt(rd.cvar)}</div><div class="lbl">CVaR 95% · promedio de ese 5% peor</div></div>
+          <div class="metric"><div class="num">${fmt(rd.peor)}</div><div class="lbl">Tu peor día registrado</div></div>
+          <div class="metric"><div class="num">${fmt(rd.med)}</div><div class="lbl">Día típico (mediana)</div></div>
+        </div>
+        <p class="note" style="margin:0;">Sobre tus ${rd.nDias} días de compra de este juego. Con pocos días, la cola es fina: el 5% peor son ${Math.max(1,Math.round(rd.nDias*0.05))} día(s). Los días en que compras más son los que más pierden, y esos días grandes están dentro de estas cifras. Para un día de tamaño FIJO —tu mediana, ${rd.nMed} boletos— armado remuestreando tus boletos reales: VaR 95% ${fmt(rd.sim.q05)}, CVaR ${fmt(rd.sim.cvar)}, resultado típico ${fmt(rd.sim.med)}, y sales ganando el ${Math.round(rd.sim.pGanar*100)}% de esos días. Esa simulación trata cada boleto como independiente; como dentro de un taco el total de premios está fijado, la realidad se dispersa algo menos: para ese tamaño de día es una cota prudente.</p>
+        ${_vFicha({n:rd.nDias+' días', semilla:true, extra:rd.sim.S+' simulaciones; neto de retención'})}
+      </div>`);
+    }
+    // N3
+    const h=_calibHist().filter(x=>String(x.juego)===String(j.id));
+    const nComp=_vCompletosOrdenados().length;
+    if(h.length){
+      const u=h[h.length-1], nuevos=nComp-(u.nCompletos||0);
+      const mal = u.skill<=0 || u.dentro < Math.ceil(u.grupos*0.7);
+      partes.push(`<div class="card" style="margin-bottom:12px;">
+        <div style="font-weight:800; font-size:13px; margin-bottom:4px;">${mal?'⚠':'✓'} ¿El motor sigue calibrado?</div>
+        <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Boletos evaluados</th><th>Brier</th><th>Mejora sobre la base</th><th>Grupos que cuadran</th></tr></thead><tbody>
+          ${h.slice(-6).reverse().map(x=>`<tr><td>${escapeHtml(x.fecha)}</td><td>${x.n}</td><td>${x.brier.toFixed(4)}</td><td style="color:${x.skill>0?'var(--ok)':'var(--stamp)'};">${(x.skill*100).toFixed(1)}%</td><td>${x.dentro}/${x.grupos}</td></tr>`).join('')}
+        </tbody></table></div>
+        <p class="note" style="margin:8px 0 0;">${nuevos>=15 ? `<strong>Hay ${nuevos} tacos completos nuevos desde la última calibración:</strong> ejecútala otra vez en Estrategia › «Calibración del motor».` : `Última calibración con ${u.nCompletos} tacos completos; se recomienda repetirla cada 15 tacos nuevos (van ${Math.max(0,nuevos)}).`}</p>
+      </div>`);
+    } else {
+      partes.push(`<p class="note">Aún no hay calibraciones guardadas para ${escapeHtml(j.nombre)}. Ejecuta «Calibración del motor» en Estrategia: a partir de ahí cada ejecución queda en este historial.</p>`);
+    }
+    el.innerHTML = partes.join('');
+  }
+
   function htmlEmbudoPuntos(){
     const j = getJuegoActivo(); if(!j) return '';
     const lotesIds = new Set((data.lotes||[]).filter(l=>String(l.juegoId)===String(j.id)).map(l=>String(l.id)));
@@ -21412,6 +22046,14 @@
       <div style="font-weight:700; font-size:13px; margin-bottom:4px;">Embudo de la tasa de acierto · ${escapeHtml(j.nombre)}</div>
       <p class="note" style="margin:0 0 6px;">Cada punto es un punto de venta con 10 o más boletos. Las bandas marcan hasta dónde puede alejarse de la media (${(P*100).toFixed(1)}%) solo por azar, según cuántos boletos compraste ahí.</p>
       ${_svgEmbudoPuntos(puntos, P)}
+      ${(function(){ try{ const en=rgPuntosEncogidos(puntos); if(!en) return '';
+        const ext=en.filas.filter(f=>f.lo>en.P || f.hi<en.P);
+        return `<details style="margin-top:8px;"><summary style="cursor:pointer; font-size:12.5px; font-weight:700;">Tasa por punto con agrupamiento parcial (v40.0)</summary>
+          <p class="note" style="margin:6px 0;">Cada punto se acerca a la media general (${(en.P*100).toFixed(1)}%) según lo poco que se sepa de él (modelo Beta-Binomial; fuerza del agrupamiento M = ${en.M>=1e5?'∞ — los datos no muestran diferencias reales entre puntos':Math.round(en.M)}). ${ext.length? `<strong>${ext.length} punto(s) con el intervalo creíble entero por encima o por debajo de la media.</strong>` : 'Ningún punto tiene su intervalo creíble entero por encima o por debajo de la media: <strong>no hay un punto que pague más seguido</strong>.'}</p>
+          <div class="table-wrap"><table><thead><tr><th>Punto</th><th>Boletos</th><th>Tasa cruda</th><th>Tasa encogida</th><th>IC 95% creíble</th></tr></thead><tbody>
+          ${en.filas.map(f=>`<tr><td>${escapeHtml(f.nombre)}</td><td>${f.n}</td><td>${(f.cruda*100).toFixed(1)}%</td><td><strong>${(f.enc*100).toFixed(1)}%</strong></td><td>${(f.lo*100).toFixed(1)}–${(f.hi*100).toFixed(1)}%</td></tr>`).join('')}
+          </tbody></table></div>${_vFicha({n:N+' boletos con punto', extra:'Beta-Binomial por momentos (Gelman & Hill, agrupamiento parcial)'})}</details>`;
+      }catch(e){ return ''; } })()}
       <p class="note" style="margin:6px 0 0;">${fuera.length ? `<strong>${fuera.length} punto(s) fuera de la banda del 95%</strong> (en rojo). Con ${puntos.length} puntos comparados se esperarían ~${(puntos.length*0.05).toFixed(1)} por puro azar: confírmalo con más compras antes de fiarte.` : `<strong>Ningún punto sale de la banda del 95%.</strong> Con estos datos no hay evidencia de que algún punto pague más seguido que otro.`}</p>
     </div>`;
   }
@@ -21481,6 +22123,12 @@
     const el = document.getElementById('avisoPosSinSenal'); if(!el) return;
     let ctx=null; try{ ctx = rgContextoMotor(); }catch(_){}
     const P = ctx && ctx.portero;
+    // v39.9 (E5): plegar las tablas cuando no hay señal; abrirlas cuando la hay o faltan datos.
+    const det = document.getElementById('posTablasDet'), sum = document.getElementById('posTablasSum');
+    const sinSenal = !!(P && !P.insuf && !ctx.conSenal);
+    if(det && !det._oyente){ det._oyente = true; det.addEventListener('toggle', ()=>{ if(det._prog){ det._prog=false; return; } det._tocada = true; }); }
+    if(det && !det._tocada && det.open !== !sinSenal){ det._prog = true; det.open = !sinSenal; }
+    if(sum) sum.textContent = sinSenal ? 'Ver igualmente las tablas por posición (sin señal: lo que muestren es ruido)' : 'Tablas por posición';
     if(!P || P.insuf || ctx.conSenal){ el.innerHTML=''; return; }
     el.innerHTML = `<div style="background:#FEF3C7; color:#92400E; border-left:4px solid #D97706; border-radius:0 6px 6px 0; padding:9px 13px; margin:0 0 10px; font-size:12.5px; line-height:1.5;">
       <strong>Sin señal posicional</strong> (p = ${P.pval.toFixed(3)}${P.se!=null?' ± '+P.se.toFixed(3):''}, ${P.nLotes} tacos): las diferencias entre posiciones de esta sección son del tamaño que produce el azar. Sirven para vigilar, no para elegir qué comprar.</div>`;
@@ -22129,7 +22777,10 @@
     // Backup meta
     const bkMeta = getBackupMeta();
     const nuevosLotes = bkMeta.lotes != null ? Math.max(0, lotes.length - bkMeta.lotes) : lotes.length;
-    const backupAlerta = !bkMeta.fecha || nuevosLotes >= 5;
+    // v39.9: el aviso salta por el riesgo REAL (ninguna copia fuera de este aparato), no por
+    // contar lotes desde la última exportación manual (con IndexedDB + nube casi siempre asustaba).
+    const _riesgoBk = riesgoRespaldo();
+    const backupAlerta = _riesgoBk.riesgo;
 
     const netoColor = neto>=0 ? '#00C853' : '#FF1744';
     const roiColor = roi>=0 ? '#00C853' : '#FF1744';
@@ -22159,7 +22810,7 @@
         ${ahorroTotal > 0 ? `<p class="note" style="margin:0;">El <strong>invertido total</strong> es la suma de lo que pagaste por cada boleto registrado. Sin los descuentos de ${lotesConDesc} taco(s) habrías gastado ${fmt(gasto+ahorroTotal)} y tu ROI sería ${(( (premios-(gasto+ahorroTotal))/(gasto+ahorroTotal))*100).toFixed(1)}% en vez de ${roi.toFixed(1)}%.</p>` : ''}
       </div>
 
-      ${backupAlerta ? `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span style="font-size:16px;">⚠️</span><span style="flex:1;min-width:180px;">${!bkMeta.fecha ? 'Nunca has exportado un respaldo. Protege tus datos ahora.' : `${nuevosLotes} lotes nuevos desde el último respaldo (${bkMeta.fecha}).`}</span><button id="btnBackupRapido" style="min-height:40px;padding:6px 16px;border:none;background:#92400E;color:#fff;border-radius:6px;font-weight:700;cursor:pointer;white-space:nowrap;">💾 Respaldar ahora</button></div>` : ''}
+      ${backupAlerta ? `<div style="background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span style="font-size:16px;">⚠️</span><span style="flex:1;min-width:180px;">${escapeHtml(_riesgoBk.motivo||'')}</span><button id="btnBackupRapido" style="min-height:40px;padding:6px 16px;border:none;background:#92400E;color:#fff;border-radius:6px;font-weight:700;cursor:pointer;white-space:nowrap;">💾 Respaldar ahora</button></div>` : ''}
 
       <div class="section" style="margin-bottom:14px;">
         <div class="section-head"><span class="tag">🛑</span><h2>Tope de gasto</h2><span class="hint">lo único que actúa antes de comprar</span></div>
@@ -22976,6 +23627,10 @@
       if(e.target.id === 'btnSyncArchivo'){
         sincronizarDesdeArchivo();
       }
+      // v39.9 — respaldo semanal en carpeta
+      if(e.target.id === 'btnRsemCarpeta'){ rsemElegirCarpeta(); }
+      if(e.target.id === 'btnRsemAhora' || e.target.id === 'btnRsemPermiso'){ rsemHacer(true); }
+      if(e.target.id === 'btnRsemQuitar'){ rsemQuitarCarpeta(); }
     });
   });
 
@@ -24054,18 +24709,32 @@
   // ======================================================
   const _CAMPOS_TEXTO = ['serie','punto','ciudad','nota','color','nombre','emoji','inicioNum',
                          'criterio','resultado','paridad','modo','qrSeg','qrCode','seriePrefijo','verificadoEn'];
-  function _limpiarTexto(v){
+  // v39.9 — LISTA BLANCA para los campos con forma conocida. La auditoría probó que la lista
+  // negra se saltaba dentro de un atributo: `x"/onfocus=…` pasaba intacto porque solo se
+  // quitaba `on…=` precedido de espacio. Para series, códigos, fechas y estados se admite
+  // ÚNICAMENTE el alfabeto que ese campo usa de verdad (verificado contra los 12.865 boletos y
+  // 290 tacos del 22-sep: 0 valores cambian). El texto libre (punto, ciudad, nota, nombre,
+  // emoji) conserva la lista negra, ahora también tras comillas, barra o «=».
+  const _TEXTO_PERMITIDO = {
+    serie:/[^0-9A-Za-z\-_. /]/g, seriePrefijo:/[^0-9A-Za-z\-_. /]/g, inicioNum:/[^0-9]/g,
+    qrSeg:/[^0-9]/g, qrCode:/[^0-9A-Za-z]/g, verificadoEn:/[^0-9A-Za-z:.\-+]/g,
+    criterio:/[^a-z0-9_\-]/gi, resultado:/[^a-z_]/gi, paridad:/[^a-z]/gi, modo:/[^a-z_]/gi,
+    color:/[^#0-9A-Za-zÁÉÍÓÚÑáéíóúñ \-]/g,
+  };
+  function _limpiarTexto(v, campo){
     if(typeof v!=='string') return v;
+    const wl = campo && _TEXTO_PERMITIDO[campo];
+    if(wl) return v.replace(wl,'').slice(0,120);
     // Se eliminan las construcciones que permiten ejecutar código al pintar. El resto del
     // texto se conserva tal cual: el objetivo es neutralizar, no censurar.
     return v.replace(/[<>]/g,'')                 // corta cualquier etiqueta
             .replace(/javascript:/gi,'')
-            .replace(/\son\w+\s*=/gi,' ')        // onerror=, onload=…
+            .replace(/(^|[\s"'`\/=;])on\w+\s*=/gi,'$1')   // onerror=, "/onfocus=…
             .slice(0, 500);                       // ningún campo legítimo pasa de esto
   }
   function sanearEntidad(o){
     if(!o || typeof o!=='object') return o;
-    _CAMPOS_TEXTO.forEach(k=>{ if(typeof o[k]==='string') o[k]=_limpiarTexto(o[k]); });
+    _CAMPOS_TEXTO.forEach(k=>{ if(typeof o[k]==='string') o[k]=_limpiarTexto(o[k], k); });
     // Etiquetas y posiciones anidadas
     if(Array.isArray(o.tags)) o.tags = o.tags.map(t=> typeof t==='string' ? _limpiarTexto(t) : t);
     return o;
@@ -25529,6 +26198,8 @@
     esSumaDenominaciones, DENOMINACIONES,
     get tabsSucias(){ return [..._tabsSucias]; },
     get renderErrores(){ return [..._renderErrores]; },
+    get renderTiempos(){ return Object.assign({}, _renderTiempos); },   // v39.9
+    riesgoRespaldo: ()=>riesgoRespaldo(), rsemHacer: (m)=>rsemHacer(m),   // v39.9
     get dataVersion(){ return _dataVersion; },
     get bulkWins(){ return bulkWins; },
     get capturaToqueActiva(){ return capturaToqueActiva; },
@@ -26722,10 +27393,10 @@ function renderDetail(){
         <button class="btn btn-gold" onclick="startGPS()">Usar mi ubicación</button></div>`;
     }
   }
-  const photos=r.photos.map((ph,i)=>`<div class="ph-wrap"><img src="${ph.dataUrl}"><button class="del" onclick="delPhoto(${i})">×</button></div>`).join('');
+  const photos=r.photos.map((ph,i)=>`<div class="ph-wrap"><img src="${/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(ph.dataUrl||'')?ph.dataUrl:''}"><button class="del" onclick="delPhoto(${i})">×</button></div>`).join('');
   const hist=[...r.notes].reverse().map(n=>`
     <div class="hrow"><div class="when">${fmt(n.ts)}</div>
-      <div class="what"><span class="st-in" style="color:${STCOL[n.status]||'#233'}">${cap(n.status||'nota')}</span>${n.text?' · '+esc(n.text):''}
+      <div class="what"><span class="st-in" style="color:${STCOL[n.status]||'#233'}">${esc(cap(n.status||'nota'))}</span>${n.text?' · '+esc(n.text):''}
       ${(n.tags&&n.tags.length)?'<br><span class="tg">'+n.tags.map(esc).join(' · ')+'</span>':''}</div></div>`).join('')
     || '<div class="hint" style="padding:12px">Aún no hay visitas registradas.</div>';
 
@@ -26828,7 +27499,7 @@ function exportPdf(){
   const vis=PUNTOS.filter(p=>rec(p.id).status==='visitado').length;
   const nov=PUNTOS.filter(p=>rec(p.id).status==='novedad').length;
   const rowsH=PUNTOS.map(p=>{const r=rec(p.id);const ln=r.notes.length?r.notes[r.notes.length-1]:null;
-    return `<tr><td>${p.id}</td><td>${esc(p.nom)}</td><td>${cap(r.status)}</td><td>${r.last?fmt(r.last):'—'}</td><td>${ln?esc(ln.text||(ln.tags||[]).join(', ')):''}</td></tr>`;}).join('');
+    return `<tr><td>${p.id}</td><td>${esc(p.nom)}</td><td>${esc(cap(r.status))}</td><td>${r.last?fmt(r.last):'—'}</td><td>${ln?esc(ln.text||(ln.tags||[]).join(', ')):''}</td></tr>`;}).join('');
   const w=window.open('','_blank');
   w.document.write(`<html><head><title>Reporte Bitácora</title><style>
     body{font-family:Arial;margin:24px;color:#14284B}h1{font-size:18px}small{color:#666}
@@ -26998,7 +27669,7 @@ PVX_SCRIPT_CLOSE>
     else if(m.type==='pv:state'){
       (m.recs||[]).forEach(function(e){
         var r=(typeof rec==='function')?rec(e.id):null; if(!r) return;
-        r.status=e.status||'pendiente'; if(e.last) r.last=e.last; if(e.notes) r.notes=e.notes;
+        r.status=(['pendiente','visitado','novedad'].indexOf(e.status)>=0)?e.status:'pendiente'; if(e.last) r.last=e.last;   /* v39.9: solo estados conocidos (antes se pintaba sin escapar) */ if(e.notes) r.notes=e.notes;
         if(_origSaveRec) _origSaveRec(e.id);
       });
       try{ if(typeof PUNTOS!=='undefined') PUNTOS.forEach(function(p){ if(typeof refreshMarker==='function') refreshMarker(p.id); }); }catch(e){}
