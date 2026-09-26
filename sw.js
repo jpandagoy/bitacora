@@ -25,7 +25,7 @@
  * SI ALGO SALE MAL: borrar este archivo del repositorio basta; la app sigue funcionando igual
  * que antes (la registra de forma tolerante a fallos).
  */
-const CACHE = 'bitacora-v40.2';
+const CACHE = 'bitacora-v40.3';
 const LIBS = 'bitacora-libs';
 // Versiones fijas (las mismas que carga la app, con su SRI). Si se cambia una versión en la
 // app, hay que cambiarla aquí o se descargará igual la primera vez que se use.
