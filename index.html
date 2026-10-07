@@ -3256,7 +3256,9 @@
   //   OpenStreetMap), módulo a sangre completa sin marco, navegación móvil sin doble barra,
   //   tus puntos de compra enlazados al mapa y botón 📍 para elegir el punto al registrar.
   // v40.3 (25-sep-2026) — «🧹 Limpiar pantalla» también vacía la Auditoría del pistoleo.
-  const APP_VERSION = { num: '40.3', fecha: '2026-09-25' };
+  // v40.4 (6-oct-2026) — Pistola QR: reintento automático de consultas fallidas, fallos
+  //   visibles en la auditoría, paralelo ajustado al Worker y desglose portal/fila real.
+  const APP_VERSION = { num: '40.4', fecha: '2026-10-06' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -25091,6 +25093,10 @@
              +' · el portal dice GANADO pero no se pudo leer el importe · proxy ofrecía '
              +(e.amountProxy==null?'(nada)':fmt(e.amountProxy))+' — CONGELADO, no se registró'
              +(e.mensaje?('\n      texto: «'+e.mensaje+'»'):'');
+      if(e.phase==='fallo') return e.hora+' '+(e.dev||'?')+' ⚠ FALLO '+(e.serie||'?')+' p'+(e.pos||'?')
+             +' · '+({tiempo:'sin respuesta en 25 s', red:'error de red', portal:'el portal/Worker devolvió error', limite:'límite de consultas'}[e.motivo]||e.motivo)
+             +(e.http?(' (HTTP '+e.http+')'):'')+' · '+_ms(e.ms)+' · intento '+e.intento
+             +(e.auto?' → reintento automático':' → queda para reintentar a mano');
       if(e.phase==='sin_eco') return e.hora+' '+(e.dev||'?')+' ⚠ SIN ECO · '+(e.code||'?')
              +' · el proxy no devolvió el código: no se pudo comprobar que la respuesta fuera de ESTE boleto';
       if(e.phase==='lector'){
@@ -25246,13 +25252,21 @@
     //                           de nada; lo que toca es bajarlo y dejar de pelear.
     var _pw=num('portal_ms');
     if(_pw.length){
-      L.push('  del portal   : mediana '+_pctl(_pw,0.5)+'ms · p90 '+_pctl(_pw,0.9)+'ms  (lo que tarda la lotería · lo mide el Worker)');
+      var _fw=num('fila_worker_ms');
+      if(_fw.length){
+        L.push('  del portal   : mediana '+_pctl(_pw,0.5)+'ms · p90 '+_pctl(_pw,0.9)+'ms  (solo el viaje a la lotería · lo mide el Worker)');
+        L.push('  fila Worker  : mediana '+_pctl(_fw,0.5)+'ms · p90 '+_pctl(_fw,0.9)+'ms  (esperando sesión libre dentro del Worker · sesiones: '+(_pctl(num('pool'),0.999)||'?')+')');
+      } else {
+        // Worker v2.0: su cifra incluía la fila de su única sesión. Medido el 5-oct: la mitad
+        // del p90 era fila, no lotería. Se rotula como lo que es.
+        L.push('  portal+fila  : mediana '+_pctl(_pw,0.5)+'ms · p90 '+_pctl(_pw,0.9)+'ms  (Worker v2.0: suma la lotería y la fila de su única sesión; no se pueden separar)');
+      }
       // Espera = ida y vuelta del navegador − trabajo real del Worker. Es cola + red.
       var _esp=cre.filter(function(e){ return Number.isFinite(e.worker_ms) && Number.isFinite(e.portal_ms); })
-                  .map(function(e){ return Math.max(0, e.worker_ms - e.portal_ms - (e.abrir_ms||0)); });
+                  .map(function(e){ return Math.max(0, e.worker_ms - e.portal_ms - (e.abrir_ms||0) - (e.fila_worker_ms||0)); });
       if(_esp.length){
         var _m=_pctl(_esp,0.5), _t=_pctl(num('worker_ms'),0.5);
-        L.push('  esperando    : mediana '+_m+'ms · p90 '+_pctl(_esp,0.9)+'ms  (cola en el Worker + red)'
+        L.push('  esperando    : mediana '+_m+'ms · p90 '+_pctl(_esp,0.9)+'ms  (red'+(_fw.length?'':' + fila del Worker')+')'
                + (_t ? '  → '+Math.round(_m/_t*100)+'% del total' : ''));
       }
     } else {
@@ -25306,6 +25320,20 @@
     }
     var reint=cre.filter(function(e){return e.reintento;}).length;
     L.push('reintentos     : '+reint);
+    // v40.4 — FALLOS DE CONSULTA. Antes no se registraban: solo se veía «reintentos N».
+    var _fal=_audit.filter(function(e){ return e.phase==='fallo' && e.ts>=t0-60000 && e.ts<=t1+180000; });
+    if(_fal.length){
+      var _okC={}; cre.forEach(function(e){ _okC[String(e.serie)+'|'+String(e.pos)]=true; });
+      var _fm={}; _fal.forEach(function(e){ _fm[e.motivo]=(_fm[e.motivo]||0)+1; });
+      var _fk={}; _fal.forEach(function(e){ _fk[String(e.serie)+'|'+String(e.pos)]=e; });
+      var _fRec=Object.keys(_fk).filter(function(k){ return _okC[k]; });
+      var _fPen=Object.keys(_fk).filter(function(k){ return !_okC[k]; });
+      var _lbl={tiempo:'sin respuesta', red:'red', portal:'error del portal', limite:'límite'};
+      L.push('fallos consulta: '+_fal.length+' intento(s) fallido(s) ('+Object.keys(_fm).map(function(k){return (_lbl[k]||k)+' '+_fm[k];}).join(' · ')+')'
+             +' · entraron al reintentar '+_fRec.length+(_fPen.length?(' · ⚠ SIN RESOLVER '+_fPen.length+' (pos '+_fPen.map(function(k){return k.split('|')[1];}).join(',')+')'):''));
+    } else {
+      L.push('fallos consulta: 0');
+    }
     var cruces=_audit.filter(function(e){return e.phase==='cruce';}).length;
     L.push('cruces         : '+cruces+(cruces?'  ⚠ REVISAR':'  (ninguno)'));
     var disc=_audit.filter(function(e){return e.phase==='monto_discrepa';}).length;
@@ -25567,6 +25595,14 @@
     // v36.1 — el escáner avisa de que el proxy contestó SIN eco de código. No se descarta la
     // consulta (sería peor), pero queda en la auditoría: es el único rastro de que la defensa
     // contra respuestas cruzadas estuvo desactivada durante ese disparo.
+    // v40.4 — fallo de consulta (corte, red, error del portal). Se anota SIEMPRE; solo se
+    // avisa en pantalla cuando ya no queda reintento automático y hace falta tu toque.
+    if(m && m.type==='qr:fallo'){
+      var _c=String(m.code||'');
+      try{ auditLog({phase:'fallo', code:_c, serie:(_c.length>=12?_c.slice(0,3)+'-'+_c.slice(3,9):null), pos:(_c.length>=12?_c.slice(9,12):null),
+                     motivo:m.motivo||'?', ms:m.ms, http:m.http||0, intento:m.intento, auto:!!m.auto, fuente:m.fuente||null}); }catch(_){}
+      if(!m.auto){ try{ toast('📡 El portal no respondió para la posición '+(_c.length>=12?_c.slice(9,12):'?')+' tras '+m.intento+' intentos — tócala en la lista para reintentar.'); }catch(_){} }
+    }
     if(m && m.type==='qr:sinEco'){
       try{ auditLog({phase:'sin_eco', code:m.code}); }catch(_){}
       try{ if(!_avisoSinEco){ _avisoSinEco = true;
@@ -25993,7 +26029,11 @@
     //  los de posición inválida y TODO el flujo con "Modo pistola" desactivado.)
     try{ pistolLatido(); }catch(_){}
     try{ abContar(); }catch(_){}
-    try{ auditLog({phase:'crear', v:(typeof APP_VERSION!=='undefined'?APP_VERSION.num:null), serie:serie, pos:padPos(pos), loteNuevo:_loteNuevo, status:m.status, worker_ms:((m.tF1&&m.tF0)?(m.tF1-m.tF0):null), espera_ms:(m.espera_ms!=null?m.espera_ms:null), paralelo:(m.paralelo!=null?m.paralelo:null), reintento:!!m.reintento, scan_ms:((m.tPost&&m.tHit)?(m.tPost-m.tHit):null), handler_ms:(Date.now()-_tH0), total_ms:(m.tHit?(Date.now()-m.tHit):null), fuente:(m.fuente||'camara'), ab:(typeof abBrazo==='function'?abBrazo():null), ses:(m.diag?m.diag.sesion:null), abrir_ms:(m.diag?m.diag.abrir_ms:null), portal_ms:(m.diag?m.diag.consulta_ms:null), sync_vuelo:(function(){ var v=_vueloAlLeer.get(String(m.code)); _vueloAlLeer.delete(String(m.code)); return (v!=null)?v:(typeof _syncEnVuelo!=='undefined'?_syncEnVuelo:null); })()}); }catch(_){}
+    try{ auditLog({phase:'crear', v:(typeof APP_VERSION!=='undefined'?APP_VERSION.num:null), serie:serie, pos:padPos(pos), loteNuevo:_loteNuevo, status:m.status, worker_ms:((m.tF1&&m.tF0)?(m.tF1-m.tF0):null), espera_ms:(m.espera_ms!=null?m.espera_ms:null), paralelo:(m.paralelo!=null?m.paralelo:null), reintento:!!m.reintento, scan_ms:((m.tPost&&m.tHit)?(m.tPost-m.tHit):null), handler_ms:(Date.now()-_tH0), total_ms:(m.tHit?(Date.now()-m.tHit):null), fuente:(m.fuente||'camara'), ab:(typeof abBrazo==='function'?abBrazo():null), ses:(m.diag?m.diag.sesion:null), abrir_ms:(m.diag?m.diag.abrir_ms:null),
+      // v40.4 — Worker v2.1: `portal_ms` es solo el viaje a la lotería y `espera_ms` la fila
+      // dentro del Worker. Con el v2.0 solo existe `consulta_ms`, que mezcla ambas cosas.
+      portal_ms:(m.diag?(m.diag.portal_ms!=null?m.diag.portal_ms:m.diag.consulta_ms):null),
+      fila_worker_ms:(m.diag&&m.diag.espera_ms!=null?m.diag.espera_ms:null), pool:(m.diag&&m.diag.pool!=null?m.diag.pool:null), sync_vuelo:(function(){ var v=_vueloAlLeer.get(String(m.code)); _vueloAlLeer.delete(String(m.code)); return (v!=null)?v:(typeof _syncEnVuelo!=='undefined'?_syncEnVuelo:null); })()}); }catch(_){}
     var reg=0, prem=0, tot=0;
     for(var k=0;k<tamano;k++){ var pp=lote.posiciones[k]; if(pp&&pp.estado&&pp.estado!=='sin-info'){ reg++; if(pp.estado==='gano') prem++; } }
     // Taco 100% revelado por pistoleo → modo "completo" automático (alimenta diseño/prior; no
@@ -28533,6 +28573,18 @@ function tick(){
    Se conserva `consultar()` intacta para la ruta manual (botón Reconsultar).
    ============================================================ */
 var MAX_PARALELO = 4;
+// v40.4 — PARALELO SEGÚN EL WORKER. La tanda del 5-oct lo mostró: el Worker v2.0 usa UNA
+// sesión del portal con cerrojo, así que 4 consultas a la vez no van en paralelo, hacen
+// fila DENTRO del Worker. Con el portal a 5 s por consulta, la 4.ª pasaba 15 s esperando y
+// rozaba el corte de 25 s: 022, 023, 024, 045 hubo que reintentarlos a mano y 048, 049
+// quedaron sin consultar. Con 2 en vuelo se conserva el solape de red sin acumular fila.
+// El Worker v2.1 trae varias sesiones y lo dice (`_diag.pool`): entonces se vuelve a 4.
+var _workerPool = 0;
+function _limitePar(){ return _workerPool >= 2 ? MAX_PARALELO : 2; }
+// Reintento AUTOMÁTICO de una consulta que falló (corte de tiempo, red, error del portal).
+// Antes quedaba en gris «toca para reintentar» y, si no lo veías, el boleto no entraba.
+var REINT_AUTO_MS = [2500, 7000];   // esperas antes del 1.º y 2.º reintento automático
+var _gen = 0;                      // sube al limpiar: un reintento pendiente de otra tanda no revive
 var _cola = [], _activos = 0, _encolados = new Set(), _pend = 0, _hechos = 0, _reintentos = new Set();
 function _actualizarContador(){
   marcadorContadores();
@@ -28548,6 +28600,7 @@ function _actualizarContador(){
     _cola.length = 0;
     _encolados.clear();
     _reintentos.clear();
+    _gen++;
     _pend = 0; _hechos = 0; _activos = 0;
     try{ _actualizarContador(); }catch(_){}
   }
@@ -28598,12 +28651,12 @@ function _actualizarContador(){
   bombear();
 }
 function bombear(){
-  while(_activos < MAX_PARALELO && _cola.length){
+  while(_activos < _limitePar() && _cola.length){
     var item = _cola.shift();
     _activos++;
     _actualizarContador();
     consultarEnCola(item).finally(function(){
-      _activos--; _pend--; _hechos++;
+      _activos--; _pend--; if(!item._reenc) _hechos++;
       _actualizarContador();
       bombear();
     });
@@ -28617,8 +28670,15 @@ async function consultarEnCola(item){
     const r=await fetch(ep.replace(/\/$/,""),{method:"POST",
       headers:{"Content-Type":"text/plain;charset=UTF-8"}, body:JSON.stringify({code}),  // v39.1: sin pregunta CORS previa
       signal:_corte()});
-    const data=await r.json();
+    // v40.4 — un 502/429 del Worker o una página de error de Cloudflare no es un resultado:
+    // se reintenta solo. Antes el 502 se pintaba como respuesta y el corte ni se registraba.
+    let data=null; try{ data=await r.json(); }catch(_){ data=null; }
     var _tF1=Date.now();
+    if(data && data._diag && data._diag.pool) _workerPool = +data._diag.pool || _workerPool;
+    if(!data || data.status==='error' || data.status==='limite' || (!r.ok && !data.status)){
+      _falloConsulta(item, (data && data.status==='limite') ? 'limite' : 'portal', _tF1-_tF0, r.status);
+      return;
+    }
     // El proxy devuelve `code` como eco. Si no coincide con el que enviamos, la respuesta es
     // de otro boleto: no se pinta ni se guarda. Vale más reconsultar que cobrar un premio
     // que no existe. (El proxy viejo no manda `code`: entonces no se puede verificar y se
@@ -28651,10 +28711,28 @@ async function consultarEnCola(item){
       fuente:(item.fuente||"camara"),
       diag:(data && data._diag) ? data._diag : null}, _ORIGEN_PADRE); }catch(_){}
   }catch(e){
-    // No se pierde: queda marcado para reintentar de un toque desde el historial.
-    // Con el corte de 25 s del proxy, un atasco del portal llega aquí como error en vez de
-    // dejar la fila colgada. El boleto NO se pierde: un toque lo reencola.
-    addHistory(code,{status:'error', message:'portal no respondió — toca para reintentar'});
+    // No se pierde: se reintenta solo (v40.4) y, si aun así falla, queda marcado para
+    // reintentar de un toque desde el historial.
+    var _mot = (e && (e.name==='TimeoutError' || e.name==='AbortError')) ? 'tiempo' : 'red';
+    _falloConsulta(item, _mot, Date.now()-_tF0, 0);
+  }
+}
+// v40.4 — Un fallo deja rastro en la auditoría (antes era invisible: la tanda del 5-oct decía
+// «reintentos 4» y nada explicaba por qué 048 y 049 nunca entraron) y se reintenta solo.
+function _falloConsulta(item, motivo, ms, http){
+  var n = (item.intento||0) + 1, auto = n <= REINT_AUTO_MS.length, gen = _gen;
+  try{ parent.postMessage({type:"qr:fallo", code:item.code, motivo:motivo, ms:ms, http:http||0,
+                           intento:n, auto:auto, fuente:(item.fuente||"camara")}, _ORIGEN_PADRE); }catch(_){}
+  if(auto){
+    item._reenc = true; _pend++;                  // sigue pendiente: no cuenta como hecho
+    addHistory(item.code,{status:'encolado', message:'el portal no respondió — reintento '+n+' de '+REINT_AUTO_MS.length+'…'});
+    setTimeout(function(){
+      if(gen !== _gen){ return; }                 // se limpió la pantalla mientras tanto
+      _cola.push({code:item.code, tHit:Date.now(), reintento:true, fuente:item.fuente, intento:n});
+      _actualizarContador(); bombear();
+    }, REINT_AUTO_MS[n-1]);
+  } else {
+    addHistory(item.code,{status:'error', message:'portal no respondió — toca para reintentar'});
   }
 }
 function reintentar(code){
