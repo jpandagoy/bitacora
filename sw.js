@@ -22,10 +22,21 @@
  *     jsQR y el SDK de Firebase. Es «mejor esfuerzo»: si una falla, el resto se guarda igual.
  *   · El nombre de la caché de la página sigue la versión de la app.
  *
+ * v40.9 (11-oct-2026) — LA APP INSTALADA SE QUEDABA EN UNA VERSIÓN VIEJA.
+ *   En Chrome se veía la 40.8 y en la app instalada del teléfono seguía la 40.6. Tres arreglos:
+ *   · La página se pide con una petición NUEVA a la misma dirección (no se reutiliza la de
+ *     navegación con opciones añadidas, que algunos Chrome rechazan y entonces SIEMPRE se servía
+ *     la copia guardada).
+ *   · Si la red tarda más de la espera y se sirve la copia, la descarga NO se cancela: sigue en
+ *     segundo plano y deja la copia al día para la siguiente apertura. Antes se abortaba y la
+ *     copia vieja no se renovaba nunca.
+ *   · La página (v40.9+) pide revisar actualizaciones al volver a primer plano y se recarga
+ *     UNA vez cuando cambia el service worker que la controla.
+ *
  * SI ALGO SALE MAL: borrar este archivo del repositorio basta; la app sigue funcionando igual
  * que antes (la registra de forma tolerante a fallos).
  */
-const CACHE = 'bitacora-v40.8';
+const CACHE = 'bitacora-v40.9';
 const LIBS = 'bitacora-libs';
 // Versiones fijas (las mismas que carga la app, con su SRI). Si se cambia una versión en la
 // app, hay que cambiarla aquí o se descargará igual la primera vez que se use.
@@ -40,7 +51,7 @@ const PRECARGA = [
 ];
 const CDN = ['www.gstatic.com', 'cdnjs.cloudflare.com', 'cdn.jsdelivr.net', 'fastly.jsdelivr.net',
              'fonts.googleapis.com', 'fonts.gstatic.com'];
-const ESPERA_RED_MS = 4000;
+const ESPERA_RED_MS = 6000;
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
@@ -66,7 +77,7 @@ self.addEventListener('fetch', (e) => {
   let url;
   try { url = new URL(req.url); } catch (_) { return; }
   if (req.mode === 'navigate' && url.origin === self.location.origin) {
-    e.respondWith(paginaRedPrimero(req, url));
+    e.respondWith(paginaRedPrimero(req, url, e));
     return;
   }
   if (CDN.includes(url.hostname)) {
@@ -74,18 +85,22 @@ self.addEventListener('fetch', (e) => {
   }
 });
 
-async function paginaRedPrimero(req, url) {
+async function paginaRedPrimero(req, url, ev) {
   const c = await caches.open(CACHE);
   // Solo para pruebas: ?sinred=1 simula que no hay conexión.
   const simularSinRed = url.searchParams.get('sinred') === '1';
   if (!simularSinRed) {
+    // Petición NUEVA (misma dirección, sin caché HTTP). La descarga corre sola: si llega antes de
+    // la espera se sirve; si no, se sirve la copia y esta descarga la renueva para la próxima vez.
+    const red = fetch(new Request(url.href, {cache: 'no-store', credentials: 'same-origin'}))
+      .then((r) => { if (r && r.ok) { const cp = r.clone(); c.put('./', cp).catch(() => {}); } return r; });
+    if (ev && ev.waitUntil) { try { ev.waitUntil(red.catch(() => {})); } catch (_) {} }
     try {
-      const ctl = new AbortController();
-      const t = setTimeout(() => ctl.abort(), ESPERA_RED_MS);
-      const r = await fetch(req, {signal: ctl.signal, cache: 'no-store'});
-      clearTimeout(t);
-      if (r && r.ok) c.put('./', r.clone());
-      return r;
+      const r = await Promise.race([
+        red,
+        new Promise((_, no) => setTimeout(() => no(new Error('lenta')), ESPERA_RED_MS)),
+      ]);
+      if (r && r.ok) return r;
     } catch (_) { /* sin red o demasiado lenta: se sirve la copia */ }
   }
   const copia = (await c.match('./')) || (await c.match(req, {ignoreSearch: true}));
