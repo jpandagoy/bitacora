@@ -1241,6 +1241,141 @@
     border:1px solid var(--silver); background:transparent; color:var(--ink); }
   .la-peek .acc .pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
   .la-peek .acc button:disabled{ opacity:.5; cursor:default; }
+
+  /* ═══ v41.1 · MIS TACOS — PROPUESTA A (tal como se aprobó) ═══ */
+  #archivoSection.la-on #loteSortBar, #archivoSection.la-on #loteTotales, #archivoSection.la-on #loteList{ display:none !important; }
+  #archivoSection.la-on #loteFiltrosCard{ display:none; }
+  #archivoSection.la-on.la-filtros #loteFiltrosCard{ display:block; }
+  .lA{ display:flex; flex-direction:column; gap:16px; --la-cur:#7C6CF0; --la-amb:#F5B33C; --la-neg:#F87171; }
+  .lA .cab{ display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; justify-content:space-between; }
+  .lA .cab .la-sub{ color:var(--silver-dark); font-size:13px; }
+  .lA .la-btn{ font:inherit; min-height:44px; padding:0 16px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer;
+    border:1px solid var(--silver); background:var(--white); color:var(--ink); }
+  .lA .la-btn.pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .lA .kpis{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; }
+  .lA .kpi{ font:inherit; text-align:left; padding:12px 14px; border-radius:12px; border:1px solid var(--silver); background:var(--white);
+    color:var(--ink); display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .lA button.kpi{ cursor:pointer; } .lA .kpi.on{ border-color:var(--stamp); }
+  .lA .kpi .l{ font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--silver-dark); font-weight:700; }
+  .lA .kpi .v{ font-family:'Courier New',monospace; font-variant-numeric:tabular-nums; font-size:22px; font-weight:800; }
+  .lA .kpi .s{ font-size:12px; color:var(--silver-dark); }
+  .lA .aband{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:10px 14px; border-radius:12px;
+    background:color-mix(in srgb, var(--la-amb) 14%, var(--white)); border:1px solid color-mix(in srgb, var(--la-amb) 45%, transparent); font-size:13px; }
+  .lA .aband b{ color:var(--la-amb); }
+  .lA .aband button{ font:inherit; font-size:13px; font-weight:700; cursor:pointer; border-radius:8px; }
+  .lA .vistas{ display:flex; gap:4px; flex-wrap:wrap; border-bottom:1px solid var(--silver); }
+  .lA .vista{ font:inherit; height:40px; padding:0 14px; border:0; border-bottom:2px solid transparent; background:transparent; color:var(--silver-dark);
+    font-weight:700; font-size:14px; display:flex; gap:8px; align-items:center; cursor:pointer; }
+  .lA .vista.on{ color:var(--ink); border-bottom-color:var(--stamp); }
+  .lA .vista .n{ font-family:'Courier New',monospace; font-size:12px; padding:1px 7px; border-radius:999px; background:var(--paper-dark); color:var(--ink-soft); }
+  .lA .barra{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .lA .busca{ display:flex; align-items:center; gap:8px; height:40px; padding:0 12px; border-radius:10px; border:1px solid var(--silver);
+    background:var(--white); flex:1 1 220px; max-width:320px; }
+  .lA .busca input{ flex:1; min-width:0; border:0 !important; background:transparent !important; color:var(--ink); font-family:'Courier New',monospace;
+    font-size:14px; outline:none; box-shadow:none !important; padding:0 !important; min-height:0 !important; }
+  .lA .chip{ font:inherit; height:36px; padding:0 12px; border-radius:999px; border:1px solid var(--silver); background:var(--white); color:var(--ink-soft);
+    font-size:13px; font-weight:700; cursor:pointer; }
+  .lA .chip.on{ border-color:var(--stamp); background:color-mix(in srgb, var(--stamp) 16%, var(--white)); color:var(--ink); }
+  .lA .orden{ margin-left:auto; display:flex; gap:8px; align-items:center; }
+  .lA .orden select{ height:36px; border-radius:8px; border:1px solid var(--silver); background:var(--white); color:var(--ink); padding:0 8px; font-size:13px; min-height:36px; }
+  .lA .orden .dir{ font:inherit; height:36px; width:36px; border-radius:8px; border:1px solid var(--silver); background:var(--white); color:var(--ink); cursor:pointer; font-size:15px; }
+  .lA .cuerpo{ display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start; }
+  .lA .tabla{ flex:999 1 520px; min-width:0; border:1px solid var(--silver); border-radius:14px; background:var(--white); overflow:hidden; }
+  .lA .scroll{ overflow-x:auto; }
+  .lA .la-gr{ min-width:1000px; }
+  .lA .fila{ display:grid; grid-template-columns:44px minmax(170px,1.4fr) 210px 70px 86px 86px 120px 136px 96px 84px; gap:0 10px; align-items:center; padding:8px 12px; }
+  .lA .fila.th{ padding:10px 12px; border-bottom:1px solid var(--silver); font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--silver-dark); font-weight:700; }
+  .lA .fila.tr{ border-bottom:1px solid color-mix(in srgb, var(--silver) 60%, transparent); cursor:pointer; box-shadow:inset 3px 0 0 var(--la-edge, transparent); }
+  .lA .fila.tr:hover{ background:var(--paper-dark); }
+  .lA .fila.tr.sel{ background:color-mix(in srgb, var(--stamp) 9%, var(--white)); }
+  .lA .fila.tr.open{ background:color-mix(in srgb, var(--la-cur) 16%, var(--white)); }
+  .lA .fila.tr.e-comp{ --la-edge:var(--ok); } .lA .fila.tr.e-cur{ --la-edge:var(--la-cur); } .lA .fila.tr.e-aban{ --la-edge:var(--la-amb); }
+  .lA .ck{ font:inherit; width:22px; height:22px; border-radius:6px; border:1.5px solid var(--silver-dark); background:transparent; color:#fff;
+    font-size:13px; font-weight:800; padding:0; line-height:1; cursor:pointer; display:grid; place-items:center; }
+  .lA .ck.on{ background:var(--stamp); border-color:var(--stamp); }
+  .lA .ck.mix{ background:color-mix(in srgb, var(--stamp) 45%, transparent); border-color:var(--stamp); }
+  .lA .taco{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .lA .taco .s{ font-family:'Courier New',monospace; font-weight:800; font-size:15px; letter-spacing:.02em; }
+  .lA .taco .m{ font-size:12px; color:var(--silver-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .lA .tira{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .lA .tira .t{ display:grid; gap:1px; height:14px; }
+  .lA .tira .t i{ display:block; border-radius:1.5px; min-width:0; }
+  .lA .tira .x{ font-family:'Courier New',monospace; font-size:11px; color:var(--silver-dark); }
+  .lA i.g, .lA .pp.g{ background:var(--ok); }
+  .lA i.c, .lA .pp.c{ background:color-mix(in srgb, var(--ok) 40%, var(--white)); }
+  .lA i.n, .lA .pp.n{ background:color-mix(in srgb, var(--silver) 75%, var(--white)); }
+  .lA i.l{ background:color-mix(in srgb, var(--silver) 25%, var(--white)); }
+  .lA .num{ text-align:right; font-family:'Courier New',monospace; font-variant-numeric:tabular-nums; }
+  .lA .num.b{ font-weight:800; color:var(--ink); } .lA .num.d{ color:var(--ink-soft); }
+  .lA .roi{ display:flex; flex-direction:column; gap:4px; }
+  .lA .roi .v{ font-family:'Courier New',monospace; font-weight:800; }
+  .lA .roi .v.pos{ color:var(--ok); } .lA .roi .v.neg{ color:var(--la-neg); }
+  .lA .roi .b{ height:4px; background:var(--paper-dark); border-radius:2px; position:relative; }
+  .lA .roi .b span{ position:absolute; top:0; bottom:0; border-radius:2px; }
+  .lA .roi .b .pos{ background:var(--ok); } .lA .roi .b .neg{ background:var(--la-neg); }
+  .lA .roi .b em{ position:absolute; top:-2px; bottom:-2px; left:50%; width:1px; background:var(--silver-dark); }
+  .lA .pil{ justify-self:start; font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+  .lA .pil.cob{ background:color-mix(in srgb, var(--ok) 18%, transparent); color:var(--ok); }
+  .lA .pil.par{ background:color-mix(in srgb, var(--la-amb) 20%, transparent); color:var(--la-amb); }
+  .lA .pil.pen{ background:color-mix(in srgb, var(--stamp) 18%, transparent); color:var(--stamp); }
+  .lA .pil.sin{ background:var(--paper-dark); color:var(--silver-dark); }
+  .lA .la-act{ font-size:12px; color:var(--silver-dark); }
+  .lA .acc{ display:flex; gap:4px; justify-content:flex-end; }
+  .lA .acc button{ font:inherit; width:34px; height:34px; border-radius:8px; border:1px solid var(--silver); background:transparent; color:var(--ink-soft);
+    padding:0; display:grid; place-items:center; cursor:pointer; }
+  .lA .vacio{ padding:32px; text-align:center; color:var(--silver-dark); }
+  .lA .pie{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; padding:10px 14px;
+    border-top:1px solid var(--silver); font-size:13px; color:var(--silver-dark); }
+  .lA .pie .pag{ display:flex; gap:6px; align-items:center; }
+  .lA .pie button{ font:inherit; height:34px; padding:0 12px; border-radius:8px; border:1px solid var(--silver); background:var(--white); color:var(--ink); cursor:pointer; }
+  .lA .pie button:disabled{ opacity:.45; cursor:default; }
+  .lA .edit{ border-bottom:1px solid var(--silver); }
+  .lA aside.det{ flex:1 1 360px; max-width:440px; min-width:0; border:1px solid var(--silver); border-radius:14px; background:var(--white);
+    padding:18px; display:flex; flex-direction:column; gap:14px; box-sizing:border-box; }
+  .lA .det .h{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+  .lA .det .ser{ font-family:'Courier New',monospace; font-weight:800; font-size:24px; }
+  .lA .det .sb{ font-size:13px; color:var(--silver-dark); }
+  .lA .det .x{ font:inherit; flex:none; width:36px; height:36px; border-radius:8px; border:1px solid var(--silver); background:transparent; color:var(--ink); cursor:pointer; }
+  .lA .det .tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .lA .det .tags span{ font-size:12px; padding:3px 9px; border-radius:999px; background:var(--paper-dark); color:var(--ink-soft); }
+  .lA .det .stats{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+  .lA .det .la-st{ padding:10px 12px; border-radius:10px; background:var(--paper-dark); display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .lA .det .la-st .l{ font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--silver-dark); }
+  .lA .det .la-st .v{ font-family:'Courier New',monospace; font-size:17px; font-weight:800; overflow-wrap:anywhere; }
+  .lA .det .la-st .v.pos{ color:var(--ok); } .lA .det .la-st .v.neg{ color:var(--la-neg); }
+  .lA .det .rej{ display:grid; grid-template-columns:repeat(10, minmax(0,1fr)); gap:3px; }
+  .lA .det .rej button{ font:inherit; height:34px; padding:0; border-radius:6px; border:1px solid transparent; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; line-height:1.05; cursor:pointer; min-width:0; color:var(--ink); }
+  .lA .det .rej .p{ font-family:'Courier New',monospace; font-size:9px; opacity:.8; }
+  .lA .det .rej .m{ font-family:'Courier New',monospace; font-size:10px; font-weight:800; }
+  .lA .det .rej .g{ background:var(--ok); color:#06261B; }
+  .lA .det .rej .c{ background:color-mix(in srgb, var(--ok) 40%, var(--white)); }
+  .lA .det .rej .n{ background:var(--paper-dark); color:var(--silver-dark); }
+  .lA .det .rej .l{ background:transparent; border-color:var(--silver); color:var(--silver-dark); }
+  .lA .det .rej .sel{ outline:2px solid var(--stamp); outline-offset:1px; }
+  .lA .det .ley{ display:flex; gap:12px; flex-wrap:wrap; font-size:11px; color:var(--silver-dark); }
+  .lA .det .ley i{ display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:4px; vertical-align:-1px; }
+  .lA .det .bol{ padding:10px 12px; border-radius:10px; background:var(--paper-dark); font-size:13px; display:flex; flex-direction:column; gap:3px; }
+  .lA .det .fe{ display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--silver-dark); }
+  .lA .det .bt{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+  .lA .det .bt button{ font:inherit; min-height:44px; border-radius:10px; font-weight:700; cursor:pointer; border:1px solid var(--silver); background:transparent; color:var(--ink); }
+  .lA .det .bt .pri{ border:0; background:var(--stamp); color:#fff; }
+  .lA .det .bt .cob{ border-color:var(--ok); color:var(--ok); }
+  .lA .det .bt button:disabled{ opacity:.5; cursor:default; }
+  .lA .fondo{ display:none; }
+  .lA .selbar{ position:sticky; bottom:16px; margin:0 auto; max-width:900px; width:100%; box-sizing:border-box; display:flex; flex-wrap:wrap; gap:10px;
+    align-items:center; padding:10px 14px; border-radius:14px; background:var(--ink); color:var(--paper); box-shadow:0 12px 30px rgba(0,0,0,.45); z-index:40; }
+  .lA .selbar .t{ font-weight:800; } .lA .selbar .s{ opacity:.75; font-size:13px; }
+  .lA .selbar .bs{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+  .lA .selbar button{ font:inherit; min-height:38px; padding:0 14px; border-radius:9px; font-weight:700; cursor:pointer; border:1px solid rgba(255,255,255,.35); background:transparent; color:inherit; }
+  .lA .selbar .pri{ border:0; background:var(--stamp); color:#fff; }
+  @media (max-width:900px){
+    /* En el teléfono el panel no cabe al lado: sube desde abajo, encima de la barra inferior. */
+    .lA .fondo{ display:block; position:fixed; inset:0; background:rgba(10,6,20,.45); z-index:2147483000; }
+    .lA aside.det{ position:fixed; left:0; right:0; bottom:0; max-width:none; max-height:88vh; overflow-y:auto; border-radius:18px 18px 0 0;
+      z-index:2147483001; padding-bottom:calc(18px + env(safe-area-inset-bottom, 0px)); }
+    .lA .selbar{ bottom:calc(70px + env(safe-area-inset-bottom, 0px)); }
+  }
 </style>
 </head>
 <body>
@@ -1790,7 +1925,7 @@
            desplegable cerrado. MEDIDO: los 11 desplegados ocupaban 3.047 px, más de la mitad de
            la pestaña, y empujaban la lista fuera de pantalla. Los `select` siguen todos en el
            DOM y `renderLoteList` los lee igual, así que ni un resultado cambia. -->
-      <div class="card" style="margin-bottom:14px;">
+      <div class="card" id="loteFiltrosCard" style="margin-bottom:14px;">
         <div class="grid">
           <div class="field wide">
             <label for="loteSearch">🔍 Buscar por serie</label>
@@ -1802,6 +1937,8 @@
               <option value="">Todos</option>
               <option value="completo">Solo completos (100% revelado)</option>
               <option value="curso">Solo en curso</option>
+              <option value="activo">En curso (sin abandonados)</option>
+              <option value="cobrar">Con premios por cobrar</option>
               <option value="abandonado" title="En curso y sin actividad hace más de 14 días">Abandonados (+14 días)</option>
             </select>
           </div>
@@ -3425,7 +3562,12 @@
   // v41.0 (11-oct-2026) — Mis tacos, propuesta A: resumen de dinero y vistas con su conteo, la
   //   «tira» de 50 posiciones en lugar de la barra de avance, aviso de abandonados en una línea y
   //   panel de detalle al tocar un taco. Solo presentación: no cambia ningún dato.
-  const APP_VERSION = { num: '41.0', fecha: '2026-10-11' };
+  // v41.1 (11-oct-2026) — Mis tacos = la propuesta A TAL CUAL se aprobó (la 41.0 solo había
+  //   injertado piezas en la fila vieja): cabecera con 6 cifras, aviso en una línea, vistas,
+  //   barra de búsqueda + fichas de filtro + orden, tabla de 10 columnas con tira, barra de ROI y
+  //   cobro en píldora, panel lateral de detalle y barra de selección. Además: selección masiva
+  //   (casilla de cabecera = todos los filtrados; Mayús+clic = rango).
+  const APP_VERSION = { num: '41.1', fecha: '2026-10-11' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -11685,184 +11827,353 @@
       ps.map(p=>'<i class="' + p.k + '"></i>').join('') + '</span>';
   }
 
-  // ---- Resumen de dinero + vistas ----
-  function renderLoteResumenA(lotes){
-    const el = document.getElementById('loteResumenA'); if(!el) return;
-    if(!lotes || !lotes.length){ el.innerHTML = ''; return; }
-    const idx = laIndice();
-    let gasto = 0, premios = 0, pend = 0, nCurso = 0, nComp = 0, nAband = 0, nCobrar = 0;
-    lotes.forEach(l=>{
-      const c = loteCounts(l);
-      if(c.revealed === c.total) nComp++; else { nCurso++; if(diasSinTocar(l) >= DIAS_ABANDONO) nAband++; }
-      const e = idx.get(String(l.id));
-      const recs = e ? e.recs : [];
-      // Mismas reglas que loteRoiInfo / loteCobroEstado: gasto por modo del taco, premios NETOS.
-      if(recs.length){ gasto += gastoDeLote(l); premios += sumaPremiosNetos(recs); }
-      let p = 0; recs.forEach(r=>{ if((Number(r.premio)||0)>0 && !r.cobrado) p += premioNeto(r.premio||0); });
-      if(p > 0){ pend += p; nCobrar++; }
-    });
-    const ab = resumenAbandonados();
-    const roi = gasto>0 ? (premios-gasto)/gasto*100 : null;
-    const f = getLoteFilters();
-    const vActiva = f.cobro==='con-premios' && !f.estado ? 'cobrar'
-      : (!f.cobro ? ({'':'todos', curso:'curso', completo:'completo', abandonado:'abandonado'}[f.estado] || '') : '');
-    const vista = (k, label, n)=>`<button type="button" class="la-vista${vActiva===k?' on':''}" data-la-vista="${k}" aria-pressed="${vActiva===k}">${label}<span class="n">${n.toLocaleString('en-US')}</span></button>`;
-    const kpi = (lbl, val, sub, cls, go)=> go
-      ? `<button type="button" class="la-kpi" data-la-vista="${go}"><span class="l">${lbl}</span><span class="v ${cls||''}">${val}</span><span class="s">${sub}</span></button>`
-      : `<div class="la-kpi"><span class="l">${lbl}</span><span class="v ${cls||''}">${val}</span><span class="s">${sub}</span></div>`;
-    el.innerHTML = `<div class="la-res">
-      <div class="la-kpis">
-        ${kpi('Gasto', fmt(gasto), 'lo realmente pagado · ' + lotes.length + ' tacos')}
-        ${kpi('Ganado', fmt(premios), roi===null ? '—' : 'ROI ' + (roi>=0?'+':'') + roi.toFixed(1) + '%', roi===null?'':(roi>=0?'pos':'neg'))}
-        ${kpi('Por cobrar', fmt(pend), nCobrar + ' taco(s) con premios pendientes', pend>0?'pend':'', 'cobrar')}
-        ${kpi('Abandonados', String(ab.n), ab.n ? (ab.sinRaspar + ' boletos ≈ ' + fmt(ab.capital) + ' sin raspar') : 'ninguno', '', 'abandonado')}
-      </div>
-      <div class="la-vistas" role="group" aria-label="Vistas de tacos">
-        ${vista('todos','Todos', lotes.length)}
-        ${vista('curso','En curso', nCurso)}
-        ${vista('completo','Completos', nComp)}
-        ${vista('abandonado','Abandonados', nAband)}
-        ${vista('cobrar','Por cobrar', nCobrar)}
-      </div>
-    </div>`;
-    el.querySelectorAll('[data-la-vista]').forEach(b=>{
-      b.addEventListener('click', ()=>{
-        const k = b.dataset.laVista;
-        const sE = document.getElementById('loteFiltroEstado'), sC = document.getElementById('loteFiltroCobro');
-        if(!sE || !sC) return;
-        sE.value = (k==='todos' || k==='cobrar') ? '' : k;
-        sC.value = (k==='cobrar') ? 'con-premios' : '';
-        lotePagina = 0;
-        // Se dispara el cambio del propio select: así corre exactamente el mismo camino que si
-        // se eligiera a mano (repintado, recuerdo de filtros, resumen de criterios).
-        sE.dispatchEvent(new Event('change', {bubbles:true}));
-        sC.dispatchEvent(new Event('change', {bubbles:true}));
-      });
-    });
-    if(_laPeekId) laPintarPeek();   // si el panel está abierto, que siga al día
-  }
 
-  // ---- Panel de detalle del taco ----
-  let _laPeekId = null, _laPeekPos = null;
-  function abrirLotePeek(id){
-    if(id==null) return;
-    _laPeekId = String(id); _laPeekPos = null;
-    laPintarPeek();
+  // Premio pendiente (neto) de un taco, desde el índice: lo usa el filtro «Por cobrar».
+  function laPendienteLote(l){
+    const e = laIndice().get(String(l.id)); if(!e) return 0;
+    let p = 0; e.recs.forEach(r=>{ if((Number(r.premio)||0)>0 && !r.cobrado) p += premioNeto(r.premio||0); });
+    return p;
   }
-  function cerrarLotePeek(){
-    _laPeekId = null; _laPeekPos = null;
-    document.getElementById('laPeek')?.remove();
-    document.getElementById('laPeekFondo')?.remove();
-    document.removeEventListener('keydown', _laPeekEsc, true);
+  // Cifras del taco con las MISMAS reglas de siempre: gasto por modo del taco (gastoDeLote),
+  // premios NETOS (premioNeto), pendiente neto. Sale del índice, no recorre todos los boletos.
+  function laCifras(l){
+    const c = loteCounts(l);
+    const e = laIndice().get(String(l.id));
+    const recs = e ? e.recs : [];
+    const gasto = recs.length ? gastoDeLote(l) : 0;
+    let premios = 0, pend = 0, gan = 0, cob = 0;
+    recs.forEach(r=>{ const v = Number(r.premio)||0; premios += premioNeto(v); if(v>0){ gan++; if(r.cobrado) cob++; else pend += premioNeto(v); } });
+    const completo = c.revealed === c.total;
+    const dias = diasSinTocar(l);
+    return {c, recs, gasto, premios, pend, gan, cob, completo, dias, aband: !completo && dias >= DIAS_ABANDONO,
+            roi: (recs.length && gasto>0) ? (premios-gasto)/gasto*100 : null};
   }
-  function _laPeekEsc(e){ if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); cerrarLotePeek(); } }
-  // Lo que hacía el clic en la fila hasta v40.9: el taco pasa a ser el activo y se baja a él.
-  function abrirLoteRejilla(id){
-    activeLoteId = (data.lotes.find(l=>String(l.id)===String(id))||{}).id;
-    cerrarLotePeek();
-    renderLoteList(); renderLoteDetail();
-    if(activeLoteId) setTimeout(()=>{ document.getElementById('loteDetailSection')?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+  function laRel(ts){
+    const d = (Date.now() - ts)/60000;
+    if(!(d >= 0)) return '—';
+    if(d < 60) return 'hace ' + Math.max(1, Math.round(d)) + ' min';
+    if(d < 1440) return 'hace ' + Math.round(d/60) + ' h';
+    const dd = Math.round(d/1440); return dd === 1 ? 'ayer' : 'hace ' + dd + ' días';
   }
-  function laPintarPeek(){
-    const l = (data.lotes||[]).find(x=>String(x.id)===String(_laPeekId));
-    if(!l){ cerrarLotePeek(); return; }
-    const c = loteCounts(l), ri = loteRoiInfo(l), cb = loteCobroEstado(l);
+  const LA_ICO_EDIT = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg>';
+  const LA_ICO_DUP  = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg>';
+  const LA_ICO_LUPA = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>';
+  let _laPeekId = null, _laPeekPos = null, _laUltSel = null, _laMasFiltros = false;
+  const LA_POR_PAGINA = 30;
+
+  function laDetalleHTML(l){
+    const k = laCifras(l), c = k.c;
     const ps = laPosiciones(l);
     const desc = getDescuentoLote(l), cu = costoUnitarioLote(l);
-    const abandonado = c.revealed < c.total && diasSinTocar(l) >= DIAS_ABANDONO;
-    const estado = c.revealed === c.total ? 'Completo' : (abandonado ? 'Sin tocar ' + diasSinTocar(l) + ' días' : 'En curso');
-    const tags = [
-      'Serie ' + (l.paridad||'—'), 'Tirada ' + getTiradaSerie(l.serie),
-      l.modo === 'completo' ? 'Taco completo' : 'Boletos sueltos', c.total + ' boletos',
+    const tags = [ 'Serie ' + (l.paridad||'—'), l.modo === 'completo' ? 'Taco completo' : 'Boletos sueltos', c.total + ' boletos',
       desc>0 ? ('Descuento ' + desc + '% · ' + fmt(cu) + ' c/u') : ('Sin descuento · ' + fmt(cu) + ' c/u'),
-      l.color ? 'Color ' + colorLabel(l.color) : null, l.inicioNum ? 'Inicia en ' + l.inicioNum : null, estado
-    ].filter(Boolean);
-    const roiTxt = ri.n>0 && ri.roi!=null ? ((ri.roi>=0?'+':'') + ri.roi.toFixed(1) + '%') : '—';
-    const cobroTxt = cb.estado==='sin-premios' ? 'Sin premios' : cb.estado==='total' ? 'Todo cobrado'
-      : cb.estado==='parcial' ? (cb.cobrados + '/' + cb.ganadores + ' cobrados · faltan ' + fmt(cb.pendiente)) : ('Por cobrar ' + fmt(cb.pendiente));
+      'Tirada ' + getTiradaSerie(l.serie), l.color ? 'Color ' + colorLabel(l.color) : null, l.inicioNum ? 'Inicia en ' + l.inicioNum : null,
+      k.completo ? 'Completo' : (k.aband ? 'Sin tocar ' + k.dias + ' días' : 'En curso') ].filter(Boolean);
+    const roiTxt = k.roi==null ? '—' : (k.roi>=0?'+':'') + k.roi.toFixed(1) + '%';
     const celda = (p, i)=>{
-      const m = p.k==='g'||p.k==='c' ? ('$' + String(Number(p.r && p.r.premio || 0)).replace(/\.0+$/,'')) : (p.k==='n' ? '·' : '');
+      const m = (p.k==='g'||p.k==='c') ? ('$' + String(Number(p.r && p.r.premio || 0)).replace(/\.0+$/,'')) : (p.k==='n' ? '·' : '');
       const aria = 'Posición ' + padPos(i) + (p.k==='g' ? ', premio por cobrar' : p.k==='c' ? ', premio cobrado' : p.k==='n' ? ', sin premio' : ', sin revelar');
       return '<button type="button" class="' + p.k + (_laPeekPos===i?' sel':'') + '" data-la-pos="' + i + '" aria-label="' + aria + '"><span class="p">' + padPos(i) + '</span><span class="m">' + m + '</span></button>';
     };
     let bol = '';
     if(_laPeekPos!=null && ps[_laPeekPos]){
       const p = ps[_laPeekPos], r = p.r, pos = padPos(_laPeekPos);
-      bol = p.k==='l' ? `<b>Posición ${pos}</b> · sin revelar. Regístrala desde «Abrir rejilla».`
-        : `<b>Posición ${pos}</b> · ${p.k==='n' ? 'sin premio' : 'premio ' + fmt(Number(r&&r.premio)||0) + (p.k==='c' ? ' · cobrado' + (r&&r.fechaCobro ? ' el ' + escapeHtml(String(r.fechaCobro).slice(0,10)) : '') : ' · por cobrar')}`
-          + (r ? ` · pagado ${fmt(Number(r.costo)||0)}${r.fecha ? ' · ' + escapeHtml(String(r.fecha).slice(0,10)) : ''}${r.punto ? ' · ' + escapeHtml(r.punto) : ''}` : '');
+      if(p.k==='l') bol = '<b>Posición ' + pos + ' · sin revelar</b><span style="color:var(--silver-dark);">Regístrala desde «Abrir rejilla».</span>';
+      else if(p.k==='n') bol = '<b>Posición ' + pos + ' · sin premio</b><span style="color:var(--silver-dark);">Pagado ' + fmt(Number(r&&r.costo)||0) + (r&&r.fecha ? ' · ' + escapeHtml(String(r.fecha).slice(0,10)) : '') + '</span>';
+      else bol = '<b>Posición ' + pos + ' · premio ' + fmt(Number(r&&r.premio)||0) + '</b><span style="color:var(--silver-dark);">' + (p.k==='c' ? 'Cobrado' + (r&&r.fechaCobro ? ' el ' + escapeHtml(String(r.fechaCobro).slice(0,10)) : '') : 'Pendiente de cobro') + (r ? ' · pagado ' + fmt(Number(r.costo)||0) : '') + '</span>';
     }
-    const tCre = loteFechaVal(l), tAct = loteUltimaActividad(l);
-    const html = `
-      <div class="cab">
-        <div style="min-width:0;">
-          <div class="ser">${escapeHtml(l.serie)}</div>
-          <div class="sub">${escapeHtml(juegoDeLoteTxt(l))}${l.punto ? ' · ' + escapeHtml(l.punto) : ' · sin punto de venta'}${l.ciudad ? ', ' + escapeHtml(l.ciudad) : ''}</div>
-        </div>
-        <button type="button" class="x" id="laPeekCerrar" aria-label="Cerrar el detalle">✕</button>
-      </div>
-      <div class="tags">${tags.map(t=>'<span>'+escapeHtml(t)+'</span>').join('')}</div>
-      <div class="stats">
-        <div class="st"><span class="l">Revelados</span><span class="v">${c.revealed}/${c.total}</span></div>
-        <div class="st"><span class="l">Premios</span><span class="v">${c.paid}</span></div>
-        <div class="st"><span class="l">Gasto → ganado</span><span class="v">${ri.n>0 ? fmt(ri.gasto) + ' → ' + fmt(ri.premios) : '—'}</span></div>
-        <div class="st"><span class="l">ROI</span><span class="v ${ri.n>0 && ri.roi!=null ? (ri.roi>=0?'pos':'neg') : ''}">${roiTxt}</span></div>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:6px;">
-        <div style="display:flex; justify-content:space-between; gap:8px; font-size:12px; color:var(--silver-dark);"><span>Posiciones · toca una para ver su boleto</span><span>${escapeHtml(cobroTxt)}</span></div>
-        <div class="rej">${ps.map(celda).join('')}</div>
-        <div class="ley">
-          <span><i style="background:var(--ok);"></i>Premio por cobrar</span>
-          <span><i style="background:color-mix(in srgb, var(--ok) 42%, var(--paper));"></i>Premio cobrado</span>
-          <span><i style="background:var(--paper-dark); border:1px solid var(--silver);"></i>Sin premio</span>
-          <span><i style="border:1px solid var(--silver);"></i>Sin revelar</span>
-        </div>
-      </div>
-      ${bol ? `<div class="bol">${bol}</div>` : ''}
-      <div class="fechas">
-        <span>Creado ${escapeHtml(fechaHoraLarga(tCre))}${loteFechaEsExacta(l) ? '' : ' (aproximado)'}</span>
-        <span>Última actividad ${escapeHtml(fechaHoraLarga(tAct))}</span>
-      </div>
-      <div class="acc">
-        <button type="button" class="pri" id="laPeekRejilla">Abrir rejilla</button>
-        <button type="button" id="laPeekCobrar" ${cb.pendiente>0 ? '' : 'disabled'}>${cb.pendiente>0 ? 'Cobrar ' + fmt(cb.pendiente) : 'Nada por cobrar'}</button>
-        <button type="button" id="laPeekEditar">Editar</button>
-        <button type="button" id="laPeekClonar">Otro taco igual</button>
-      </div>`;
-    let fondo = document.getElementById('laPeekFondo'), pan = document.getElementById('laPeek');
-    if(!pan){
-      fondo = document.createElement('div'); fondo.id = 'laPeekFondo'; fondo.className = 'la-peek-fondo';
-      pan = document.createElement('aside'); pan.id = 'laPeek'; pan.className = 'la-peek';
-      pan.setAttribute('role','dialog'); pan.setAttribute('aria-label','Detalle del taco');
-      document.body.appendChild(fondo); document.body.appendChild(pan);
-      fondo.addEventListener('click', cerrarLotePeek);
-      document.addEventListener('keydown', _laPeekEsc, true);
-      setTimeout(()=>{ try{ document.getElementById('laPeekCerrar')?.focus({preventScroll:true}); }catch(_){} }, 30);
-    }
-    pan.innerHTML = html;
-    pan.querySelector('#laPeekCerrar').onclick = cerrarLotePeek;
-    pan.querySelector('#laPeekRejilla').onclick = ()=> abrirLoteRejilla(l.id);
-    pan.querySelector('#laPeekEditar').onclick = ()=>{
-      // Lo mismo que ✎: despliega la edición de la fila (con sus mismos guardados).
-      // En la vista tabla no hay fila desplegable: se pasa a fichas (misma página, mismo orden).
-      cerrarLotePeek(); loteEdit = l.id;
-      if(loteVista === 'tabla'){ setLoteVista('fichas'); loteEdit = l.id; renderLoteList(); toast('Edición abierta en la vista de fichas'); }
-      else renderLoteList();
-      const inp = document.getElementById('leDesc'); if(inp){ inp.focus(); inp.select(); }
-      document.querySelector('.lote-edicion')?.scrollIntoView({behavior:'smooth', block:'center'});
+    const tAct = loteUltimaActividad(l);
+    return '<div class="h"><div style="min-width:0;"><div class="ser">' + escapeHtml(l.serie) + '</div>'
+      + '<div class="sb">' + escapeHtml((getJuego(l.juegoId)||{}).nombre || '') + ' · ' + escapeHtml(l.punto || 'sin punto de venta') + (l.ciudad ? ', ' + escapeHtml(l.ciudad) : '') + '</div></div>'
+      + '<button type="button" class="x" data-la-cerrar="1" aria-label="Cerrar detalle">✕</button></div>'
+      + '<div class="tags">' + tags.map(t=>'<span>' + escapeHtml(t) + '</span>').join('') + '</div>'
+      + '<div class="stats">'
+      + '<div class="la-st"><span class="l">Revelados</span><span class="v">' + c.revealed + '/' + c.total + '</span></div>'
+      + '<div class="la-st"><span class="l">Premios</span><span class="v">' + c.paid + '</span></div>'
+      + '<div class="la-st"><span class="l">Gasto → ganado</span><span class="v">' + fmt(k.gasto) + ' → ' + fmt(k.premios) + '</span></div>'
+      + '<div class="la-st"><span class="l">ROI</span><span class="v ' + (k.roi==null?'':(k.roi>=0?'pos':'neg')) + '">' + roiTxt + '</span></div></div>'
+      + '<div style="display:flex; flex-direction:column; gap:6px;">'
+      + '<div style="display:flex; justify-content:space-between; gap:8px; font-size:12px; color:var(--silver-dark);"><span>Posiciones · toca una para ver su boleto</span><span>' + c.paid + ' premios en ' + c.revealed + ' revelados</span></div>'
+      + '<div class="rej">' + ps.map(celda).join('') + '</div>'
+      + '<div class="ley"><span><i class="pp g"></i>Premio por cobrar</span><span><i class="pp c"></i>Premio cobrado</span><span><i class="pp n"></i>Sin premio</span><span><i style="border:1px solid var(--silver);"></i>Sin revelar</span></div></div>'
+      + (bol ? '<div class="bol">' + bol + '</div>' : '')
+      + '<div class="fe"><span>Creado ' + escapeHtml(fechaHoraLarga(loteFechaVal(l))) + (loteFechaEsExacta(l) ? '' : ' (aproximado)') + '</span>'
+      + '<span>Última actividad ' + escapeHtml(fechaHoraLarga(tAct)) + ' (' + laRel(tAct) + ')</span></div>'
+      + '<div class="bt"><button type="button" class="pri" data-la-rejilla="' + escapeHtml(String(l.id)) + '">Abrir rejilla</button>'
+      + '<button type="button" class="cob" data-la-cobrar="' + escapeHtml(String(l.id)) + '"' + (k.pend>0?'':' disabled') + '>' + (k.pend>0 ? 'Cobrar ' + fmt(k.pend) : 'Nada por cobrar') + '</button>'
+      + '<button type="button" data-la-editar="' + escapeHtml(String(l.id)) + '">Editar</button>'
+      + '<button type="button" data-la-clonar="' + escapeHtml(String(l.id)) + '">Otro taco igual</button></div>';
+  }
+
+  // ───────── VISTA A ─────────
+  function renderLoteVistaA(visibles, lotes, filters){
+    const cont = document.getElementById('loteResumenA'); if(!cont) return;
+    const sec = document.getElementById('archivoSection');
+    if(sec){ sec.classList.add('la-on'); sec.classList.toggle('la-filtros', _laMasFiltros); }
+    const ll = document.getElementById('loteList'); if(ll) ll.style.display = 'none';
+    const visiblesIds = visibles.map(l=>String(l.id));
+    window.__ultimosVisiblesLote = visiblesIds;
+    if(loteEdit != null && !visiblesIds.includes(String(loteEdit))) loteEdit = null;
+    if(_laPeekId && !(data.lotes||[]).some(l=>String(l.id)===String(_laPeekId))) _laPeekId = null;
+
+    // Cifras del ámbito (los tacos del juego o de todos, como la lista)
+    const cif = new Map(); lotes.forEach(l=>cif.set(String(l.id), laCifras(l)));
+    let gasto=0, premios=0, pend=0, nAct=0, nComp=0, nAb=0, nCob=0, capAb=0;
+    lotes.forEach(l=>{ const k = cif.get(String(l.id));
+      gasto += k.gasto; premios += k.premios; pend += k.pend; if(k.pend>0) nCob++;
+      if(k.completo) nComp++; else if(k.aband){ nAb++; capAb += (k.c.total-k.c.revealed)*costoUnitarioLote(l); } else nAct++; });
+    const roiG = gasto>0 ? (premios-gasto)/gasto*100 : null;
+    const ab = resumenAbandonados();
+    const est = filters.estado || '';
+    const vAct = filters.cobro ? '' : ({'':'todos', activo:'activo', completo:'completo', abandonado:'abandonado', cobrar:'cobrar'}[est] || '');
+    const kpi = (lbl, val, sub, col, go)=> go
+      ? `<button type="button" class="kpi${vAct===go?' on':''}" data-la-vista="${go}"><span class="l">${lbl}</span><span class="v" style="${col?'color:'+col:''}">${val}</span><span class="s">${sub}</span></button>`
+      : `<div class="kpi"><span class="l">${lbl}</span><span class="v" style="${col?'color:'+col:''}">${val}</span><span class="s">${sub}</span></div>`;
+    const juegoTxt = esAmbitoGlobal() ? 'Todos los juegos' : ((getJuegoActivo()||{}).nombre || '');
+    const tirs = [...new Set(lotes.map(l=>getTiradaSerie(l.serie)))];
+    const vista = (k, lbl, n)=>`<button type="button" class="vista${vAct===k?' on':''}" data-la-vista="${k}" aria-pressed="${vAct===k}">${lbl}<span class="n">${n.toLocaleString('en-US')}</span></button>`;
+    // Fichas de filtro: escriben en los MISMOS select de siempre.
+    const sP = document.getElementById('loteFiltroPunto');
+    const chip = (id, lbl, on)=>`<button type="button" class="chip${on?' on':''}" data-la-chip="${id}">${escapeHtml(lbl)}</button>`;
+    const masActivos = !!(filters.cobro || filters.color || filters.inicio || isFinite(filters.premMin) || isFinite(filters.premMax) || filters.fechaDesde || filters.fechaHasta);
+    const ordenes = [['actividad','Actualización'],['fecha','Fecha de creación'],['roi','ROI'],['revelado','% revelado'],['premios','N.º premios'],['montoPremios','$ premios'],['gasto','$ gasto'],['numlote','N.º lote'],['serie','Serie']];
+
+    // Página
+    const nPag = Math.max(1, Math.ceil(visibles.length/LA_POR_PAGINA));
+    if(lotePagina >= nPag) lotePagina = nPag-1; if(lotePagina < 0) lotePagina = 0;
+    const desde = lotePagina*LA_POR_PAGINA, pag = visibles.slice(desde, desde+LA_POR_PAGINA);
+    const marcadosVis = visiblesIds.filter(id=>loteSel.has(id)).length;
+    const ckCab = !visiblesIds.length ? '' : (marcadosVis===visiblesIds.length ? 'on' : (marcadosVis ? 'mix' : ''));
+
+    const fila = (l)=>{
+      const id = String(l.id), k = cif.get(id) || laCifras(l), c = k.c;
+      const ps = laPosiciones(l);
+      const desc = getDescuentoLote(l);
+      const sub = [l.punto || 'sin punto', (getJuego(l.juegoId)||{}).nombre || '', desc>0 ? '−' + desc + '%' : null].filter(Boolean).join(' · ');
+      const roiC = k.roi==null ? 0 : Math.max(-100, Math.min(100, k.roi));
+      const bar = k.roi==null ? '' : (roiC>=0 ? `<span class="pos" style="left:50%; width:${roiC/2}%"></span>` : `<span class="neg" style="left:${50+roiC/2}%; width:${-roiC/2}%"></span>`);
+      const pil = k.gan===0 ? '<span class="pil sin">Sin premios</span>'
+        : k.pend===0 ? '<span class="pil cob">Cobrado</span>'
+        : k.cob>0 ? `<span class="pil par" title="${k.cob} de ${k.gan} premios cobrados">◐ Parcial · ${fmt(k.pend)}</span>`
+        : `<span class="pil pen">Por cobrar · ${fmt(k.pend)}</span>`;
+      const tAct = loteUltimaActividad(l);
+      const cls = 'fila tr ' + (k.completo ? 'e-comp' : (k.aband ? 'e-aban' : 'e-cur')) + (loteSel.has(id)?' sel':'') + (String(_laPeekId)===id?' open':'');
+      return `<div class="${cls}" data-la-fila="${escapeHtml(id)}">
+        <button type="button" class="ck${loteSel.has(id)?' on':''}" data-la-sel="${escapeHtml(id)}" aria-label="Seleccionar ${escapeHtml(l.serie)}" aria-pressed="${loteSel.has(id)}">${loteSel.has(id)?'✓':''}</button>
+        <div class="taco"><span class="s">${escapeHtml(l.serie)}</span><span class="m" title="${escapeHtml(sub)}">${escapeHtml(sub)}</span></div>
+        <div class="tira" title="${c.revealed} de ${c.total} reveladas · ${c.paid} premio(s)"><span class="t" style="grid-template-columns:repeat(${ps.length},minmax(0,1fr));">${ps.map(p=>'<i class="'+p.k+'"></i>').join('')}</span>
+          <span class="x">${c.revealed}/${c.total} · ${k.completo ? 'completo' : (k.aband ? 'sin tocar ' + k.dias + ' días' : 'en curso')}</span></div>
+        <span class="num b">${c.paid}</span>
+        <span class="num d">${fmt(k.gasto)}</span>
+        <span class="num b">${fmt(k.premios)}</span>
+        <div class="roi"><span class="v ${k.roi==null?'':(k.roi>=0?'pos':'neg')}">${k.roi==null?'—':(k.roi>=0?'+':'')+k.roi.toFixed(1)+'%'}</span><div class="b">${bar}<em></em></div></div>
+        ${pil}
+        <span class="la-act" title="Última actividad: ${escapeHtml(fechaHoraLarga(tAct))}">${laRel(tAct)}</span>
+        <div class="acc"><button type="button" data-la-edit="${escapeHtml(id)}" aria-label="Editar ${escapeHtml(l.serie)}" title="Editar">${LA_ICO_EDIT}</button><button type="button" data-la-dup="${escapeHtml(id)}" aria-label="Otro taco igual a ${escapeHtml(l.serie)}" title="Otro taco igual">${LA_ICO_DUP}</button></div>
+      </div>` + (String(loteEdit)===id ? `<div class="edit">${filaEdicionHTML(l)}</div>` : '');
     };
-    pan.querySelector('#laPeekClonar').onclick = ()=>{ cerrarLotePeek(); clonarLote(l.id); };
-    const bc = pan.querySelector('#laPeekCobrar');
-    if(bc) bc.onclick = ()=>{
-      // A Cobros con la lupa ya puesta en este taco (v40.8): se abre solo si es la única coincidencia.
-      cerrarLotePeek();
+
+    // Totales de lo filtrado (lo que antes daba la franja «Gasto conjunto»)
+    let fG=0, fP=0; visibles.forEach(l=>{ const k = cif.get(String(l.id)); if(k){ fG+=k.gasto; fP+=k.premios; } });
+    const fRoi = fG>0 ? (fP-fG)/fG*100 : null;
+
+    // Selección
+    const selL = (data.lotes||[]).filter(l=>loteSel.has(String(l.id)));
+    let sG=0, sP2=0; selL.forEach(l=>{ const k = laCifras(l); sG+=k.gasto; sP2+=k.premios; });
+    const nBol = selL.reduce((a,l)=>a + ((laIndice().get(String(l.id))||{recs:[]}).recs.length), 0);
+
+    const lp = _laPeekId ? (data.lotes||[]).find(l=>String(l.id)===String(_laPeekId)) : null;
+    const foco = document.activeElement && document.activeElement.id==='laBusca' ? (document.activeElement.selectionStart ?? null) : null;
+
+    cont.innerHTML = `<div class="lA">
+      <div class="cab">
+        <div class="la-sub">${escapeHtml(juegoTxt)}${tirs.length===1 ? ' · tirada ' + escapeHtml(tirs[0]) : ''} · ${lotes.length.toLocaleString('en-US')} tacos</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="la-btn" data-la-ir="qr">Pistola QR</button>
+          <button type="button" class="la-btn pri" data-la-ir="nuevo">+ Nuevo taco</button>
+        </div>
+      </div>
+      <div class="kpis">
+        ${kpi('En curso', nAct.toLocaleString('en-US'), 'tacos abiertos', 'var(--la-cur)', 'activo')}
+        ${kpi('Completos', nComp.toLocaleString('en-US'), 'todo revelado', 'var(--ok)', 'completo')}
+        ${kpi('Abandonados', nAb.toLocaleString('en-US'), fmt(capAb) + ' sin raspar', 'var(--la-amb)', 'abandonado')}
+        ${kpi('Gasto', fmt(gasto), 'lo realmente pagado')}
+        ${kpi('Ganado', fmt(premios), roiG==null?'—':'ROI ' + (roiG>=0?'+':'') + roiG.toFixed(1) + '%', roiG==null?'':(roiG>=0?'var(--ok)':'var(--la-neg)'))}
+        ${kpi('Por cobrar', fmt(pend), nCob + ' tacos', 'var(--stamp)', 'cobrar')}
+      </div>
+      ${(ab.n && !avisoAbandonoOculto()) ? `<div class="aband">
+        <b>${ab.n} tacos abandonados</b>
+        <span>en curso y sin tocar ${DIAS_ABANDONO}+ días · ${ab.sinRaspar} boletos sin raspar ≈ ${fmt(ab.capital)}</span>
+        <span style="margin-left:auto; display:flex; gap:6px;">
+          <button type="button" data-la-vista="abandonado" style="height:34px; padding:0 12px; border:1px solid var(--la-amb); background:transparent; color:var(--la-amb);">Ver solo estos</button>
+          <button type="button" data-la-ocultar="1" aria-label="Ocultar el aviso hasta reabrir la app" title="Ocultar hasta reabrir la app" style="width:34px; height:34px; border:0; background:transparent; color:var(--la-amb);">✕</button>
+        </span></div>` : ''}
+      <div class="vistas" role="group" aria-label="Vistas de tacos">
+        ${vista('todos','Todos', lotes.length)}${vista('activo','En curso', nAct)}${vista('completo','Completos', nComp)}${vista('abandonado','Abandonados', nAb)}${vista('cobrar','Por cobrar', nCob)}
+      </div>
+      <div class="barra">
+        <label class="busca">${LA_ICO_LUPA}<input type="text" id="laBusca" inputmode="numeric" autocomplete="off" placeholder="Buscar serie (ej. 6546)" aria-label="Buscar por serie" value="${escapeHtml(document.getElementById('loteSearch')?.value || '')}"></label>
+        ${chip('punto', filters.punto ? 'Punto: ' + filters.punto : 'Punto: todos', !!filters.punto)}
+        ${chip('paridad', filters.paridad ? 'Serie ' + filters.paridad : 'Par / impar', !!filters.paridad)}
+        ${chip('roi', filters.roi==='positivo' ? 'ROI positivo' : filters.roi==='negativo' ? 'ROI negativo' : 'ROI: todos', !!filters.roi)}
+        ${chip('desc', filters.desc==='sin' ? 'Sin descuento' : 'Con descuento', !!filters.desc)}
+        ${chip('mas', (_laMasFiltros ? '▴ ' : '⚙ ') + 'Más filtros' + (masActivos ? ' ·' : ''), _laMasFiltros || masActivos)}
+        <div class="orden">
+          <label for="laOrden" style="font-size:13px; color:var(--silver-dark);">Ordenar</label>
+          <select id="laOrden">${ordenes.map(([k2,t])=>`<option value="${k2}"${loteSort.key===k2?' selected':''}>${t}</option>`).join('')}</select>
+          <button type="button" class="dir" data-la-dir="1" aria-label="Invertir el orden">${loteSort.dir==='asc' ? '↑' : '↓'}</button>
+        </div>
+      </div>
+      <div class="cuerpo">
+        <div class="tabla">
+          <div class="scroll"><div class="la-gr">
+            <div class="fila th">
+              <button type="button" class="ck ${ckCab}" data-la-selall="1" title="${ckCab==='on' ? 'Quitar los ' + visiblesIds.length + ' filtrados' : 'Marcar los ' + visiblesIds.length + ' filtrados (todas las páginas)'}" aria-label="Marcar todos los tacos filtrados">${ckCab==='on'?'✓':(ckCab==='mix'?'–':'')}</button>
+              <span>Taco</span><span>Tira (posición 000 → ${padPos(((pag[0]&&(pag[0].tamanoLote||getTamanoLote(pag[0].juegoId)))||50)-1)})</span><span style="text-align:right">Premios</span><span style="text-align:right">Gasto</span><span style="text-align:right">Ganado</span><span>ROI</span><span>Cobro</span><span>Actualizado</span><span></span>
+            </div>
+            ${pag.length ? pag.map(fila).join('') : '<div class="vacio">Ningún taco cumple estos filtros. Quita uno de los filtros de arriba.</div>'}
+          </div></div>
+          <div class="pie">
+            <span>${visibles.length ? (desde+1) + '–' + Math.min(visibles.length, desde+LA_POR_PAGINA) + ' de ' + visibles.length.toLocaleString('en-US') + ' tacos' : '0 tacos'}${visibles.length && visibles.length < lotes.length ? ' · ' + fmt(fG) + ' → ' + fmt(fP) + (fRoi==null ? '' : ' (ROI ' + (fRoi>=0?'+':'') + fRoi.toFixed(1) + '%)') : ''}</span>
+            <div class="pag">
+              <button type="button" data-la-pag="-1"${lotePagina===0?' disabled':''}>‹ Anterior</button>
+              <span>Página ${lotePagina+1} de ${nPag}</span>
+              <button type="button" data-la-pag="1"${lotePagina>=nPag-1?' disabled':''}>Siguiente ›</button>
+            </div>
+          </div>
+        </div>
+        ${lp ? `<div class="fondo" data-la-cerrar="1"></div><aside class="det" role="dialog" aria-label="Detalle del taco">${laDetalleHTML(lp)}</aside>` : ''}
+      </div>
+      ${loteSel.size ? `<div class="selbar" role="region" aria-label="Selección de tacos">
+        <span class="t">${loteSel.size} taco${loteSel.size===1?'':'s'} seleccionado${loteSel.size===1?'':'s'}</span>
+        <span class="s">${nBol.toLocaleString('en-US')} boletos · gasto ${fmt(sG)} · ganado ${fmt(sP2)}</span>
+        <div class="bs">
+          <button type="button" class="loteSelTodos">${ckCab==='on' ? 'Quitar los' : 'Marcar los'} ${visiblesIds.length} filtrados</button>
+          <button type="button" class="loteSelRev" title="Vuelve a consultar en el portal todos los boletos de los tacos marcados">↻ Re-consultar en el portal</button>
+          <button type="button" class="pri loteSelAplicar">Actualizar en masa</button>
+          <button type="button" class="loteSelNada">Quitar selección</button>
+        </div></div>` : ''}
+    </div>`;
+
+    if(foco!=null){ const i = document.getElementById('laBusca'); if(i){ try{ i.focus({preventScroll:true}); i.setSelectionRange(foco, foco); }catch(_){} } }
+    laEnlazar(cont, visibles, filters);
+  }
+
+  function laEnlazar(cont, visibles, filters){
+    const q = (sel)=>cont.querySelectorAll(sel);
+    const setSel = (id, v)=>{ const e = document.getElementById(id); if(!e) return; e.value = v; lotePagina = 0; e.dispatchEvent(new Event('change', {bubbles:true})); };
+    q('[data-la-vista]').forEach(b=>b.addEventListener('click', ()=>{
+      const k = b.dataset.laVista;
+      const sC = document.getElementById('loteFiltroCobro'); if(sC) sC.value = '';
+      setSel('loteFiltroEstado', k==='todos' ? '' : k);
+    }));
+    q('[data-la-ocultar]').forEach(b=>b.addEventListener('click', ()=>{ try{ sessionStorage.setItem(CLAVE_AVISO_ABANDONO,'1'); }catch(_){} renderLoteList(); toast('Aviso oculto · vuelve a salir cuando reabras la app'); }));
+    q('[data-la-ir]').forEach(b=>b.addEventListener('click', ()=>{
+      if(b.dataset.laIr==='qr'){ goTab('qr'); return; }
+      const inp = document.getElementById('newLoteSerie');
+      const secN = inp ? inp.closest('.section') : null;
+      (secN || inp)?.scrollIntoView({behavior:'smooth', block:'start'});
+      if(inp) setTimeout(()=>{ try{ inp.focus({preventScroll:true}); }catch(_){} }, 350);
+    }));
+    const bus = cont.querySelector('#laBusca');
+    if(bus) bus.addEventListener('input', ()=>{
+      const s0 = document.getElementById('loteSearch'); if(!s0) return;
+      s0.value = bus.value; lotePagina = 0; s0.dispatchEvent(new Event('input', {bubbles:true}));
+    });
+    q('[data-la-chip]').forEach(b=>b.addEventListener('click', ()=>{
+      const k = b.dataset.laChip;
+      if(k==='punto'){
+        const sP = document.getElementById('loteFiltroPunto'); if(!sP) return;
+        const ops = [...sP.options].map(o=>o.value); const i = ops.indexOf(sP.value);
+        setSel('loteFiltroPunto', ops[(i+1) % ops.length]);
+      } else if(k==='paridad'){ setSel('loteFiltroParidad', ({'':'par', par:'impar', impar:''})[filters.paridad||''] ?? ''); }
+      else if(k==='roi'){ setSel('loteFiltroRoi', ({'':'positivo', positivo:'negativo', negativo:''})[filters.roi||''] ?? ''); }
+      else if(k==='desc'){ setSel('loteFiltroDesc', ({'':'con', con:'sin', sin:''})[filters.desc||''] ?? ''); }
+      else if(k==='mas'){
+        _laMasFiltros = !_laMasFiltros;
+        const card = document.getElementById('loteFiltrosCard');
+        if(_laMasFiltros && card){ const d = document.getElementById('masFiltrosLotes'); if(d) d.open = true; }
+        renderLoteList();
+        if(_laMasFiltros && card) card.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
+    }));
+    const so = cont.querySelector('#laOrden');
+    if(so) so.addEventListener('change', ()=>{ loteSort.key = so.value; loteSort.dir = (so.value==='serie'||so.value==='numlote') ? 'asc' : 'desc'; lotePagina = 0; renderLoteList(); });
+    q('[data-la-dir]').forEach(b=>b.addEventListener('click', ()=>{ loteSort.dir = loteSort.dir==='asc' ? 'desc' : 'asc'; renderLoteList(); }));
+    q('[data-la-pag]').forEach(b=>b.addEventListener('click', ()=>{ lotePagina += Number(b.dataset.laPag); loteEdit = null; renderLoteList(); cont.querySelector('.tabla')?.scrollIntoView({behavior:'smooth', block:'start'}); }));
+    // Selección: casilla de cabecera = TODOS los filtrados (todas las páginas); Mayús+clic = rango.
+    q('[data-la-selall]').forEach(b=>b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const ids = visibles.map(l=>String(l.id));
+      const todos = ids.length && ids.every(id=>loteSel.has(id));
+      if(todos) ids.forEach(id=>loteSel.delete(id)); else ids.forEach(id=>loteSel.add(id));
+      renderLoteList();
+    }));
+    q('[data-la-sel]').forEach(b=>b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = String(b.dataset.laSel);
+      const ids = visibles.map(l=>String(l.id));
+      if(e.shiftKey && _laUltSel!=null && ids.includes(_laUltSel)){
+        const i1 = ids.indexOf(_laUltSel), i2 = ids.indexOf(id);
+        const marcar = !loteSel.has(id);
+        ids.slice(Math.min(i1,i2), Math.max(i1,i2)+1).forEach(x=>{ if(marcar) loteSel.add(x); else loteSel.delete(x); });
+      } else { if(loteSel.has(id)) loteSel.delete(id); else loteSel.add(id); }
+      _laUltSel = id;
+      renderLoteList();
+    }));
+    q('[data-la-edit]').forEach(b=>b.addEventListener('click', (e)=>{
+      e.stopPropagation(); const id = b.dataset.laEdit;
+      loteEdit = (String(loteEdit)===String(id)) ? null : id;
+      renderLoteList();
+      if(loteEdit){ const inp = document.getElementById('leDesc'); if(inp){ inp.focus(); inp.select(); } anunciar('Edición del taco abierta'); }
+    }));
+    q('[data-la-dup]').forEach(b=>b.addEventListener('click', (e)=>{ e.stopPropagation(); clonarLote(b.dataset.laDup); }));
+    q('[data-la-fila]').forEach(f=>f.addEventListener('click', (e)=>{
+      if(e.target.closest('button, a, input, select')) return;
+      const id = f.dataset.laFila;
+      _laPeekId = (String(_laPeekId)===String(id)) ? null : id; _laPeekPos = null;
+      renderLoteList();
+    }));
+    // Panel de detalle
+    q('[data-la-cerrar]').forEach(b=>b.addEventListener('click', ()=>{ _laPeekId = null; _laPeekPos = null; renderLoteList(); }));
+    q('[data-la-pos]').forEach(b=>b.addEventListener('click', ()=>{ const i = Number(b.dataset.laPos); _laPeekPos = (_laPeekPos===i) ? null : i; renderLoteList(); }));
+    q('[data-la-rejilla]').forEach(b=>b.addEventListener('click', ()=>{
+      // Lo que hacía el clic en la fila hasta v40.9: el taco pasa a ser el activo y se baja a él.
+      activeLoteId = (data.lotes.find(l=>String(l.id)===String(b.dataset.laRejilla))||{}).id;
+      _laPeekId = null; _laPeekPos = null;
+      renderLoteList(); renderLoteDetail();
+      if(activeLoteId) setTimeout(()=>{ document.getElementById('loteDetailSection')?.scrollIntoView({behavior:'smooth', block:'start'}); }, 50);
+    }));
+    q('[data-la-editar]').forEach(b=>b.addEventListener('click', ()=>{
+      const id = b.dataset.laEditar; _laPeekId = null; loteEdit = id; renderLoteList();
+      const inp = document.getElementById('leDesc'); if(inp){ inp.focus(); inp.select(); }
+      cont.querySelector('.lote-edicion')?.scrollIntoView({behavior:'smooth', block:'center'});
+    }));
+    q('[data-la-clonar]').forEach(b=>b.addEventListener('click', ()=>{ const id = b.dataset.laClonar; _laPeekId = null; renderLoteList(); clonarLote(id); }));
+    q('[data-la-cobrar]').forEach(b=>b.addEventListener('click', ()=>{
+      const l = (data.lotes||[]).find(x=>String(x.id)===String(b.dataset.laCobrar)); if(!l) return;
+      _laPeekId = null;
+      // A Cobros con la lupa (v40.8) ya puesta en este taco: con una sola coincidencia se abre solo.
       try{ cobroTab = 'sesion'; cobroLupaQ = String(l.serie).replace(/\D/g,'').slice(-6); }catch(_){}
       goTab('cobros');
-    };
-    pan.querySelectorAll('[data-la-pos]').forEach(b=>{
-      b.onclick = ()=>{ const i = Number(b.dataset.laPos); _laPeekPos = (_laPeekPos===i) ? null : i; laPintarPeek(); };
+    }));
+    // Edición en línea: los MISMOS guardados que la fila de siempre (guardarEdicionLote).
+    cont.querySelectorAll('.le-sug').forEach(b=>b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const destino = { descuento:'leDesc', punto:'lePunto', ciudad:'leCiudad' }[b.dataset.sug];
+      const inp = destino && document.getElementById(destino); if(inp){ inp.value = b.dataset.val; inp.focus(); }
+    }));
+    const cerrarEd = ()=>{ loteEdit = null; renderLoteList(); };
+    cont.querySelector('#leCancelar')?.addEventListener('click', (e)=>{ e.stopPropagation(); cerrarEd(); });
+    cont.querySelector('#leGuardar')?.addEventListener('click', (e)=>{ e.stopPropagation(); guardarEdicionLote(e.currentTarget.dataset.id, false); });
+    cont.querySelector('#leMasivo')?.addEventListener('click', (e)=>{ e.stopPropagation(); guardarEdicionLote(e.currentTarget.dataset.id, true); });
+    cont.querySelector('.lote-edicion')?.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); cerrarEd(); return; }
+      if(e.key==='Enter' && e.target.tagName==='INPUT'){ e.preventDefault(); e.stopPropagation(); guardarEdicionLote(document.getElementById('leGuardar')?.dataset.id, false); }
     });
   }
+  // Esc cierra el panel de detalle (una sola vez para toda la app).
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && _laPeekId){ _laPeekId = null; _laPeekPos = null; try{ renderLoteList(); }catch(_){} } });
 
   function renderLoteTotales(visibles, hayFiltro){
     const el = document.getElementById('loteTotales'); if(!el) return;
@@ -12057,6 +12368,9 @@
       const c = loteCounts(l);
       if(filters.estado === 'completo' && c.revealed !== c.total) return false;
       if(filters.estado === 'curso' && c.revealed === c.total) return false;
+      // v41.1 — vistas de la propuesta A: «En curso» sin los abandonados, y «Por cobrar».
+      if(filters.estado === 'activo' && (c.revealed === c.total || diasSinTocar(l) >= DIAS_ABANDONO)) return false;
+      if(filters.estado === 'cobrar' && !(laPendienteLote(l) > 0)) return false;
       // Abandonado = en curso Y sin actividad en más de DIAS_ABANDONO días. Con datos reales
       // hay 30 de 47 así: inmovilizan capital y ensucian curvas/priors al quedar a medias.
       if(filters.estado === 'abandonado'){
@@ -12103,7 +12417,6 @@
     const hayFiltro = !!(filters.search || filters.estado || filters.cobro || filters.paridad || filters.roi || filters.punto
       || filters.color || filters.inicio || filters.desc || isFinite(filters.premMin) || isFinite(filters.premMax) || hayFiltroFecha);
     renderLoteTotales(visibles, hayFiltro);
-    try{ renderLoteResumenA(lotesDelJuego); }catch(_e){ console.warn('[resumenA]', _e); }
 
     if(summary){
       const campoTxt = filters.fechaCampo === 'actividad' ? 'última actividad' : 'creación';
@@ -12114,7 +12427,7 @@
       // quede claro que se combinan en Y lógico (y por qué salen tan pocos lotes).
       const criterios = [];
       if(filters.search)  criterios.push(`serie ~ «${filters.search}»`);
-      if(filters.estado)  criterios.push(filters.estado==='completo'?'completos':'en curso');
+      if(filters.estado)  criterios.push({completo:'completos', curso:'en curso', activo:'en curso sin abandonados', abandonado:'abandonados', cobrar:'por cobrar'}[filters.estado] || filters.estado);
       if(filters.cobro)   criterios.push({total:'cobrados', parcial:'cobro parcial', 'sin-cobrar':'sin cobrar', 'con-premios':'con premios por cobrar'}[filters.cobro] || filters.cobro);   // v41.0
       if(filters.paridad) criterios.push(filters.paridad);
       if(filters.roi)     criterios.push(filters.roi==='positivo'?'ROI ≥ 0':'ROI < 0');
@@ -12131,6 +12444,11 @@
     }
 
     renderLoteVistaToggle();
+
+    // v41.1 — la vista A sustituye a fichas y tabla. Lo de abajo se conserva intacto (ya no se
+    // ejecuta) para poder volver atrás quitando esta línea.
+    try{ renderLoteVistaA(visibles, lotesDelJuego, filters); return; }
+    catch(_e){ console.error('[vistaA]', _e); const cA=document.getElementById('loteResumenA'); if(cA) cA.innerHTML=''; const ll=document.getElementById('loteList'); if(ll) ll.style.display=''; }
 
     if(!visibles.length){
       list.innerHTML = '<div class="lote-row"><span style="color:var(--silver-dark); font-style:italic;">Ningún lote coincide con la búsqueda o los filtros actuales.</span></div>';
@@ -12226,7 +12544,7 @@
       list.insertAdjacentHTML('afterbegin', selBarTop);
       list.querySelectorAll('.lote-fila-tabla').forEach(tr=>{
         // v41.0 — igual que en fichas: la fila abre el panel de detalle; «Abrir rejilla» hace lo de antes.
-        tr.addEventListener('click', ()=>{ abrirLotePeek(tr.dataset.id); });
+        tr.addEventListener('click', ()=>{ _laPeekId = tr.dataset.id; renderLoteList(); });
       });
       cablearNavLotes();
       return;
@@ -12314,7 +12632,7 @@
         // v41.0 — propuesta A: la fila abre el PANEL de detalle (cifras, rejilla en pequeño,
         // cobro y acciones). «Abrir rejilla» dentro del panel hace exactamente lo que hacía
         // este clic antes (taco activo arriba + desplazamiento), con abrirLoteRejilla().
-        abrirLotePeek(row.dataset.id);
+        _laPeekId = row.dataset.id; renderLoteList();
       });
     });
     list.querySelectorAll('.lote-clone-btn').forEach(btn=>{
