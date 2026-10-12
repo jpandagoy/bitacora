@@ -1651,6 +1651,328 @@
     .lm-fil{ grid-template-columns:minmax(0,1fr); }
   }
   @media (prefers-reduced-motion: reduce){ .la-dock{ animation:none; } }
+  /* ═══ COBROS v41.4 (prefijo k-) — propuesta B v2 + alternativa 1, al pie de la letra.
+     Fuente: docs/propuestas/cobros-2-propuestas.html y cobros-monto-2-alternativas.html.
+     Regla de simetría (JP, 12-oct): cada fila de tarjetas llena su rejilla, las barras miden lo
+     mismo que la lista y las cabeceras comparten columnas con sus filas. ═══ */
+  /* La bolsa, la barra de Salidas y el pie de la caja son `sticky`: con overflow-x:hidden el panel
+     se volvía contenedor de desplazamiento y dejaban de flotar (mismo caso que Boletos en v41.2). */
+  #panel-cobros.tabpanel{ overflow-x:hidden; overflow-x:clip; }
+  .k, .k-fondo{ --cur:#5B4BD6; --amb:#B7791F; --neg:#D93636; }
+  body.theme-arcade .k, body.theme-arcade .k-fondo{ --cur:#8C7DF5; --amb:#F5B33C; --neg:#F87171; }
+  .k button, .k-fondo button{ font-family:inherit; color:inherit; cursor:pointer; }
+  .k :focus-visible, .k-fondo :focus-visible{ outline:2px solid var(--stamp); outline-offset:2px; }
+  .k .mono, .k-fondo .mono{ font-family:'Courier New',monospace; font-variant-numeric:tabular-nums; }
+  .k .pos, .k-fondo .pos{ color:var(--ok); } .k .neg, .k-fondo .neg{ color:var(--neg); } .k .pink, .k-fondo .pink{ color:var(--stamp); }
+  .k .amb, .k-fondo .amb{ color:var(--amb); } .k .mut, .k-fondo .mut{ color:var(--silver-dark); }
+  .k mark{ background:color-mix(in srgb, var(--gold) 45%, transparent); color:inherit; border-radius:3px; padding:0 1px; }
+  .k-cuerpo{ display:flex; flex-direction:column; gap:12px; min-width:0; }
+  .k-fecha{ height:34px; border-radius:9px; border:1px solid var(--silver); background:var(--white); color:var(--ink); padding:0 8px; font:inherit; font-size:13px; }
+  .k-kpi{ text-align:left; color:var(--ink); }
+  button.k-kpi{ cursor:pointer; }
+  .k-kpis.k-kpis4{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+  .k-lupa.k-lupa2{ height:40px; border:1px solid var(--silver); border-radius:12px; }
+  .k-lupa.k-lupa2 input{ font-size:14px; }
+  .k-row.k-row-t{ grid-template-columns:minmax(0,1fr) auto 22px; }
+  .k-ruta, .k-plan2 > button{ color:var(--ink); }
+  .k{ container-type:inline-size; container-name:k; display:flex; flex-direction:column; gap:12px; }
+  .k-head{ display:flex; align-items:center; gap:12px; border-bottom:2px solid var(--ink); padding-bottom:8px; }
+  .k-head .tag{ font-family:'Courier New',monospace; font-size:12px; background:var(--ink); color:var(--paper); padding:2px 9px; }
+  .k-head h2{ margin:0; font-size:21px; font-family:'Trebuchet MS','Segoe UI',sans-serif; }
+  .k-head .sp{ margin-left:auto; }
+  .k-ambito{ display:inline-flex; border:1px solid var(--silver); border-radius:999px; overflow:hidden; }
+  .k-ambito button{ border:0; background:transparent; padding:6px 12px; font-size:12.5px; font-weight:700; color:var(--silver-dark); }
+  .k-ambito button.on{ background:var(--ink); color:var(--paper); }
+  .k-btn{ height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:13px; white-space:nowrap; }
+  .k-btn.pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .k-btn.ok{ background:var(--ok); border-color:var(--ok); color:#06261B; }
+  .k-btn.sm{ height:32px; padding:0 12px; font-size:12px; }
+  .k-btn:disabled{ opacity:.4; cursor:default; }
+  .k-card{ border:1px solid var(--line); background:var(--white); border-radius:16px; }
+  .k-l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--silver-dark); font-weight:800; }
+  .k-big{ font-family:'Courier New',monospace; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+  .k-aviso{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; border-radius:12px; padding:9px 12px; font-size:12.5px; border:1px solid color-mix(in srgb, var(--amb) 50%, transparent); background:color-mix(in srgb, var(--amb) 10%, transparent); }
+  .k-aviso.neg{ border-color:color-mix(in srgb, var(--neg) 50%, transparent); background:color-mix(in srgb, var(--neg) 10%, transparent); }
+  .k-aviso button{ margin-left:auto; border:1px solid currentColor; background:transparent; border-radius:999px; padding:4px 11px; font-size:12px; font-weight:800; }
+  .k-seg{ display:inline-flex; border:1px solid var(--silver); border-radius:12px; overflow:hidden; height:38px; }
+  .k-seg button{ border:0; background:transparent; padding:0 12px; font-size:12.5px; font-weight:700; color:var(--silver-dark); white-space:nowrap; }
+  .k-seg button.on{ background:var(--ink); color:var(--paper); }
+  .k-chip{ border:1px solid var(--silver); background:transparent; border-radius:999px; padding:5px 11px; font-size:12px; font-weight:700; white-space:nowrap; }
+  .k-chip.on{ border-color:var(--stamp); color:var(--stamp); background:color-mix(in srgb, var(--stamp) 10%, transparent); }
+  .k-bar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .k-lupa{ display:flex; align-items:center; gap:8px; height:46px; padding:0 14px; border:2px solid var(--ok); border-radius:14px; background:var(--white); flex:1 1 240px; min-width:0; }
+  .k-lupa input{ border:0; outline:0; background:transparent; color:var(--ink); font:700 17px 'Courier New',monospace; width:100%; min-width:0; letter-spacing:.06em; }
+  .k-lupa input::placeholder{ font:500 14px 'Inter',sans-serif; letter-spacing:0; color:var(--silver-dark); }
+  .k-lupa .x{ border:0; background:transparent; color:var(--silver-dark); font-size:16px; }
+  .k-rec{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:11.5px; color:var(--silver-dark); }
+  .k-rec button{ border:1px dashed var(--silver); background:transparent; border-radius:8px; padding:2px 8px; font-family:'Courier New',monospace; font-size:12px; }
+  .k-pil{ display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11.5px; font-weight:800; white-space:nowrap; }
+  .k-pil.amb{ background:color-mix(in srgb, var(--amb) 18%, transparent); color:var(--amb); }
+  .k-pil.neg{ background:color-mix(in srgb, var(--neg) 16%, transparent); color:var(--neg); }
+  .k-pil.ok{ background:color-mix(in srgb, var(--ok) 16%, transparent); color:var(--ok); }
+  .k-pil.cur{ background:color-mix(in srgb, var(--cur) 18%, transparent); color:var(--cur); }
+  .k-pil.sin{ background:color-mix(in srgb, var(--silver) 40%, transparent); color:var(--silver-dark); }
+  mark{ background:color-mix(in srgb, var(--gold) 45%, transparent); color:inherit; border-radius:3px; padding:0 1px; }
+  /* lista de tacos */
+  .k-list{ border:1px solid var(--line); border-radius:16px; background:var(--white); overflow:hidden; }
+  .k-row{ display:grid; grid-template-columns:28px minmax(0,1fr) auto auto 26px; gap:10px; align-items:center; padding:11px 14px; border-top:1px solid var(--line); cursor:pointer; position:relative; }
+  .k-row:first-child{ border-top:0; }
+  .k-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); }
+  .k-row:focus-visible{ outline:2px solid var(--stamp); outline-offset:-2px; }
+  .k-row.sel{ background:color-mix(in srgb, var(--stamp) 9%, transparent); }
+  .k-row.parc{ background:color-mix(in srgb, var(--stamp) 5%, transparent); }
+  .k-row::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--edge, transparent); }
+  .k-row.viejo{ --edge:var(--amb); } .k-row.muyviejo{ --edge:var(--neg); }
+  .k-ck{ width:24px; height:24px; border-radius:7px; border:2px solid var(--silver-dark); display:inline-flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; color:#fff; background:transparent; padding:0; }
+  .k-ck.on{ background:var(--stamp); border-color:var(--stamp); }
+  .k-ck.mix{ background:color-mix(in srgb, var(--stamp) 40%, transparent); border-color:var(--stamp); }
+  .k-row .s{ font-family:'Courier New',monospace; font-weight:800; font-size:15px; }
+  .k-row .m{ font-size:12px; color:var(--silver-dark); display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:2px; }
+  .k-row .mo{ font-family:'Courier New',monospace; font-weight:800; font-size:16px; text-align:right; white-space:nowrap; }
+  .k-row .mo small{ font-size:11px; color:var(--silver-dark); font-weight:600; }
+  .k-row .fl{ display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }
+  .k-row .ex{ border:0; background:transparent; color:var(--silver-dark); font-size:14px; width:26px; height:26px; border-radius:7px; padding:0; }
+  .k-exp{ border-top:1px dashed var(--line); padding:12px 14px 14px 52px; background:color-mix(in srgb, var(--cur) 5%, transparent); display:flex; flex-direction:column; gap:8px; }
+  .k-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); gap:6px; }
+  .k-bol{ border:1.5px solid var(--silver); background:transparent; border-radius:10px; padding:5px 4px; text-align:center; font-size:10.5px; color:var(--silver-dark); line-height:1.2; }
+  .k-bol b{ display:block; font:800 13px 'Courier New',monospace; color:var(--ink); }
+  .k-bol.on{ border-color:var(--stamp); background:color-mix(in srgb, var(--stamp) 16%, transparent); }
+  .k-bol.on b{ color:var(--stamp); }
+  .k-bol.ret{ border-style:dashed; border-color:var(--amb); }
+  .k-bol.pag{ opacity:.55; text-decoration:line-through; cursor:default; border-style:dotted; }
+  .k-bol.pag.rev{ cursor:pointer; opacity:.8; }
+  .k-bol.big b{ color:var(--gold); }
+  /* bolsa */
+  .k-bolsa{ position:sticky; top:14px; display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:18px; border:1px solid var(--line); background:var(--white); }
+  .k-bolsa .tot{ font-size:38px; }
+  .k-den{ display:flex; gap:6px; flex-wrap:wrap; }
+  .k-den span{ font:700 12.5px 'Courier New',monospace; padding:4px 9px; border-radius:9px; background:var(--paper-dark); border:1px solid var(--line); }
+  .k-den span b{ color:var(--stamp); }
+  .k-kv{ display:grid; grid-template-columns:1fr auto; gap:5px 12px; font-size:12.5px; }
+  .k-kv span{ color:var(--silver-dark); } .k-kv b{ font-family:'Courier New',monospace; text-align:right; }
+  .k-two{ display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:16px; align-items:start; }
+  /* caja */
+  .k-caja-h{ display:flex; flex-direction:column; gap:8px; padding:16px; border-radius:18px; background:var(--white); border:2px solid var(--stamp); }
+  .k-prog{ height:12px; border-radius:6px; background:color-mix(in srgb, var(--silver) 45%, transparent); overflow:hidden; }
+  .k-prog span{ display:block; height:100%; background:var(--ok); border-radius:6px; transition:width .25s; }
+  .k-caja-t{ border:1px solid var(--line); border-radius:16px; background:var(--white); padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
+  .k-caja-t.done{ border-color:var(--ok); }
+  .k-caja-t .h{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .k-caja-t .h .s{ font:800 16px 'Courier New',monospace; }
+  .k-caja-t .k-bol{ padding:10px 4px; font-size:11.5px; }
+  .k-caja-t .k-bol b{ font-size:15px; }
+  .k-caja-t .k-bol.on{ border-color:var(--ok); background:color-mix(in srgb, var(--ok) 18%, transparent); }
+  .k-caja-t .k-bol.on b{ color:var(--ok); }
+  .k-pie{ position:sticky; bottom:12px; z-index:20; display:flex; gap:8px; align-items:center; flex-wrap:wrap; padding:10px; border-radius:18px; background:color-mix(in srgb, var(--white) 90%, transparent); backdrop-filter:blur(12px); border:1px solid var(--line); box-shadow:0 18px 50px -14px rgba(0,0,0,.6); }
+  /* historial / informes */
+  .k-dia{ border-top:1px solid var(--line); }
+  .k-dia:first-child{ border-top:0; }
+  .k-dia > .h{ display:grid; grid-template-columns:92px minmax(0,1fr) auto 26px; gap:10px; align-items:center; padding:11px 14px; cursor:pointer; }
+  .k-dia > .h:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); }
+  .k-tanda{ display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:10px; align-items:center; padding:8px 14px 8px 32px; border-top:1px dashed var(--line); font-size:13px; }
+  .k-tab2{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  .k-tab2 th, .k-tab2 td{ padding:8px 10px; border-top:1px solid var(--line); text-align:right; white-space:nowrap; }
+  .k-tab2 th{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); border-top:0; }
+  .k-tab2 td:first-child, .k-tab2 th:first-child{ text-align:left; }
+  .k-tw{ overflow-x:auto; }
+  .k-kpis{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+  .k-kpi{ border:1px solid var(--line); background:var(--white); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:2px; }
+  .k-kpi .v{ font:800 22px 'Courier New',monospace; }
+  .k-kpi .s{ font-size:11.5px; color:var(--silver-dark); }
+  .k-barras .r{ display:grid; grid-template-columns:64px minmax(0,1fr) 84px 52px; gap:8px; align-items:center; font-size:12px; padding:3px 0; }
+  .k-barras .b{ height:14px; border-radius:4px; background:color-mix(in srgb, var(--silver) 40%, transparent); overflow:hidden; }
+  .k-barras .b span{ display:block; height:100%; border-radius:4px; }
+  .k-hero2{ padding:16px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:18px; align-items:center; }
+  .k-monto{ padding:16px; display:flex; flex-direction:column; gap:12px; border:2px solid color-mix(in srgb, var(--ok) 55%, var(--line)); }
+  .k-monto-in{ display:flex; align-items:center; gap:6px; height:52px; padding:0 14px; border:2px solid var(--ok); border-radius:14px; background:var(--paper-dark); flex:0 1 200px; min-width:140px; }
+  .k-monto-in span{ font:800 22px 'Courier New',monospace; color:var(--ok); }
+  .k-monto-in input{ border:0; outline:0; background:transparent; color:var(--ink); font:800 24px 'Courier New',monospace; width:100%; min-width:0; }
+  .k-plan-res{ border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:8px; background:var(--white); }
+  .k-plan-l{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px; font-size:13px; }
+  .k-plan-l li > *{ vertical-align:middle; }
+  .k-plan-l li{ display:list-item; }
+  .k-plan-l li .mono:last-child{ float:right; }
+  .k-plan-dos{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px; }
+  .k-kpi.on{ border-color:var(--stamp); box-shadow:inset 0 -3px 0 var(--stamp); }
+  .k-step{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .k-step div{ padding:10px 12px; font-size:12.5px; color:var(--silver-dark); display:flex; gap:8px; align-items:center; border-right:1px solid var(--line); }
+  .k-step div:last-child{ border-right:0; }
+  .k-step div b{ width:24px; height:24px; border-radius:50%; display:inline-grid; place-items:center; border:1.5px solid currentColor; font-size:12px; flex:none; }
+  .k-step div.on{ color:var(--ink); background:color-mix(in srgb, var(--stamp) 10%, transparent); font-weight:800; }
+  .k-step div.on b{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .k-step div.hecho{ color:var(--ok); }
+  .k-recibo{ max-width:420px; margin:0 auto; background:var(--paper); color:var(--ink); border:1px dashed var(--silver); border-radius:6px; padding:20px; font-family:'Courier New',monospace; font-size:13px; display:flex; flex-direction:column; gap:6px; }
+  .k-recibo .lin{ border-top:1px dashed var(--silver); margin:6px 0; }
+  .k-recibo .r{ display:flex; justify-content:space-between; gap:10px; }
+  .k-gr{ border-top:1px solid var(--line); padding:9px 14px; background:var(--paper-dark); display:flex; gap:10px 16px; align-items:center; flex-wrap:wrap; font-size:12px; cursor:pointer; }
+  .k-gr .nm{ font-weight:800; font-size:13.5px; margin-right:auto; }
+  .k-rail{ display:flex; flex-direction:column; gap:4px; }
+  .k-rail button{ border:0; background:transparent; text-align:left; padding:10px 12px; border-radius:12px; font-weight:800; font-size:13.5px; color:var(--silver-dark); display:flex; gap:8px; align-items:center; }
+  .k-rail button.on{ background:color-mix(in srgb, var(--stamp) 14%, transparent); color:var(--ink); }
+  .k-b-lay{ display:grid; grid-template-columns:190px minmax(0,1fr); gap:16px; align-items:start; }
+  /* ventanas */
+  .k-fondo{ position:fixed; inset:0; z-index:200; background:rgba(8,4,18,.62); display:flex; align-items:center; justify-content:center; padding:20px 16px; }
+  .k-modal{ width:min(520px,100%); max-height:88vh; display:flex; flex-direction:column; background:var(--white); border:1px solid var(--line); border-radius:20px; overflow:hidden; box-shadow:0 30px 80px -20px rgba(0,0,0,.7); }
+  .k-modal .c{ display:flex; gap:12px; padding:18px 20px 12px; border-bottom:1px solid var(--line); }
+  .k-modal .c .i{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; background:color-mix(in srgb, var(--stamp) 18%, transparent); color:var(--stamp); font-size:18px; flex:none; }
+  .k-modal .c h3{ margin:0; font-size:17px; } .k-modal .c p{ margin:3px 0 0; font-size:12.5px; color:var(--silver-dark); }
+  .k-modal .b{ padding:14px 20px; overflow-y:auto; font-size:13.5px; line-height:1.5; display:flex; flex-direction:column; gap:10px; }
+  .k-modal .p{ display:flex; gap:10px; justify-content:flex-end; padding:12px 20px; border-top:1px solid var(--line); background:var(--paper-dark); flex-wrap:wrap; }
+  @container k (max-width: 900px){
+    .k-hero2{ grid-template-columns:minmax(0,1fr); }
+    .k-two{ grid-template-columns:minmax(0,1fr); }
+    .k-bolsa{ position:sticky; top:auto; bottom:10px; z-index:15; padding:12px; border-radius:16px; box-shadow:0 18px 50px -14px rgba(0,0,0,.6); }
+    .k-bolsa .tot{ font-size:26px; } .k-bolsa .opt{ display:none; }
+    .k-b-lay{ grid-template-columns:minmax(0,1fr); }
+    .k-rail{ flex-direction:row; flex-wrap:wrap; }
+  }
+  @container k (max-width: 560px){
+    .k-monto{ padding:12px; } .k-monto-in{ flex:1 1 100%; }
+    .k-kpis{ grid-template-columns:repeat(2,minmax(0,1fr)); } .k-kpi .v{ font-size:18px; }
+    .k-rail{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; } .k-rail button{ justify-content:center; flex-direction:column; gap:2px; padding:8px 2px; font-size:12px; text-align:center; }
+    .k-pie{ display:grid; grid-template-columns:1fr 1fr; } .k-pie > span{ display:none; } .k-pie [data-cerrar-caja]{ grid-column:1 / -1; }
+    .k-bolsa .k-l{ font-size:10px; }
+    .k-row{ grid-template-columns:26px minmax(0,1fr) auto 22px; padding:11px 12px; }
+    .k-row .fl{ display:none; }
+    .k-exp{ padding:12px; }
+    .k-dia > .h{ grid-template-columns:70px minmax(0,1fr) auto 20px; padding:10px 12px; }
+    .k-tanda{ padding-left:14px; grid-template-columns:minmax(0,1fr) auto; } .k-tanda .k-btn{ grid-column:1 / -1; justify-self:start; }
+    .k-step div{ flex-direction:column; gap:3px; padding:8px 4px; font-size:11px; text-align:center; }
+    .k-head h2{ font-size:18px; }
+    .k-barras .r{ grid-template-columns:48px minmax(0,1fr) 70px 40px; font-size:11px; }
+  }
+
+  /* ═══ Cobrar un monto · 2 alternativas + simetría (12-oct) ═══ */
+  /* Barra de herramientas: una sola tarjeta con columna de rótulos; cada control llena su fila (mismo borde que la lupa y la lista). */
+  .k-tool{ display:grid; grid-template-columns:70px minmax(0,1fr); gap:8px 10px; align-items:center; padding:10px 12px; border:1px solid var(--line); border-radius:16px; background:var(--white); }
+  .k-fill{ display:grid !important; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); width:100%; }
+  .k-fill button{ padding:0 6px; overflow:hidden; text-overflow:ellipsis; }
+  .k-fill2{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(0,1fr); gap:6px; }
+  .k-fill2 .k-chip{ height:38px; border-radius:12px; padding:0 6px; overflow:hidden; text-overflow:ellipsis; }
+  /* Monto: entrada y atajos con la MISMA altura, en rejilla */
+  .k-mrow{ display:grid; grid-template-columns:minmax(150px,1.3fr) repeat(var(--n,5), minmax(0,1fr)); gap:8px; align-items:stretch; }
+  .k-mrow .k-monto-in{ flex:none; min-width:0; }
+  .k-mrow .k-chip{ height:52px; border-radius:14px; font-size:14px; padding:0 4px; }
+  .k-mrow .k-chip small{ display:block; font-size:10px; font-weight:700; color:var(--silver-dark); }
+  .k-mhead{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  /* Alternativa 1: rutas comparables */
+  .k-rutas{ display:grid; grid-template-columns:repeat(var(--n,3), minmax(0,1fr)); gap:10px; }
+  .k-ruta{ text-align:left; border:1.5px solid var(--line); background:var(--white); border-radius:16px; padding:12px 14px; display:grid; grid-template-rows:auto auto 1fr auto; gap:8px; min-width:0; }
+  .k-ruta:hover{ border-color:var(--cur); }
+  .k-ruta.on{ border-color:var(--stamp); box-shadow:inset 0 0 0 1px var(--stamp); background:color-mix(in srgb, var(--stamp) 6%, var(--white)); }
+  .k-ruta .t{ font-weight:800; font-size:13.5px; display:flex; gap:8px; align-items:center; }
+  .k-ruta .t i{ font-style:normal; width:20px; height:20px; border-radius:50%; border:2px solid var(--silver-dark); flex:none; display:grid; place-items:center; font-size:11px; }
+  .k-ruta.on .t i{ border-color:var(--stamp); background:var(--stamp); color:#fff; }
+  .k-ruta .v{ font:800 24px 'Courier New',monospace; }
+  .k-ruta dl{ margin:0; display:grid; gap:3px; font-size:12px; align-content:start; }
+  .k-ruta dl > div{ display:flex; justify-content:space-between; gap:10px; }
+  .k-ruta dt{ color:var(--silver-dark); } .k-ruta dd{ margin:0; font-family:'Courier New',monospace; font-weight:800; text-align:right; }
+  .k-ruta .f{ font-size:11.5px; color:var(--silver-dark); border-top:1px dashed var(--line); padding-top:7px; min-height:32px; }
+  .k-det{ border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:10px; background:var(--white); }
+  .k-detl{ display:flex; flex-direction:column; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .k-detl > div{ display:grid; grid-template-columns:24px 118px 150px minmax(0,1fr) 92px; gap:10px; align-items:center; padding:8px 12px; border-top:1px solid var(--line); font-size:12.5px; }
+  .k-detl > div:first-child{ border-top:0; }
+  .k-detl .n{ color:var(--silver-dark); font-weight:800; }
+  .k-detl .ps{ font-family:'Courier New',monospace; font-size:12px; color:var(--ink-soft); min-width:0; }
+  .k-detl .am{ font-family:'Courier New',monospace; font-weight:800; text-align:right; }
+  .k-detl .k-pil{ justify-self:start; }
+  .k-dett{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  /* Planes listos / montos redondos: tantas columnas como tarjetas (sin huecos), botón siempre abajo */
+  .k-plan2{ display:grid; grid-template-columns:repeat(var(--n,4), minmax(0,1fr)); gap:10px; }
+  .k-plan2 > button{ text-align:left; border:1px solid var(--line); background:var(--white); border-radius:16px; padding:12px 14px; display:grid; grid-template-rows:auto auto 1fr auto; gap:4px; min-width:0; }
+  .k-plan2 > button:hover:not(:disabled){ border-color:var(--stamp); }
+  .k-plan2 > button:disabled{ opacity:.55; cursor:default; }
+  .k-plan2 .t{ font-weight:800; font-size:13.5px; line-height:1.3; min-height:2.6em; }
+  .k-plan2 .v{ font:800 20px 'Courier New',monospace; }
+  .k-plan2 .s{ font-size:11.5px; color:var(--silver-dark); }
+  .k-plan2 .go{ margin-top:8px; height:30px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; background:color-mix(in srgb, var(--cur) 18%, transparent); color:var(--cur); }
+  .k-plan2 .go.pk{ background:color-mix(in srgb, var(--stamp) 16%, transparent); color:var(--stamp); }
+  .k-plan2 .tg{ font:800 10.5px 'Inter',sans-serif; text-transform:uppercase; letter-spacing:.06em; color:var(--ok); }
+  .k-plan2 .tg.amb{ color:var(--amb); }
+  .k-onota{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; align-items:center; border-radius:12px; padding:9px 12px; font-size:12.5px; border:1px solid color-mix(in srgb, var(--amb) 50%, transparent); background:color-mix(in srgb, var(--amb) 10%, transparent); }
+  /* Salidas: cabecera de día y filas con LAS MISMAS columnas (casilla · qué · monto · acción · plegar) */
+  .k-sal{ display:grid; grid-template-columns:28px minmax(0,1fr) 110px 168px 26px; gap:10px; align-items:center; padding:10px 14px; }
+  .k-dia > .h.k-sal{ grid-template-columns:28px minmax(0,1fr) 110px 168px 26px; }
+  .k-sal .am{ font:800 14.5px 'Courier New',monospace; text-align:right; }
+  .k-sal .k-btn{ width:100%; grid-column:auto; justify-self:stretch; }
+  .k-sal .ex{ color:var(--silver-dark); text-align:center; }
+  .k-sal .q{ min-width:0; display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
+  .k-tanda.k-sal{ padding:9px 14px; border-top:1px dashed var(--line); background:color-mix(in srgb, var(--cur) 4%, transparent); }
+  .k-tanda.k-sal.on, .k-dia > .h.k-sal.on{ background:color-mix(in srgb, var(--stamp) 9%, transparent); }
+  .k-sal:focus-visible{ outline:2px solid var(--stamp); outline-offset:-2px; }
+  .k-dock{ position:sticky; bottom:12px; z-index:20; display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:10px; align-items:center; padding:10px 12px 10px 16px; border-radius:18px; background:color-mix(in srgb, var(--white) 92%, transparent); backdrop-filter:blur(12px); border:1.5px solid var(--stamp); box-shadow:0 18px 50px -14px rgba(0,0,0,.6); }
+  .k-dock .q{ font-size:13px; } .k-dock .q b{ font-family:'Courier New',monospace; }
+  .k-rvl{ display:flex; flex-direction:column; border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:12.5px; }
+  .k-rvl > div{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; padding:7px 12px; border-top:1px solid var(--line); }
+  .k-rvl > div:first-child{ border-top:0; }
+  .k-rvl .d{ background:var(--paper-dark); font-weight:800; }
+  .k-rvl .m{ font-family:'Courier New',monospace; font-weight:800; }
+  @container k (max-width: 900px){
+    .k-plan2{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .k-plan2.impar > button:first-child{ grid-column:1 / -1; }
+  }
+  @container k (max-width: 560px){
+    .k-tool{ grid-template-columns:minmax(0,1fr); gap:6px; padding:10px; }
+    .k-tool > .k-l{ margin-top:2px; }
+    .k-fill2{ grid-auto-flow:row; grid-template-columns:repeat(var(--c,2), minmax(0,1fr)); }
+    .k-mrow{ grid-template-columns:repeat(var(--n,5), minmax(0,1fr)); }
+    .k-mrow .k-monto-in{ grid-column:1 / -1; }
+    .k-mrow .k-chip{ height:46px; font-size:13px; }
+    .k-rutas{ grid-template-columns:minmax(0,1fr); }
+    .k-ruta{ grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto auto; padding:11px 12px; gap:6px 10px; }
+    .k-ruta .t{ grid-column:1; } .k-ruta .v{ grid-column:2; grid-row:1; font-size:19px; text-align:right; }
+    .k-ruta dl{ grid-column:1 / -1; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
+    .k-ruta dt{ font-size:10.5px; } .k-ruta dd{ text-align:left; }
+    .k-ruta dl > div{ flex-direction:column-reverse; justify-content:flex-end; gap:0; }
+    .k-ruta .f{ grid-column:1 / -1; min-height:0; }
+    .k-detl > div{ grid-template-columns:20px minmax(0,1fr) auto; gap:4px 8px; }
+    .k-detl .k-pil{ grid-column:2; grid-row:2; } .k-detl .ps{ grid-column:2 / -1; grid-row:3; } .k-detl .am{ grid-column:3; grid-row:1; }
+    .k-plan2 .v{ font-size:17px; } .k-plan2 > button{ padding:10px; }
+    .k-plan2 .t{ white-space:normal; min-height:2.6em; }
+    .k-sal, .k-dia > .h.k-sal{ grid-template-columns:24px minmax(0,1fr) auto 40px 18px; gap:8px; padding:10px 10px; }
+    .k-tanda.k-sal{ padding:9px 10px; }
+    .k-sal .k-btn{ padding:0; font-size:14px; } .k-sal .k-btn .tx{ display:none; }
+    .k-dock{ grid-template-columns:1fr 1fr; } .k-dock .q{ grid-column:1 / -1; }
+  }
+
+  /* cabecera de grupo: casilla · nombre · total en una sola línea, también en el teléfono */
+  .k-gr{ display:grid !important; grid-template-columns:28px minmax(0,1fr) auto; gap:10px; }
+  .k-gr .nm{ margin-right:0; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  @container k (max-width: 900px){
+  }
+  @container k (max-width: 560px){ .k-gr{ grid-template-columns:24px minmax(0,1fr) auto; padding:9px 12px; } .k-gr .nm{ font-size:12.5px; } }
+
+  .k-sal .l1{ display:inline-flex; gap:8px; align-items:center; }
+  @container k (max-width: 560px){ .k-sal .q{ flex-direction:column; align-items:flex-start; gap:2px; } }
+
+  @container k (max-width: 560px){ .k-kpis.k-kpis4{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+  @media (max-width:900px){
+    .k-bolsa, .k-pie, .k-dock{ bottom:calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
+    /* el botón redondo de búsqueda tapaba la bolsa y la barra: se oculta SOLO en Cobros mientras se ven */
+    body:has(#panel-cobros.active :is(.k-bolsa,.k-pie,.k-dock)) #gsFab{ display:none !important; }
+  }
+  /* ─ Ajustes de la app sobre el preview (mismo aspecto): los estilos globales de la app no deben colarse ─ */
+  .k .k-monto-in input, .k .k-lupa input{ border:0 !important; background:transparent !important; box-shadow:none !important; padding:0 !important; outline:none !important; height:auto; margin:0; }
+  .k .k-monto-in:focus-within, .k .k-lupa:focus-within{ box-shadow:0 0 0 3px color-mix(in srgb, var(--ok) 30%, transparent); }
+  .k .k-tab2 thead th, body.theme-arcade .k .k-tab2 thead th{ background:transparent !important; color:var(--silver-dark) !important; font-size:10.5px; padding:8px 10px; letter-spacing:.06em; }
+  .k .k-tab2 tbody td{ font-family:inherit; border-bottom:0; padding:8px 10px; }
+  body.theme-arcade .k table.k-tab2{ border-radius:0 !important; }
+  .k-ambito button{ white-space:nowrap; }
+  /* una sola forma: sus 4 datos en fila (valor arriba, rótulo abajo), como en el teléfono */
+  .k-rutas[style*="--n:1;"] .k-ruta dl{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; max-width:620px; }
+  .k-rutas[style*="--n:1;"] .k-ruta dl > div{ flex-direction:column-reverse; justify-content:flex-end; gap:0; }
+  .k-rutas[style*="--n:1;"] .k-ruta dd{ text-align:left; }
+  /* Por taco: rótulos de las 4 cifras a dos líneas (valores alineados) y columna de monto fija (barras iguales) */
+  .k-kpis4 .k-kpi .k-l{ min-height:2.6em; }
+  .k-row.k-row-t{ grid-template-columns:minmax(0,1fr) 112px 22px; }
+  @container k (max-width: 560px){
+    .k-head{ flex-wrap:wrap; } .k-head .sp{ display:none; }
+    .k-ambito{ flex:1 1 100%; display:grid; grid-template-columns:1fr 1fr; } .k-ambito button{ padding:8px 6px; }
+    .k-caja-t .h .k-btn{ flex:1 1 100%; }
+    .k-sal .q > .mut{ max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .k-row.k-row-t{ grid-template-columns:minmax(0,1fr) 96px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce){ .k *{ transition:none !important; } }
 </style>
 </head>
 <body>
@@ -3126,10 +3448,7 @@
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-cobros">
     <div class="section">
-      <div class="section-head"><span class="tag">19</span><h2>Cobros de premios</h2><span class="hint">cuánto ganaste, cuánto cobraste y cuánto falta por cobrar</span></div>
-      <div class="note" style="margin-bottom:16px;">
-        Elige un <strong>día o un rango de fechas</strong> y verás <strong>cuánto ganaste</strong> en ese periodo y <strong>cuánto de eso ya cobraste</strong>. Marca lo cobrado de golpe (por periodo o por día) — todo se puede deshacer.
-      </div>
+      <!-- v41.4: la cabecera («19 Cobros» + ámbito) la pinta el módulo nuevo dentro de #cobrosContent. -->
       <div id="cobrosContent"></div>
     </div>
   </div>
@@ -3853,7 +4172,13 @@
   //   Quitar, arreglo de tacos sin ciudad y «Qué va a pasar»; Más filtros; Re-consultar; Editar
   //   este taco en su fila). Accesible con teclado: flechas, Espacio, Enter, Esc, Ctrl+A, F2.
   // v41.3 (12-oct-2026) — «Crear lote»: la ciudad automática sigue al punto si la puso la app.
-  const APP_VERSION = { num: '41.3', fecha: '2026-10-12' };
+  // v41.4 (12-oct-2026) — Cobros = propuesta B v2 «Plan de cobro» + alternativa 1 «Calculadora con
+  //   rutas», al pie de la letra (módulo KB, prefijo k-): «Te deben» + saldo 60 días; Cobrar
+  //   (🎯 cobrar un monto con hasta 3 formas exactas, planes listos, lista agrupada, bolsa, caja con
+  //   «＋ Llevo otro premio», recibo); Salidas (revertir uno, el día entero o varios marcados con un
+  //   solo Deshacer); Informes (te deben, meses, montos, cortes); Por taco enfocado en el cobro.
+  //   Solo se pinta la sección visible (antes 350–420 ms por toque). Teclado en todo el módulo.
+  const APP_VERSION = { num: '41.4', fecha: '2026-10-12' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -18868,7 +19193,645 @@
     return k;
   }
 
-  function renderCobros(){
+  // ══════════════════════════════════════════════════════════════════════════════════════
+  // COBROS v41.4 — propuesta B v2 «Plan de cobro» + alternativa 1 «Calculadora con rutas»
+  // Referencia AL PIE DE LA LETRA: docs/propuestas/cobros-2-propuestas.html (B v2) y
+  // docs/propuestas/cobros-monto-2-alternativas.html (alternativa 1, Salidas, simetría).
+  // POR QUÉ un módulo nuevo y no parches: el render viejo calculaba las 4 subpestañas y tres
+  // bloques muertos en CADA toque (350–420 ms medidos). Este pinta SOLO la sección visible.
+  // Escribe exactamente los mismos dos campos de siempre (`cobrado`, `fechaCobro`) y conserva
+  // la sesión en `bitacora_cobro_sesion` (con dos campos opcionales nuevos: extra y objetivo),
+  // la copia antes del primer cobro del día, la lupa (cobroLupaQ) y el ámbito (cobrosGlobal).
+  // El render anterior sigue en el archivo como `_renderCobrosV41` (no se ejecuta).
+  // Prefijo CSS `k-` (no existía en la app).
+  // ══════════════════════════════════════════════════════════════════════════════════════
+  const KB = (function(){
+    const RET = RETENCION_UMBRAL, GYE = COBRO_GYE_UMBRAL;
+    const pad = n => String(n).padStart(2,'0');
+    const fmt0 = n => (n<0?'−':'')+'$'+Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:0});
+    const nf = n => Number(n||0).toLocaleString('en-US');
+    const esc = escapeHtml;
+    const pl = (n,s,p) => n===1 ? s : (p||s+'s');
+    const neto = premioNeto;
+    const dias = (a,b) => Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/86400000);
+    const sumaD = (f,n) => sumarDias(f,n);
+    const fc = f => f ? fechaCortaCobro(f) : '—';
+    const fl = f => { const d=new Date(f+'T12:00:00'); return isNaN(d) ? String(f) : d.toLocaleDateString('es-EC',{weekday:'short', day:'numeric', month:'short'}).replace('.',''); };
+    const posTxt = p => padPos(p||0);
+    const edadTxt = d => d<=0 ? 'hoy' : d===1 ? 'ayer' : 'hace '+d+' días';
+    const aviso = (t, undo) => undo ? toastUndo(t, undo) : toast(t);
+    let HOY = todayStr();
+
+    // ───── estado de la vista (no se guarda en los datos) ─────
+    const st = { foco:null, bAgr:'tanda', bPlegados:new Set(), recibo:null, monto:'', rutas:null, ruta:null,
+      extraAb:false, extraQ:'', tacoF:'todos', tacoN:30, tacoOrden:'pend', tacoDir:-1, histAb:new Set(),
+      salSel:new Set(), salN:40, inf:'saldo', verOk:false, objetivo:'' };
+    const TAB = () => ({ sesion:'cobrar', pendientes:'cobrar', salidas:'salidas', reportes:'informes', informes:'informes', analisis:'informes', buscar:'tacos', tacos:'tacos' })[cobroTab] || 'cobrar';
+
+    // ───── datos: copia de lectura indexada por id (se rehace solo cuando cambian los datos) ─────
+    let B = { key:null };
+    function base(){
+      const ja = getJuegoActivo(), key = _dataVersion+'|'+cobrosGlobal+'|'+(ja&&ja.id)+'|'+HOY+'|'+(data.records||[]).length;
+      if(B.key===key) return B;
+      const LI = new Map(), porLote = new Map();
+      (data.records||[]).forEach(r=>{ const k = String(r.loteId); if(!porLote.has(k)) porLote.set(k, []); porLote.get(k).push(r); });
+      (data.lotes||[]).forEach(l=>{ const recs = porLote.get(String(l.id)) || [];
+        const fs = recs.map(r=>String(r.fecha||'').slice(0,10)).filter(Boolean).sort();
+        LI.set(String(l.id), { i:String(l.id), serie:l.serie||('lote '+l.id), j:getJuego(l.juegoId)||{}, jid:String(l.juegoId), punto:l.punto||'', ciudad:l.ciudad||'',
+          gasto:recs.reduce((s,r)=>s+(Number(r.costo)||0),0), n:recs.length, fcomp:fs[0]||'' }); });
+      const R = [], RI = new Map();
+      (data.records||[]).forEach(r=>{ if(!((Number(r.premio)||0)>0)) return; const l = String(r.loteId);
+        if(!LI.has(l)) LI.set(l, { i:l, serie:'lote '+l, j:{}, jid:'', punto:'', ciudad:'', gasto:0, n:0, fcomp:'' });
+        const x = { i:String(r.id), l, pos:Number(r.posicion)||0, premio:Number(r.premio)||0, cob:!!r.cobrado, fecha:String(r.fecha||'').slice(0,10), fcob:r.cobrado ? String(r.fechaCobro||r.fecha||'').slice(0,10) : '', rec:r };
+        R.push(x); RI.set(x.i, x); });
+      B = { key, LI, R, RI, jAct:ja };
+      return B;
+    }
+    const L = id => base().LI.get(String(id)) || { serie:'?', j:{}, punto:'' };
+    const enAmbito = r => cobrosGlobal || L(r.l).jid===String(base().jAct.id);
+    const premiados = () => base().R.filter(enAmbito);
+    const pendientes = () => base().R.filter(r=>!r.cob && enAmbito(r));
+    function grupos(lista){
+      const m = new Map(); lista.forEach(r=>{ if(!m.has(r.l)) m.set(r.l, []); m.get(r.l).push(r); });
+      const yc = new Map(); base().R.forEach(r=>{ if(r.cob){ if(!yc.has(r.l)) yc.set(r.l, []); yc.get(r.l).push(r); } });
+      const gs = [...m.entries()].map(([li, recs])=>{
+        recs.sort((a,b)=>a.pos-b.pos);
+        const lo = L(li), fmin = recs.map(r=>r.fecha).filter(Boolean).sort()[0] || HOY;
+        const marc = recs.filter(r=>cobroSel.has(r.i));
+        return { li, lo, recs, yaCobr:(yc.get(li)||[]).slice().sort((a,b)=>a.pos-b.pos), marc, sub:recs.reduce((s,r)=>s+neto(r.premio),0), subSel:marc.reduce((s,r)=>s+neto(r.premio),0),
+          edad:Math.max(0, dias(fmin, HOY)), conRet:recs.filter(r=>r.premio>=RET).length, gye:recs.some(r=>r.premio>GYE),
+          estado: !marc.length ? 'vacio' : (marc.length===recs.length ? 'completo' : 'parcial'), tanda:(lo.fcomp||'?')+'|'+(lo.punto||'') };
+      });
+      const cmp = { antiguedad:(a,b)=>(a.edad-b.edad)||(a.sub-b.sub), monto:(a,b)=>a.sub-b.sub, serie:(a,b)=>String(a.lo.serie).localeCompare(String(b.lo.serie),undefined,{numeric:true}) };
+      return gs.sort((a,b)=>(cmp[cobroOrden]||cmp.antiguedad)(a,b)*cobroOrdenDir);
+    }
+    const lupaDig = () => cobroLupaDig();
+    const lupaFiltra = gs => cobroLupaFiltra(gs.map(g=>Object.assign(g, {serie:g.lo.serie}))) ;
+    const serieHL = s => cobroSerieHL(s);
+    function totales(ids){ const rs = [...ids].map(i=>base().RI.get(String(i))).filter(r=>r && !r.cob);
+      let bruto=0, net=0; rs.forEach(r=>{ bruto+=r.premio; net+=neto(r.premio); });
+      return { rs, n:rs.length, tacos:new Set(rs.map(r=>r.l)).size, bruto, neto:net, ret:bruto-net, conRet:rs.filter(r=>r.premio>=RET).length, gye:rs.filter(r=>r.premio>GYE).length }; }
+    function denom(rs){ const d={}; rs.forEach(r=>{ d[r.premio]=(d[r.premio]||0)+1; }); return Object.keys(d).map(Number).sort((a,b)=>a-b).map(v=>[v,d[v]]); }
+    const denomHTML = rs => '<div class="k-den">'+denom(rs).map(([v,n])=>'<span><b>'+n+'×</b> '+fmt(v).replace('.00','')+'</span>').join('')+'</div>';
+    function ritmo(){ const p = premiados(), c = p.filter(r=>r.cob && r.fecha && r.fcob).map(r=>Math.max(0,dias(r.fecha,r.fcob))).sort((a,b)=>a-b);
+      const gan = p.reduce((s,r)=>s+neto(r.premio),0), pend = p.filter(r=>!r.cob).reduce((s,r)=>s+neto(r.premio),0);
+      return { med: c.length?c[Math.floor(c.length/2)]:null, max: c.length?c[c.length-1]:null, pct: gan>0?(gan-pend)/gan*100:100 }; }
+    function resumen(){ const pe = pendientes(), gs = grupos(pe);
+      const hoyC = premiados().filter(r=>r.cob && r.fcob===HOY).reduce((s,r)=>s+neto(r.premio),0);
+      const otros = cobrosGlobal ? [] : base().R.filter(r=>!r.cob && !enAmbito(r));
+      const viejos = pe.filter(r=>r.fecha && dias(r.fecha,HOY)>30);
+      return { pe, gs, total:pe.reduce((s,r)=>s+neto(r.premio),0), hoyC, otros, otrosV:otros.reduce((s,r)=>s+neto(r.premio),0), viejos, gye:pe.filter(r=>r.premio>GYE) }; }
+    // Tanda de cobro = mismo taco + misma fecha de cobro (la huella de una pulsación de cobrar).
+    function tandas(){ const m = new Map(); premiados().forEach(r=>{ if(!r.cob) return; const k = r.l+'||'+r.fcob; if(!m.has(k)) m.set(k,{k, l:r.l, fcob:r.fcob, rs:[]}); m.get(k).rs.push(r); });
+      return [...m.values()].map(t=>({...t, n:t.rs.length, neto:t.rs.reduce((s,r)=>s+neto(r.premio),0), bruto:t.rs.reduce((s,r)=>s+r.premio,0), fb:t.rs.map(r=>r.fecha).filter(Boolean).sort()[0]}))
+        .sort((a,b)=>(a.fcob<b.fcob?1:a.fcob>b.fcob?-1:0)||(b.n-a.n)); }
+    function extracto(desde, hasta){ const p = premiados(), mv = {};
+      p.forEach(r=>{ if(r.fecha){ (mv[r.fecha]=mv[r.fecha]||{gan:0,ng:0,cob:0,nc:0}); mv[r.fecha].gan+=neto(r.premio); mv[r.fecha].ng++; } if(r.cob && r.fcob){ (mv[r.fcob]=mv[r.fcob]||{gan:0,ng:0,cob:0,nc:0}); mv[r.fcob].cob+=neto(r.premio); mv[r.fcob].nc++; } });
+      let s = 0; const out = Object.keys(mv).sort().map(d=>{ s += mv[d].gan - mv[d].cob; return {d, ...mv[d], saldo:s}; });
+      return out.filter(x=>(!desde||x.d>=desde) && (!hasta||x.d<=hasta)); }
+    function porTaco(){ const by = new Map(); base().R.forEach(r=>{ if(!by.has(r.l)) by.set(r.l, []); by.get(r.l).push(r); });
+      return [...base().LI.values()].filter(l=>cobrosGlobal || l.jid===String(base().jAct.id)).map(l=>{ const rs = by.get(l.i)||[]; const premio = rs.reduce((s,r)=>s+neto(r.premio),0), pend = rs.filter(r=>!r.cob);
+        return { l, rs, gasto:l.gasto, premio, nPrem:rs.length, pend:pend.reduce((s,r)=>s+neto(r.premio),0), nPend:pend.length }; }); }
+
+    // ───── acciones: escriben SOLO cobrado/fechaCobro (como siempre) y todas tienen Deshacer ─────
+    function _tocarLote(r){ const lo = (data.lotes||[]).find(l=>String(l.id)===String(r.loteId)); if(lo) lo.actualizadoEn = new Date().toISOString(); }
+    function _restaurar(prev){ let ok = 0; prev.forEach(p=>{ const v = (data.records||[]).find(x=>String(x.id)===p.id); if(v){ v.cobrado = p.cobrado; v.fechaCobro = p.fechaCobro; _tocarLote(v); ok++; } }); save(); render(); return ok; }
+    function cobrar(ids, etiqueta){
+      cobroRespaldoDelDia();
+      const fecha = todayStr(), prev = []; let tot = 0;
+      ids.forEach(i=>{ const x = base().RI.get(String(i)); const r = x && x.rec;
+        if(!r || r.cobrado || !((Number(r.premio)||0)>0)) return;   // nunca se cobra algo sin premio
+        prev.push({ id:String(r.id), cobrado:r.cobrado, fechaCobro:r.fechaCobro }); r.cobrado = true; r.fechaCobro = fecha; _tocarLote(r); tot += neto(r.premio); cobroSel.delete(String(r.id)); });
+      if(!prev.length){ aviso('Eso ya estaba cobrado'); return null; }
+      try{ if(navigator.vibrate) navigator.vibrate(26); }catch(_){}
+      save(); render();
+      aviso('✓ Cobrado '+fmt(tot)+' · '+prev.length+' '+pl(prev.length,'premio')+(etiqueta?' · '+etiqueta:''), ()=>{ _restaurar(prev); toast('↩ Cobro deshecho'); });
+      return { n:prev.length, tot }; }
+    function revertir(ids, etiqueta){
+      const prev = []; let tot = 0;
+      ids.forEach(i=>{ const x = base().RI.get(String(i)); const r = x && x.rec; if(!r || !r.cobrado) return;
+        prev.push({ id:String(r.id), cobrado:r.cobrado, fechaCobro:r.fechaCobro }); r.cobrado = false; r.fechaCobro = null; _tocarLote(r); tot += neto(r.premio); });
+      if(!prev.length) return;
+      save(); render();
+      aviso('↩ '+prev.length+' '+pl(prev.length,'premio')+' vuelven a pendientes · '+fmt(tot)+(etiqueta?' · '+etiqueta:''), ()=>{ _restaurar(prev); toast('✓ Cobro restaurado'); }); }
+    function cierre(pagados, noPagados){
+      const RI = base().RI, ahora = pagados.reduce((s,i)=>s+neto(RI.get(i).premio),0);
+      const yaHoy = premiados().filter(r=>r.cob && r.fcob===HOY && !pagados.includes(r.i)).reduce((s,r)=>s+neto(r.premio),0);
+      const porDia = {}; premiados().forEach(r=>{ if(r.cob && r.fcob && r.fcob!==HOY) porDia[r.fcob]=(porDia[r.fcob]||0)+neto(r.premio); });
+      const ds = Object.keys(porDia), media = ds.length ? ds.reduce((s,d)=>s+porDia[d],0)/ds.length : 0, total = ahora + yaHoy;
+      const parc = {}; noPagados.forEach(i=>{ const s = L(RI.get(i).l).serie; parc[s]=(parc[s]||0)+1; });
+      return { ahora, n:pagados.length, total, yaHoy, media, dif: media>0 ? Math.round((total/media-1)*100) : null, parc,
+               queda: pendientes().filter(r=>!pagados.includes(r.i)).reduce((s,r)=>s+neto(r.premio),0), rs: pagados.map(i=>({...RI.get(i)})) }; }
+
+    // ───── sesión (caja): la misma clave de siempre; extra y objetivo son opcionales ─────
+    function ses(){ const s = sesionLeer(); if(!s) return null;
+      return { inicio:s.inicio, lleva:s.lleva.map(String), pag:new Set((s.pagados||[]).map(String)), extra:new Set((s.extra||[]).map(String)), objetivo:s.objetivo||'' }; }
+    function sesGuardar(o){ if(!o){ sesionGuardar(null); return; }
+      sesionGuardar({ inicio:o.inicio||new Date().toISOString(), lleva:o.lleva, pagados:[...o.pag], extra:[...o.extra], objetivo:o.objetivo||'' }); }
+
+    // ───── ventanas: un solo armazón, foco atrapado, Esc cancela, el foco vuelve al cerrar ─────
+    function modal({ico, titulo, sub, cuerpo, ok, cancelar='Cancelar', soloOk}){ return new Promise(res=>{
+      const prev = document.activeElement;
+      const f = document.createElement('div'); f.className = 'k-fondo';
+      f.innerHTML = '<div class="k-modal" role="dialog" aria-modal="true" aria-labelledby="kmT"><div class="c"><div class="i" aria-hidden="true">'+(ico||'✓')+'</div><div><h3 id="kmT">'+titulo+'</h3>'+(sub?'<p>'+sub+'</p>':'')+'</div></div><div class="b">'+cuerpo+'</div><div class="p">'+(soloOk?'':'<button type="button" class="k-btn" data-x>'+cancelar+'</button>')+'<button type="button" class="k-btn pri" data-ok>'+ok+'</button></div></div>';
+      document.body.appendChild(f);
+      const fin = v => { document.removeEventListener('keydown', tec, true); f.remove(); try{ prev && prev.focus({preventScroll:true}); }catch(_){} res(v); };
+      const tec = e => { if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); fin(false); }
+        if(e.key==='Tab'){ const bs=[...f.querySelectorAll('button')]; const i=bs.indexOf(document.activeElement); if(e.shiftKey&&i<=0){ e.preventDefault(); bs[bs.length-1].focus(); } else if(!e.shiftKey&&i===bs.length-1){ e.preventDefault(); bs[0].focus(); } } };
+      document.addEventListener('keydown', tec, true);
+      f.addEventListener('mousedown', e=>{ if(e.target===f) fin(false); });
+      f.querySelector('[data-ok]').onclick = ()=>fin(true); const x = f.querySelector('[data-x]'); if(x) x.onclick = ()=>fin(false);
+      setTimeout(()=>f.querySelector('[data-ok]').focus(), 0);
+    }); }
+    async function pedirRevertirTanda(t){
+      const s = esc(L(t.l).serie);
+      const ok = await modal({ ico:'↩', titulo:'Revertir este cobro', sub:s+' · cobrado el '+fc(t.fcob), ok:'Sí, revertir',
+        cuerpo:'<div>Vas a marcar como <b>NO cobrados</b> '+t.n+' '+pl(t.n,'premio')+' del taco <b class="mono">'+s+'</b>.</div><div>Vuelven a pendientes por <b>'+fmt(t.neto)+'</b>'+(t.bruto!==t.neto?' (bruto '+fmt(t.bruto)+')':'')+'.</div><div class="mut" style="font-size:12.5px;">No borra boletos ni cambia premios: solo el estado de cobro. Se puede deshacer.</div>' });
+      if(ok) revertir(t.rs.map(r=>r.i), L(t.l).serie); }
+    async function pedirRevertirVarias(ts, titulo){ if(!ts.length) return;
+      const tot = ts.reduce((s,t)=>s+t.neto,0), np = ts.reduce((s,t)=>s+t.n,0), por = new Map(); ts.forEach(t=>{ if(!por.has(t.fcob)) por.set(t.fcob, []); por.get(t.fcob).push(t); });
+      const ok = await modal({ ico:'↩', titulo, sub:ts.length+' '+pl(ts.length,'taco')+' · '+np+' '+pl(np,'premio')+' · '+fmt(tot), ok:'Sí, revertir '+ts.length,
+        cuerpo:'<div>Estos cobros vuelven a <b>pendientes</b> y «Te deben» sube <b>'+fmt(tot)+'</b>.</div><div class="k-rvl">'+[...por.entries()].map(([d,arr])=>'<div class="d"><span>'+fc(d)+'</span><span class="m">'+fmt(arr.reduce((s,t)=>s+t.neto,0))+'</span></div>'+arr.map(t=>'<div><span><b class="mono">'+esc(L(t.l).serie)+'</b> <span class="mut">· '+t.n+' '+pl(t.n,'premio')+'</span></span><span class="m">'+fmt(t.neto)+'</span></div>').join('')).join('')+'</div><div class="mut" style="font-size:12.5px;">Solo cambia el estado de cobro (no borra boletos ni premios). Un solo «Deshacer» lo devuelve todo.</div>' });
+      if(ok){ ts.forEach(t=>st.salSel.delete(t.k)); revertir(ts.flatMap(t=>t.rs.map(r=>r.i)), ts.length+' '+pl(ts.length,'taco')); } }
+    async function cobrarTodo(){ const pe = pendientes(); if(!pe.length) return; const tot = pe.reduce((s,r)=>s+neto(r.premio),0);
+      if(pe.length>=10){ const ok = await modal({ ico:'💵', titulo:'¿Marcar '+pe.length+' premios como cobrados?', ok:'Sí, cobré todo', cuerpo:'Vas a dar por cobrados <b>'+pe.length+' premios</b> por <b>'+fmt(tot)+'</b>. Se puede deshacer desde el aviso.' }); if(!ok) return; }
+      cobrar(pe.map(r=>r.i), 'todo'); }
+    function cierreHTML(c){ const li = ['Cobraste <b>'+fmt(c.ahora)+'</b> en esta salida ('+c.n+' '+pl(c.n,'premio')+').'];
+      if(c.yaHoy>0.004) li.push('Con lo de antes, hoy llevas <b>'+fmt(c.total)+'</b>.');
+      if(c.dif!=null) li.push('Tu media por día de cobro es '+fmt(c.media)+' — hoy vas <b class="'+(c.dif>=0?'pos':'amb')+'">'+(c.dif>=0?'+':'')+c.dif+'%</b>.');
+      Object.keys(c.parc).forEach(k=>li.push('<b class="mono">'+esc(k)+'</b>: <span class="amb">'+c.parc[k]+' sin pagar</span>, vuelven a pendientes.'));
+      li.push('Sigue pendiente <b>'+fmt(c.queda)+'</b>.');
+      return '<div class="k-big pos" style="font-size:34px;">'+fmt(c.total)+'</div><div class="k-l">cobrado hoy</div><ul style="margin:6px 0 0; padding-left:18px; line-height:1.8;">'+li.map(x=>'<li>'+x+'</li>').join('')+'</ul>'; }
+
+    // ───── piezas comunes ─────
+    function cabecera(){ const j = base().jAct || {};
+      return '<div class="k-head"><span class="tag">19</span><h2>Cobros</h2><span class="sp"></span><div class="k-ambito" role="radiogroup" aria-label="Ámbito"><button type="button" role="radio" aria-checked="'+!cobrosGlobal+'" class="'+(cobrosGlobal?'':'on')+'" data-amb="0">'+(j.emoji||'🎟️')+' '+esc(j.nombre||'')+'</button><button type="button" role="radio" aria-checked="'+cobrosGlobal+'" class="'+(cobrosGlobal?'on':'')+'" data-amb="1">🌐 Todos</button></div></div>'; }
+    function avisos(rs){ const a = [];
+      if(rs.viejos.length) a.push('<div class="k-aviso neg">🕗 <b>'+rs.viejos.length+' '+pl(rs.viejos.length,'premio')+' con más de 30 días</b> sin cobrar ('+fmt(rs.viejos.reduce((s,r)=>s+neto(r.premio),0))+').<button type="button" data-marcar-ids="'+rs.viejos.map(r=>esc(r.i)).join(',')+'">Marcarlos</button></div>');
+      if(rs.otros.length) a.push('<div class="k-aviso">⚠ Otros juegos: <b>'+fmt(rs.otrosV)+'</b> pendientes.<button type="button" data-amb="1">Ver todos los juegos</button></div>');
+      if(rs.gye.length) a.push('<div class="k-aviso">🏛 '+rs.gye.length+' '+pl(rs.gye.length,'premio')+' de más de '+fmt(GYE)+' <b>solo se cobran en Guayaquil</b>.</div>');
+      return a.join(''); }
+    function filaTaco(g){ const ab = cobroAbiertos.has(g.li), id = esc(g.li);
+      const flags = [ g.yaCobr.length ? '<span class="k-pil cur" title="Ya tiene premios cobrados en otra visita">◐ '+g.yaCobr.length+' ya cobrados</span>' : '',
+        g.conRet ? '<span class="k-pil amb" title="Premio de $500 o más: retención del 14%">⚠ retención</span>' : '', g.gye ? '<span class="k-pil neg">🏛 Guayaquil</span>' : '' ].join('');
+      const ed = '<span class="k-pil '+(g.edad>30?'neg':g.edad>7?'amb':'sin')+'">'+edadTxt(g.edad)+'</span>';
+      const mo = g.estado==='parcial' ? fmt(g.subSel)+'<small>/'+fmt(g.sub).replace('$','')+'</small>' : fmt(g.sub);
+      const ck = '<button type="button" class="k-ck '+(g.estado==='completo'?'on':g.estado==='parcial'?'mix':'')+'" data-taco="'+id+'" tabindex="-1" aria-label="Marcar '+esc(g.lo.serie)+'">'+(g.estado==='completo'?'✓':g.estado==='parcial'?'–':'')+'</button>';
+      const row = '<div class="k-row '+(g.estado==='completo'?'sel':g.estado==='parcial'?'parc':'')+' '+(g.edad>30?'muyviejo':g.edad>7?'viejo':'')+'" tabindex="'+(st.foco===g.li?0:-1)+'" data-fila="'+id+'" role="row" aria-selected="'+(g.estado==='completo')+'" aria-expanded="'+ab+'" aria-label="'+esc(g.lo.serie+', '+g.recs.length+' premios, '+fmt(g.sub)+', '+edadTxt(g.edad))+'">'
+        + ck + '<div style="min-width:0;"><div class="s">'+serieHL(g.lo.serie)+'</div><div class="m">'+(g.lo.punto?esc(g.lo.punto)+' · ':'')+(cobrosGlobal?(g.lo.j.emoji||'🎟️')+' ':'')+g.recs.length+' '+pl(g.recs.length,'premio')+' '+ed+'</div></div>'
+        + '<div class="fl">'+flags+'</div><div class="mo">'+mo+'</div><button type="button" class="ex" data-abrir="'+id+'" tabindex="-1" aria-label="'+(ab?'Plegar':'Ver premios')+'">'+(ab?'▴':'▾')+'</button></div>';
+      if(!ab) return row;
+      return row + '<div class="k-exp">'
+        + (g.yaCobr.length ? '<div class="mut" style="font-size:12px;">◐ Ya cobrados en otra visita: <b>'+g.yaCobr.map(r=>posTxt(r.pos)).join(', ')+'</b> ('+fmt(g.yaCobr.reduce((s,r)=>s+neto(r.premio),0))+'). Esos boletos ya no los tienes.</div>' : '')
+        + '<div class="k-bar" style="justify-content:space-between;"><span class="mut" style="font-size:12px;">Toca un premio para llevarlo suelto'+(g.conRet?' · los de borde punteado tienen retención del 14%':'')+'</span><button type="button" class="k-chip" data-taco="'+id+'">'+(g.estado==='completo'?'Quitar los '+g.recs.length:'Marcar los '+g.recs.length)+'</button></div>'
+        + '<div class="k-grid">'+g.recs.map(r=>'<button type="button" class="k-bol '+(cobroSel.has(r.i)?'on ':'')+(r.premio>=RET?'ret ':'')+(r.premio>=400?'big':'')+'" data-bol="'+esc(r.i)+'" aria-pressed="'+cobroSel.has(r.i)+'" title="'+(r.premio>=RET?'Con retención: te pagan '+fmt(neto(r.premio)):fmt(r.premio))+'">'+posTxt(r.pos)+'<b>'+fmt(r.premio).replace('.00','')+'</b></button>').join('')
+        + g.yaCobr.map(r=>'<span class="k-bol pag" title="Cobrado el '+fc(r.fcob)+'">'+posTxt(r.pos)+'<b>✓ '+fmt(r.premio).replace('.00','')+'</b></span>').join('')+'</div></div>'; }
+    // Herramientas: lupa + UNA tarjeta con columna de rótulos (Ordenar · Agrupar · Marcar), del mismo ancho que la lista.
+    function herramientas(gs){ const viejos = gs.filter(g=>g.edad>7), mk = [], rec = cobroLupaRecientes();
+      if(viejos.length) mk.push('<button type="button" class="k-chip" data-pre="viejos">+7 días ('+viejos.length+')</button>');
+      if(gs.length>5) mk.push('<button type="button" class="k-chip" data-pre="grandes">5 grandes</button>');
+      mk.push('<button type="button" class="k-chip" data-pre="todos">Todos ('+gs.length+')</button>');
+      if(cobroSel.size) mk.push('<button type="button" class="k-chip" data-pre="limpiar">Limpiar ('+cobroSel.size+')</button>');
+      return '<div class="k-bar"><label class="k-lupa"><span aria-hidden="true">🔍</span><input id="kLupa" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="search" placeholder="Número del taco (últimos dígitos)" aria-label="Buscar taco por número" value="'+esc(cobroLupaQ)+'">'+(cobroLupaQ?'<button type="button" class="x" data-lupax aria-label="Borrar búsqueda">✕</button>':'')+'</label></div>'
+       + (rec.length && !cobroLupaQ ? '<div class="k-rec">Recientes '+rec.map(s=>'<button type="button" data-rec="'+esc(s)+'">'+esc(s)+'</button>').join('')+'</div>' : '')
+       + '<div class="k-tool">'
+       + '<span class="k-l">Ordenar</span><div class="k-seg k-fill" role="radiogroup" aria-label="Ordenar">'+[['antiguedad','Antigüedad'],['monto','Monto'],['serie','Serie']].map(([k,t])=>'<button type="button" role="radio" aria-checked="'+(cobroOrden===k)+'" class="'+(cobroOrden===k?'on':'')+'" data-orden="'+k+'">'+t+(cobroOrden===k?(cobroOrdenDir<0?' ↓':' ↑'):'')+'</button>').join('')+'</div>'
+       + '<span class="k-l">Agrupar</span><div class="k-seg k-fill" role="radiogroup" aria-label="Agrupar">'+[['tanda','Compra'],['punto','Punto'],['edad','Antigüedad'],['no','Ninguno']].map(([k,t])=>'<button type="button" role="radio" aria-checked="'+(st.bAgr===k)+'" class="'+(st.bAgr===k?'on':'')+'" data-bagr="'+k+'">'+t+'</button>').join('')+'</div>'
+       + '<span class="k-l">Marcar</span><div class="k-fill2" style="--c:'+(mk.length===3?3:Math.min(mk.length,2))+';">'+mk.join('')+'</div>'
+       + '</div>'; }
+    function listaTacos(gs, todos){ const d = lupaDig();
+      if(!todos.length) return '<div class="k-card" style="padding:28px; text-align:center;"><div style="font-size:28px;">🎉</div><b>No queda nada por cobrar</b><div class="mut">Cuando registres un premio aparecerá aquí.</div></div>';
+      if(d && !gs.length) return '<div class="k-card mut" style="padding:20px; text-align:center;">Ningún taco termina ni contiene «'+esc(d)+'». Revisa el número o borra un dígito.</div>';
+      return '<div class="k-list" role="grid" aria-multiselectable="true" aria-label="Tacos por cobrar">'+gs.map(filaTaco).join('')+'</div>'; }
+    function bolsaHTML(){ const t = totales(cobroSel), gsp = grupos(pendientes()).filter(g=>g.marc.length && g.yaCobr.length);
+      if(!t.n) return '<aside class="k-bolsa" aria-label="Lo que te llevas"><div class="k-l">Tu bolsa</div><div class="k-big tot mut">$0.00</div><div class="mut" style="font-size:12.5px;">Marca tacos o premios sueltos: aquí verás el total, lo que vas a pedir y la retención.</div></aside>';
+      return '<aside class="k-bolsa" aria-label="Lo que te llevas"><div class="k-l">Te llevas '+t.tacos+' '+pl(t.tacos,'taco')+' · '+t.n+' '+pl(t.n,'premio')+'</div><div class="k-big tot pos">'+fmt(t.neto)+'</div>'
+       + (t.ret>0.004 ? '<div class="k-kv"><span>Bruto</span><b>'+fmt(t.bruto)+'</b><span>Retención 14% ('+t.conRet+')</span><b class="amb">−'+fmt(t.ret)+'</b></div>' : '')
+       + '<div class="opt"><div class="k-l" style="margin-bottom:6px;">Vas a pedir</div>'+denomHTML(t.rs)+'</div>'
+       + (gsp.length ? '<div class="k-aviso opt" style="font-size:12px;">◐ '+gsp.map(g=>'<b class="mono">'+esc(g.lo.serie)+'</b>').join(', ')+' ya '+pl(gsp.length,'tiene','tienen')+' premios cobrados: lleva solo lo marcado.</div>' : '')
+       + (t.gye ? '<div class="k-aviso neg opt" style="font-size:12px;">🏛 '+t.gye+' premio(s) solo se cobran en Guayaquil.</div>' : '')
+       + '<button type="button" class="k-btn pri" data-ir-caja style="height:48px;">Siguiente: en la caja →</button><button type="button" class="k-btn opt" data-ya-cobre>Ya lo cobré (sin caja)</button></aside>'; }
+    // Caja: tachar lo que te pagan. Lo no tachado vuelve a pendientes.
+    function cajaHTML(s){ const RI = base().RI, lleva = s.lleva.map(i=>RI.get(i)).filter(r=>r && !r.cob), pag = s.pag;
+      const tot = lleva.reduce((a,r)=>a+neto(r.premio),0), cob = lleva.filter(r=>pag.has(r.i)).reduce((a,r)=>a+neto(r.premio),0), falta = tot-cob;
+      const pend = lleva.filter(r=>!pag.has(r.i)), pct = tot>0 ? cob/tot*100 : 0, nPag = lleva.filter(r=>pag.has(r.i)).length;
+      const porT = new Map(); lleva.forEach(r=>{ if(!porT.has(r.l)) porT.set(r.l, []); porT.get(r.l).push(r); });
+      return '<div class="k-caja-h" role="region" aria-label="En la caja">'+(s.objetivo?'<div class="k-pil cur" style="align-self:flex-start;">🎯 Objetivo '+fmt(+s.objetivo)+'</div>':'')+'<div class="k-bar" style="justify-content:space-between;"><span class="k-l">Paso 2 · te falta cobrar</span><span class="mut" style="font-size:12px;">'+nPag+' de '+lleva.length+' premios</span></div>'
+       + '<div class="k-big" style="font-size:44px;">'+fmt(falta)+'</div><div class="k-prog" aria-hidden="true"><span style="width:'+pct+'%"></span></div>'
+       + '<div class="mut" style="font-size:12.5px;">llevas cobrado <b class="pos mono">'+fmt(cob)+'</b> de '+fmt(tot)+'</div>'
+       + (pend.length ? '<div><div class="k-l" style="margin:4px 0 6px;">Lo que falta pedir</div>'+denomHTML(pend)+'</div>' : '<div class="pos" style="font-weight:800;">Todo tachado. Ya puedes cerrar.</div>')
+       + (pend.some(r=>r.premio>=RET) ? '<div class="amb" style="font-size:12px;">⚠ Queda '+pend.filter(r=>r.premio>=RET).length+' premio(s) con retención del 14%.</div>' : '') + '</div>'
+       + [...porT.entries()].map(([li, rs])=>{ const n = rs.filter(r=>pag.has(r.i)).length, todo = n===rs.length;
+          return '<div class="k-caja-t '+(todo?'done':'')+'"><div class="h"><span class="s">'+esc(L(li).serie)+'</span><span class="k-pil '+(todo?'ok':n?'cur':'sin')+'">'+n+' de '+rs.length+' pagados</span>'+(rs.some(r=>s.extra.has(r.i))?'<span class="k-pil amb">extra</span>':'')+'<span class="mono" style="margin-left:auto; font-weight:800;">'+fmt(rs.reduce((a,r)=>a+neto(r.premio),0))+'</span><button type="button" class="k-btn sm '+(todo?'':'ok')+'" data-pagotaco="'+esc(li)+'">'+(todo?'Destachar':'Pagó todo')+'</button></div>'
+           + '<div class="k-grid">'+rs.map(r=>'<button type="button" class="k-bol '+(pag.has(r.i)?'on':'')+' '+(r.premio>=RET?'ret':'')+'" data-pago="'+esc(r.i)+'" aria-pressed="'+pag.has(r.i)+'">'+posTxt(r.pos)+'<b>'+(pag.has(r.i)?'✓ ':'')+fmt(r.premio).replace('.00','')+'</b></button>').join('')+'</div></div>'; }).join('')
+       + extraHTML(s) + '<div class="k-pie"><button type="button" class="k-btn" data-volver>← Preparar</button><button type="button" class="k-btn" data-pagaron-todo>Pagaron todo</button><span style="flex:1"></span><button type="button" class="k-btn pri" data-cerrar-caja style="height:46px;">Cerrar caja →</button></div>'
+       + '<div class="mut" style="font-size:11.5px; text-align:center;">Lo que no taches vuelve a pendientes, sin tocarse. La caja abierta se guarda en este aparato (si cierras la app, sigue ahí).</div>'; }
+    // En la caja: premios que llevaste de más (no estaban en la lista) se agregan ya tachados y se cobran igual.
+    function extraHTML(s){ if(!st.extraAb) return '<button type="button" class="k-btn" data-extra-ab style="align-self:flex-start;">＋ Llevo otro premio que no estaba en la lista</button>';
+      const dentro = new Set(s.lleva), q = st.extraQ.replace(/\D/g,'');
+      const gs = grupos(pendientes().filter(r=>!dentro.has(r.i))).filter(g=>!q || String(g.lo.serie).replace(/\D/g,'').includes(q)).slice(0, 8);
+      return '<div class="k-card" style="padding:12px 14px; display:flex; flex-direction:column; gap:10px;"><div class="k-bar" style="justify-content:space-between;"><b>¿Qué otro premio llevas?</b><button type="button" class="k-btn sm" data-extra-ab>Cerrar</button></div>'
+       + '<label class="k-lupa" style="height:42px;"><span aria-hidden="true">🔍</span><input id="kExtraQ" type="text" inputmode="numeric" autocomplete="off" placeholder="Número del taco" aria-label="Buscar el taco del premio extra" value="'+esc(st.extraQ)+'"></label>'
+       + (gs.length ? gs.map(g=>'<div><div class="mono" style="font-weight:800; margin-bottom:4px;">'+esc(g.lo.serie)+' <span class="mut" style="font-family:inherit; font-weight:500; font-size:12px;">· toca los que te pagaron</span></div><div class="k-grid">'+g.recs.map(r=>'<button type="button" class="k-bol" data-extra="'+esc(r.i)+'">'+posTxt(r.pos)+'<b>'+fmt(r.premio).replace('.00','')+'</b></button>').join('')+'</div></div>').join('') : '<div class="mut">No hay más premios pendientes con ese número.</div>')
+       + '</div>'; }
+
+    // ───── Informes ─────
+    function periodo(){ const p = premiados(), fs = p.map(r=>r.fecha).filter(Boolean).sort(); const min = fs[0]||HOY, max = fs[fs.length-1]||HOY;
+      return { min, max, desde: cobroFiltro.desde||min, hasta: cobroFiltro.hasta||max }; }
+    function presetOn(k,P){ if(k==='todo') return !cobroFiltro.desde && !cobroFiltro.hasta; if(k==='hoy') return P.desde===HOY&&P.hasta===HOY; if(k==='mes') return P.desde===HOY.slice(0,8)+'01'&&P.hasta===HOY; return P.hasta===HOY && P.desde===sumaD(HOY,-(+k-1)); }
+    function periodoHTML(P){ return '<div class="k-bar">'+[['hoy','Hoy'],['7','7 días'],['30','30 días'],['mes','Este mes'],['todo','Todo']].map(([k,t])=>'<button type="button" class="k-chip '+(presetOn(k,P)?'on':'')+'" data-preset="'+k+'">'+t+'</button>').join('')
+      + '<span class="mut" style="font-size:12px;">Desde</span><input type="date" id="kDesde" class="k-fecha" value="'+P.desde+'" min="'+P.min+'" max="'+P.max+'" aria-label="Desde">'
+      + '<span class="mut" style="font-size:12px;">Hasta</span><input type="date" id="kHasta" class="k-fecha" value="'+P.hasta+'" min="'+P.min+'" max="'+P.max+'" aria-label="Hasta"></div>'; }
+    function kpisPeriodo(P){ const en = premiados().filter(r=>r.fecha>=P.desde && r.fecha<=P.hasta); const gan = en.reduce((s,r)=>s+neto(r.premio),0), cob = en.filter(r=>r.cob).reduce((s,r)=>s+neto(r.premio),0), pend = en.filter(r=>!r.cob);
+      const pct = gan>0?Math.round(cob/gan*100):0;
+      return '<div class="k-kpis"><div class="k-kpi"><span class="k-l">Ganado</span><span class="v">'+fmt(gan)+'</span><span class="s">'+en.length+' premios</span></div><div class="k-kpi"><span class="k-l">Cobrado</span><span class="v pos">'+fmt(cob)+'</span><span class="s">'+pct+'% de lo ganado</span></div><div class="k-kpi"><span class="k-l">Sin cobrar</span><span class="v '+(pend.length?'pink':'pos')+'">'+fmt(gan-cob)+'</span><span class="s">'+pend.length+' premios</span></div></div>'
+       + '<div class="k-prog"><span style="width:'+pct+'%"></span></div>'
+       + (pend.length ? '<div class="k-bar"><button type="button" class="k-btn ok" data-cobrar-periodo>💵 Cobrar todo lo del periodo ('+pend.length+' · '+fmt(gan-cob)+')</button><span class="mut" style="font-size:12px;">Pide: '+denom(pend).map(([v,n])=>n+'×'+fmt(v).replace('.00','')).join(' + ')+(pend.some(r=>r.premio>=RET)?' · con retención: neto '+fmt(pend.reduce((s,r)=>s+neto(r.premio),0)):'')+(pend.some(r=>r.premio>GYE)?' · alguno solo en Guayaquil':'')+'</span></div>' : '<div class="pos" style="font-weight:700;">🎉 Todo cobrado en este periodo.</div>'); }
+    function saldoSVG(ex, alto){ if(ex.length<2) return '<div class="mut">Aún no hay suficientes días.</div>'; const W = 700, H = alto||170, pl0 = 46, pb = 22, pt = 10;
+      const mx = Math.max(...ex.map(x=>x.saldo), 1); const x = i => pl0 + (W-pl0-8)*i/(ex.length-1), y = v => pt + (H-pt-pb)*(1-v/mx);
+      const pts = ex.map((e,i)=>x(i).toFixed(1)+','+y(e.saldo).toFixed(1)).join(' ');
+      const ticks = [0, mx/2, mx].map(v=>'<line x1="'+pl0+'" x2="'+(W-8)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="var(--line)"/><text x="'+(pl0-6)+'" y="'+(y(v)+4).toFixed(1)+'" text-anchor="end" font-size="10" fill="var(--silver-dark)">'+fmt0(v)+'</text>').join('');
+      const lab = [0, Math.floor((ex.length-1)/2), ex.length-1].map(i=>'<text x="'+x(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" font-size="10" fill="var(--silver-dark)">'+fc(ex[i].d)+'</text>').join('');
+      return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Lo que te deben, día a día">'+ticks+'<polygon points="'+pl0+','+y(0)+' '+pts+' '+x(ex.length-1)+','+y(0)+'" fill="color-mix(in srgb, var(--stamp) 16%, transparent)"/><polyline points="'+pts+'" fill="none" stroke="var(--stamp)" stroke-width="2.2"/><circle cx="'+x(ex.length-1)+'" cy="'+y(ex[ex.length-1].saldo)+'" r="4" fill="var(--stamp)"/>'+lab+'</svg>'; }
+    function infSaldo(P){ const ex = extracto(P.desde, P.hasta); const hoyS = ex.length ? ex[ex.length-1].saldo : 0, mx = ex.reduce((a,x)=>Math.max(a,x.saldo),0), cero = ex.filter(x=>x.saldo<0.005).length;
+      let racha = 0; for(let i=ex.length-1;i>0;i--){ if(ex[i].saldo>ex[i-1].saldo+0.005) racha++; else break; }
+      return '<div class="k-card" style="padding:14px; display:flex; flex-direction:column; gap:10px;"><div class="k-l">Te deben, día a día (saldo = ganado − cobrado)</div>'
+       + (racha>=2 ? '<div class="k-aviso">⚠ Tu saldo lleva <b>'+racha+' días subiendo</b>: ganas más rápido de lo que cobras.</div>' : '')
+       + '<div class="k-kpis"><div class="k-kpi"><span class="k-l">Te deben hoy</span><span class="v '+(hoyS>0.005?'amb':'pos')+'">'+fmt(hoyS)+'</span></div><div class="k-kpi"><span class="k-l">Máximo del periodo</span><span class="v">'+fmt(mx)+'</span></div><div class="k-kpi"><span class="k-l">Días a cero</span><span class="v">'+cero+'/'+ex.length+'</span></div></div>'
+       + saldoSVG(ex) + '<details data-kdet="ext"'+(st.detAb&&st.detAb.ext?' open':'')+'><summary style="cursor:pointer; font-weight:700;">Extracto día a día ('+ex.length+')</summary><div class="k-tw" style="margin-top:8px;"><table class="k-tab2"><thead><tr><th>Día</th><th>Ganado</th><th>Cobrado</th><th>Te deben</th></tr></thead><tbody>'
+       + ex.slice().reverse().slice(0,90).map(x=>'<tr><td class="mono">'+fl(x.d)+'</td><td class="pos">'+(x.gan>0.005?'+'+fmt(x.gan)+' <span class="mut">('+x.ng+')</span>':'—')+'</td><td class="pink">'+(x.cob>0.005?'−'+fmt(x.cob)+' <span class="mut">('+x.nc+')</span>':'—')+'</td><td class="mono '+(x.saldo>0.005?'amb':'mut')+'">'+fmt(x.saldo)+'</td></tr>').join('')+'</tbody></table></div></details></div>'; }
+    function infMeses(){ const p = premiados(), m = {}; p.forEach(r=>{ if(r.cob&&r.fcob){ const k=r.fcob.slice(0,7); (m[k]=m[k]||{c:0,n:0}); m[k].c+=neto(r.premio); m[k].n++; } });
+      const ks = Object.keys(m).sort(), act = HOY.slice(0,7), dPrev = new Date(HOY+'T00:00:00'); dPrev.setDate(1); dPrev.setDate(0); const prev = dPrev.getFullYear()+'-'+pad(dPrev.getMonth()+1);
+      const cA = (m[act]||{c:0}).c, cP = (m[prev]||{c:0}).c, dia = +HOY.slice(8,10), dm = new Date(+HOY.slice(0,4), +HOY.slice(5,7), 0).getDate(), proy = dia>0?cA/dia*dm:0, mx = Math.max(1,...ks.map(k=>m[k].c));
+      return '<div class="k-card" style="padding:14px; display:flex; flex-direction:column; gap:10px;"><div class="k-l">¿Cómo voy este mes?</div><div class="k-kpis"><div class="k-kpi"><span class="k-l">Cobrado en '+act+'</span><span class="v pos">'+fmt(cA)+'</span><span class="s">'+((m[act]||{n:0}).n)+' premios</span></div><div class="k-kpi"><span class="k-l">Mes anterior completo</span><span class="v">'+fmt(cP)+'</span><span class="s">'+(cP>0?((cA/cP-1)*100>=0?'+':'')+Math.round((cA/cP-1)*100)+'% hasta hoy':'—')+'</span></div><div class="k-kpi"><span class="k-l">Al ritmo de hoy cerrarías</span><span class="v">'+fmt(proy)+'</span></div></div>'
+       + '<div class="k-barras">'+ks.map(k=>'<div class="r"><span class="mono mut">'+k+'</span><span class="b"><span style="width:'+(m[k].c/mx*100)+'%; background:'+(k===act?'var(--stamp)':'var(--ok)')+'"></span></span><span class="mono" style="text-align:right;">'+fmt(m[k].c)+'</span><span class="mut" style="text-align:right;">'+m[k].n+'</span></div>').join('')+'</div></div>'; }
+    function infMontos(){ const p = premiados(), d = {}; p.forEach(r=>{ const v=r.premio; (d[v]=d[v]||{n:0,monto:0,cob:0,cobV:0,nV:0,pend:0,ids:[]}); const x=d[v]; x.n++; x.monto+=neto(r.premio); if(r.cob) x.cob++; else { x.pend+=neto(r.premio); x.ids.push(r.i); }
+        // tasa honesta: solo premios ganados hace más de 7 días (lo reciente aún no ha tenido tiempo de cobrarse)
+        if(r.fecha && dias(r.fecha,HOY)>7){ x.nV++; if(r.cob) x.cobV++; } });
+      const tot = Object.values(d).reduce((s,x)=>s+x.monto,0); let ac = 0;
+      const org = Object.keys(d).map(Number).map(v=>({v,...d[v]})).sort((a,b)=>b.monto-a.monto).map(x=>{ ac+=x.monto; return {...x, pct:tot?x.monto/tot*100:0, acum:tot?ac/tot*100:0}; });
+      const mx = Math.max(1,...org.map(x=>x.monto)), ochenta = org.findIndex(x=>x.acum>=80)+1, top2 = org.slice(0,2).reduce((s,x)=>s+x.pct,0);
+      const fug = Object.keys(d).map(Number).map(v=>({v,...d[v], tasa: d[v].nV>=3 ? d[v].cobV/d[v].nV : null})).filter(x=>x.tasa!=null).sort((a,b)=>a.tasa-b.tasa);
+      const freq = Object.keys(d).map(Number).sort((a,b)=>a-b), mxf = Math.max(1,...freq.map(v=>d[v].n)), totN = freq.reduce((s,v)=>s+d[v].n,0);
+      const seg = '<div class="k-seg">'+[['origen','De dónde vino'],['fugas','Qué se me escapa'],['frec','Frecuencias']].map(([k,t])=>'<button type="button" class="'+(a3Vista===k?'on':'')+'" data-a3="'+k+'">'+t+'</button>').join('')+'</div>';
+      let cuerpo = '';
+      if(a3Vista==='fugas') cuerpo = '<div class="mut" style="font-size:12px;">Qué porcentaje de cada monto acabas cobrando. <b>Solo cuenta premios de hace más de 7 días</b> (lo reciente aún no tuvo tiempo de cobrarse) y montos con 3 o más premios.</div><div class="k-barras">'+fug.map(x=>{ const pc=Math.round(x.tasa*100); return '<div class="r"><span class="mono mut" style="text-align:right;">'+fmt(x.v).replace('.00','')+'</span><span class="b"><span style="width:'+pc+'%; background:'+(pc>=95?'var(--ok)':pc>=85?'var(--cur)':pc>=75?'var(--amb)':'var(--neg)')+'"></span></span><span class="mono" style="text-align:right;">'+pc+'%</span><span class="mut" style="text-align:right;">'+(x.pend>0.005?fmt0(x.pend):'—')+'</span></div>'; }).join('')+'</div>';
+      else if(a3Vista==='frec') cuerpo = '<div class="mut" style="font-size:12px;">Cuántas veces pagó cada monto. Premio promedio: <b>'+fmt(totN?tot/totN:0)+'</b>.</div><div class="k-barras">'+freq.map(v=>'<div class="r"><span class="mono mut" style="text-align:right;">'+fmt(v).replace('.00','')+'</span><span class="b"><span style="width:'+(d[v].n/mxf*100)+'%; background:var(--cur)"></span></span><span class="mono" style="text-align:right;">'+d[v].n+'</span><span class="mut" style="text-align:right;">'+(d[v].n/totN*100).toFixed(1)+'%</span></div>').join('')+'</div>';
+      else cuerpo = '<div class="mut" style="font-size:12px;">De dónde salieron tus <b>'+fmt(tot)+'</b> en '+nf(p.length)+' premios, ordenado por lo que aportó.</div><div class="k-barras">'+org.slice(0,12).map(x=>'<div class="r"><span class="mono mut" style="text-align:right;">'+fmt(x.v).replace('.00','')+'</span><span class="b"><span style="width:'+Math.max(3,x.monto/mx*100)+'%; background:'+(x.acum<=60?'var(--ok)':x.acum<=85?'var(--cur)':'var(--amb)')+'"></span></span><span class="mono" style="text-align:right;">'+fmt(x.monto)+'</span><span class="mut" style="text-align:right;">'+x.pct.toFixed(1)+'%</span></div>').join('')+'</div><div class="mut" style="font-size:12px;">Los 2 montos más grandes son el <b>'+top2.toFixed(1)+'%</b>. Con <b>'+ochenta+'</b> montos ya llevas el 80%.</div>';
+      return '<div class="k-card" style="padding:14px; display:flex; flex-direction:column; gap:10px;"><div class="k-bar" style="justify-content:space-between;"><span class="k-l">Montos</span>'+seg+'</div>'+cuerpo+'</div>'; }
+    function semanaDe(f){ const d=new Date(f+'T00:00:00'), wd=(d.getDay()+6)%7; return sumaD(f,-wd); }
+    function infCortes(P){ const en = premiados().filter(r=>r.fecha>=P.desde && r.fecha<=P.hasta);
+      const key = f => cobroAgrupa==='semana' ? semanaDe(f) : cobroAgrupa==='mes' ? f.slice(0,7) : f;
+      const lab = k => cobroAgrupa==='semana' ? fc(k)+' → '+fc(sumaD(k,6)) : cobroAgrupa==='mes' ? k : fl(k);
+      const b = {}; en.forEach(r=>{ const k = key(r.fecha||HOY); (b[k]=b[k]||{n:0,g:0,c:0,p:0,rs:[]}); const x=b[k]; x.n++; x.g+=neto(r.premio); if(r.cob) x.c+=neto(r.premio); else x.p+=neto(r.premio); x.rs.push(r); });
+      const ks = Object.keys(b).sort().reverse(), pk = ks.filter(k=>b[k].p>0), ok = ks.filter(k=>b[k].p<=0);
+      const ctl = '<div class="k-bar"><span class="mut" style="font-size:12px;">Agrupar</span><div class="k-seg">'+[['dia','Día'],['semana','Semana'],['mes','Mes']].map(([k,t])=>'<button type="button" class="'+(cobroAgrupa===k?'on':'')+'" data-agrupa="'+k+'">'+t+'</button>').join('')+'</div><span class="mut" style="font-size:12px;">Vista</span><div class="k-seg">'+[['detallado','Detallado'],['consolidado','Consolidado']].map(([k,t])=>'<button type="button" class="'+(cobroVista===k?'on':'')+'" data-vista="'+k+'">'+t+'</button>').join('')+'</div></div>';
+      if(cobroVista!=='consolidado'){ const fila = k=>'<tr><td><details><summary style="cursor:pointer;" class="mono">'+lab(k)+'</summary><div class="mono mut" style="font-size:11px; line-height:1.7; white-space:normal;">'+b[k].rs.slice(0,80).map(r=>esc(L(r.l).serie)+' · '+posTxt(r.pos)+' → '+fmt(r.premio)+' '+(r.cob?'✓':'⏳')).join('<br>')+'</div></details></td><td>'+b[k].n+'</td><td>'+fmt(b[k].g)+'</td><td class="pos">'+fmt(b[k].c)+'</td><td class="'+(b[k].p>0?'pink':'mut')+'">'+fmt(b[k].p)+'</td><td>'+(b[k].p>0?'<button type="button" class="k-btn sm ok" data-cobrar-bucket="'+k+'">💵 Cobrar</button>':'<span class="pos">✓</span>')+'</td></tr>';
+        return ctl + '<div class="k-tw k-card"><table class="k-tab2"><thead><tr><th>'+(cobroAgrupa==='dia'?'Día':'Periodo')+'</th><th>Premios</th><th>Ganado</th><th>Cobrado</th><th>Sin cobrar</th><th></th></tr></thead><tbody>'+pk.map(fila).join('')+(st.verOk||!pk.length?ok.map(fila).join(''):'')+'</tbody></table>'+(pk.length&&ok.length?'<div style="padding:8px; text-align:center;"><button type="button" class="k-chip" data-ver-ok>'+(st.verOk?'Ocultar':'Mostrar')+' '+ok.length+' periodo(s) con todo cobrado</button></div>':'')+'</div>'; }
+      const g = en.reduce((s,r)=>s+neto(r.premio),0), mejor = ks.slice().sort((a,c)=>b[c].g-b[a].g)[0];
+      const tab = (t, filas, cols)=>'<div class="k-card" style="padding:10px 12px;"><div class="k-l" style="margin-bottom:6px;">'+t+'</div><div class="k-tw"><table class="k-tab2"><thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>'+filas+'</tbody></table></div></div>';
+      const agr = fn => { const m = {}; en.forEach(r=>{ const k = fn(r); (m[k]=m[k]||{n:0,g:0,c:0,p:0}); m[k].n++; m[k].g+=neto(r.premio); if(r.cob) m[k].c+=neto(r.premio); else m[k].p+=neto(r.premio); }); return Object.entries(m).sort((a,c)=>c[1].g-a[1].g); };
+      const filas5 = arr => arr.slice(0,40).map(([k,x])=>'<tr><td>'+esc(k)+'</td><td>'+x.n+'</td><td>'+fmt(x.g)+'</td><td class="pos">'+fmt(x.c)+'</td><td class="'+(x.p>0?'pink':'mut')+'">'+fmt(x.p)+'</td></tr>').join('');
+      const den = {}; en.forEach(r=>{ (den[r.premio]=den[r.premio]||{n:0,p:0}); den[r.premio].n++; if(!r.cob) den[r.premio].p++; });
+      return ctl + '<div class="k-kpis"><div class="k-kpi"><span class="k-l">'+ks.length+' periodos con premios</span><span class="v">'+fmt(ks.length?g/ks.length:0)+'</span><span class="s">ganado promedio</span></div><div class="k-kpi"><span class="k-l">Premio promedio</span><span class="v">'+fmt(en.length?g/en.length:0)+'</span></div><div class="k-kpi"><span class="k-l">Mejor periodo</span><span class="v">'+(mejor?fmt(b[mejor].g):'—')+'</span><span class="s">'+(mejor?lab(mejor):'')+'</span></div></div>'
+       + '<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px;">' + (cobrosGlobal ? tab('Por juego', filas5(agr(r=>(L(r.l).j.emoji||'🎟️')+' '+(L(r.l).j.nombre||'—'))), ['Juego','Premios','Ganado','Cobrado','Sin cobrar']) : '')
+       + tab('Por taco', filas5(agr(r=>L(r.l).serie)), ['Serie','Premios','Ganado','Cobrado','Sin cobrar'])
+       + tab('Por monto', Object.keys(den).map(Number).sort((a,c)=>a-c).map(v=>'<tr><td class="mono">'+fmt(v)+'</td><td>'+den[v].n+'</td><td class="'+(den[v].p?'pink':'mut')+'">'+(den[v].p||'—')+'</td></tr>').join(''), ['Monto','Ganados','Pendientes']) + '</div>'; }
+
+    // ───── Por taco (enfocado en el cobro; el ROI vive en Mis tacos) ─────
+    function porTacoCobroHTML(){
+      const ts = porTaco().filter(t=>t.rs.length);
+      const est = t => !t.nPend ? 'cobrado' : (t.nPend<t.nPrem ? 'parcial' : 'pendiente');
+      const conPend = ts.filter(t=>t.nPend), parc = ts.filter(t=>est(t)==='parcial'), cob = ts.filter(t=>est(t)==='cobrado');
+      const edadP = t => t.nPend ? Math.max(...t.rs.filter(r=>!r.cob).map(r=>r.fecha?dias(r.fecha,HOY):0)) : -1;
+      const viejo = conPend.map(t=>({t, e:edadP(t)})).sort((a,b)=>b.e-a.e)[0];
+      const f = st.tacoF, qTxt = (cobroBusca||'').trim().toLowerCase(), q = qTxt.replace(/\D/g,'');
+      let lista = ts.filter(t=>f==='todos' || est(t)===f || (f==='porcobrar' && t.nPend));
+      if(qTxt) lista = lista.filter(t=>(q && String(t.l.serie).replace(/\D/g,'').includes(q)) || (t.l.punto||'').toLowerCase().includes(qTxt) || String(t.l.serie).toLowerCase().includes(qTxt));
+      const ult = t => t.rs.filter(r=>r.cob).map(r=>r.fcob).sort().pop()||'';
+      const cmp = { pend:(a,b)=>a.pend-b.pend, edad:(a,b)=>edadP(a)-edadP(b), ult:(a,b)=>ult(a).localeCompare(ult(b)), serie:(a,b)=>String(a.l.serie).localeCompare(String(b.l.serie),undefined,{numeric:true}) };
+      lista = lista.slice().sort((a,b)=>(cmp[st.tacoOrden]||cmp.pend)(a,b)*st.tacoDir);
+      const pag = lista.slice(0, st.tacoN);
+      const kpi = (k, t, v, s, cls) => '<button type="button" class="k-kpi '+(f===k?'on':'')+'" data-tacof="'+k+'" aria-pressed="'+(f===k)+'"><span class="k-l">'+t+'</span><span class="v '+(cls||'')+'">'+v+'</span><span class="s">'+s+'</span></button>';
+      return '<div class="k-kpis k-kpis4">'
+       + kpi('porcobrar','Tacos con premios por cobrar', conPend.length, fmt(conPend.reduce((s,t)=>s+t.pend,0))+' en total', 'pink')
+       + kpi('parcial','A medio cobrar ◐', parc.length, parc.length ? fmt(parc.reduce((s,t)=>s+t.pend,0))+' que no debes olvidar' : 'ninguno: bien', parc.length?'amb':'pos')
+       + (viejo ? '<button type="button" class="k-kpi" data-abre-taco="'+esc(viejo.t.l.i)+'"><span class="k-l">Premio más antiguo sin cobrar</span><span class="v '+(viejo.e>30?'neg':viejo.e>7?'amb':'')+'">'+viejo.e+' '+pl(viejo.e,'día')+'</span><span class="s mono">'+esc(viejo.t.l.serie)+' · '+fmt(viejo.t.pend)+'</span></button>' : '<div class="k-kpi"><span class="k-l">Premio más antiguo sin cobrar</span><span class="v pos">—</span><span class="s">no queda nada</span></div>')
+       + kpi('cobrado','Cobrados por completo', cob.length+'/'+ts.length, Math.round(cob.length/Math.max(1,ts.length)*100)+'% de tus tacos con premios', 'pos') + '</div>'
+       + '<div class="k-tool k-tool-t"><span class="k-l">Buscar</span><label class="k-lupa k-lupa2"><span aria-hidden="true">🔍</span><input id="kTacoQ" type="text" autocomplete="off" placeholder="Número del taco o punto" aria-label="Buscar taco" value="'+esc(cobroBusca)+'"></label>'
+       + '<span class="k-l">Ver</span><div class="k-seg k-fill">'+[['todos','Todos'],['porcobrar','Por cobrar'],['parcial','A medio'],['cobrado','Cobrados']].map(([k,t])=>'<button type="button" class="'+(f===k?'on':'')+'" data-tacof="'+k+'">'+t+'</button>').join('')+'</div>'
+       + '<span class="k-l">Ordenar</span><div class="k-seg k-fill">'+[['pend','Por cobrar $'],['edad','Antigüedad'],['ult','Último cobro'],['serie','Serie']].map(([k,t])=>'<button type="button" class="'+(st.tacoOrden===k?'on':'')+'" data-torden="'+k+'">'+t+(st.tacoOrden===k?(st.tacoDir<0?' ↓':' ↑'):'')+'</button>').join('')+'</div></div>'
+       + '<div class="k-list">'+(pag.length ? pag.map(t=>{ const ab = st.histAb.has('t'+t.l.i), e = est(t), pc = t.premio>0 ? Math.round((t.premio-t.pend)/t.premio*100) : 100, u = ult(t);
+          return '<div class="k-row k-row-t" data-tab-taco="'+esc(t.l.i)+'" tabindex="-1" role="button" aria-expanded="'+ab+'"><div style="min-width:0;"><div class="s">'+esc(t.l.serie)+' '+(e==='parcial'?'<span class="k-pil amb">◐ a medio</span>':e==='pendiente'?'<span class="k-pil neg">sin cobrar</span>':'<span class="k-pil ok">✓ cobrado</span>')+'</div><div class="m">'+esc(t.l.punto||'sin punto')+' · '+(t.nPrem-t.nPend)+' de '+t.nPrem+' cobrados'+(u?' · último cobro '+fc(u):'')+'</div><div class="k-prog" style="height:5px; margin-top:6px;"><span style="width:'+pc+'%"></span></div></div><div class="mo '+(t.nPend?'pink':'pos')+'">'+(t.nPend?fmt(t.pend):'✓')+'<br><small>de '+fmt(t.premio)+'</small></div><span class="ex">'+(ab?'▴':'▾')+'</span></div>'
+           + (ab ? '<div class="k-exp" style="padding-left:14px;"><div class="mut" style="font-size:12px;">'+(t.l.ciudad?esc(t.l.ciudad)+' · ':'')+(t.l.fcomp?'comprado el '+fc(t.l.fcomp)+' · ':'')+'toca un premio cobrado (✓) para devolverlo a pendientes</div><div class="k-grid">'+t.rs.slice().sort((a,b)=>a.pos-b.pos).map(r=>r.cob?'<button type="button" class="k-bol pag rev" data-descobrar="'+esc(r.i)+'" title="Cobrado el '+fc(r.fcob)+' — toca para devolverlo a pendientes">'+posTxt(r.pos)+'<b>✓ '+fmt(r.premio).replace('.00','')+'</b></button>':'<span class="k-bol '+(r.premio>=RET?'ret':'')+'">'+posTxt(r.pos)+'<b>'+fmt(r.premio).replace('.00','')+'</b></span>').join('')+'</div>'+(t.nPend?'<button type="button" class="k-btn sm pri" data-llevar-taco="'+esc(t.l.i)+'" style="align-self:flex-start;">Llevar lo pendiente de este taco →</button>':'')+'</div>' : ''); }).join('') : '<div class="k-tanda mut">Ningún taco con ese filtro.</div>')+'</div>'
+       + (lista.length>pag.length ? '<button type="button" class="k-btn" data-mas-tacos style="align-self:center;">Ver '+Math.min(30, lista.length-pag.length)+' más (quedan '+(lista.length-pag.length)+')</button>' : ''); }
+
+    // ───── Cobrar un monto (alternativa 1 · calculadora con rutas) ─────
+    // Suma de subconjuntos con tabla de alcanzables: en dólares enteros si todo es entero (tabla
+    // 100 veces más corta); si se piden centavos, en centavos (no se redondea: $57.50 no es $58).
+    function _alcanzables(items, T){ const ok = new Uint8Array(T+1), ult = new Int32Array(T+1).fill(-1); ok[0] = 1;
+      items.forEach((it,k)=>{ const v = it.u; if(v>T || v<=0) return; for(let s=T; s>=v; s--){ if(!ok[s] && ok[s-v]){ ok[s] = 1; ult[s] = k; } } });
+      return {ok, ult}; }
+    function _reconstruye(items, tab, s){ const out = []; let guard = 0;
+      while(s>0 && guard++<5000){ const k = tab.ult[s]; if(k<0) return null; out.push(items[k]); s -= items[k].u; }
+      return s===0 ? out : null; }
+    function _unidad(gs, pc){ return (gs.every(g=>g.recs.every(r=>Math.round(neto(r.premio)*100)%100===0)) && pc%100===0) ? 100 : 1; }
+    const _uR = (r, un) => Math.round(neto(r.premio)*100)/un;
+    function planMonto(m, pref){
+      const gs = grupos(pendientes()), pc = Math.round(m*100), un = _unidad(gs, pc), T = Math.round(pc/un);
+      if(!(T>0)) return null;
+      const orden = gs.slice().sort(pref==='pocos' ? (a,b)=>b.sub-a.sub : (a,b)=>(b.edad-a.edad)||(b.sub-a.sub));
+      const it = g => g.recs.map(r=>({r, u:_uR(r,un)})).sort((a,b)=>b.u-a.u);
+      const sumU = g => it(g).reduce((s,x)=>s+x.u,0);
+      let rem = T; const enteros = [], usados = new Set();
+      orden.forEach(g=>{ const s = sumU(g); if(s<=rem){ enteros.push(g); usados.add(g.li); rem -= s; } });
+      let sueltos = [];
+      if(rem>0){ let mejor = null;
+        orden.filter(g=>!usados.has(g.li)).forEach(g=>{ const its = it(g), tab = _alcanzables(its, rem); if(tab.ok[rem]){ const sel = _reconstruye(its, tab, rem); if(sel && (!mejor || sel.length<mejor.length)) mejor = sel; } });
+        if(mejor) sueltos = mejor;
+        else { const its = orden.filter(g=>!usados.has(g.li)).flatMap(it), tab = _alcanzables(its, rem); if(tab.ok[rem]) sueltos = _reconstruye(its, tab, rem) || []; }
+        if(sueltos.length) rem = 0; }
+      if(rem===0) return { exacto:true, ids:enteros.flatMap(g=>g.recs.map(r=>r.i)).concat(sueltos.map(x=>x.r.i)), montoU:T, unidad:un };
+      // Sin combinación exacta: lo más cercano por debajo y por encima (sobre TODOS los premios).
+      const its = orden.flatMap(it), maxU = its.reduce((s,x)=>s+x.u,0), lim = Math.min(maxU, T + Math.max(...its.map(x=>x.u), 0));
+      const tab = _alcanzables(its, lim);
+      let abajo = T; while(abajo>0 && !tab.ok[abajo]) abajo--;
+      let arriba = T; while(arriba<=lim && !tab.ok[arriba]) arriba++;
+      const opc = [];
+      if(abajo>0) opc.push({ ids:(_reconstruye(its, tab, abajo)||[]).map(x=>x.r.i), montoU:abajo });
+      if(arriba<=lim) opc.push({ ids:(_reconstruye(its, tab, arriba)||[]).map(x=>x.r.i), montoU:arriba });
+      return { exacto:false, opciones:opc, unidad:un, montoU:T }; }
+    // Qué tacos van ENTEROS y de cuáles se sacan solo ciertos premios.
+    function planDetalle(ids){ const set = new Set(ids), gs = grupos(pendientes()).filter(g=>g.recs.some(r=>set.has(r.i)));
+      return gs.map(g=>{ const dentro = g.recs.filter(r=>set.has(r.i)); return { g, dentro, entero: dentro.length===g.recs.length, sub: dentro.reduce((s,r)=>s+neto(r.premio),0) }; })
+        .sort((a,b)=>(b.entero-a.entero)||(b.sub-a.sub)); }
+    // Ruta «menos boletos que separar»: la mayor parte con tacos ENTEROS y el resto con premios de UN solo taco.
+    function rutaEnteros(m){
+      const gs = grupos(pendientes()), pc = Math.round(m*100), un = _unidad(gs, pc), T = Math.round(pc/un);
+      if(!(T>0)) return null;
+      const tacos = gs.slice().sort((a,b)=>(b.edad-a.edad)||(b.sub-a.sub)).map(g=>({g, u:g.recs.reduce((s,r)=>s+_uR(r,un),0)}));
+      const tab = _alcanzables(tacos, T);
+      const sub = tacos.map(x=>{ const its = x.g.recs.map(r=>({r, u:_uR(r,un)})).sort((a,b)=>b.u-a.u); return {x, its, tb:_alcanzables(its, Math.min(T, x.u))}; });
+      let intentos = 0;
+      for(let s=T; s>=0 && intentos<400; s--){ if(!tab.ok[s]) continue; intentos++;
+        const ent = s ? _reconstruye(tacos, tab, s) : []; if(!ent) continue;
+        const rem = T-s, ids = ent.flatMap(x=>x.g.recs.map(r=>r.i));
+        if(rem===0) return ids;
+        const usados = new Set(ent.map(x=>x.g.li)); let mejor = null;
+        sub.forEach(o=>{ if(usados.has(o.x.g.li) || rem>=o.tb.ok.length || !o.tb.ok[rem]) return; const sel = _reconstruye(o.its, o.tb, rem); if(sel && (!mejor || sel.length<mejor.length)) mejor = sel; });
+        if(mejor) return ids.concat(mejor.map(x=>x.r.i)); }
+      return null; }
+    // antigüedad media de lo que llevas, ponderada por el dinero (días desde que ganaste cada premio)
+    function _edadMedia(ids){ let s=0, w=0; ids.forEach(i=>{ const r = base().RI.get(i), v = neto(r.premio); s += v*Math.max(0, r.fecha?dias(r.fecha,HOY):0); w += v; }); return w ? Math.round(s/w*10)/10 : 0; }
+    function rutaInfo(ids){ const det = planDetalle(ids);
+      return { ids, det, tot:ids.reduce((s,i)=>s+neto(base().RI.get(i).premio),0), tacos:det.length, enteros:det.filter(d=>d.entero).length,
+        sueltos:det.filter(d=>!d.entero).reduce((s,d)=>s+d.dentro.length,0), edad:_edadMedia(ids), n:ids.length }; }
+    // una forma peor o igual en todo que otra no aporta: no se muestra
+    function _domina(a, b){ const ma=[a.sueltos,a.tacos,-a.edad], mb=[b.sueltos,b.tacos,-b.edad]; return ma.every((x,i)=>x<=mb[i]) && ma.some((x,i)=>x<mb[i]); }
+    const _llave = ids => ids.slice().sort().join(',');
+    function calcRutas(m){ if(!(m>0)) return null;
+      const pa = planMonto(m, 'antiguo'); if(!pa) return null;
+      if(!pa.exacto) return { exacto:false, pedido:m, opciones:pa.opciones.map((o,i)=>({ key:'o'+i, tambien:[], ...rutaInfo(o.ids), nombre: o.montoU<pa.montoU ? '⬇ Un poco menos' : '⬆ Un poco más' })) };
+      const cand = [['enteros','🧩 Menos boletos que separar', rutaEnteros(m)], ['antiguo','🕗 Lo más antiguo primero', pa.ids], ['pocos','🎒 Menos tacos en la mano', (planMonto(m,'pocos')||{}).ids]];
+      const vistos = new Map(), rutas = [];
+      cand.forEach(([key, nombre, ids])=>{ if(!ids || !ids.length) return; const k = _llave(ids);
+        if(vistos.has(k)){ vistos.get(k).tambien.push(nombre.replace(/^\S+\s/,'')); return; }
+        const r = { key, nombre, tambien:[], ...rutaInfo(ids) }; vistos.set(k, r); rutas.push(r); });
+      const fuera = rutas.filter(r=>rutas.some(o=>o!==r && _domina(o, r)));
+      return { exacto:true, pedido:m, rutas:rutas.filter(r=>!fuera.includes(r)), ocultas:fuera.map(r=>r.nombre.replace(/^\S+\s/,'')) }; }
+    function rutaPie(r, todas){ const unico = (f, mejor) => { const v = todas.map(f), b = mejor(...v); return f(r)===b && v.filter(x=>x===b).length===1; };
+      const p = [];
+      if(r.sueltos===0) p.push('No separas ningún boleto: llevas los tacos tal cual.');
+      else if(unico(x=>x.sueltos, Math.min)) p.push('La que menos boletos te obliga a separar.');
+      if(unico(x=>x.tacos, Math.min)) p.push('La que menos tacos lleva.');
+      if(unico(x=>x.edad, Math.max)) p.push('Lo que llevas es lo más viejo.');
+      if(r.tambien.length) p.push('Coincide con «'+r.tambien.join('» y «')+'».');
+      return p.join(' ') || 'Suma exacta.'; }
+    const montoTxt = v => fmt(v).replace('.00','');
+    function detalleRuta(r){
+      return '<div class="k-det" aria-live="polite"><div class="k-dett"><span class="k-l">Qué llevas · '+esc(r.nombre.replace(/^\S+\s/,''))+'</span><span class="mut" style="font-size:12px;">'+r.tacos+' '+pl(r.tacos,'taco')+' · '+r.n+' '+pl(r.n,'premio')+'</span></div>'
+       + '<div class="k-detl">'+r.det.map((d,i)=>'<div><span class="n">'+(i+1)+'</span><b class="mono">'+esc(d.g.lo.serie)+'</b>'+(d.entero?'<span class="k-pil ok">taco entero · '+d.dentro.length+'</span>':'<span class="k-pil cur">saca '+d.dentro.length+' de '+d.g.recs.length+'</span>')
+           + '<span class="ps">'+(d.entero?'todos sus premios':d.dentro.map(x=>posTxt(x.pos)+' = '+montoTxt(x.premio)).join(' · '))+'</span><span class="am">'+fmt(d.sub)+'</span></div>').join('')+'</div>'
+       + '<div class="k-l">Vas a pedir</div>'+denomHTML(r.ids.map(i=>base().RI.get(i)))
+       + '<button type="button" class="k-btn pri" data-usar-plan="'+r.ids.map(esc).join(',')+'" style="height:48px;">Llevar esta forma · '+fmt(r.tot)+' →</button></div>'; }
+    function rutasHTML(){ const C = st.rutas;
+      const chips = [20,50,100,200,500].map(v=>'<button type="button" class="k-chip '+(+st.monto===v?'on':'')+'" data-montochip="'+v+'">$'+v+'</button>');
+      let res = '';
+      if(C){ const lista = C.exacto ? C.rutas : C.opciones; if(!lista.some(r=>r.key===st.ruta)) st.ruta = lista[0] && lista[0].key;
+        const sel = lista.find(r=>r.key===st.ruta);
+        res = (C.exacto ? '<div class="k-dett"><span class="k-l">'+(lista.length>1 ? lista.length+' formas de llevar exactamente '+fmt(C.pedido)+' · elige una' : 'La mejor forma de llevar exactamente '+fmt(C.pedido))+'</span>'+(C.ocultas&&C.ocultas.length?'<span class="mut" style="font-size:12px;">«'+C.ocultas.join('» y «')+'» salían iguales o peores en todo</span>':'')+'</div>'
+                        : '<div class="k-onota"><span>No hay una combinación que sume exactamente <b>'+fmt(C.pedido)+'</b>. Estas son las más cercanas:</span></div>')
+          + '<div class="k-rutas" role="radiogroup" aria-label="Formas de llevar el monto" style="--n:'+lista.length+';">'+lista.map(r=>'<button type="button" class="k-ruta '+(r.key===st.ruta?'on':'')+'" role="radio" aria-checked="'+(r.key===st.ruta)+'" tabindex="'+(r.key===st.ruta?0:-1)+'" data-ruta="'+r.key+'"><span class="t"><i aria-hidden="true">'+(r.key===st.ruta?'✓':'')+'</i><span>'+r.nombre+'</span></span><span class="v">'+fmt(r.tot)+'</span>'
+             + '<dl><div><dt>Tacos</dt><dd>'+r.tacos+'</dd></div><div><dt>Enteros</dt><dd>'+r.enteros+'</dd></div><div><dt>A separar</dt><dd>'+r.sueltos+'</dd></div><div><dt>Antig. media</dt><dd>'+r.edad.toFixed(1)+' d</dd></div></dl>'
+             + '<span class="f">'+(C.exacto ? rutaPie(r, lista) : (r.tot<C.pedido ? 'Te faltan '+fmt(C.pedido-r.tot)+' para lo que pediste.' : 'Te pasas '+fmt(r.tot-C.pedido)+' de lo que pediste.'))+'</span></button>').join('')+'</div>'
+          + (sel ? detalleRuta(sel) : ''); }
+      return '<section class="k-card k-monto" aria-label="Cobrar un monto"><div class="k-mhead"><div><div class="k-l">🎯 Cobrar un monto</div><div class="mut" style="font-size:12.5px;">Escribe cuánto quieres cobrar: te muestro las formas exactas de llevarlo y eliges una.</div></div></div>'
+       + '<div class="k-mrow" style="--n:'+chips.length+';"><label class="k-monto-in"><span>$</span><input id="kMonto" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Monto a cobrar" value="'+esc(st.monto)+'"></label>'+chips.join('')+'</div>'
+       + res + '</section>'; }
+    // Planes listos: cuatro accesos que responden a «qué me conviene cobrar primero». Siempre 4 (sin huecos).
+    function planesListos(rs){ const gs = rs.gs, tm = new Map(); gs.forEach(g=>{ if(!tm.has(g.tanda)) tm.set(g.tanda, []); tm.get(g.tanda).push(g); });
+      const tg = [...tm.entries()].sort((a,b)=>b[1].reduce((s,g)=>s+g.sub,0)-a[1].reduce((s,g)=>s+g.sub,0))[0];
+      const medio = gs.filter(g=>g.yaCobr.length), viejos = gs.filter(g=>g.edad>7);
+      const c = [
+        ['◐ A medio cobrar', medio, 'ya cobraste parte: sus boletos sueltos son los que más se pierden', 'pk'],
+        ['🕗 Más de 7 días', viejos, viejos.length ? 'el más viejo: '+edadTxt(Math.max(...viejos.map(g=>g.edad))) : 'nada tan viejo: bien', ''],
+        ['🛒 Tu compra más grande', tg ? tg[1] : [], tg ? 'sin cobrar · del '+fc(tg[0].split('|')[0])+(tg[0].split('|')[1]?' en '+esc(tg[0].split('|')[1]):'') : '—', ''],
+        ['📦 Todo lo pendiente', gs, 'si vas a cobrar todo de una vez', '']];
+      return '<div class="k-l">O prepara un plan listo</div><div class="k-plan2" style="--n:'+c.length+';">'+c.map(([t,g,s,cl])=>'<button type="button" '+(g.length?'':'disabled ')+'data-plan="'+g.map(x=>x.recs.map(r=>esc(r.i)).join(',')).join(',')+'"><span class="t">'+t+'</span><span class="v">'+(g.length?fmt(g.reduce((a,x)=>a+x.sub,0)):'$0.00')+'</span><span class="s">'+(g.length?g.length+' '+pl(g.length,'taco')+' · '+g.reduce((a,x)=>a+x.recs.length,0)+' premios · ':'')+s+'</span><span class="go '+cl+'">'+(g.length?'Preparar →':'Ninguno ahora')+'</span></button>').join('')+'</div>'; }
+    function pasoB(p){ return '<div class="k-step">'+[['1','Elegir'],['2','En la caja'],['3','Recibo']].map(([n,t],i)=>'<div class="'+(p===i+1?'on':p>i+1?'hecho':'')+'"><b>'+(p>i+1?'✓':n)+'</b><span>'+t+'</span></div>').join('')+'</div>'; }
+    function autoAbre(gs){ const d = lupaDig(), unico = (d.length>=3 && gs.length===1) ? gs[0].li : null;
+      if(cobroAutoAbierto && cobroAutoAbierto!==unico){ cobroAbiertos.delete(cobroAutoAbierto); cobroAutoAbierto = null; }
+      if(unico && !cobroAbiertos.has(unico)){ cobroAbiertos.add(unico); cobroAutoAbierto = unico; cobroLupaRecordar(gs[0].lo.serie); } }
+    function eligeB(rs){ const todos = rs.gs, gs = lupaFiltra(todos); autoAbre(gs);
+      const agr = st.bAgr, key = g => agr==='tanda' ? g.tanda : agr==='punto' ? (g.lo.punto||'(sin punto)') : agr==='edad' ? (g.edad>30?'4':g.edad>7?'3':g.edad>0?'2':'1') : '';
+      const nom = k => agr==='tanda' ? (()=>{ const [f,p] = k.split('|'); return 'Compra del '+fc(f)+(p?' · '+p:''); })() : agr==='edad' ? ({1:'De hoy',2:'1–7 días',3:'8–30 días',4:'Más de 30 días'})[k] : k;
+      let filas = '';
+      if(agr==='no' || lupaDig()) filas = gs.map(filaTaco).join('');
+      else { const m = new Map(); gs.forEach(g=>{ const k = key(g); if(!m.has(k)) m.set(k, []); m.get(k).push(g); });
+        filas = [...m.entries()].sort((a,b)=>agr==='edad'?b[0]-a[0]:b[0]>a[0]?1:-1).map(([k, arr])=>{ const ids = arr.flatMap(g=>g.recs.map(r=>r.i)), on = ids.every(i=>cobroSel.has(i)), alg = ids.some(i=>cobroSel.has(i)), pleg = st.bPlegados.has(k);
+          return '<div class="k-gr" data-bgrupo="'+esc(k)+'"><button type="button" class="k-ck '+(on?'on':alg?'mix':'')+'" data-marcar-ids="'+ids.map(esc).join(',')+'" data-toggle="1" aria-label="Marcar el grupo">'+(on?'✓':alg?'–':'')+'</button><span class="nm">'+(pleg?'▸ ':'▾ ')+esc(nom(k))+' <span class="mut" style="font-weight:600;">'+arr.length+' '+pl(arr.length,'taco')+'</span></span><b class="mono">'+fmt(arr.reduce((s,g)=>s+g.sub,0))+'</b></div>'+(pleg?'':arr.map(filaTaco).join('')); }).join(''); }
+      const d = lupaDig();
+      return '<div class="k-two"><div style="display:flex; flex-direction:column; gap:10px; min-width:0;">'+herramientas(todos)
+       + (todos.length ? '<div class="mut" style="font-size:12px;">'+(d ? '<b>'+gs.length+'</b> de '+todos.length+' tacos'+(gs.length===1?' · abierto':' · Enter abre el primero') : todos.length+' tacos por cobrar · flechas para moverte, Espacio marca, Enter abre')+'</div>' : '')
+       + (todos.length && !(d && !gs.length) ? '<div class="k-list" role="grid" aria-multiselectable="true" aria-label="Tacos por cobrar">'+filas+'</div>' : listaTacos(gs, todos))
+       + (todos.length ? '<div class="k-bar"><button type="button" class="k-btn" data-cobrar-todo>💵 He cobrado TODO ('+rs.pe.length+' · '+fmt(rs.total)+')</button></div>' : '')+'</div>'+bolsaHTML()+'</div>'; }
+    function reciboB(){ const c = st.recibo; if(!c) return '';
+      return '<div class="k-card" style="padding:16px; display:flex; flex-direction:column; gap:14px;"><div class="k-recibo" id="kRecibo"><div style="text-align:center; font-weight:800;">RECIBO DE COBRO</div><div style="text-align:center;" class="mut">'+fl(HOY)+'</div><div class="lin"></div>'
+       + denom(c.rs).map(([v,n])=>'<div class="r"><span>'+n+' × '+fmt(v)+'</span><span>'+fmt(n*v)+'</span></div>').join('')
+       + (c.rs.some(r=>r.premio>=RET)?'<div class="r"><span>Retención 14%</span><span>−'+fmt(c.rs.reduce((s,r)=>s+r.premio-neto(r.premio),0))+'</span></div>':'')
+       + '<div class="lin"></div><div class="r" style="font-weight:800; font-size:16px;"><span>COBRADO</span><span>'+fmt(c.ahora)+'</span></div><div class="r mut"><span>Tacos</span><span>'+new Set(c.rs.map(r=>r.l)).size+'</span></div><div class="r mut"><span>Premios</span><span>'+c.n+'</span></div></div>'
+       + '<div>'+cierreHTML(c)+'</div><div class="k-bar"><button type="button" class="k-btn" data-copiar>📋 Copiar recibo</button><button type="button" class="k-btn pri" data-nuevo-cobro>Listo</button></div></div>'; }
+    // ─── Salidas: revertir uno, un día entero o varios marcados (un solo Deshacer) ───
+    function _salDias(){ const m = new Map(); tandas().forEach(t=>{ if(!m.has(t.fcob)) m.set(t.fcob, []); m.get(t.fcob).push(t); }); return [...m.entries()]; }
+    function historialDias(){ const dd = _salDias(), vis = dd.slice(0, st.salN), sel = st.salSel;
+      if(!dd.length) return '<div class="k-card mut" style="padding:20px; text-align:center;">Todavía no has cobrado nada en este ámbito.</div>';
+      const ck = (on, mix, attr, lbl) => '<button type="button" class="k-ck '+(on?'on':mix?'mix':'')+'" '+attr+' tabindex="-1" aria-label="'+lbl+'">'+(on?'✓':mix?'–':'')+'</button>';
+      const filas = vis.map(([d, tt])=>{ const ab = st.histAb.has(d), tot = tt.reduce((s,t)=>s+t.neto,0), n = tt.reduce((s,t)=>s+t.n,0), nOn = tt.filter(t=>sel.has(t.k)).length;
+        return '<div class="k-dia"><div class="h k-sal '+(nOn===tt.length?'on':'')+'" data-hdia="'+esc(d)+'" tabindex="-1" role="button" aria-expanded="'+ab+'">'
+          + ck(nOn===tt.length, nOn>0, 'data-saldia="'+esc(d)+'"', 'Marcar el día '+fc(d))
+          + '<span class="q"><span class="l1"><b class="mono">'+fc(d)+'</b>'+(d===HOY?'<span class="k-pil ok">hoy</span>':'')+'</span><span class="mut" style="font-size:12.5px;">'+tt.length+' '+pl(tt.length,'taco')+' · '+n+' '+pl(n,'premio')+'</span></span>'
+          + '<span class="am">'+fmt(tot)+'</span><button type="button" class="k-btn sm" data-revdia="'+esc(d)+'" aria-label="Revertir todo el '+fc(d)+'">↩<span class="tx"> Revertir el día</span></button><span class="ex">'+(ab?'▴':'▾')+'</span></div>'
+          + (ab ? tt.map(t=>'<div class="k-tanda k-sal '+(sel.has(t.k)?'on':'')+'" data-saltanda="'+esc(t.k)+'" tabindex="-1">'+ck(sel.has(t.k), false, 'data-salck="'+esc(t.k)+'"', 'Marcar '+esc(L(t.l).serie))
+              + '<span class="q"><b class="mono">'+esc(L(t.l).serie)+'</b><span class="mut" style="font-size:12px;">'+t.n+' '+pl(t.n,'premio')+(t.fb?' · boletos del '+fc(t.fb):'')+'</span></span>'
+              + '<span class="am">'+fmt(t.neto)+'</span><button type="button" class="k-btn sm" data-rev-tanda="'+esc(t.k)+'" aria-label="Revertir '+esc(L(t.l).serie)+'">↩<span class="tx"> Revertir</span></button><span></span></div>').join('') : '') + '</div>'; }).join('');
+      const ts = tandas().filter(t=>sel.has(t.k)), tot = ts.reduce((s,t)=>s+t.neto,0), np = ts.reduce((s,t)=>s+t.n,0);
+      return '<div class="k-list">'+filas+'</div>'
+       + (dd.length>vis.length ? '<button type="button" class="k-btn" data-sal-mas style="align-self:center;">Ver '+Math.min(40, dd.length-vis.length)+' días más (quedan '+(dd.length-vis.length)+')</button>' : '')
+       + '<div class="mut" style="font-size:12px;">Marca días o tacos para revertir varios a la vez. ¿Solo te sobró un premio? Ábrelo en «Por taco» y toca el ✓. Teclado: ↑/↓ para moverte, Espacio marca, Enter abre el día, Esc quita lo marcado.</div>'
+       + (ts.length ? '<div class="k-dock" role="region" aria-label="Revertir lo marcado"><span class="q"><b>'+ts.length+'</b> '+pl(ts.length,'taco')+' · <b>'+np+'</b> '+pl(np,'premio')+' · <b>'+fmt(tot)+'</b> marcados</span><button type="button" class="k-btn" data-sal-limpiar>Quitar marcas</button><button type="button" class="k-btn pri" data-sal-rev>↩ Revertir '+ts.length+'</button></div>' : ''); }
+
+    // ───── pintar ─────
+    function html(){ HOY = todayStr(); base();
+      const rs = resumen(), rit = ritmo(), ex = extracto(sumaD(HOY,-60), HOY), S = ses(), tab = TAB();
+      const paso = st.recibo ? 3 : (S ? 2 : 1);
+      const hero = '<div class="k-card k-hero2"><div><div class="k-l">Te deben</div><div class="k-big" style="font-size:44px; color:'+(rs.total>0?'var(--stamp)':'var(--ok)')+';">'+fmt(rs.total)+'</div><div class="mut" style="font-size:12.5px;">'+rs.gs.length+' tacos · '+nf(rs.pe.length)+' premios · cobrado hoy <b class="pos mono">'+fmt(rs.hoyC)+'</b> · mediana ganar→cobrar '+(rit.med!=null?rit.med+' d':'—')+' · '+rit.pct.toFixed(1)+'% cobrado</div></div><div><div class="k-l">Últimos 60 días</div>'+saldoSVG(ex, 120)+'</div></div>';
+      const nav = [['sesion','💵 Cobrar','cobrar'],['salidas','🧾 Salidas','salidas'],['informes','📊 Informes','informes'],['tacos','🗂 Por taco','tacos']];
+      const rail = '<nav class="k-rail" aria-label="Secciones de Cobros">'+nav.map(([k,t,v])=>'<button type="button" class="'+(tab===v?'on':'')+'" data-ktab="'+k+'" aria-current="'+(tab===v?'page':'false')+'">'+t+'</button>').join('')+'</nav>';
+      let cuerpo = '';
+      if(tab==='cobrar') cuerpo = pasoB(paso) + (paso===1 ? (rs.gs.length ? rutasHTML() + planesListos(rs) : '') + eligeB(rs) : paso===2 ? cajaHTML(S) : reciboB());
+      else if(tab==='salidas') cuerpo = '<div class="k-l">Tus salidas a cobrar · toca un día para ver qué cobraste y revertirlo si fue un error</div>' + historialDias();
+      else if(tab==='informes'){ const P = periodo(); cuerpo = '<div class="k-seg" style="align-self:flex-start;">'+[['saldo','Te deben'],['meses','Meses'],['montos','Montos'],['cortes','Cortes']].map(([k,t])=>'<button type="button" class="'+(st.inf===k?'on':'')+'" data-inf="'+k+'">'+t+'</button>').join('')+'</div>'
+          + '<div class="k-card" style="padding:12px 14px; display:flex; flex-direction:column; gap:10px;"><div class="k-l">Periodo</div>'+periodoHTML(P)+kpisPeriodo(P)+'</div>' + (st.inf==='saldo'?infSaldo(P):st.inf==='meses'?infMeses():st.inf==='montos'?infMontos():infCortes(P)); }
+      else cuerpo = porTacoCobroHTML();
+      return '<div class="k">'+cabecera()+hero+avisos(rs)+'<div class="k-b-lay">'+rail+'<div class="k-cuerpo">'+cuerpo+'</div></div></div>'; }
+    function render(){
+      const el = document.getElementById('cobrosContent'); if(!el) return;
+      if(!(data.records||[]).some(r=>(Number(r.premio)||0)>0)){ el.innerHTML = '<p class="note" style="margin:0;">Aún no tienes boletos premiados. Cuando registres un premio, aparecerá aquí para llevar el control de su cobro.</p>'; return; }
+      const ae = document.activeElement, fk = ae && el.contains(ae) ? ae.id : null, fs = fk && ae.selectionStart;
+      const filaFoco = ae && el.contains(ae) && ae.dataset ? (ae.dataset.fila || null) : null;
+      el.innerHTML = html();
+      if(fk && /^(kLupa|kTacoQ|kExtraQ|kMonto)$/.test(fk)){ const e = document.getElementById(fk); if(e){ try{ e.focus({preventScroll:true}); if(fs!=null) e.setSelectionRange(fs,fs); }catch(_){} } }
+      if(filaFoco){ const f = el.querySelector('[data-fila="'+CSS.escape(filaFoco)+'"]'); if(f){ f.tabIndex = 0; f.focus({preventScroll:true}); } }
+      if(!el.querySelector('[data-fila][tabindex="0"]')){ const f0 = el.querySelector('[data-fila]'); if(f0) f0.tabIndex = 0; }
+      if(!el.querySelector('.k-sal[tabindex="0"]')){ const s0 = el.querySelector('[data-hdia].k-sal'); if(s0) s0.tabIndex = 0; }
+      if(!el.querySelector('.k-row-t[tabindex="0"]')){ const t0 = el.querySelector('.k-row-t'); if(t0) t0.tabIndex = 0; }
+      enlazar(el);
+    }
+    const _ids = s => String(s||'').split(',').filter(Boolean);
+    function marcarTaco(li){ const rs = pendientes().filter(r=>r.l===li); const todos = rs.length && rs.every(r=>cobroSel.has(r.i)); rs.forEach(r=>todos?cobroSel.delete(r.i):cobroSel.add(r.i)); }
+    function preset(k){ const gs = grupos(pendientes());
+      if(k==='limpiar') cobroSel.clear(); else if(k==='todos') pendientes().forEach(r=>cobroSel.add(r.i));
+      else if(k==='viejos') gs.filter(g=>g.edad>7).forEach(g=>g.recs.forEach(r=>cobroSel.add(r.i)));
+      else if(k==='grandes') gs.slice().sort((a,b)=>b.sub-a.sub).slice(0,5).forEach(g=>g.recs.forEach(r=>cobroSel.add(r.i))); }
+    function recalcMonto(){ const v = parseFloat(String(st.monto).replace(',','.')); st.rutas = v>0 ? calcRutas(v) : null; st.ruta = null; }
+
+    // ───── eventos (delegados UNA vez en el contenedor) ─────
+    let _montoT = null;
+    function enlazar(el){
+      if(el._kbBind) return; el._kbBind = true;
+      el.addEventListener('click', async e=>{
+        const t = e.target.closest('button, [data-fila], [data-hdia], [data-tab-taco], [data-bgrupo], [data-saltanda]'); if(!t || !el.contains(t)) return;
+        if(t.dataset.tabTaco!=null && e.target.closest('[data-descobrar], [data-llevar-taco]') && t!==e.target.closest('[data-descobrar], [data-llevar-taco]')) return;
+        const d = t.dataset; let S;
+        if(t.disabled) return;
+        if(d.amb!=null){ setCobrosGlobal(d.amb==='1'); cobroSel.clear(); try{ renderJuegoSwitch(); }catch(_){} render(); return; }
+        else if(d.ktab){ if(d.ktab!=="salidas") st.salSel.clear(); cobroTab = d.ktab; }
+        else if(d.toggle && d.marcarIds!=null){ const ids = _ids(d.marcarIds); const on = ids.every(i=>cobroSel.has(i)); ids.forEach(i=>on?cobroSel.delete(i):cobroSel.add(i)); }
+        else if(d.marcarIds!=null){ _ids(d.marcarIds).forEach(i=>{ const r = base().RI.get(i); if(r && !r.cob) cobroSel.add(i); }); cobroTab='sesion'; toast('Marcados · revisa la bolsa antes de ir a la caja'); }
+        else if(d.abrir!=null){ const li = d.abrir; cobroAbiertos.has(li)?cobroAbiertos.delete(li):cobroAbiertos.add(li); st.foco = li; if(cobroLupaDig()) cobroLupaRecordar(L(li).serie); }
+        else if(d.taco!=null){ marcarTaco(d.taco); st.foco = d.taco; }
+        else if(d.bol!=null){ const i = d.bol; cobroSel.has(i)?cobroSel.delete(i):cobroSel.add(i); }
+        else if(d.fila!=null){ marcarTaco(d.fila); st.foco = d.fila; }
+        else if(d.orden){ if(cobroOrden===d.orden) cobroOrdenDir*=-1; else { cobroOrden=d.orden; cobroOrdenDir = d.orden==='serie'?1:-1; } }
+        else if(d.pre){ preset(d.pre); }
+        else if(d.rec){ cobroLupaQ = d.rec; }
+        else if(d.lupax!=null){ cobroLupaQ=''; }
+        else if(d.irCaja!=null){ if(!cobroSel.size){ toast('Marca primero qué te llevas'); return; } sesGuardar({ lleva:[...cobroSel], pag:new Set(), extra:new Set(), objetivo: st.objetivo||'' }); st.objetivo = ''; cobroSel.clear(); st.extraAb = false; cobroAbiertos.clear(); }
+        else if(d.yaCobre!=null){ const n = cobroSel.size; const ok = n>=10 ? await modal({ico:'💵', titulo:'¿Dar por cobrados '+n+' premios?', ok:'Sí, ya los cobré', cuerpo:'Se marcan como cobrados hoy, sin pasar por la caja. Se puede deshacer.'}) : true; if(ok) cobrar([...cobroSel], 'sin caja'); return; }
+        else if(d.pago!=null){ S = ses(); if(!S) return; const i = d.pago; S.pag.has(i)?S.pag.delete(i):S.pag.add(i); sesGuardar(S); }
+        else if(d.pagotaco!=null){ S = ses(); if(!S) return; const li = d.pagotaco, ids = S.lleva.filter(i=>{ const r = base().RI.get(i); return r && r.l===li && !r.cob; }), todo = ids.every(i=>S.pag.has(i)); ids.forEach(i=>todo?S.pag.delete(i):S.pag.add(i)); sesGuardar(S); }
+        else if(d.pagaronTodo!=null){ S = ses(); if(!S) return; S.lleva.forEach(i=>{ const r = base().RI.get(i); if(r && !r.cob) S.pag.add(i); }); sesGuardar(S); }
+        else if(d.volver!=null){ S = ses(); if(S) cobroSel = new Set(S.lleva); sesGuardar(null); st.extraAb = false; }
+        else if(d.cerrarCaja!=null){ S = ses(); if(!S) return; const RI = base().RI;
+          const pag = [...S.pag].filter(i=>RI.get(i) && !RI.get(i).cob), no = S.lleva.filter(i=>RI.get(i) && !RI.get(i).cob && !S.pag.has(i));
+          if(!pag.length){ const ok = await modal({ico:'✕', titulo:'Cerrar sin cobrar nada', ok:'Cerrar igual', cuerpo:'No has tachado ningún premio. Se cerrará la caja y los '+S.lleva.length+' premios seguirán pendientes, tal cual están ahora.'}); if(ok){ sesGuardar(null); cobroSel.clear(); render(); toast('Caja cerrada · nada cobrado'); } return; }
+          const c = cierre(pag, no); sesGuardar(null); st.recibo = c; st.extraAb = false; cobroSel.clear(); cobrar(pag, no.length ? no.length+' sin pagar vuelven a pendientes' : 'caja completa'); return; }
+        else if(d.cobrarTodo!=null){ await cobrarTodo(); return; }
+        else if(d.saldia!=null){ const tt = tandas().filter(x=>x.fcob===d.saldia), on = tt.every(x=>st.salSel.has(x.k)); tt.forEach(x=>on?st.salSel.delete(x.k):st.salSel.add(x.k)); }
+        else if(d.salck!=null){ st.salSel.has(d.salck)?st.salSel.delete(d.salck):st.salSel.add(d.salck); }
+        else if(d.revdia!=null){ await pedirRevertirVarias(tandas().filter(x=>x.fcob===d.revdia), 'Revertir todo el '+fc(d.revdia)); return; }
+        else if(d.salRev!=null){ await pedirRevertirVarias(tandas().filter(x=>st.salSel.has(x.k)), 'Revertir los cobros marcados'); return; }
+        else if(d.salLimpiar!=null){ st.salSel.clear(); }
+        else if(d.salMas!=null){ st.salN += 40; }
+        else if(d.revTanda){ const tt = tandas().find(x=>x.k===d.revTanda); if(tt) await pedirRevertirTanda(tt); return; }
+        else if(d.saltanda!=null){ st.salSel.has(d.saltanda)?st.salSel.delete(d.saltanda):st.salSel.add(d.saltanda); }
+        else if(d.hdia){ st.histAb.has(d.hdia)?st.histAb.delete(d.hdia):st.histAb.add(d.hdia); }
+        else if(d.descobrar!=null){ revertir([d.descobrar], L(base().RI.get(d.descobrar).l).serie); return; }
+        else if(d.llevarTaco!=null){ pendientes().filter(r=>r.l===d.llevarTaco).forEach(r=>cobroSel.add(r.i)); cobroTab = 'sesion'; toast('Agregado a tu bolsa'); }
+        else if(d.tabTaco!=null){ const k = 't'+d.tabTaco; st.histAb.has(k)?st.histAb.delete(k):st.histAb.add(k); }
+        else if(d.torden){ if(st.tacoOrden===d.torden) st.tacoDir*=-1; else { st.tacoOrden=d.torden; st.tacoDir = d.torden==='serie'?1:-1; } }
+        else if(d.inf){ st.inf = d.inf; }
+        else if(d.preset){ const k = d.preset; if(k==='todo') cobroFiltro = {desde:null,hasta:null}; else if(k==='hoy') cobroFiltro = {desde:HOY,hasta:HOY}; else if(k==='mes') cobroFiltro = {desde:HOY.slice(0,8)+'01',hasta:HOY}; else cobroFiltro = {desde:sumaD(HOY,-(+k-1)), hasta:HOY}; }
+        else if(d.cobrarPeriodo!=null){ const P = periodo(); cobrar(premiados().filter(r=>!r.cob && r.fecha>=P.desde && r.fecha<=P.hasta).map(r=>r.i), P.desde===P.hasta?fc(P.desde):fc(P.desde)+' → '+fc(P.hasta)); return; }
+        else if(d.cobrarBucket){ const P = periodo(), k = d.cobrarBucket; cobrar(premiados().filter(r=>!r.cob && r.fecha>=P.desde && r.fecha<=P.hasta && (cobroAgrupa==='mes'?r.fecha.startsWith(k):cobroAgrupa==='semana'?(r.fecha>=k && r.fecha<=sumaD(k,6)):r.fecha===k)).map(r=>r.i), k); return; }
+        else if(d.verOk!=null){ st.verOk = !st.verOk; }
+        else if(d.agrupa){ cobroAgrupa = d.agrupa; } else if(d.vista){ cobroVista = d.vista; } else if(d.a3){ a3Vista = d.a3; }
+        else if(d.plan!=null){ cobroSel = new Set(_ids(d.plan)); toast('Plan preparado · revisa la bolsa y pulsa «Siguiente»'); }
+        else if(d.bagr){ st.bAgr = d.bagr; st.bPlegados.clear(); }
+        else if(d.bgrupo!=null){ const k = d.bgrupo; st.bPlegados.has(k)?st.bPlegados.delete(k):st.bPlegados.add(k); }
+        else if(d.nuevoCobro!=null){ st.recibo = null; }
+        else if(d.montochip){ st.monto = d.montochip; recalcMonto(); }
+        else if(d.ruta){ st.ruta = d.ruta; }
+        else if(d.usarPlan!=null){ cobroSel = new Set(_ids(d.usarPlan)); st.objetivo = st.monto; st.rutas = null; toast('Listo en tu bolsa · pulsa «Siguiente: en la caja»'); }
+        else if(d.extraAb!=null){ st.extraAb = !st.extraAb; st.extraQ = ''; }
+        else if(d.extra!=null){ S = ses(); if(!S) return; const i = d.extra; if(!S.lleva.includes(i)) S.lleva.push(i); S.pag.add(i); S.extra.add(i); sesGuardar(S); const r = base().RI.get(i); if(r) toast('Agregado y tachado: '+L(r.l).serie+' · '+posTxt(r.pos)+' · '+fmt(r.premio)); }
+        else if(d.tacof){ st.tacoF = d.tacof; st.tacoN = 30; }
+        else if(d.abreTaco!=null){ st.tacoF = 'porcobrar'; st.histAb.add('t'+d.abreTaco); cobroBusca = String(L(d.abreTaco).serie).replace(/\D/g,'').slice(-6); }
+        else if(d.masTacos!=null){ st.tacoN += 30; }
+        else if(d.copiar!=null){ const tx = (document.getElementById('kRecibo')||{}).innerText||''; try{ await navigator.clipboard.writeText(tx); toast('📋 Recibo copiado'); }catch(_){ try{ _copiarFallback(tx); toast('📋 Recibo copiado'); }catch(__){ toast('No se pudo copiar: selecciona el texto'); } } return; }
+        else return;
+        render();
+      });
+      el.addEventListener('input', e=>{ const t = e.target;
+        if(t.id==='kLupa'){ cobroLupaQ = t.value; render(); }
+        else if(t.id==='kTacoQ'){ cobroBusca = t.value; st.tacoN = 30; render(); }
+        else if(t.id==='kExtraQ'){ st.extraQ = t.value; render(); }
+        else if(t.id==='kMonto'){ st.monto = t.value.replace(/[^\d.,]/g,''); clearTimeout(_montoT); _montoT = setTimeout(()=>{ recalcMonto(); render(); }, 220); } });
+      el.addEventListener('change', e=>{ const t = e.target; if(t.id==='kDesde'||t.id==='kHasta'){ const P = periodo(); cobroFiltro = {desde: t.id==='kDesde'?(t.value||null):P.desde, hasta: t.id==='kHasta'?(t.value||null):P.hasta}; render(); } });
+      el.addEventListener('toggle', e=>{ const d = e.target; if(d && d.dataset && d.dataset.kdet){ st.detAb = st.detAb||{}; st.detAb[d.dataset.kdet] = d.open; } }, true);
+      el.addEventListener('keydown', teclado);
+    }
+    // Teclado: ↑/↓ entre filas, Espacio marca, Enter abre; ←/→ entre formas; Esc por capas.
+    function teclado(e){
+      if(document.querySelector('.k-fondo')) return;
+      const el = document.getElementById('cobrosContent'), tg = e.target;
+      if(tg.id==='kMonto' && e.key==='Enter'){ e.preventDefault(); clearTimeout(_montoT); const v = parseFloat(String(st.monto).replace(',','.')); if(!(v>0)){ toast('Escribe cuánto quieres cobrar'); return; } recalcMonto(); render(); return; }
+      if(tg.id==='kLupa' && e.key==='Enter'){ e.preventDefault(); const g = lupaFiltra(grupos(pendientes()))[0]; if(g){ cobroAbiertos.add(g.li); cobroLupaRecordar(g.lo.serie); st.foco = g.li; render(); el.querySelector('[data-fila="'+CSS.escape(g.li)+'"]')?.focus(); } return; }
+      const ru = tg.closest && tg.closest('[data-ruta]');
+      if(ru && /^Arrow(Right|Left|Down|Up)$/.test(e.key)){ e.preventDefault(); const rs = [...el.querySelectorAll('[data-ruta]')], i = rs.indexOf(ru), n = rs[(i+(e.key==='ArrowRight'||e.key==='ArrowDown'?1:-1)+rs.length)%rs.length]; st.ruta = n.dataset.ruta; render(); el.querySelector('[data-ruta="'+st.ruta+'"]')?.focus(); return; }
+      const lista = (sel) => [...el.querySelectorAll(sel)];
+      const mover = (fs, i, dir) => { const n = fs[i+dir]; if(n){ fs.forEach(x=>x.tabIndex=-1); n.tabIndex=0; n.focus(); } return n; };
+      const f = tg.closest && tg.closest('[data-fila]');
+      if(f && tg===f){ const fs = lista('[data-fila]'), i = fs.indexOf(f);
+        if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); const n = mover(fs, i, e.key==='ArrowDown'?1:-1); if(n) st.foco = n.dataset.fila; return; }
+        if(e.key==='Home'||e.key==='End'){ e.preventDefault(); mover(fs, e.key==='Home'?-1:fs.length, e.key==='Home'?1:-1); return; }
+        if(e.key===' '){ e.preventDefault(); marcarTaco(f.dataset.fila); st.foco = f.dataset.fila; render(); return; }
+        if(e.key==='Enter'){ e.preventDefault(); const li = f.dataset.fila; cobroAbiertos.has(li)?cobroAbiertos.delete(li):cobroAbiertos.add(li); st.foco = li; render(); return; } }
+      const tt = tg.closest && tg.closest('.k-row-t');
+      if(tt && tg===tt){ const fs = lista('.k-row-t'), i = fs.indexOf(tt);
+        if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); mover(fs, i, e.key==='ArrowDown'?1:-1); return; }
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); const k = 't'+tt.dataset.tabTaco; st.histAb.has(k)?st.histAb.delete(k):st.histAb.add(k); render(); const n = el.querySelector('[data-tab-taco="'+CSS.escape(tt.dataset.tabTaco)+'"]'); if(n){ n.tabIndex=0; n.focus(); } return; } }
+      const s = tg.closest && tg.closest('[data-hdia].k-sal, [data-saltanda]');
+      if(s && tg===s){ const fs = lista('[data-hdia].k-sal, [data-saltanda]'), i = fs.indexOf(s), key = x => x.dataset.hdia ? '[data-hdia="'+CSS.escape(x.dataset.hdia)+'"]' : '[data-saltanda="'+CSS.escape(x.dataset.saltanda)+'"]';
+        const vuelve = k => { const n = el.querySelector(k); if(n){ n.tabIndex=0; n.focus(); } };
+        if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); mover(fs, i, e.key==='ArrowDown'?1:-1); return; }
+        if(e.key===' '){ e.preventDefault(); const k = key(s); if(s.dataset.hdia){ const t2 = tandas().filter(x=>x.fcob===s.dataset.hdia), on = t2.every(x=>st.salSel.has(x.k)); t2.forEach(x=>on?st.salSel.delete(x.k):st.salSel.add(x.k)); } else { const k2 = s.dataset.saltanda; st.salSel.has(k2)?st.salSel.delete(k2):st.salSel.add(k2); } render(); vuelve(k); return; }
+        if(e.key==='Enter'){ e.preventDefault(); if(s.dataset.hdia){ const dd = s.dataset.hdia, k = key(s); st.histAb.has(dd)?st.histAb.delete(dd):st.histAb.add(dd); render(); vuelve(k); } else { const t2 = tandas().find(x=>x.k===s.dataset.saltanda); if(t2) pedirRevertirTanda(t2); } return; } }
+      if(e.key==='Escape'){
+        if(TAB()==='salidas' && st.salSel.size){ st.salSel.clear(); toast('Marcas quitadas'); }
+        else if(tg.id==='kLupa' && cobroLupaQ){ cobroLupaQ=''; }
+        else if(tg.id==='kMonto' && (st.monto || st.rutas)){ st.monto=''; st.rutas=null; }
+        else if(st.extraAb && sesionLeer()){ st.extraAb = false; }
+        else if(cobroAbiertos.size){ cobroAbiertos.clear(); }
+        else if(cobroSel.size && !sesionLeer()){ cobroSel.clear(); toast('Selección quitada'); }
+        else return;
+        e.preventDefault(); e.stopPropagation(); render(); }
+    }
+    return { render, _st:st, _calcRutas:calcRutas, _planMonto:planMonto, _planDetalle:planDetalle, _base:base };
+  })();
+  // v41.4: Cobros lo pinta KB (arriba). El render anterior se conserva sin ejecutarse.
+  function renderCobros(){ KB.render(); }
+  function _renderCobrosV41(){
     const el = document.getElementById('cobrosContent');
     if(!el) return;
     const hoy = todayStr();
