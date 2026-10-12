@@ -1988,6 +1988,44 @@
   .k-pag .nav button:disabled{ opacity:.35; cursor:default; }
   .k-pag .tam{ height:34px; } .k-pag .tam button{ padding:0 10px; }
   @container k (max-width: 560px){ .k-pag{ grid-template-columns:minmax(0,1fr) auto; } .k-pag .nav{ grid-column:1 / -1; grid-row:2; justify-content:center; } .k-pag .nav:empty{ display:none; } }
+  /* ═══ v41.5 · ENTREGADO (propuesta B) — boletos que se quedan en el punto hasta que te paguen. Color: --cur (violeta) ═══ */
+  .k-bol.ent, .k-caja-t .k-bol.ent{ border-color:var(--cur); background:color-mix(in srgb, var(--cur) 18%, transparent); }
+  .k-bol.ent b, .k-caja-t .k-bol.ent b{ color:var(--cur); }
+  .k-caja-t.dent{ border-color:var(--cur); }
+  .k-entp{ padding:12px 14px; display:flex; flex-direction:column; gap:8px; border:2px solid color-mix(in srgb, var(--cur) 55%, var(--line)); }
+  .k-entp .k-lupa{ height:44px; flex:none; }
+  .k-entp #kFaltaNota{ font:500 14px 'Inter',-apple-system,'Segoe UI',sans-serif; letter-spacing:0; }
+  .k-chip.on{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .k-liq{ display:flex; flex-direction:column; gap:10px; }
+  .k-liq-m{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .k-liq-m .k-monto-in{ flex:0 1 230px; height:46px; }
+  .k-liq-m .k-monto-in input{ font-size:20px; }
+  .k-split{ display:flex; height:8px; border-radius:4px; overflow:hidden; max-width:380px; margin:8px 0 6px; }
+  .k-split span{ background:var(--stamp); } .k-split span.e{ background:var(--cur); }
+  .k-dot{ display:inline-block; width:9px; height:9px; border-radius:50%; background:var(--stamp); margin-right:5px; }
+  .k-dot.e{ background:var(--cur); }
+  .k-n{ display:inline-grid; place-items:center; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:var(--cur); color:#fff; font-size:11px; }
+  .k-step.s4{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .k-cta{ padding:14px 16px; display:flex; flex-direction:column; gap:10px; border-left:4px solid var(--cur); }
+  .k-cta-h{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .k-cta-h .nom{ font-weight:800; font-size:17px; margin:2px 0; }
+  .k-mov{ display:flex; flex-direction:column; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .k-mov > div{ display:grid; grid-template-columns:64px minmax(0,1fr) auto; gap:10px; padding:7px 12px; font-size:12.5px; border-top:1px solid var(--line); }
+  .k-mov > div:first-child{ border-top:0; }
+  .k-mov .pag b{ color:var(--ok); } .k-mov .ent b{ color:var(--cur); }
+  .k-cta-t{ display:flex; flex-wrap:wrap; gap:6px; } .k-cta-t .k-chip{ cursor:default; font-weight:600; }
+  .k-cta-a{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .k-cta-a .k-btn{ height:44px; }
+  @container k (max-width: 560px){
+    .k-rail.r5{ grid-template-columns:repeat(5,minmax(0,1fr)); } .k-rail.r5 button{ font-size:11px; }
+    .k-rail.r5 button{ justify-content:flex-start; min-height:56px; } .k-rail.r5 .ic{ font-size:16px; line-height:1; } .k-rail.r5 .tx{ line-height:1.15; }
+    .k-step.s4 div{ flex-direction:column; gap:3px; padding:8px 4px; font-size:11px; text-align:center; }
+    .k-cta-h{ flex-direction:column; gap:4px; }
+    .k-liq-m .k-monto-in{ flex:1 1 100%; } .k-liq-m .k-btn{ flex:1; }
+    .k-entp .k-fill2{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .k-pie [data-falta-quedan], .k-pie [data-liqok]{ grid-column:1 / -1; }
+  }
+
   /* ─ Ajustes de la app sobre el preview (mismo aspecto): los estilos globales de la app no deben colarse ─ */
   .k .k-monto-in input, .k .k-lupa input{ border:0 !important; background:transparent !important; box-shadow:none !important; padding:0 !important; outline:none !important; height:auto; margin:0; }
   .k .k-monto-in:focus-within, .k .k-lupa:focus-within{ box-shadow:0 0 0 3px color-mix(in srgb, var(--ok) 30%, transparent); }
@@ -4221,7 +4259,11 @@
   //   «Ver: Todos / ◐ A medio cobrar» en la tarjeta de herramientas.
   // v41.4.3 — «Lo cobrado» en el recuadro principal de Cobros: hoy, 7 días, este mes, desde siempre y
   //   barras de los últimos 30 días (tocar un día lo abre en Salidas).
-  const APP_VERSION = { num: '41.4.3', fecha: '2026-10-12' };
+  // v41.5 — Cobros: estado «📦 Entregado» (propuesta B): boletos que dejas en el punto hasta que te paguen.
+  //   Paso 3 «Lo que falta» al cerrar la caja (punto, promesa, nota), sección «📦 Entregados» con una
+  //   cuenta por punto, «Me pagó…» por boletos (el monto ayuda a marcarlos) y recibo «Pago de entrega».
+  //   Campos opcionales nuevos en el boleto: entregado, fechaEntrega, puntoEntrega, promesaPago, notaEntrega.
+  const APP_VERSION = { num: '41.5', fecha: '2026-10-12' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -15008,6 +15050,8 @@
       recExistente.punto = punto;
       recExistente.ciudad = ciudad;
       recExistente.cobrado = cobrado;
+      // v41.5: un boleto entregado en un punto que marcas como cobrado deja de estar «entregado» (y al revés).
+      if(recExistente.fechaEntrega && recExistente.puntoEntrega) recExistente.entregado = !cobrado;
       recExistente.fechaCobro = fechaCobro;
       lote.posiciones[posicion] = { estado: resultadoFinal==='gano'?'gano':'no-gano', recordId: recExistente.id };
       lote.actualizadoEn = new Date().toISOString();
@@ -19270,7 +19314,7 @@
     const st = { soloParc:false, pagina:0, foco:null, bAgr:'no', bPlegados:new Set(), recibo:null, monto:'', rutas:null, ruta:null,
       extraAb:false, extraQ:'', tacoF:'todos', tacoN:30, tacoOrden:'pend', tacoDir:-1, histAb:new Set(),
       salSel:new Set(), salN:40, inf:'saldo', verOk:false, objetivo:'' };
-    const TAB = () => ({ sesion:'cobrar', pendientes:'cobrar', salidas:'salidas', reportes:'informes', informes:'informes', analisis:'informes', buscar:'tacos', tacos:'tacos' })[cobroTab] || 'cobrar';
+    const TAB = () => ({ entregados:'entregados', sesion:'cobrar', pendientes:'cobrar', salidas:'salidas', reportes:'informes', informes:'informes', analisis:'informes', buscar:'tacos', tacos:'tacos' })[cobroTab] || 'cobrar';
 
     // ───── datos: copia de lectura indexada por id (se rehace solo cuando cambian los datos) ─────
     let B = { key:null };
@@ -19286,7 +19330,7 @@
       const R = [], RI = new Map();
       (data.records||[]).forEach(r=>{ if(!((Number(r.premio)||0)>0)) return; const l = String(r.loteId);
         if(!LI.has(l)) LI.set(l, { i:l, serie:'lote '+l, j:{}, jid:'', punto:'', ciudad:'', gasto:0, n:0, fcomp:'' });
-        const x = { i:String(r.id), l, pos:Number(r.posicion)||0, premio:Number(r.premio)||0, cob:!!r.cobrado, fecha:String(r.fecha||'').slice(0,10), fcob:r.cobrado ? String(r.fechaCobro||r.fecha||'').slice(0,10) : '', rec:r };
+        const x = { i:String(r.id), l, pos:Number(r.posicion)||0, premio:Number(r.premio)||0, cob:!!r.cobrado, fecha:String(r.fecha||'').slice(0,10), fcob:r.cobrado ? String(r.fechaCobro||r.fecha||'').slice(0,10) : '', ent:!r.cobrado && !!r.entregado, fent:String(r.fechaEntrega||'').slice(0,10), pent:r.puntoEntrega||'', prom:String(r.promesaPago||'').slice(0,10), nent:r.notaEntrega||'', rec:r };
         R.push(x); RI.set(x.i, x); });
       B = { key, LI, R, RI, jAct:ja };
       return B;
@@ -19294,15 +19338,17 @@
     const L = id => base().LI.get(String(id)) || { serie:'?', j:{}, punto:'' };
     const enAmbito = r => cobrosGlobal || L(r.l).jid===String(base().jAct.id);
     const premiados = () => base().R.filter(enAmbito);
-    const pendientes = () => base().R.filter(r=>!r.cob && enAmbito(r));
+    const pendientes = () => base().R.filter(r=>!r.cob && !r.ent && enAmbito(r));   // v41.5: los que TIENES tú
+    const entregados = () => base().R.filter(r=>r.ent && enAmbito(r));              // v41.5: los que dejaste en un punto
     function grupos(lista){
       const m = new Map(); lista.forEach(r=>{ if(!m.has(r.l)) m.set(r.l, []); m.get(r.l).push(r); });
       const yc = new Map(); base().R.forEach(r=>{ if(r.cob){ if(!yc.has(r.l)) yc.set(r.l, []); yc.get(r.l).push(r); } });
+      const ye = new Map(); base().R.forEach(r=>{ if(r.ent){ if(!ye.has(r.l)) ye.set(r.l, []); ye.get(r.l).push(r); } });
       const gs = [...m.entries()].map(([li, recs])=>{
         recs.sort((a,b)=>a.pos-b.pos);
         const lo = L(li), fmin = recs.map(r=>r.fecha).filter(Boolean).sort()[0] || HOY;
         const marc = recs.filter(r=>cobroSel.has(r.i));
-        return { li, lo, recs, yaCobr:(yc.get(li)||[]).slice().sort((a,b)=>a.pos-b.pos), marc, sub:recs.reduce((s,r)=>s+neto(r.premio),0), subSel:marc.reduce((s,r)=>s+neto(r.premio),0),
+        return { li, lo, recs, ent:(ye.get(li)||[]), yaCobr:(yc.get(li)||[]).slice().sort((a,b)=>a.pos-b.pos), marc, sub:recs.reduce((s,r)=>s+neto(r.premio),0), subSel:marc.reduce((s,r)=>s+neto(r.premio),0),
           edad:Math.max(0, dias(fmin, HOY)), conRet:recs.filter(r=>r.premio>=RET).length, gye:recs.some(r=>r.premio>GYE),
           estado: !marc.length ? 'vacio' : (marc.length===recs.length ? 'completo' : 'parcial'), tanda:(lo.fcomp||'?')+'|'+(lo.punto||'') };
       });
@@ -19324,7 +19370,8 @@
       const hoyC = premiados().filter(r=>r.cob && r.fcob===HOY).reduce((s,r)=>s+neto(r.premio),0);
       const otros = cobrosGlobal ? [] : base().R.filter(r=>!r.cob && !enAmbito(r));
       const viejos = pe.filter(r=>r.fecha && dias(r.fecha,HOY)>30);
-      return { pe, gs, total:pe.reduce((s,r)=>s+neto(r.premio),0), hoyC, otros, otrosV:otros.reduce((s,r)=>s+neto(r.premio),0), viejos, gye:pe.filter(r=>r.premio>GYE) }; }
+      const en = entregados(), entV = en.reduce((s,r)=>s+neto(r.premio),0), conV = pe.reduce((s,r)=>s+neto(r.premio),0);
+      return { pe, gs, en, entV, conV, total:conV+entV, hoyC, otros, otrosV:otros.reduce((s,r)=>s+neto(r.premio),0), viejos, gye:pe.filter(r=>r.premio>GYE) }; }
     // Tanda de cobro = mismo taco + misma fecha de cobro (la huella de una pulsación de cobrar).
     function tandas(){ const m = new Map(); premiados().forEach(r=>{ if(!r.cob) return; const k = r.l+'||'+r.fcob; if(!m.has(k)) m.set(k,{k, l:r.l, fcob:r.fcob, rs:[]}); m.get(k).rs.push(r); });
       return [...m.values()].map(t=>({...t, n:t.rs.length, neto:t.rs.reduce((s,r)=>s+neto(r.premio),0), bruto:t.rs.reduce((s,r)=>s+r.premio,0), fb:t.rs.map(r=>r.fecha).filter(Boolean).sort()[0]}))
@@ -19339,13 +19386,13 @@
 
     // ───── acciones: escriben SOLO cobrado/fechaCobro (como siempre) y todas tienen Deshacer ─────
     function _tocarLote(r){ const lo = (data.lotes||[]).find(l=>String(l.id)===String(r.loteId)); if(lo) lo.actualizadoEn = new Date().toISOString(); }
-    function _restaurar(prev){ let ok = 0; prev.forEach(p=>{ const v = (data.records||[]).find(x=>String(x.id)===p.id); if(v){ v.cobrado = p.cobrado; v.fechaCobro = p.fechaCobro; _tocarLote(v); ok++; } }); save(); render(); return ok; }
+    function _restaurar(prev){ let ok = 0; prev.forEach(p=>{ const v = (data.records||[]).find(x=>String(x.id)===p.id); if(v){ _aplicarSnap(v, p); _tocarLote(v); ok++; } }); save(); render(); return ok; }
     function cobrar(ids, etiqueta){
       cobroRespaldoDelDia();
       const fecha = todayStr(), prev = []; let tot = 0;
       ids.forEach(i=>{ const x = base().RI.get(String(i)); const r = x && x.rec;
         if(!r || r.cobrado || !((Number(r.premio)||0)>0)) return;   // nunca se cobra algo sin premio
-        prev.push({ id:String(r.id), cobrado:r.cobrado, fechaCobro:r.fechaCobro }); r.cobrado = true; r.fechaCobro = fecha; _tocarLote(r); tot += neto(r.premio); cobroSel.delete(String(r.id)); });
+        prev.push(_snap(r)); r.cobrado = true; r.fechaCobro = fecha; if(r.entregado) r.entregado = false; _tocarLote(r); tot += neto(r.premio); cobroSel.delete(String(r.id)); });
       if(!prev.length){ aviso('Eso ya estaba cobrado'); return null; }
       try{ if(navigator.vibrate) navigator.vibrate(26); }catch(_){}
       save(); render();
@@ -19354,7 +19401,7 @@
     function revertir(ids, etiqueta){
       const prev = []; let tot = 0;
       ids.forEach(i=>{ const x = base().RI.get(String(i)); const r = x && x.rec; if(!r || !r.cobrado) return;
-        prev.push({ id:String(r.id), cobrado:r.cobrado, fechaCobro:r.fechaCobro }); r.cobrado = false; r.fechaCobro = null; _tocarLote(r); tot += neto(r.premio); });
+        prev.push(_snap(r)); r.cobrado = false; r.fechaCobro = null; if(r.fechaEntrega && r.puntoEntrega) r.entregado = true; /* v41.5: revertir el pago de una entrega lo deja en el punto */ _tocarLote(r); tot += neto(r.premio); });
       if(!prev.length) return;
       save(); render();
       aviso('↩ '+prev.length+' '+pl(prev.length,'premio')+' vuelven a pendientes · '+fmt(tot)+(etiqueta?' · '+etiqueta:''), ()=>{ _restaurar(prev); toast('✓ Cobro restaurado'); }); }
@@ -19365,7 +19412,7 @@
       const ds = Object.keys(porDia), media = ds.length ? ds.reduce((s,d)=>s+porDia[d],0)/ds.length : 0, total = ahora + yaHoy;
       const parc = {}; noPagados.forEach(i=>{ const s = L(RI.get(i).l).serie; parc[s]=(parc[s]||0)+1; });
       return { ahora, n:pagados.length, total, yaHoy, media, dif: media>0 ? Math.round((total/media-1)*100) : null, parc,
-               queda: pendientes().filter(r=>!pagados.includes(r.i)).reduce((s,r)=>s+neto(r.premio),0), rs: pagados.map(i=>({...RI.get(i)})) }; }
+               queda: pendientes().concat(entregados()).filter(r=>!pagados.includes(r.i)).reduce((s,r)=>s+neto(r.premio),0), rs: pagados.map(i=>({...RI.get(i)})) }; }
 
     // ───── sesión (caja): la misma clave de siempre; extra y objetivo son opcionales ─────
     function ses(){ const s = sesionLeer(); if(!s) return null;
@@ -19403,7 +19450,8 @@
     function cierreHTML(c){ const li = ['Cobraste <b>'+fmt(c.ahora)+'</b> en esta salida ('+c.n+' '+pl(c.n,'premio')+').'];
       if(c.yaHoy>0.004) li.push('Con lo de antes, hoy llevas <b>'+fmt(c.total)+'</b>.');
       if(c.dif!=null) li.push('Tu media por día de cobro es '+fmt(c.media)+' — hoy vas <b class="'+(c.dif>=0?'pos':'amb')+'">'+(c.dif>=0?'+':'')+c.dif+'%</b>.');
-      Object.keys(c.parc).forEach(k=>li.push('<b class="mono">'+esc(k)+'</b>: <span class="amb">'+c.parc[k]+' sin pagar</span>, vuelven a pendientes.'));
+      if(c.entN) li.push('📦 Dejaste <b>'+fmt(c.entV)+'</b> ('+c.entN+' '+pl(c.entN,'premio')+') en <b>'+esc(c.punto)+'</b>'+(c.prom?' · prometió pagarte el <b>'+fl(c.prom)+'</b>':'')+'. Te lo debe hasta que confirmes el pago.');
+      Object.keys(c.parc).forEach(k=>li.push('<b class="mono">'+esc(k)+'</b>: <span class="amb">'+c.parc[k]+' sin pagar</span>, vuelven contigo.'));
       li.push('Sigue pendiente <b>'+fmt(c.queda)+'</b>.');
       return '<div class="k-big pos" style="font-size:34px;">'+fmt(c.total)+'</div><div class="k-l">cobrado hoy</div><ul style="margin:6px 0 0; padding-left:18px; line-height:1.8;">'+li.map(x=>'<li>'+x+'</li>').join('')+'</ul>'; }
 
@@ -19439,13 +19487,14 @@
     function avisos(rs){ const a = [];
       if(rs.viejos.length) a.push('<div class="k-aviso neg">🕗 <b>'+rs.viejos.length+' '+pl(rs.viejos.length,'premio')+' con más de 30 días</b> sin cobrar ('+fmt(rs.viejos.reduce((s,r)=>s+neto(r.premio),0))+').<button type="button" data-marcar-ids="'+rs.viejos.map(r=>esc(r.i)).join(',')+'">Marcarlos</button></div>');
       if(rs.otros.length) a.push('<div class="k-aviso">⚠ Otros juegos: <b>'+fmt(rs.otrosV)+'</b> pendientes.<button type="button" data-amb="1">Ver todos los juegos</button></div>');
+      cuentas().filter(cu=>cu.vencida || cu.dias>7).forEach(cu=>a.push('<div class="k-aviso">📦 <b>'+esc(cu.p)+'</b> te debe <b>'+fmt(cu.v)+'</b> '+(cu.vencida?'· prometió pagarte el '+fc(cu.prom):'desde hace '+cu.dias+' días')+'.<button type="button" data-liq="'+esc(cu.p)+'">Ver</button></div>'));
       if(rs.gye.length) a.push('<div class="k-aviso">🏛 '+rs.gye.length+' '+pl(rs.gye.length,'premio')+' de más de '+fmt(GYE)+' <b>solo se cobran en Guayaquil</b>.</div>');
       return a.join(''); }
     function filaTaco(g){ const ab = cobroAbiertos.has(g.li), id = esc(g.li);
       // v41.4.1 — las marcas viven en la línea del taco: en el teléfono la columna aparte estaba oculta y el
       // ◐ (taco con premios ya cobrados en otra visita: te quedan boletos SUELTOS) no se veía.
       const flags = [ g.yaCobr.length ? '<span class="k-pil cur" title="Ya cobraste '+g.yaCobr.length+' premios de este taco en otra visita: te quedan boletos sueltos">◐ parcial · '+g.yaCobr.length+' ya cobrados</span>' : '',
-        g.conRet ? '<span class="k-pil amb" title="Premio de $500 o más: retención del 14%">⚠ retención</span>' : '', g.gye ? '<span class="k-pil neg">🏛 Guayaquil</span>' : '' ].join('');
+        g.conRet ? '<span class="k-pil amb" title="Premio de $500 o más: retención del 14%">⚠ retención</span>' : '', g.gye ? '<span class="k-pil neg">🏛 Guayaquil</span>' : '', g.ent.length ? '<span class="k-pil cur" title="Boletos de este taco que dejaste en un punto">📦 '+g.ent.length+' en '+esc(g.ent[0].pent||'un punto')+'</span>' : '' ].join('');
       const ed = '<span class="k-pil '+(g.edad>30?'neg':g.edad>7?'amb':'sin')+'">'+edadTxt(g.edad)+'</span>';
       const mo = g.estado==='parcial' ? fmt(g.subSel)+'<small>/'+fmt(g.sub).replace('$','')+'</small>' : fmt(g.sub);
       const ck = '<button type="button" class="k-ck '+(g.estado==='completo'?'on':g.estado==='parcial'?'mix':'')+'" data-taco="'+id+'" tabindex="-1" aria-label="Marcar '+esc(g.lo.serie)+'">'+(g.estado==='completo'?'✓':g.estado==='parcial'?'–':'')+'</button>';
@@ -19498,7 +19547,7 @@
           return '<div class="k-caja-t '+(todo?'done':'')+'"><div class="h"><span class="s">'+esc(L(li).serie)+'</span><span class="k-pil '+(todo?'ok':n?'cur':'sin')+'">'+n+' de '+rs.length+' pagados</span>'+(rs.some(r=>s.extra.has(r.i))?'<span class="k-pil amb">extra</span>':'')+'<span class="mono" style="margin-left:auto; font-weight:800;">'+fmt(rs.reduce((a,r)=>a+neto(r.premio),0))+'</span><button type="button" class="k-btn sm '+(todo?'':'ok')+'" data-pagotaco="'+esc(li)+'">'+(todo?'Destachar':'Pagó todo')+'</button></div>'
            + '<div class="k-grid">'+rs.map(r=>'<button type="button" class="k-bol '+(pag.has(r.i)?'on':'')+' '+(r.premio>=RET?'ret':'')+'" data-pago="'+esc(r.i)+'" aria-pressed="'+pag.has(r.i)+'">'+posTxt(r.pos)+'<b>'+(pag.has(r.i)?'✓ ':'')+fmt(r.premio).replace('.00','')+'</b></button>').join('')+'</div></div>'; }).join('')
        + extraHTML(s) + '<div class="k-pie"><button type="button" class="k-btn" data-volver>← Preparar</button><button type="button" class="k-btn" data-pagaron-todo>Pagaron todo</button><span style="flex:1"></span><button type="button" class="k-btn pri" data-cerrar-caja style="height:46px;">Cerrar caja →</button></div>'
-       + '<div class="mut" style="font-size:11.5px; text-align:center;">Lo que no taches vuelve a pendientes, sin tocarse. La caja abierta se guarda en este aparato (si cierras la app, sigue ahí).</div>'; }
+       + '<div class="mut" style="font-size:11.5px; text-align:center;">Lo que no taches lo decides al cerrar: vuelve contigo o se queda en el punto. La caja abierta se guarda en este aparato (si cierras la app, sigue ahí).</div>'; }
     // En la caja: premios que llevaste de más (no estaban en la lista) se agregan ya tachados y se cobran igual.
     function extraHTML(s){ if(!st.extraAb) return '<button type="button" class="k-btn" data-extra-ab style="align-self:flex-start;">＋ Llevo otro premio que no estaba en la lista</button>';
       const dentro = new Set(s.lleva), q = st.extraQ.replace(/\D/g,'');
@@ -19595,8 +19644,8 @@
        + '<span class="k-l">Ver</span><div class="k-seg k-fill">'+[['todos','Todos'],['porcobrar','Por cobrar'],['parcial','A medio'],['cobrado','Cobrados']].map(([k,t])=>'<button type="button" class="'+(f===k?'on':'')+'" data-tacof="'+k+'">'+t+'</button>').join('')+'</div>'
        + '<span class="k-l">Ordenar</span><div class="k-seg k-fill">'+[['pend','Por cobrar $'],['edad','Antigüedad'],['ult','Último cobro'],['serie','Serie']].map(([k,t])=>'<button type="button" class="'+(st.tacoOrden===k?'on':'')+'" data-torden="'+k+'">'+t+(st.tacoOrden===k?(st.tacoDir<0?' ↓':' ↑'):'')+'</button>').join('')+'</div></div>'
        + '<div class="k-list">'+(pag.length ? pag.map(t=>{ const ab = st.histAb.has('t'+t.l.i), e = est(t), pc = t.premio>0 ? Math.round((t.premio-t.pend)/t.premio*100) : 100, u = ult(t);
-          return '<div class="k-row k-row-t" data-tab-taco="'+esc(t.l.i)+'" tabindex="-1" role="button" aria-expanded="'+ab+'"><div style="min-width:0;"><div class="s">'+esc(t.l.serie)+' '+(e==='parcial'?'<span class="k-pil amb">◐ a medio</span>':e==='pendiente'?'<span class="k-pil neg">sin cobrar</span>':'<span class="k-pil ok">✓ cobrado</span>')+'</div><div class="m">'+esc(t.l.punto||'sin punto')+' · '+(t.nPrem-t.nPend)+' de '+t.nPrem+' cobrados'+(u?' · último cobro '+fc(u):'')+'</div><div class="k-prog" style="height:5px; margin-top:6px;"><span style="width:'+pc+'%"></span></div></div><div class="mo '+(t.nPend?'pink':'pos')+'">'+(t.nPend?fmt(t.pend):'✓')+'<br><small>de '+fmt(t.premio)+'</small></div><span class="ex">'+(ab?'▴':'▾')+'</span></div>'
-           + (ab ? '<div class="k-exp" style="padding-left:14px;"><div class="mut" style="font-size:12px;">'+(t.l.ciudad?esc(t.l.ciudad)+' · ':'')+(t.l.fcomp?'comprado el '+fc(t.l.fcomp)+' · ':'')+'toca un premio cobrado (✓) para devolverlo a pendientes</div><div class="k-grid">'+t.rs.slice().sort((a,b)=>a.pos-b.pos).map(r=>r.cob?'<button type="button" class="k-bol pag rev" data-descobrar="'+esc(r.i)+'" title="Cobrado el '+fc(r.fcob)+' — toca para devolverlo a pendientes">'+posTxt(r.pos)+'<b>✓ '+fmt(r.premio).replace('.00','')+'</b></button>':'<span class="k-bol '+(r.premio>=RET?'ret':'')+'">'+posTxt(r.pos)+'<b>'+fmt(r.premio).replace('.00','')+'</b></span>').join('')+'</div>'+(t.nPend?'<button type="button" class="k-btn sm pri" data-llevar-taco="'+esc(t.l.i)+'" style="align-self:flex-start;">Llevar lo pendiente de este taco →</button>':'')+'</div>' : ''); }).join('') : '<div class="k-tanda mut">Ningún taco con ese filtro.</div>')+'</div>'
+          return '<div class="k-row k-row-t" data-tab-taco="'+esc(t.l.i)+'" tabindex="-1" role="button" aria-expanded="'+ab+'"><div style="min-width:0;"><div class="s">'+esc(t.l.serie)+' '+(e==='parcial'?'<span class="k-pil amb">◐ a medio</span>':e==='pendiente'?'<span class="k-pil neg">sin cobrar</span>':'<span class="k-pil ok">✓ cobrado</span>')+(t.rs.some(r=>r.ent)?' <span class="k-pil cur">📦 en '+esc(t.rs.find(r=>r.ent).pent)+'</span>':'')+'</div><div class="m">'+esc(t.l.punto||'sin punto')+' · '+(t.nPrem-t.nPend)+' de '+t.nPrem+' cobrados'+(u?' · último cobro '+fc(u):'')+'</div><div class="k-prog" style="height:5px; margin-top:6px;"><span style="width:'+pc+'%"></span></div></div><div class="mo '+(t.nPend?'pink':'pos')+'">'+(t.nPend?fmt(t.pend):'✓')+'<br><small>de '+fmt(t.premio)+'</small></div><span class="ex">'+(ab?'▴':'▾')+'</span></div>'
+           + (ab ? '<div class="k-exp" style="padding-left:14px;"><div class="mut" style="font-size:12px;">'+(t.l.ciudad?esc(t.l.ciudad)+' · ':'')+(t.l.fcomp?'comprado el '+fc(t.l.fcomp)+' · ':'')+'toca un premio cobrado (✓) para devolverlo a pendientes</div><div class="k-grid">'+t.rs.slice().sort((a,b)=>a.pos-b.pos).map(r=>r.cob?'<button type="button" class="k-bol pag rev" data-descobrar="'+esc(r.i)+'" title="Cobrado el '+fc(r.fcob)+' — toca para devolverlo a pendientes">'+posTxt(r.pos)+'<b>✓ '+fmt(r.premio).replace('.00','')+'</b></button>':r.ent?'<span class="k-bol ent" title="Entregado en '+esc(r.pent)+' el '+fc(r.fent)+'">'+posTxt(r.pos)+'<b>📦 '+fmt(r.premio).replace('.00','')+'</b></span>':'<span class="k-bol '+(r.premio>=RET?'ret':'')+'">'+posTxt(r.pos)+'<b>'+fmt(r.premio).replace('.00','')+'</b></span>').join('')+'</div>'+(t.nPend?'<button type="button" class="k-btn sm pri" data-llevar-taco="'+esc(t.l.i)+'" style="align-self:flex-start;">Llevar lo pendiente de este taco →</button>':'')+'</div>' : ''); }).join('') : '<div class="k-tanda mut">Ningún taco con ese filtro.</div>')+'</div>'
        + (lista.length>pag.length ? '<button type="button" class="k-btn" data-mas-tacos style="align-self:center;">Ver '+Math.min(30, lista.length-pag.length)+' más (quedan '+(lista.length-pag.length)+')</button>' : ''); }
 
     // ───── Cobrar un monto (alternativa 1 · calculadora con rutas) ─────
@@ -19711,7 +19760,7 @@
         ['🛒 Tu compra más grande', tg ? tg[1] : [], tg ? 'sin cobrar · del '+fc(tg[0].split('|')[0])+(tg[0].split('|')[1]?' en '+esc(tg[0].split('|')[1]):'') : '—', ''],
         ['📦 Todo lo pendiente', gs, 'si vas a cobrar todo de una vez', '']];
       return '<div class="k-l">O prepara un plan listo</div><div class="k-plan2" style="--n:'+c.length+';">'+c.map(([t,g,s,cl])=>'<button type="button" '+(g.length?'':'disabled ')+'data-plan="'+g.map(x=>x.recs.map(r=>esc(r.i)).join(',')).join(',')+'"><span class="t">'+t+'</span><span class="v">'+(g.length?fmt(g.reduce((a,x)=>a+x.sub,0)):'$0.00')+'</span><span class="s">'+(g.length?g.length+' '+pl(g.length,'taco')+' · '+g.reduce((a,x)=>a+x.recs.length,0)+' premios · ':'')+s+'</span><span class="go '+cl+'">'+(g.length?'Preparar →':'Ninguno ahora')+'</span></button>').join('')+'</div>'; }
-    function pasoB(p){ return '<div class="k-step">'+[['1','Elegir'],['2','En la caja'],['3','Recibo']].map(([n,t],i)=>'<div class="'+(p===i+1?'on':p>i+1?'hecho':'')+'"><b>'+(p>i+1?'✓':n)+'</b><span>'+t+'</span></div>').join('')+'</div>'; }
+    function pasoB(p){ return '<div class="k-step s4">'+[['1','Elegir'],['2','En la caja'],['3','Lo que falta'],['4','Recibo']].map(([n,t],i)=>'<div class="'+(p===i+1?'on':p>i+1?'hecho':'')+'"><b>'+(p>i+1?'✓':n)+'</b><span>'+t+'</span></div>').join('')+'</div>'; }
     function autoAbre(gs){ const d = lupaDig(), unico = (d.length>=3 && gs.length===1) ? gs[0].li : null;
       if(cobroAutoAbierto && cobroAutoAbierto!==unico){ cobroAbiertos.delete(cobroAutoAbierto); cobroAutoAbierto = null; }
       if(unico && !cobroAbiertos.has(unico)){ cobroAbiertos.add(unico); cobroAutoAbierto = unico; cobroLupaRecordar(gs[0].lo.serie); } }
@@ -19740,7 +19789,7 @@
       return '<div class="k-card" style="padding:16px; display:flex; flex-direction:column; gap:14px;"><div class="k-recibo" id="kRecibo"><div style="text-align:center; font-weight:800;">RECIBO DE COBRO</div><div style="text-align:center;" class="mut">'+fl(HOY)+'</div><div class="lin"></div>'
        + denom(c.rs).map(([v,n])=>'<div class="r"><span>'+n+' × '+fmt(v)+'</span><span>'+fmt(n*v)+'</span></div>').join('')
        + (c.rs.some(r=>r.premio>=RET)?'<div class="r"><span>Retención 14%</span><span>−'+fmt(c.rs.reduce((s,r)=>s+r.premio-neto(r.premio),0))+'</span></div>':'')
-       + '<div class="lin"></div><div class="r" style="font-weight:800; font-size:16px;"><span>COBRADO</span><span>'+fmt(c.ahora)+'</span></div><div class="r mut"><span>Tacos</span><span>'+new Set(c.rs.map(r=>r.l)).size+'</span></div><div class="r mut"><span>Premios</span><span>'+c.n+'</span></div></div>'
+       + '<div class="lin"></div><div class="r" style="font-weight:800; font-size:16px;"><span>COBRADO</span><span>'+fmt(c.ahora)+'</span></div>'+(c.entN?'<div class="r" style="color:var(--cur);"><span>📦 Queda en '+esc(c.punto)+'</span><span>'+fmt(c.entV)+'</span></div>':'')+'<div class="r mut"><span>Tacos</span><span>'+new Set(c.rs.map(r=>r.l)).size+'</span></div><div class="r mut"><span>Premios</span><span>'+c.n+'</span></div></div>'
        + '<div>'+cierreHTML(c)+'</div><div class="k-bar"><button type="button" class="k-btn" data-copiar>📋 Copiar recibo</button><button type="button" class="k-btn pri" data-nuevo-cobro>Listo</button></div></div>'; }
     // ─── Salidas: revertir uno, un día entero o varios marcados (un solo Deshacer) ───
     function _salDias(){ const m = new Map(); tandas().forEach(t=>{ if(!m.has(t.fcob)) m.set(t.fcob, []); m.get(t.fcob).push(t); }); return [...m.entries()]; }
@@ -19753,7 +19802,7 @@
           + '<span class="q"><span class="l1"><b class="mono">'+fc(d)+'</b>'+(d===HOY?'<span class="k-pil ok">hoy</span>':'')+'</span><span class="mut" style="font-size:12.5px;">'+tt.length+' '+pl(tt.length,'taco')+' · '+n+' '+pl(n,'premio')+'</span></span>'
           + '<span class="am">'+fmt(tot)+'</span><button type="button" class="k-btn sm" data-revdia="'+esc(d)+'" aria-label="Revertir todo el '+fc(d)+'">↩<span class="tx"> Revertir el día</span></button><span class="ex">'+(ab?'▴':'▾')+'</span></div>'
           + (ab ? tt.map(t=>'<div class="k-tanda k-sal '+(sel.has(t.k)?'on':'')+'" data-saltanda="'+esc(t.k)+'" tabindex="-1">'+ck(sel.has(t.k), false, 'data-salck="'+esc(t.k)+'"', 'Marcar '+esc(L(t.l).serie))
-              + '<span class="q"><b class="mono">'+esc(L(t.l).serie)+'</b><span class="mut" style="font-size:12px;">'+t.n+' '+pl(t.n,'premio')+(t.fb?' · boletos del '+fc(t.fb):'')+'</span></span>'
+              + '<span class="q"><b class="mono">'+esc(L(t.l).serie)+(t.rs[0].pent?' <span class="k-pil cur" style="font-family:inherit;">📦 pago de '+esc(t.rs[0].pent)+'</span>':'')+'</b><span class="mut" style="font-size:12px;">'+t.n+' '+pl(t.n,'premio')+(t.fb?' · boletos del '+fc(t.fb):'')+'</span></span>'
               + '<span class="am">'+fmt(t.neto)+'</span><button type="button" class="k-btn sm" data-rev-tanda="'+esc(t.k)+'" aria-label="Revertir '+esc(L(t.l).serie)+'">↩<span class="tx"> Revertir</span></button><span></span></div>').join('') : '') + '</div>'; }).join('');
       const ts = tandas().filter(t=>sel.has(t.k)), tot = ts.reduce((s,t)=>s+t.neto,0), np = ts.reduce((s,t)=>s+t.n,0);
       return '<div class="k-list">'+filas+'</div>'
@@ -19761,15 +19810,134 @@
        + '<div class="mut" style="font-size:12px;">Marca días o tacos para revertir varios a la vez. ¿Solo te sobró un premio? Ábrelo en «Por taco» y toca el ✓. Teclado: ↑/↓ para moverte, Espacio marca, Enter abre el día, Esc quita lo marcado.</div>'
        + (ts.length ? '<div class="k-dock" role="region" aria-label="Revertir lo marcado"><span class="q"><b>'+ts.length+'</b> '+pl(ts.length,'taco')+' · <b>'+np+'</b> '+pl(np,'premio')+' · <b>'+fmt(tot)+'</b> marcados</span><button type="button" class="k-btn" data-sal-limpiar>Quitar marcas</button><button type="button" class="k-btn pri" data-sal-rev>↩ Revertir '+ts.length+'</button></div>' : ''); }
 
+    // ═════ v41.5 · ENTREGADO — boletos que dejas en el punto hasta que te paguen (propuesta B) ═════
+    // Por qué: en la caja a veces no tienen para pagarte todo y dejas los boletos hasta que consigan el
+    // dinero. Antes volvían a «pendientes» como si los tuvieras tú; ahora quedan a cargo del punto.
+    // Campos OPCIONALES en el boleto: entregado, fechaEntrega, puntoEntrega (+ promesaPago y notaEntrega
+    // en la alternativa B). `cobrado` sigue en falso hasta el pago: gasto, premios, «Te deben» y el cuadre
+    // no cambian. Al pagar se conservan fechaEntrega/puntoEntrega como historia (de qué entrega vino).
+    const _ENT_K = ['cobrado','fechaCobro','entregado','fechaEntrega','puntoEntrega','promesaPago','notaEntrega'];
+    function _snap(r){ const o = { id:String(r.id) }; _ENT_K.forEach(k=>{ o[k] = r[k]; }); return o; }
+    function _aplicarSnap(v, p){ _ENT_K.forEach(k=>{ if(p[k]===undefined) delete v[k]; else v[k] = p[k]; }); }
+    const sumN = rs => rs.reduce((s,r)=>s+neto(r.premio),0);
+    function _escribir(ids, fn){ const prev = [];
+      ids.forEach(i=>{ const x = base().RI.get(String(i)); const r = x && x.rec; if(!r) return; const p = _snap(r); if(fn(r)===false) return; prev.push(p); _tocarLote(r); });
+      return prev; }
+    function puntosConocidos(){ const m = new Map();
+      (data.lotes||[]).forEach(l=>{ const p = String(l.punto||'').trim(); if(p) m.set(p, (m.get(p)||0)+1); });
+      base().R.forEach(r=>{ if(r.pent) m.set(r.pent, (m.get(r.pent)||0)+3); });
+      return [...m.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0]); }
+    // Punto sugerido: el de la mayoría de los tacos que llevas; si no tienen, el de tu última entrega.
+    function puntoSugerido(ids){ const c = new Map();
+      ids.forEach(i=>{ const r = base().RI.get(String(i)); const p = r && L(r.l).punto; if(p) c.set(p, (c.get(p)||0)+1); });
+      const top = [...c.entries()].sort((a,b)=>b[1]-a[1])[0]; if(top) return top[0];
+      const ult = base().R.filter(r=>r.pent && r.fent).sort((a,b)=>a.fent<b.fent?1:-1)[0]; return ult ? ult.pent : ''; }
+    const puntosDL = () => '<datalist id="kPuntosDL">'+puntosConocidos().slice(0,60).map(p=>'<option value="'+esc(p)+'">').join('')+'</datalist>';
+    // Una «cuenta» por punto: lo que te debe ahora + su historia (entregas y pagos).
+    function cuentas(){ const m = new Map();
+      entregados().forEach(r=>{ const p = r.pent || 'Sin punto'; if(!m.has(p)) m.set(p, []); m.get(p).push(r); });
+      return [...m.entries()].map(([p, rs])=>{ const f0 = rs.map(r=>r.fent).filter(Boolean).sort()[0] || HOY, prom = rs.map(r=>r.prom).filter(Boolean).sort()[0] || '';
+        return { p, rs, v:sumN(rs), n:rs.length, tacos:new Set(rs.map(r=>r.l)).size, f0, dias:Math.max(0, dias(f0, HOY)), prom, vencida: !!prom && prom<HOY,
+          nota: rs.map(r=>r.nent).filter(Boolean)[0] || '', pagos: premiados().filter(r=>r.cob && r.pent===p && r.fent) }; })
+        .sort((a,b)=>(b.vencida-a.vencida) || (b.dias-a.dias) || (b.v-a.v)); }
+    const cuentaDe = p => cuentas().find(c=>c.p===p) || { p, rs:[], v:0, n:0, tacos:0, pagos:[] };
+
+    // ───── escribir (cada acción con su Deshacer) ─────
+    function entregar(ids, punto, ex){ ex = ex || {}; const fecha = todayStr();
+      return _escribir(ids, r=>{ if(r.cobrado) return false; r.entregado = true; r.fechaEntrega = fecha; r.puntoEntrega = punto;
+        if(ex.prom) r.promesaPago = ex.prom; else delete r.promesaPago; if(ex.nota) r.notaEntrega = ex.nota; else delete r.notaEntrega; }); }
+    function devolver(ids, etiqueta){
+      const prev = _escribir(ids, r=>{ if(!r.entregado || r.cobrado) return false; r.entregado = false; delete r.fechaEntrega; delete r.puntoEntrega; delete r.promesaPago; delete r.notaEntrega; });
+      if(!prev.length) return; save(); render();
+      aviso('↩ '+prev.length+' '+pl(prev.length,'premio')+' vuelven contigo'+(etiqueta?' · '+etiqueta:''), ()=>{ _restaurar(prev); toast('↩ Devolución deshecha'); }); }
+    // Cierre de caja con tres destinos: cobrado · se queda en el punto · vuelve contigo. Un solo Deshacer.
+    function cerrarCon(pag, no, ent, punto, ex){ const c = cierre(pag, no), entRs = ent.map(i=>base().RI.get(i)).filter(Boolean);
+      c.entN = entRs.length; c.entV = sumN(entRs); c.punto = punto; c.prom = (ex && ex.prom) || '';
+      if(pag.length) cobroRespaldoDelDia();
+      const fecha = todayStr();
+      const prev = _escribir(pag, r=>{ if(r.cobrado) return false; r.cobrado = true; r.fechaCobro = fecha; if(r.entregado) r.entregado = false; }).concat(entregar(ent, punto, ex));
+      sesGuardar(null); st.recibo = c; st.extraAb = false; st.falta = null; cobroSel.clear();
+      save(); render();
+      aviso((pag.length?'✓ Cobrado '+fmt(c.ahora):'Caja cerrada')+(c.entN?' · 📦 '+fmt(c.entV)+' quedan en '+punto:'')+(no.length?' · '+no.length+' vuelven contigo':''),
+        ()=>{ st.recibo = null; _restaurar(prev); toast('↩ Cierre deshecho'); }); }
+
+    // ───── liquidar: confirmar lo que el punto te pagó (por boletos; el monto solo ayuda a marcarlos) ─────
+    function liqPorMonto(){ const Q = st.liq; if(!Q) return; const cu = cuentaDe(Q.p), v = parseFloat(String(Q.monto).replace(',','.'));
+      if(!(v>0)){ Q.info = ''; return; }
+      if(v >= cu.v - 0.004){ Q.sel = new Set(cu.rs.map(r=>r.i)); Q.info = v > cu.v + 0.004 ? 'Te pagó '+fmt(v-cu.v)+' más de lo que te debe: marqué todo.' : 'Cuadra exacto: te pagó todo.'; return; }
+      const pc = Math.round(v*100), un = (cu.rs.every(r=>Math.round(neto(r.premio)*100)%100===0) && pc%100===0) ? 100 : 1, T = Math.round(pc/un);
+      const items = cu.rs.slice().sort((a,b)=>(a.fent<b.fent?-1:a.fent>b.fent?1:0) || String(L(a.l).serie).localeCompare(String(L(b.l).serie)) || (a.pos-b.pos)).map(r=>({r, u:_uR(r,un)}));
+      const tab = _alcanzables(items, T); let s = T; while(s>0 && !tab.ok[s]) s--;
+      const out = s>0 ? (_reconstruye(items, tab, s) || []) : [], got = s*un/100;
+      Q.sel = new Set(out.map(x=>x.r.i));
+      Q.info = s===T ? 'Con '+fmt(v)+' cuadran exacto '+Q.sel.size+' '+pl(Q.sel.size,'premio')+' (los más antiguos primero). Revisa que sean esos.'
+                     : 'Ningún grupo de boletos suma exacto '+fmt(v)+': marqué '+fmt(got)+' ('+fmt(v-got)+' de diferencia). Ajusta a mano si hace falta.'; }
+    function liqHTML(cu){ const Q = st.liq, sel = Q.sel, mar = cu.rs.filter(r=>sel.has(r.i)), v = sumN(mar), queda = cu.v - v, noMar = cu.n - mar.length;
+      const porT = new Map(); cu.rs.forEach(r=>{ if(!porT.has(r.l)) porT.set(r.l, []); porT.get(r.l).push(r); });
+      return '<div class="k-liq" role="region" aria-label="Confirmar el pago de '+esc(cu.p)+'">'
+       + '<div class="k-liq-m"><label class="k-monto-in"><span>$</span><input id="kLiqMonto" type="text" inputmode="decimal" autocomplete="off" placeholder="¿Cuánto te pagó?" aria-label="¿Cuánto te pagó?" value="'+esc(Q.monto)+'"></label>'
+       + '<button type="button" class="k-btn ok" data-liqtodo>Pagó todo · '+fmt(cu.v)+'</button>'+(sel.size?'<button type="button" class="k-btn" data-liqnada>Quitar marcas</button>':'')+'</div>'
+       + '<div class="mut" style="font-size:12.5px;">'+(Q.info ? '<b class="'+(/exacto|todo/.test(Q.info)?'pos':'amb')+'">'+esc(Q.info)+'</b>' : 'Escribe cuánto te pagó y marco qué boletos son, o tócalos uno por uno. Lo que no marques sigue en el punto.')+'</div>'
+       + [...porT.entries()].map(([li, rr])=>{ const n = rr.filter(r=>sel.has(r.i)).length, todo = n===rr.length;
+          return '<div class="k-caja-t '+(todo?'done':'')+'"><div class="h"><span class="s">'+esc(L(li).serie)+'</span><span class="k-pil '+(todo?'ok':n?'cur':'sin')+'">'+n+' de '+rr.length+' pagados</span><span class="mono" style="margin-left:auto; font-weight:800;">'+fmt(sumN(rr))+'</span><button type="button" class="k-btn sm '+(todo?'':'ok')+'" data-liqtaco="'+esc(li)+'">'+(todo?'Destachar':'Pagó este')+'</button></div>'
+           + '<div class="k-grid">'+rr.map(r=>'<button type="button" class="k-bol '+(sel.has(r.i)?'on':'')+' '+(r.premio>=RET?'ret':'')+'" data-liqbol="'+esc(r.i)+'" aria-pressed="'+sel.has(r.i)+'">'+posTxt(r.pos)+'<b>'+(sel.has(r.i)?'✓ ':'')+fmt(r.premio).replace('.00','')+'</b></button>').join('')+'</div></div>'; }).join('')
+       + '<div class="k-pie"><button type="button" class="k-btn" data-liqx>Cancelar</button><button type="button" class="k-btn" data-liqdev>↩ Me '+(sel.size?'devolvió los '+noMar:'los devolvió')+'</button><span style="flex:1"></span>'
+       + '<button type="button" class="k-btn pri" data-liqok '+(sel.size?'':'disabled ')+'style="height:46px;">✓ Me pagó '+fmt(v)+(sel.size && queda>0.004?' · sigue debiendo '+fmt(queda):'')+'</button></div></div>'; }
+    function retRow(rs){ return rs.some(r=>r.premio>=RET) ? '<div class="r"><span>Retención 14%</span><span>−'+fmt(rs.reduce((s,r)=>s+r.premio-neto(r.premio),0))+'</span></div>' : ''; }
+
+    // ───── B · bandeja «📦 Entregados» con una cuenta por punto ─────
+    // Paso 3 de la caja: decidir qué pasa con lo que no te pagaron (y cuándo prometió pagar).
+    function faltaHTML(){ const f = st.falta; if(!f) return ''; const RI = base().RI, rs = f.no.map(i=>RI.get(i)).filter(Boolean), sel = f.sel;
+      const v = sumN(rs), vs = sumN(rs.filter(r=>sel.has(r.i))), porT = new Map(); rs.forEach(r=>{ if(!porT.has(r.l)) porT.set(r.l, []); porT.get(r.l).push(r); });
+      const opc = [['', 'Sin fecha'], [sumaD(HOY,1), 'Mañana'], [sumaD(HOY,3), 'En 3 días'], [sumaD(HOY,7), 'En una semana']];
+      return '<div class="k-caja-h" role="region" aria-label="Lo que no te pagaron"><div class="k-bar" style="justify-content:space-between;"><span class="k-l">Paso 3 · no te pagaron</span><span class="mut" style="font-size:12px;">'+rs.length+' '+pl(rs.length,'premio')+' · '+porT.size+' '+pl(porT.size,'taco')+'</span></div>'
+       + '<div class="k-big" style="font-size:44px;">'+fmt(v)+'</div><div class="mut" style="font-size:12.5px;">Te pagaron <b class="pos mono">'+fmt(sumN(f.pag.map(i=>RI.get(i)).filter(Boolean)))+'</b>. ¿Los boletos que faltan vuelven contigo o se quedan en el punto hasta que te paguen?</div></div>'
+       + '<div class="k-card k-entp"><div class="k-l">¿Dónde se quedan?</div><label class="k-lupa"><span aria-hidden="true">🏪</span><input id="kFaltaPunto" type="text" list="kPuntosDL" autocomplete="off" placeholder="Punto de venta" aria-label="Punto donde se quedan" value="'+esc(f.punto)+'"></label>'+puntosDL()
+       + '<div class="k-l" style="margin-top:4px;">¿Cuándo dijo que te paga?</div><div class="k-fill2" style="--c:4;">'+opc.map(([d,t])=>'<button type="button" class="k-chip '+(f.prom===d?'on':'')+'" data-prom="'+d+'" aria-pressed="'+(f.prom===d)+'">'+t+(d?' · '+fc(d):'')+'</button>').join('')+'</div>'
+       + '<label class="k-lupa"><span aria-hidden="true">📝</span><input id="kFaltaNota" type="text" autocomplete="off" maxlength="120" placeholder="Nota (opcional): «paga cuando cobre la quincena»" aria-label="Nota de la entrega" value="'+esc(f.nota)+'"></label></div>'
+       + [...porT.entries()].map(([li, rr])=>{ const n = rr.filter(r=>sel.has(r.i)).length, todo = n===rr.length;
+          return '<div class="k-caja-t '+(todo?'dent':'')+'"><div class="h"><span class="s">'+esc(L(li).serie)+'</span><span class="k-pil '+(n?'cur':'sin')+'">📦 '+n+' de '+rr.length+' se quedan</span><span class="mono" style="margin-left:auto; font-weight:800;">'+fmt(sumN(rr))+'</span><button type="button" class="k-btn sm" data-faltataco="'+esc(li)+'">'+(todo?'Este vuelve conmigo':'Se queda este')+'</button></div>'
+           + '<div class="k-grid">'+rr.map(r=>'<button type="button" class="k-bol '+(sel.has(r.i)?'ent':'')+' '+(r.premio>=RET?'ret':'')+'" data-faltabol="'+esc(r.i)+'" aria-pressed="'+sel.has(r.i)+'">'+posTxt(r.pos)+'<b>'+(sel.has(r.i)?'📦 ':'')+fmt(r.premio).replace('.00','')+'</b></button>').join('')+'</div></div>'; }).join('')
+       + '<div class="k-pie"><button type="button" class="k-btn" data-falta-volver>← Caja</button><button type="button" class="k-btn" data-falta-conmigo>Vuelve todo</button><span style="flex:1"></span><button type="button" class="k-btn pri" data-falta-quedan '+(sel.size?'':'disabled ')+'style="height:46px;">📦 Se quedan '+sel.size+' · '+fmt(vs)+' →</button></div>'
+       + '<div class="mut" style="font-size:11.5px; text-align:center;">Lo marcado 📦 pasa a «Entregados»; lo demás vuelve a tus pendientes.</div>'; }
+    function movimientos(cu){ const ev = new Map(), add = (d, k, r) => { const key = d+'|'+k; if(!ev.has(key)) ev.set(key, {d, k, rs:[]}); ev.get(key).rs.push(r); };
+      cu.rs.concat(cu.pagos).forEach(r=>{ if(r.fent) add(r.fent, 'ent', r); }); cu.pagos.forEach(r=>add(r.fcob, 'pag', r));
+      const ls = [...ev.values()].sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:(a.k==='pag'?-1:1)).slice(0, 5);
+      return '<div class="k-mov">'+ls.map(e=>'<div class="'+e.k+'"><span class="mono">'+fc(e.d)+'</span><span>'+(e.k==='ent'?'📦 Le dejaste ':'✓ Te pagó ')+e.rs.length+' '+pl(e.rs.length,'premio')+'</span><b class="mono">'+fmt(sumN(e.rs))+'</b></div>').join('')+'</div>'; }
+    function cabCuenta(cu){ const pr = cu.prom ? (cu.vencida ? '<span class="k-pil neg">⏰ prometió el '+fc(cu.prom)+'</span>' : '<span class="k-pil cur">paga el '+fc(cu.prom)+'</span>') : '<span class="k-pil sin">sin fecha de pago</span>';
+      return '<div class="k-cta-h"><div style="min-width:0;"><div class="k-l">Te debe</div><div class="nom">🏪 '+esc(cu.p)+'</div><div class="mut" style="font-size:12.5px;">'+cu.n+' '+pl(cu.n,'premio')+' · '+cu.tacos+' '+pl(cu.tacos,'taco')+' · desde el '+fc(cu.f0)+' ('+edadTxt(cu.dias)+')</div></div><div class="k-big" style="font-size:30px; color:var(--cur);">'+fmt(cu.v)+'</div></div>'
+       + '<div class="k-bar">'+pr+(cu.dias>7?'<span class="k-pil amb">+7 días</span>':'')+(cu.nota?'<span class="mut" style="font-size:12.5px;">📝 «'+esc(cu.nota)+'»</span>':'')+'</div>'; }
+    function reciboLiqHTML(){ const c = st.reciboLiq;
+      return '<div class="k-card" style="padding:16px; display:flex; flex-direction:column; gap:14px;"><div class="k-recibo" id="kRecibo"><div style="text-align:center; font-weight:800;">PAGO DE ENTREGA</div><div style="text-align:center;" class="mut">'+esc(c.p)+' · '+fl(HOY)+'</div><div class="lin"></div>'
+       + denom(c.rs).map(([v,n])=>'<div class="r"><span>'+n+' × '+fmt(v)+'</span><span>'+fmt(n*v)+'</span></div>').join('') + retRow(c.rs)
+       + '<div class="lin"></div><div class="r" style="font-weight:800; font-size:16px;"><span>TE PAGÓ</span><span>'+fmt(c.v)+'</span></div><div class="r mut"><span>Sigue debiendo</span><span>'+fmt(c.queda)+'</span></div><div class="r mut"><span>Premios</span><span>'+c.rs.length+'</span></div></div>'
+       + '<ul style="margin:0; padding-left:18px; line-height:1.8;"><li>'+fmt(c.v)+' entran hoy en «Lo cobrado».</li><li>'+(c.queda>0.004 ? '<b>'+esc(c.p)+'</b> te sigue debiendo <b>'+fmt(c.queda)+'</b>: queda en Entregados.' : '<b>'+esc(c.p)+'</b> ya no te debe nada.')+'</li></ul>'
+       + '<div class="k-bar"><button type="button" class="k-btn" data-copiar>📋 Copiar recibo</button><button type="button" class="k-btn pri" data-recibo-liqx>Listo</button></div></div>'; }
+    function entregadosB(){ if(st.reciboLiq) return reciboLiqHTML();
+      if(st.liq){ const cu = cuentaDe(st.liq.p); if(cu.rs.length) return '<div class="k-bar" style="justify-content:space-between;"><button type="button" class="k-btn sm" data-liqx>← Entregados</button><span class="k-l">Confirmar el pago</span></div><div class="k-card k-cta">'+cabCuenta(cu)+'</div>'+liqHTML(cu); st.liq = null; }
+      const cs = cuentas();
+      if(!cs.length) return '<div class="k-card" style="padding:28px; text-align:center;"><div style="font-size:28px;">📦</div><b>Ningún punto te debe boletos</b><div class="mut" style="max-width:420px; margin:6px auto 0;">Cuando en la caja no tengan para pagarte todo, al cerrar eliges «Se quedan en el punto» y aparecen aquí hasta que te paguen.</div></div>';
+      const all = cs.flatMap(c=>c.rs), venc = cs.filter(c=>c.vencida), vieja = cs.slice().sort((a,b)=>b.dias-a.dias)[0];
+      return '<div class="k-kpis k-kpis4">'
+       + '<div class="k-kpi"><span class="k-l">Te deben en puntos</span><span class="v" style="color:var(--cur)">'+fmt(sumN(all))+'</span><span class="s">'+all.length+' '+pl(all.length,'premio')+'</span></div>'
+       + '<div class="k-kpi"><span class="k-l">Puntos que te deben</span><span class="v">'+cs.length+'</span><span class="s">'+new Set(all.map(r=>r.l)).size+' tacos</span></div>'
+       + '<div class="k-kpi"><span class="k-l">Entrega más antigua</span><span class="v '+(vieja.dias>7?'amb':'')+'">'+vieja.dias+' '+pl(vieja.dias,'día')+'</span><span class="s">'+esc(vieja.p)+'</span></div>'
+       + '<div class="k-kpi"><span class="k-l">Promesas vencidas</span><span class="v '+(venc.length?'neg':'pos')+'">'+venc.length+'</span><span class="s">'+(venc.length?fmt(sumN(venc.flatMap(c=>c.rs)))+' sin pagar':'todas al día')+'</span></div></div>'
+       + cs.map(cu=>'<div class="k-card k-cta">'+cabCuenta(cu)+movimientos(cu)
+          + '<div class="k-cta-t">'+[...new Set(cu.rs.map(r=>r.l))].map(li=>{ const rr = cu.rs.filter(r=>r.l===li); return '<span class="k-chip"><b class="mono">'+esc(L(li).serie)+'</b> · '+rr.length+' · '+fmt(sumN(rr))+'</span>'; }).join('')+'</div>'
+          + '<div class="k-cta-a"><button type="button" class="k-btn" data-devtodo="'+esc(cu.p)+'">↩ Me los devolvió</button><button type="button" class="k-btn pri" data-liq="'+esc(cu.p)+'">✓ Me pagó… →</button></div></div>').join('')
+       + '<div class="mut" style="font-size:12px;">Lo entregado sigue en «Te deben» y no entra en «Lo cobrado» hasta que confirmas el pago. El pago se cuenta el día que lo confirmas.</div>'; }
+
     // ───── pintar ─────
     function html(){ HOY = todayStr(); base();
       const rs = resumen(), rit = ritmo(), ex = extracto(sumaD(HOY,-60), HOY), S = ses(), tab = TAB();
-      const paso = st.recibo ? 3 : (S ? 2 : 1);
-      const hero = '<div class="k-card k-hero2"><div><div class="k-l">Te deben</div><div class="k-big" style="font-size:44px; color:'+(rs.total>0?'var(--stamp)':'var(--ok)')+';">'+fmt(rs.total)+'</div><div class="mut" style="font-size:12.5px;">'+rs.gs.length+' tacos · '+nf(rs.pe.length)+' premios · mediana ganar→cobrar '+(rit.med!=null?rit.med+' d':'—')+' · '+rit.pct.toFixed(1)+'% cobrado</div></div><div><div class="k-l">Te deben · últimos 60 días</div>'+saldoSVG(ex, 120)+'</div>'+cobradoHTML()+'</div>';
-      const nav = [['sesion','💵 Cobrar','cobrar'],['salidas','🧾 Salidas','salidas'],['informes','📊 Informes','informes'],['tacos','🗂 Por taco','tacos']];
-      const rail = '<nav class="k-rail" aria-label="Secciones de Cobros">'+nav.map(([k,t,v])=>'<button type="button" class="'+(tab===v?'on':'')+'" data-ktab="'+k+'" aria-current="'+(tab===v?'page':'false')+'">'+t+'</button>').join('')+'</nav>';
+      const paso = st.recibo ? 4 : st.falta ? 3 : S ? 2 : 1;
+      const hero = '<div class="k-card k-hero2"><div><div class="k-l">Te deben</div><div class="k-big" style="font-size:44px; color:'+(rs.total>0?'var(--stamp)':'var(--ok)')+';">'+fmt(rs.total)+'</div><div class="mut" style="font-size:12.5px;">'+(rs.entV>0.004 ? '<div class="k-split" aria-hidden="true"><span style="width:'+(rs.conV/rs.total*100)+'%"></span><span class="e" style="width:'+(rs.entV/rs.total*100)+'%"></span></div><div style="font-size:12.5px; margin-bottom:2px;"><span class="k-dot"></span>contigo <b class="mono">'+fmt(rs.conV)+'</b> · <span class="k-dot e"></span>📦 en puntos <b class="mono" style="color:var(--cur)">'+fmt(rs.entV)+'</b></div>' : '')+rs.gs.length+' tacos · '+nf(rs.pe.length)+' premios · mediana ganar→cobrar '+(rit.med!=null?rit.med+' d':'—')+' · '+rit.pct.toFixed(1)+'% cobrado</div></div><div><div class="k-l">Te deben · últimos 60 días</div>'+saldoSVG(ex, 120)+'</div>'+cobradoHTML()+'</div>';
+      const nav = [['sesion','💵 Cobrar','cobrar'],['entregados','📦 Entregados'+(rs.en.length?' <span class="k-n">'+cuentas().length+'</span>':''),'entregados'],['salidas','🧾 Salidas','salidas'],['informes','📊 Informes','informes'],['tacos','🗂 Por taco','tacos']];
+      const rail = '<nav class="k-rail r5" aria-label="Secciones de Cobros">'+nav.map(([k,t,v])=>'<button type="button" class="'+(tab===v?'on':'')+'" data-ktab="'+k+'" aria-current="'+(tab===v?'page':'false')+'">'+t.replace(/^(\S+) /, '<span class="ic" aria-hidden="true">$1</span><span class="tx">')+'</span></button>').join('')+'</nav>';   // v41.5: ícono aparte (5 botones iguales en el teléfono)
       let cuerpo = '';
-      if(tab==='cobrar') cuerpo = pasoB(paso) + (paso===1 ? (rs.gs.length ? rutasHTML() + planesListos(rs) : '') + eligeB(rs) : paso===2 ? cajaHTML(S) : reciboB());
+      if(tab==='cobrar') cuerpo = pasoB(paso) + (paso===1 ? (rs.gs.length ? rutasHTML() + planesListos(rs) : '') + eligeB(rs) : paso===2 ? cajaHTML(S) : paso===3 ? faltaHTML() : reciboB());
+      else if(tab==='entregados') cuerpo = entregadosB();
       else if(tab==='salidas') cuerpo = '<div class="k-l">Tus salidas a cobrar · toca un día para ver qué cobraste y revertirlo si fue un error</div>' + historialDias();
       else if(tab==='informes'){ const P = periodo(); cuerpo = '<div class="k-seg" style="align-self:flex-start;">'+[['saldo','Te deben'],['meses','Meses'],['montos','Montos'],['cortes','Cortes']].map(([k,t])=>'<button type="button" class="'+(st.inf===k?'on':'')+'" data-inf="'+k+'">'+t+'</button>').join('')+'</div>'
           + '<div class="k-card" style="padding:12px 14px; display:flex; flex-direction:column; gap:10px;"><div class="k-l">Periodo</div>'+periodoHTML(P)+kpisPeriodo(P)+'</div>' + (st.inf==='saldo'?infSaldo(P):st.inf==='meses'?infMeses():st.inf==='montos'?infMontos():infCortes(P)); }
@@ -19781,7 +19949,7 @@
       const ae = document.activeElement, fk = ae && el.contains(ae) ? ae.id : null, fs = fk && ae.selectionStart;
       const filaFoco = ae && el.contains(ae) && ae.dataset ? (ae.dataset.fila || null) : null;
       el.innerHTML = html();
-      if(fk && /^(kLupa|kTacoQ|kExtraQ|kMonto)$/.test(fk)){ const e = document.getElementById(fk); if(e){ try{ e.focus({preventScroll:true}); if(fs!=null) e.setSelectionRange(fs,fs); }catch(_){} } }
+      if(fk && /^(kLupa|kTacoQ|kExtraQ|kMonto|kLiqMonto|kFaltaPunto|kFaltaNota)$/.test(fk)){ const e = document.getElementById(fk); if(e){ try{ e.focus({preventScroll:true}); if(fs!=null) e.setSelectionRange(fs,fs); }catch(_){} } }
       if(filaFoco){ const f = el.querySelector('[data-fila="'+CSS.escape(filaFoco)+'"]'); if(f){ f.tabIndex = 0; f.focus({preventScroll:true}); } }
       if(!el.querySelector('[data-fila][tabindex="0"]')){ const f0 = el.querySelector('[data-fila]'); if(f0) f0.tabIndex = 0; }
       if(!el.querySelector('.k-sal[tabindex="0"]')){ const s0 = el.querySelector('[data-hdia].k-sal'); if(s0) s0.tabIndex = 0; }
@@ -19827,11 +19995,12 @@
         else if(d.pago!=null){ S = ses(); if(!S) return; const i = d.pago; S.pag.has(i)?S.pag.delete(i):S.pag.add(i); sesGuardar(S); }
         else if(d.pagotaco!=null){ S = ses(); if(!S) return; const li = d.pagotaco, ids = S.lleva.filter(i=>{ const r = base().RI.get(i); return r && r.l===li && !r.cob; }), todo = ids.every(i=>S.pag.has(i)); ids.forEach(i=>todo?S.pag.delete(i):S.pag.add(i)); sesGuardar(S); }
         else if(d.pagaronTodo!=null){ S = ses(); if(!S) return; S.lleva.forEach(i=>{ const r = base().RI.get(i); if(r && !r.cob) S.pag.add(i); }); sesGuardar(S); }
-        else if(d.volver!=null){ S = ses(); if(S) cobroSel = new Set(S.lleva); sesGuardar(null); st.extraAb = false; }
+        else if(d.volver!=null){ S = ses(); if(S) cobroSel = new Set(S.lleva); sesGuardar(null); st.extraAb = false; st.falta = null; }
         else if(d.cerrarCaja!=null){ S = ses(); if(!S) return; const RI = base().RI;
           const pag = [...S.pag].filter(i=>RI.get(i) && !RI.get(i).cob), no = S.lleva.filter(i=>RI.get(i) && !RI.get(i).cob && !S.pag.has(i));
+          if(no.length){ st.falta = { pag, no, sel:new Set(no), punto:puntoSugerido(S.lleva), prom:'', nota:'' }; render(); document.querySelector('#cobrosContent .k-step')?.scrollIntoView({block:'nearest'}); return; }
           if(!pag.length){ const ok = await modal({ico:'✕', titulo:'Cerrar sin cobrar nada', ok:'Cerrar igual', cuerpo:'No has tachado ningún premio. Se cerrará la caja y los '+S.lleva.length+' premios seguirán pendientes, tal cual están ahora.'}); if(ok){ sesGuardar(null); cobroSel.clear(); render(); toast('Caja cerrada · nada cobrado'); } return; }
-          const c = cierre(pag, no); sesGuardar(null); st.recibo = c; st.extraAb = false; cobroSel.clear(); cobrar(pag, no.length ? no.length+' sin pagar vuelven a pendientes' : 'caja completa'); return; }
+          cerrarCon(pag, [], [], '', {}); return; }
         else if(d.cobrarTodo!=null){ await cobrarTodo(); return; }
         else if(d.saldia!=null){ const tt = tandas().filter(x=>x.fcob===d.saldia), on = tt.every(x=>st.salSel.has(x.k)); tt.forEach(x=>on?st.salSel.delete(x.k):st.salSel.add(x.k)); }
         else if(d.salck!=null){ st.salSel.has(d.salck)?st.salSel.delete(d.salck):st.salSel.add(d.salck); }
@@ -19864,6 +20033,29 @@
         else if(d.tacof){ st.tacoF = d.tacof; st.tacoN = 30; }
         else if(d.abreTaco!=null){ st.tacoF = 'porcobrar'; st.histAb.add('t'+d.abreTaco); cobroBusca = String(L(d.abreTaco).serie).replace(/\D/g,'').slice(-6); }
         else if(d.masTacos!=null){ st.tacoN += 30; }
+        else if(d.liq!=null){ const abre = !(st.liq && st.liq.p===d.liq); st.liq = abre ? { p:d.liq, sel:new Set(), monto:'', info:'' } : null; st.reciboLiq = null; if(abre) cobroTab = 'entregados'; }
+        else if(d.liqbol!=null){ const q = st.liq; if(!q) return; q.sel.has(d.liqbol)?q.sel.delete(d.liqbol):q.sel.add(d.liqbol); q.monto = ''; q.info = ''; }
+        else if(d.liqtaco!=null){ const q = st.liq; if(!q) return; const ids = cuentaDe(q.p).rs.filter(r=>r.l===d.liqtaco).map(r=>r.i), todo = ids.every(i=>q.sel.has(i)); ids.forEach(i=>todo?q.sel.delete(i):q.sel.add(i)); q.monto = ''; q.info = ''; }
+        else if(d.liqtodo!=null){ const q = st.liq; if(!q) return; cuentaDe(q.p).rs.forEach(r=>q.sel.add(r.i)); q.monto = ''; q.info = 'Pagó todo.'; }
+        else if(d.liqnada!=null){ const q = st.liq; if(!q) return; q.sel.clear(); q.monto = ''; q.info = ''; }
+        else if(d.liqx!=null){ st.liq = null; }
+        else if(d.liqok!=null){ const q = st.liq; if(!q || !q.sel.size) return; const cu = cuentaDe(q.p), ids = [...q.sel], rs2 = ids.map(i=>base().RI.get(i)).filter(Boolean), v = sumN(rs2), p = q.p;
+          st.liq = null; st.reciboLiq = { p, rs:rs2.map(r=>({...r})), v, queda:cu.v - v };
+          cobrar(ids, 'pago de '+p+(cu.v - v > 0.004 ? ' · sigue debiendo '+fmt(cu.v - v) : '')); return; }
+        else if(d.liqdev!=null){ const q = st.liq; if(!q) return; const cu = cuentaDe(q.p), ids = cu.rs.filter(r=>!q.sel.has(r.i)).map(r=>r.i); if(!ids.length) return;
+          const ok = await modal({ ico:'↩', titulo:'¿Te devolvió los boletos?', sub:esc(q.p), ok:'Sí, los tengo yo', cuerpo:'<div><b>'+ids.length+'</b> '+pl(ids.length,'premio')+' por <b>'+fmt(sumN(ids.map(i=>base().RI.get(i))))+'</b> vuelven a tus pendientes: los tienes tú otra vez y podrás cobrarlos en otro lado.</div>'+(q.sel.size?'<div class="mut">Los '+q.sel.size+' marcados como pagados siguen esperando que confirmes «Me pagó».</div>':'')+'<div class="mut" style="font-size:12.5px;">Se puede deshacer.</div>' });
+          if(ok){ if(!q.sel.size) st.liq = null; devolver(ids, q.p); } return; }
+        else if(d.devtodo!=null){ const cu = cuentaDe(d.devtodo); if(!cu.rs.length) return;
+          const ok = await modal({ ico:'↩', titulo:'¿Te devolvió los boletos?', sub:esc(cu.p), ok:'Sí, los tengo yo', cuerpo:'<div><b>'+cu.n+'</b> '+pl(cu.n,'premio')+' por <b>'+fmt(cu.v)+'</b> vuelven a tus pendientes. Se puede deshacer.</div>' });
+          if(ok) devolver(cu.rs.map(r=>r.i), cu.p); return; }
+        else if(d.reciboLiqx!=null){ st.reciboLiq = null; }
+        else if(d.faltabol!=null){ const f = st.falta; if(!f) return; f.sel.has(d.faltabol)?f.sel.delete(d.faltabol):f.sel.add(d.faltabol); }
+        else if(d.faltataco!=null){ const f = st.falta; if(!f) return; const ids = f.no.filter(i=>base().RI.get(i).l===d.faltataco), todo = ids.every(i=>f.sel.has(i)); ids.forEach(i=>todo?f.sel.delete(i):f.sel.add(i)); }
+        else if(d.prom!=null){ if(st.falta) st.falta.prom = d.prom; }
+        else if(d.faltaVolver!=null){ st.falta = null; }
+        else if(d.faltaConmigo!=null){ const f = st.falta; if(!f) return; cerrarCon(f.pag, f.no, [], '', {}); return; }
+        else if(d.faltaQuedan!=null){ const f = st.falta; if(!f || !f.sel.size) return; if(!f.punto.trim()){ toast('Escribe en qué punto se quedan'); document.getElementById('kFaltaPunto')?.focus(); return; }
+          cerrarCon(f.pag, f.no.filter(i=>!f.sel.has(i)), [...f.sel], f.punto.trim(), { prom:f.prom, nota:f.nota.trim() }); return; }
         else if(d.copiar!=null){ const tx = (document.getElementById('kRecibo')||{}).innerText||''; try{ await navigator.clipboard.writeText(tx); toast('📋 Recibo copiado'); }catch(_){ try{ _copiarFallback(tx); toast('📋 Recibo copiado'); }catch(__){ toast('No se pudo copiar: selecciona el texto'); } } return; }
         else return;
         render();
@@ -19872,6 +20064,9 @@
         if(t.id==='kLupa'){ cobroLupaQ = t.value; st.pagina = 0; render(); }
         else if(t.id==='kTacoQ'){ cobroBusca = t.value; st.tacoN = 30; render(); }
         else if(t.id==='kExtraQ'){ st.extraQ = t.value; render(); }
+        else if(t.id==='kFaltaPunto'){ if(st.falta) st.falta.punto = t.value; }
+        else if(t.id==='kFaltaNota'){ if(st.falta) st.falta.nota = t.value; }
+        else if(t.id==='kLiqMonto'){ if(!st.liq) return; st.liq.monto = t.value.replace(/[^\d.,]/g,''); clearTimeout(_montoT); _montoT = setTimeout(()=>{ liqPorMonto(); render(); }, 300); }
         else if(t.id==='kMonto'){ st.monto = t.value.replace(/[^\d.,]/g,''); clearTimeout(_montoT); _montoT = setTimeout(()=>{ recalcMonto(); render(); }, 220); } });
       el.addEventListener('change', e=>{ const t = e.target; if(t.id==='kDesde'||t.id==='kHasta'){ const P = periodo(); cobroFiltro = {desde: t.id==='kDesde'?(t.value||null):P.desde, hasta: t.id==='kHasta'?(t.value||null):P.hasta}; render(); } });
       el.addEventListener('toggle', e=>{ const d = e.target; if(d && d.dataset && d.dataset.kdet){ st.detAb = st.detAb||{}; st.detAb[d.dataset.kdet] = d.open; } }, true);
@@ -19882,6 +20077,7 @@
       if(document.querySelector('.k-fondo')) return;
       const el = document.getElementById('cobrosContent'), tg = e.target;
       if(tg.id==='kMonto' && e.key==='Enter'){ e.preventDefault(); clearTimeout(_montoT); const v = parseFloat(String(st.monto).replace(',','.')); if(!(v>0)){ toast('Escribe cuánto quieres cobrar'); return; } recalcMonto(); render(); return; }
+      if(tg.id==='kLiqMonto' && e.key==='Enter'){ e.preventDefault(); clearTimeout(_montoT); liqPorMonto(); render(); return; }
       if(tg.id==='kLupa' && e.key==='Enter'){ e.preventDefault(); const g = lupaFiltra(grupos(pendientes()))[0]; if(g){ cobroAbiertos.add(g.li); cobroLupaRecordar(g.lo.serie); st.foco = g.li; render(); el.querySelector('[data-fila="'+CSS.escape(g.li)+'"]')?.focus(); } return; }
       if(tg.dataset && tg.dataset.kcobdia && tg.classList.contains('b') && /^(ArrowRight|ArrowLeft|Home|End)$/.test(e.key)){ e.preventDefault(); const bs = [...el.querySelectorAll('.k-cob-c button.b')], i = bs.indexOf(tg), n = bs[e.key==='Home'?0:e.key==='End'?bs.length-1:Math.min(bs.length-1, Math.max(0, i+(e.key==='ArrowRight'?1:-1)))]; if(n){ bs.forEach(b=>b.tabIndex=-1); n.tabIndex = 0; n.focus(); } return; }
       const ru = tg.closest && tg.closest('[data-ruta]');
@@ -19906,7 +20102,10 @@
         if(e.key===' '){ e.preventDefault(); const k = key(s); if(s.dataset.hdia){ const t2 = tandas().filter(x=>x.fcob===s.dataset.hdia), on = t2.every(x=>st.salSel.has(x.k)); t2.forEach(x=>on?st.salSel.delete(x.k):st.salSel.add(x.k)); } else { const k2 = s.dataset.saltanda; st.salSel.has(k2)?st.salSel.delete(k2):st.salSel.add(k2); } render(); vuelve(k); return; }
         if(e.key==='Enter'){ e.preventDefault(); if(s.dataset.hdia){ const dd = s.dataset.hdia, k = key(s); st.histAb.has(dd)?st.histAb.delete(dd):st.histAb.add(dd); render(); vuelve(k); } else { const t2 = tandas().find(x=>x.k===s.dataset.saltanda); if(t2) pedirRevertirTanda(t2); } return; } }
       if(e.key==='Escape'){
-        if(TAB()==='salidas' && st.salSel.size){ st.salSel.clear(); toast('Marcas quitadas'); }
+        if(st.liq){ st.liq = null; }
+        else if(st.reciboLiq){ st.reciboLiq = null; }
+        else if(st.falta){ st.falta = null; }
+        else if(TAB()==='salidas' && st.salSel.size){ st.salSel.clear(); toast('Marcas quitadas'); }
         else if(tg.id==='kLupa' && cobroLupaQ){ cobroLupaQ=''; }
         else if(tg.id==='kMonto' && (st.monto || st.rutas)){ st.monto=''; st.rutas=null; }
         else if(st.extraAb && sesionLeer()){ st.extraAb = false; }
@@ -19915,7 +20114,7 @@
         else return;
         e.preventDefault(); e.stopPropagation(); render(); }
     }
-    return { render, _st:st, _calcRutas:calcRutas, _planMonto:planMonto, _planDetalle:planDetalle, _base:base };
+    return { render, _cuentas:cuentas, _st:st, _calcRutas:calcRutas, _planMonto:planMonto, _planDetalle:planDetalle, _base:base };
   })();
   // v41.4: Cobros lo pinta KB (arriba). El render anterior se conserva sin ejecutarse.
   function renderCobros(){ KB.render(); }
@@ -28490,7 +28689,7 @@
           const mismoPremio=(Number(rp.premio)||0)===(Number(rs.premio)||0);
           const mismoCodigo=!(rp.qrCode && rs.qrCode) || String(rp.qrCode)===String(rs.qrCode);
           if(!(mismoPremio && mismoCodigo)){ det.conflictos.push('p'+padPos(pos)+': $'+(rp.premio||0)+' vs $'+(rs.premio||0)); quedan++; return; }
-          if(rs.cobrado && !rp.cobrado){ rp.cobrado=true; rp.fechaCobro=rs.fechaCobro||todayStr(); }
+          if(rs.cobrado && !rp.cobrado){ rp.cobrado=true; rp.fechaCobro=rs.fechaCobro||todayStr(); if(rp.entregado) rp.entregado=false; }
           else if(rs.cobrado && rp.cobrado && rs.fechaCobro && (!rp.fechaCobro || rs.fechaCobro<rp.fechaCobro)) rp.fechaCobro=rs.fechaCobro;
           ['qrCode','qrSeg','qrTs'].forEach(k=>{ if(rp[k]==null && rs[k]!=null) rp[k]=rs[k]; });
           rp._lm=Date.now(); borrar.add(String(rs.id)); det.unificados.push(padPos(pos));
@@ -28935,7 +29134,8 @@
   // No toca números, ids ni fechas: solo texto que el usuario escribe.
   // ======================================================
   const _CAMPOS_TEXTO = ['serie','punto','ciudad','nota','color','nombre','emoji','inicioNum',
-                         'criterio','resultado','paridad','modo','qrSeg','qrCode','seriePrefijo','verificadoEn'];
+                         'criterio','resultado','paridad','modo','qrSeg','qrCode','seriePrefijo','verificadoEn',
+                         'puntoEntrega','notaEntrega','fechaEntrega','promesaPago'];   // v41.5: estado «entregado»
   // v39.9 — LISTA BLANCA para los campos con forma conocida. La auditoría probó que la lista
   // negra se saltaba dentro de un atributo: `x"/onfocus=…` pasaba intacto porque solo se
   // quitaba `on…=` precedido de espacio. Para series, códigos, fechas y estados se admite
@@ -28947,6 +29147,7 @@
     qrSeg:/[^0-9]/g, qrCode:/[^0-9A-Za-z]/g, verificadoEn:/[^0-9A-Za-z:.\-+]/g,
     criterio:/[^a-z0-9_\-]/gi, resultado:/[^a-z_]/gi, paridad:/[^a-z]/gi, modo:/[^a-z_]/gi,
     color:/[^#0-9A-Za-zÁÉÍÓÚÑáéíóúñ \-]/g,
+    fechaEntrega:/[^0-9\-]/g, promesaPago:/[^0-9\-]/g,   // v41.5: fechas AAAA-MM-DD
   };
   function _limpiarTexto(v, campo){
     if(typeof v!=='string') return v;
@@ -30508,6 +30709,8 @@
     renderAuditPanel: function(){ try{ return renderAuditPanel(); }catch(e){ return String(e); } },
     // v37.5 — expuestas para poder auditar el reverso de cobros desde la consola.
     cobroTandas, revertirTandaCobro, revertirCobroBoleto,
+    // v41.5 — Cobros (módulo KB) expuesto para auditar el estado «entregado» desde la consola.
+    KB, fmt, todayStr, setCobroTab(v){ cobroTab = v; KB.render(); },
     get records(){ return data.records; }, get lotes(){ return data.lotes; }, get juegos(){ return data.juegos; },
     render, renderTodo, renderPestana, renderTable, renderMetrics, renderLoteList,
     sugerirSerieSiguiente, getCtxCompra, crearLoteIgual, revisarLoteAlCompletar,
