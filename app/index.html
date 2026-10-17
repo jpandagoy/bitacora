@@ -274,17 +274,20 @@
   /* ENCABEZADO SOLO EN INICIO. El título, el resumen del expediente y la nota explicativa
      ocupaban una pantalla entera en TODOS los módulos sin aportar nada fuera de Inicio.
      Se conserva únicamente el selector de juego, que sí se usa desde cualquier pestaña. */
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .folio-top .title-block > :not(.juego-switch),
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .folio-top .stamp-badge,
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .folio-meta,
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) #notaComoLeer{ display:none; }
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .folio{ margin-bottom:12px; }
+  /* v41.6 — Inicio también compacta: la cabecera grande ocupaba 462 de 800 px en el teléfono y dejaba el primer
+     dato para decidir bajo el pliegue. «¿Cómo leer?» solo se ve en Inicio cuando está abierta (sin datos). */
+  body[data-tab-activo] .folio-top .title-block > :not(.juego-switch),
+  body[data-tab-activo] .folio-top .stamp-badge,
+  body[data-tab-activo] .folio-meta,
+  body[data-tab-activo]:not([data-tab-activo="inicio"]) #notaComoLeer,
+  body[data-tab-activo="inicio"] #notaComoLeer:not([open]){ display:none; }
+  body[data-tab-activo] .folio{ margin-bottom:12px; }
   /* En Puntos y QR NO se analiza ningún juego: la cabecera entera sobra y solo roba pantalla
      a un mapa y a una cámara, que son vistas a sangre completa. */
   body[data-tab-activo="puntos"] .folio,
   body[data-tab-activo="qr"] .folio{ display:none; }
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .folio-top{ padding:10px 14px; border-bottom:0; }
-  body[data-tab-activo]:not([data-tab-activo="inicio"]) .juego-switch{ margin:0; }
+  body[data-tab-activo] .folio-top{ padding:10px 14px; border-bottom:0; }
+  body[data-tab-activo] .juego-switch{ margin:0; }
   /* PUNTOS a sangre completa. NO usar 100vw: incluye la barra de scroll y desbordaba el mapa
      hacia la derecha (quedaba recortado). .wrap tiene 20px de padding lateral, así que el
      breakout exacto es 100% + 40px con -20px de margen. */
@@ -2026,6 +2029,170 @@
     .k-pie [data-falta-quedan], .k-pie [data-liqok]{ grid-column:1 / -1; }
   }
 
+/* ═══ v41.6 · Inicio = propuesta B «Panorama» (prefijo ix-) — mismas variables de la app; container queries como Cobros y Mis tacos ═══ */
+.ix{ container-type:inline-size; container-name:ix; display:flex; flex-direction:column; gap:14px; }
+.ix-app{ display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--ink); padding-bottom:8px; font-size:12.5px; }
+.ix-app .lg{ font:800 15px 'Trebuchet MS','Segoe UI',sans-serif; } .ix-app .jg{ border:1px solid var(--silver); border-radius:999px; padding:4px 10px; font-weight:700; }
+.ix-app .sp{ margin-left:auto; } .ix-app .mut{ font-size:12px; }
+.ix-l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--silver-dark); font-weight:800; }
+.ix-big{ font-family:'Courier New',monospace; font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1.05; }
+.ix-card{ border:1px solid var(--line); background:var(--white); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.ix-card h2, .ix-card h3{ margin:0; font:800 16px 'Trebuchet MS','Segoe UI',sans-serif; display:flex; align-items:center; gap:8px; }
+.ix-card h3{ font-size:14.5px; }
+.ix-sub{ font-size:12.5px; color:var(--silver-dark); }
+.ix-btn{ height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:13px; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:6px; }
+.ix-btn.pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+.ix-btn.sm{ height:32px; padding:0 12px; font-size:12px; }
+.ix-pil{ display:inline-flex; align-items:center; gap:4px; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:800; white-space:nowrap; }
+.ix-pil.ok{ background:color-mix(in srgb, var(--ok) 16%, transparent); color:var(--ok); } .ix-pil.neg{ background:color-mix(in srgb, var(--neg) 15%, transparent); color:var(--neg); }
+.ix-pil.amb{ background:color-mix(in srgb, var(--amb) 18%, transparent); color:var(--amb); } .ix-pil.cur{ background:color-mix(in srgb, var(--cur) 18%, transparent); color:var(--cur); }
+.ix-pil.sin{ background:color-mix(in srgb, var(--silver) 40%, transparent); color:var(--silver-dark); }
+.ix-seg{ display:inline-flex; border:1px solid var(--silver); border-radius:12px; overflow:hidden; height:36px; }
+.ix-seg button{ border:0; background:transparent; padding:0 12px; font-weight:700; font-size:12.5px; color:var(--silver-dark); white-space:nowrap; }
+.ix-seg button.on{ background:var(--ink); color:var(--paper); }
+.ix-grid{ display:grid; gap:14px; grid-template-columns:repeat(var(--c,3), minmax(0,1fr)); align-items:stretch; }
+.ix-kpi{ border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; background:var(--white); min-width:0; text-align:left; color:var(--ink); }
+button.ix-kpi:hover{ border-color:var(--silver); }
+.ix-kpi .v{ font:800 22px 'Courier New',monospace; font-variant-numeric:tabular-nums; }
+.ix-kpi .s{ font-size:12px; color:var(--silver-dark); margin-top:auto; }
+.ix-row{ display:grid; grid-template-columns:36px minmax(0,1fr) auto; gap:12px; align-items:center; padding:12px 14px; border-top:1px solid var(--line); text-align:left; background:transparent; border-left:0; border-right:0; border-bottom:0; width:100%; color:var(--ink); }
+.ix-row:first-child{ border-top:0; }
+.ix-row .ic{ font-size:20px; text-align:center; } .ix-row .t{ font-weight:800; } .ix-row .m{ font-size:12.5px; color:var(--silver-dark); }
+.ix-row .v{ font:800 16px 'Courier New',monospace; text-align:right; white-space:nowrap; }
+button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); }
+.ix-list{ border:1px solid var(--line); border-radius:16px; background:var(--white); overflow:hidden; }
+.ix-note{ font-size:12px; color:var(--silver-dark); line-height:1.5; }
+.ix-hl{ animation:ixHl 1.4s ease; }
+@keyframes ixHl{ 0%{ box-shadow:0 0 0 0 color-mix(in srgb, var(--stamp) 60%, transparent); } 30%{ box-shadow:0 0 0 6px color-mix(in srgb, var(--stamp) 35%, transparent); } 100%{ box-shadow:0 0 0 0 transparent; } }
+/* barra de estado: 4 fichas iguales */
+.ix-estado{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+.ix-chip{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:2px 10px; align-items:center; padding:10px 12px; border-radius:14px; border:1px solid var(--line); background:var(--white); text-align:left; min-height:62px; color:var(--ink); }
+.ix-chip .e{ grid-row:1 / span 2; width:12px; height:12px; border-radius:50%; background:var(--silver); box-shadow:0 0 0 4px color-mix(in srgb, var(--silver) 25%, transparent); }
+.ix-chip.ok .e{ background:var(--ok); box-shadow:0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
+.ix-chip.neg .e{ background:var(--neg); box-shadow:0 0 0 4px color-mix(in srgb, var(--neg) 22%, transparent); }
+.ix-chip.amb .e{ background:var(--amb); box-shadow:0 0 0 4px color-mix(in srgb, var(--amb) 22%, transparent); }
+.ix-chip.cur .e{ background:var(--cur); box-shadow:0 0 0 4px color-mix(in srgb, var(--cur) 22%, transparent); }
+.ix-chip .a{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); font-weight:800; }
+.ix-chip .b{ font-weight:800; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+/* acciones rápidas: 4 iguales */
+.ix-acc{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+.ix-acc button{ height:48px; border-radius:14px; border:1px solid var(--line); background:var(--white); font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; gap:8px; color:var(--ink); }
+.ix-acc button.pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+/* A · freno */
+.ix-freno{ border:2px solid color-mix(in srgb, var(--neg) 50%, var(--line)); }
+.ix-freno.calma{ border-color:color-mix(in srgb, var(--ok) 50%, var(--line)); }
+.ix-veredicto{ display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+.ix-veredicto .n{ font:800 40px 'Courier New',monospace; }
+.ix-sen{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+.ix-s{ border:1px solid var(--line); border-radius:14px; padding:11px 12px; display:flex; flex-direction:column; gap:4px; min-width:0; }
+.ix-s.on{ border-color:color-mix(in srgb, var(--neg) 55%, var(--line)); background:color-mix(in srgb, var(--neg) 6%, transparent); }
+.ix-s .h{ display:flex; justify-content:space-between; gap:6px; align-items:center; }
+.ix-s .v{ font:800 20px 'Courier New',monospace; }
+.ix-s .u{ font-size:11.5px; color:var(--silver-dark); margin-top:auto; }
+.ix-sim{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.3fr); gap:14px; align-items:stretch; border-top:1px dashed var(--line); padding-top:12px; }
+.ix-sim input[type=range]{ width:100%; accent-color:var(--stamp); height:28px; }
+.ix-banda{ position:relative; height:60px; margin-top:4px; }
+.ix-banda .eje{ position:absolute; left:0; right:0; top:30px; height:2px; background:var(--line); }
+.ix-banda .cero{ position:absolute; top:14px; bottom:14px; width:2px; background:var(--ink); opacity:.55; }
+.ix-banda .rg{ position:absolute; top:22px; height:18px; border-radius:9px; background:color-mix(in srgb, var(--cur) 30%, transparent); border:1px solid var(--cur); }
+.ix-banda .rg.sj{ top:24px; height:14px; background:color-mix(in srgb, var(--neg) 22%, transparent); border-color:var(--neg); }
+.ix-banda .md{ position:absolute; top:16px; width:3px; height:30px; background:var(--cur); border-radius:2px; }
+.ix-banda .lb{ position:absolute; top:46px; font-size:10.5px; color:var(--silver-dark); transform:translateX(-50%); white-space:nowrap; font-family:'Courier New',monospace; }
+.ix-tope{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.ix-tope input{ width:120px; height:36px; border-radius:10px; border:1px solid var(--silver); background:var(--paper); color:var(--ink); padding:0 10px; font:700 15px 'Courier New',monospace; }
+.ix-prog{ height:10px; border-radius:5px; background:color-mix(in srgb, var(--silver) 45%, transparent); overflow:hidden; }
+.ix-prog span{ display:block; height:100%; border-radius:5px; background:var(--ok); }
+.ix-prog.mal span{ background:var(--neg); }
+.ix-banda .lb.top{ top:0; font-weight:700; }
+.ix-veredicto .n small{ font:700 .45em 'Inter',sans-serif; }
+/* gráficos */
+.ix-svg{ width:100%; height:auto; display:block; overflow:visible; }
+.ix-svg text{ font:600 10.5px 'Inter',sans-serif; fill:var(--silver-dark); }
+.ix-svg .num{ font-family:'Courier New',monospace; font-weight:700; }
+.ix-tira{ display:grid; grid-template-columns:repeat(14, minmax(0,1fr)); gap:4px; align-items:end; height:96px; border-bottom:1px solid var(--silver); position:relative; }
+.ix-tira button{ border:0; padding:0; background:transparent; height:100%; display:flex; flex-direction:column; justify-content:flex-end; min-width:0; }
+.ix-tira button span{ display:block; width:100%; border-radius:4px 4px 0 0; background:color-mix(in srgb, var(--neg) 70%, transparent); }
+.ix-tira button.g span{ background:color-mix(in srgb, var(--ok) 75%, transparent); }
+.ix-tira button.on span{ outline:2px solid var(--ink); outline-offset:1px; }
+.ix-dia{ border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:13px; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; }
+.ix-dia b{ display:block; font:800 15px 'Courier New',monospace; }
+.ix-res{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+.ix-res .n{ font:800 42px 'Courier New',monospace; letter-spacing:-.02em; }
+.ix-tri{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+.ix-rr{ display:grid; grid-template-columns:52px minmax(0,1fr) 64px; gap:10px; align-items:center; font-size:12.5px; }
+.ix-rr .bar{ position:relative; height:16px; border-radius:8px; background:color-mix(in srgb, var(--silver) 30%, transparent); }
+.ix-rr .bar i{ position:absolute; top:0; bottom:0; border-radius:8px; background:color-mix(in srgb, var(--ok) 70%, transparent); }
+.ix-rr .bar b{ position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink); }
+.ix-rr .bar u{ position:absolute; top:6px; height:4px; background:var(--ink); opacity:.55; text-decoration:none; }
+.ix-rr.sel{ font-weight:800; }
+.ix-precio{ display:flex; flex-direction:column; gap:6px; }
+.ix-precio .r{ display:grid; grid-template-columns:96px minmax(0,1fr) 70px; gap:10px; align-items:center; font-size:12.5px; }
+.ix-precio .b{ height:14px; border-radius:7px; }
+/* B · panorama */
+.ix-ctrl{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.ix-bento{ display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); gap:14px; }
+.ix-bento > *{ grid-column:span var(--s,4); }
+.ix-tile-h{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.ix-tile-h .q{ border:0; background:transparent; color:var(--silver-dark); font-size:12px; font-weight:700; padding:2px 6px; border-radius:8px; }
+.ix-tile-h .q:hover{ color:var(--ink); background:color-mix(in srgb, var(--silver) 25%, transparent); }
+.ix-ribbon{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:14px; }
+.ix-ribbon .ix-kpi .v{ font-size:24px; }
+.ix-cal{ overflow-x:auto; padding-bottom:4px; }
+.ix-cal svg rect.d{ cursor:pointer; }
+.ix-cal svg rect.d:focus{ outline:none; stroke:var(--ink); stroke-width:2; }
+.ix-ley{ display:flex; gap:12px; flex-wrap:wrap; font-size:11.5px; color:var(--silver-dark); align-items:center; }
+.ix-ley i{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; vertical-align:-1px; }
+.ix-tip{ position:absolute; pointer-events:none; background:var(--ink); color:var(--paper); border-radius:10px; padding:6px 9px; font-size:11.5px; line-height:1.35; white-space:nowrap; transform:translate(-50%, -110%); z-index:5; }
+.ix-chart{ position:relative; }
+/* hoja de detalle (lateral en PC, inferior en el teléfono) */
+.ix-fondo{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:80; display:flex; justify-content:flex-end; }
+.ix-hoja{ width:min(460px, 100%); height:100%; background:var(--paper); border-left:1px solid var(--line); padding:18px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; animation:ixIn .22s ease; }
+@keyframes ixIn{ from{ transform:translateX(30px); opacity:0; } to{ transform:none; opacity:1; } }
+.ix-hoja .x{ align-self:flex-end; }
+.ix-hoja table{ width:100%; border-collapse:collapse; font-size:12.5px; } .ix-hoja td, .ix-hoja th{ padding:6px 4px; border-top:1px solid var(--line); text-align:left; } .ix-hoja td.r{ text-align:right; font-family:'Courier New',monospace; font-weight:700; }
+/* auditoría */
+.ix-aud table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+.ix-aud th, .ix-aud td{ text-align:left; vertical-align:top; padding:8px; border-top:1px solid var(--line); }
+.ix-aud th{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); }
+.ix-tw{ overflow-x:auto; }
+.ix-aud ol, .ix-aud ul{ margin:0; padding-left:20px; line-height:1.6; }
+@media (prefers-reduced-motion: reduce){ .ix *{ animation:none !important; transition:none !important; } }
+/* ── teléfono / columnas angostas ── */
+@container ix (max-width: 900px){
+  .ix-bento > *{ grid-column:span 12; } .ix-bento > .m6{ grid-column:span 6; }
+  .ix-sim{ grid-template-columns:minmax(0,1fr); }
+}
+@container ix (max-width: 620px){
+  .ix-estado, .ix-acc, .ix-sen, .ix-tri, .ix-ribbon{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .ix-grid{ grid-template-columns:minmax(0,1fr); }
+  .ix-bento > .m6{ grid-column:span 12; }
+  .ix-app .mut{ display:none; }
+  .ix-veredicto .n{ font-size:32px; } .ix-res .n{ font-size:32px; }
+  .ix-dia{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .ix-chip .b{ white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; font-size:12.5px; }
+  .ix-s .h{ flex-direction:column; align-items:flex-start; gap:4px; }
+  .ix-card{ padding:14px; border-radius:16px; }
+  .ix-ribbon{ display:grid; grid-auto-flow:column; grid-template-columns:none; grid-auto-columns:78%; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:4px; }
+  .ix-ribbon > *{ scroll-snap-align:start; }
+  .ix-fondo{ align-items:flex-end; } .ix-hoja{ width:100%; height:auto; max-height:86%; border-left:0; border-top:1px solid var(--line); border-radius:20px 20px 0 0; animation:ixUp .22s ease; }
+  @keyframes ixUp{ from{ transform:translateY(30px); opacity:0; } to{ transform:none; opacity:1; } }
+}
+
+  /* Los tonos rojo/violeta/ámbar viven acotados (como en Cobros .k): sin esto las barras salían negras. */
+  .ix, .ix-fondo{ --cur:#5B4BD6; --amb:#B7791F; --neg:#D93636; }
+  body.theme-arcade .ix, body.theme-arcade .ix-fondo{ --cur:#8C7DF5; --amb:#F5B33C; --neg:#F87171; }
+  /* En Inicio la cabecera común se oculta: la línea «🍀 Bitácora · juego · cifras» de la B la sustituye (su selector
+     de juego maneja el de la cabecera). En el teléfono le devuelve 462 px a los datos. */
+  body[data-tab-activo="inicio"] .folio{ display:none; }
+  .ix-jsel{ height:32px; border:1px solid var(--silver) !important; border-radius:999px; background:var(--white); color:var(--ink); padding:0 10px; font-weight:700; font-size:12.5px; max-width:220px; }
+  /* La hoja de detalle se cuelga de <body>: en el teléfono va abajo (no hereda la container query de .ix). */
+  @media (max-width: 620px){ .ix-fondo{ align-items:flex-end; } .ix-hoja{ width:100%; height:auto; max-height:86%; border-left:0; border-top:1px solid var(--line); border-radius:20px 20px 0 0; } }
+  .ix-hoja table thead th, body.theme-arcade .ix-hoja table thead th, .ix-hoja table th{ background:transparent !important; color:var(--silver-dark) !important; font-size:10.5px; letter-spacing:.06em; }
+  .ix-hoja table td{ font-family:inherit; border-bottom:0; }
+  .ix-hoja td.r{ font-family:'Courier New',monospace !important; }
+  .ix button{ font-family:inherit; }
+  .ix svg text{ text-transform:none; }
+
   /* ─ Ajustes de la app sobre el preview (mismo aspecto): los estilos globales de la app no deben colarse ─ */
   .k .k-monto-in input, .k .k-lupa input{ border:0 !important; background:transparent !important; box-shadow:none !important; padding:0 !important; outline:none !important; height:auto; margin:0; }
   .k .k-monto-in:focus-within, .k .k-lupa:focus-within{ box-shadow:0 0 0 3px color-mix(in srgb, var(--ok) 30%, transparent); }
@@ -2195,8 +2362,8 @@
   <!-- TAB: INICIO (Dashboard) -->
   <!-- =================================================== -->
   <div class="tabpanel active" id="panel-inicio">
-    <div id="saludSistema"></div>
-    <div id="dashboardContent"></div>
+    <!-- v41.6: propuesta B «Panorama» (módulo IX). Salud del sistema y la Lupa viven en Exportar; el Diario, en Rendimiento. -->
+    <div id="inicioB"></div>
   </div>
 
   <!-- =================================================== -->
@@ -3516,6 +3683,11 @@
         <div id="rendContent"></div>
       </div>
     </div>
+    <!-- v41.6: el Diario de sesiones se mudó desde Inicio (historial para analizar en casa). -->
+    <div class="section">
+      <div class="section-head"><span class="tag">📔</span><h2>Diario de sesiones</h2><span class="hint">cada visita al kiosco (día + punto), con tu resultado</span></div>
+      <div class="card"><div id="diarioSesiones"></div></div>
+    </div>
   </div>
 
   <!-- =================================================== -->
@@ -3743,6 +3915,8 @@
   <!-- TAB 4: EXPORT -->
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-export">
+    <!-- v41.6: Salud del sistema se mudó desde Inicio (allí queda la ficha «datos a salvo / sin copia fuera»). -->
+    <div id="saludSistema" style="margin-bottom:14px;"></div>
     <div class="section">
       <div class="section-head"><span class="tag">☁</span><h2>Sincronización en la nube</h2><span class="hint">PC y teléfono, los mismos datos</span></div>
       <div class="card">
@@ -3832,6 +4006,16 @@
            en la mano, en el momento de pistolear. Mandarlos aquí obligaría a salir del
            escáner y volver. Se quedan en la barra QR a propósito.
            ============================================================ -->
+      <!-- v41.6: la Lupa se mudó desde Inicio: es configuración. Es el único sitio para restaurarla si la ocultaste. -->
+      <div class="card" style="margin-top:14px;" id="secLupa">
+        <div class="section-head"><span class="tag">🔍</span><h3 style="margin:0; font-size:15px;">Lupa de búsqueda</h3><span class="hint">el botón flotante</span></div>
+        <p class="note" style="margin-top:0;"><strong>Arrástrala</strong> a donde te acomode y se queda ahí. Para ocultarla, suéltala en el borde inferior. Un toque simple abre el buscador, que arranca con teclado numérico.</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-ghost" type="button" id="btnRestaurarLupa">🔍 Restaurar la lupa</button>
+          <button class="btn-ghost" type="button" id="btnAbrirBuscador">Abrir buscador</button>
+        </div>
+        <p class="note" style="margin:8px 0 0; font-size:11.5px;" id="estadoLupa"></p>
+      </div>
       <div class="card" style="margin-top:14px;" id="cardPreferencias">
         <div class="section-head"><span class="tag">⚙️</span><h3 style="margin:0; font-size:15px;">Preferencias</h3><span class="hint">se guardan en este dispositivo</span></div>
 
@@ -4259,11 +4443,14 @@
   //   «Ver: Todos / ◐ A medio cobrar» en la tarjeta de herramientas.
   // v41.4.3 — «Lo cobrado» en el recuadro principal de Cobros: hoy, 7 días, este mes, desde siempre y
   //   barras de los últimos 30 días (tocar un día lo abre en Salidas).
+  // v41.6 — Inicio = propuesta B «Panorama» (módulo IX): resultado con y sin premios grandes, freno con señales y
+  //   umbrales, regla de racha, verdad del taco, mes frente a su banda, te deben (de Cobros), tacos con la definición de
+  //   Mis tacos, salud del instrumento; periodo y ámbito. Salud y Lupa → Exportar; Diario → Rendimiento (total en neto).
   // v41.5 — Cobros: estado «📦 Entregado» (propuesta B): boletos que dejas en el punto hasta que te paguen.
   //   Paso 3 «Lo que falta» al cerrar la caja (punto, promesa, nota), sección «📦 Entregados» con una
   //   cuenta por punto, «Me pagó…» por boletos (el monto ayuda a marcarlos) y recibo «Pago de entrega».
   //   Campos opcionales nuevos en el boleto: entregado, fechaEntrega, puntoEntrega, promesaPago, notaEntrega.
-  const APP_VERSION = { num: '41.5', fecha: '2026-10-12' };
+  const APP_VERSION = { num: '41.6', fecha: '2026-10-17' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -8293,20 +8480,10 @@
 
   // Renderers por pestaña. `pesado:true` → se difiere y coalesce en ráfagas de captura.
   const RENDER_TABS = {
+    // v41.6 — Inicio = propuesta B (IX). renderDashboard, renderCommandCenter y renderChecklistKiosco quedan en el
+    // código sin ejecutarse (rollback: volver a esta lista). Salud y Lupa → export; Diario → rendimiento.
     inicio: [
-      ['renderSaludSistema', ()=>renderSaludSistema()],
-      ['renderDashboard', ()=>renderDashboard()],
-      ['renderStopLoss', ()=>renderStopLoss()],
-    ['bindControlesLupa', ()=>{
-      var b1=document.getElementById('btnRestaurarLupa');
-      if(b1 && !b1._b){ b1._b=1; b1.onclick=gsFabRestaurar; }
-      var b2=document.getElementById('btnAbrirBuscador');
-      if(b2 && !b2._b){ b2._b=1; b2.onclick=gsOpen; }
-      renderEstadoLupa();
-    }],
-      ['renderChecklistKiosco', ()=>renderChecklistKiosco()],
-      ['renderDiarioSesiones', ()=>renderDiarioSesiones()],
-      ['renderCommandCenter', ()=>renderCommandCenter(), true],
+      ['renderInicioB', ()=>IX.render()],
     ],
     global: [ ['renderGlobal', ()=>renderGlobal()],
               ['renderRtpPorPunto', ()=>renderRtpPorPunto(), true] ],
@@ -8354,7 +8531,7 @@
       ['e7RenderGrandes', ()=>e7RenderGrandes(), true],
       ['e7RenderRiesgo', ()=>e7RenderRiesgo(), true],
     ],
-    rendimiento: [ ['renderRendimiento', ()=>renderRendimiento()] ],
+    rendimiento: [ ['renderRendimiento', ()=>renderRendimiento()], ['renderDiarioSesiones', ()=>renderDiarioSesiones()] ],
     cobros: [ ['renderCobros', ()=>renderCobros()] ],
     reporte: [
       // v38.1 — el Historial se mudó aquí desde Boletos y lotes: su renderer viaja con él.
@@ -8371,6 +8548,14 @@
       ['renderPanelSalud', ()=>renderPanelSalud()],
       ['renderAutoRespaldoEstado', ()=>renderAutoRespaldoEstado()],
       ['renderSyncPanel', ()=>renderSyncPanel()],
+      ['renderSaludSistema', ()=>renderSaludSistema()],
+      ['bindControlesLupa', ()=>{
+        var b1=document.getElementById('btnRestaurarLupa');
+        if(b1 && !b1._b){ b1._b=1; b1.onclick=gsFabRestaurar; }
+        var b2=document.getElementById('btnAbrirBuscador');
+        if(b2 && !b2._b){ b2._b=1; b2.onclick=gsOpen; }
+        renderEstadoLupa();
+      }],
     ],
   };
 
@@ -20117,6 +20302,371 @@
     return { render, _cuentas:cuentas, _st:st, _calcRutas:calcRutas, _planMonto:planMonto, _planDetalle:planDetalle, _base:base };
   })();
   // v41.4: Cobros lo pinta KB (arriba). El render anterior se conserva sin ejecutarse.
+  // ══════════════════════════════════════════════════════════════════════════════════════
+  // INICIO v41.6 — propuesta B «Panorama», al pie de la letra
+  // Referencia: docs/propuestas/inicio-auditoria-y-2-propuestas.html (pestaña B). Auditoría en la misma página.
+  // POR QUÉ un módulo nuevo: el Inicio anterior mezclaba 4 ámbitos sin rótulo (3 «netos», 3 «ahorros»), mostraba el
+  // resultado en verde sin decir que depende de 8 premios grandes, contradecía la regla de racha (Checklist), se BORRABA
+  // al repintar sin cambios (#commandCenter), tenía avisos rotos (tope del día, respaldo con la lógica vieja) y costaba
+  // ~850 ms por visita. Este pinta una estructura estable, con una sola fuente por cifra y su ámbito a la vista.
+  // Fuentes: data.records (premioNeto), e7Base/e7ReglaRacha/e7Calibracion/rgRiesgoRacha/rgPersecucionPerdidas
+  // (motor), riesgoRespaldo, loteCounts. Los motores caros se calculan en segundo plano la primera vez.
+  // Lo que salió de Inicio NO se perdió: Salud del sistema y la Lupa → Exportar; Diario de sesiones → Rendimiento;
+  // Resumen general → Mis tacos (ya estaba); el render anterior queda como renderDashboard/renderCommandCenter sin usarse.
+  // ══════════════════════════════════════════════════════════════════════════════════════
+  const IX = (function(){
+    // ───── cálculo (idéntico al de la propuesta, verificado 52/52 contra la auditoría) ─────
+  function crear(D, HOY) {
+    const RET = 500, TASA = 0.14;
+    const neto = p => { p = Number(p) || 0; return p >= RET ? Math.round(p * (1 - TASA) * 100) / 100 : p; };
+    const r2 = v => Math.round(v * 100) / 100;
+    const dias = (a, b) => Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
+    const sumaD = (f, n) => { const d = new Date(f + 'T00:00:00'); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+    const med = a => { if (!a.length) return null; const s = a.slice().sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+    const medApp = a => { if (!a.length) return null; const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };   // como escaladaGasto
+    const cuant = (s, q) => { if (!s.length) return null; const i = (s.length - 1) * q, lo = Math.floor(i), hi = Math.ceil(i); return s[lo] + (s[hi] - s[lo]) * (i - lo); };
+    const J = new Map(D.juegos.map(([id, nombre, emoji, cNom, tam]) => [id, { id, nombre, emoji, cNom, tam }]));
+    const L = new Map(D.lotes.map(([id, serie, jid, punto, ciudad, modo, total, rev, paid, desc, act, creado]) => [id, { id, serie, jid, punto, ciudad, modo, total, rev, paid, desc, act, creado }]));
+    const R = D.recs.map(([l, fecha, premio, costo, nom, cob, fcob, crit, ent, pent, fent, prom]) => {
+      const lo = L.get(l) || {}, j = J.get(lo.jid) || { cNom: 2 };
+      return { l, fecha, premio, pn: neto(premio), costo, nom, cob: !!cob, fcob, crit, ent: !cob && !!ent, pent, fent, prom, jid: lo.jid, punto: lo.punto || '', jack: premio >= 200 * j.cNom };
+    });
+    const JA = D.juegoActivo, jAct = J.get(JA);
+
+    function ambito(a) {
+      const rs = a === 'todos' ? R : R.filter(r => r.jid === a);
+      // ── por día con compra ──
+      const md = new Map();
+      rs.forEach(r => { if (!r.fecha) return; let d = md.get(r.fecha); if (!d) md.set(r.fecha, d = { f: r.fecha, g: 0, p: 0, n: 0, tacos: new Set(), puntos: new Map(), gan: 0 }); d.g += r.costo; d.p += r.pn; d.n++; d.tacos.add(r.l); if (r.premio > 0) d.gan++; const k = r.punto || '(sin punto)'; d.puntos.set(k, (d.puntos.get(k) || 0) + 1); });
+      const dd = [...md.values()].sort((a, b) => a.f < b.f ? -1 : 1).map(d => ({ ...d, neto: r2(d.p - d.g), g: r2(d.g), p: r2(d.p), nTacos: d.tacos.size, punto: [...d.puntos.entries()].sort((x, y) => y[1] - x[1])[0][0] }));
+      const ult = dd[dd.length - 1] || null;
+      let racha = 0; for (let i = dd.length - 1; i >= 0 && dd[i].neto < 0; i--) racha++;
+      const gastos = dd.map(d => d.g), mediana = medApp(gastos);
+      // escalada (fórmula de escaladaGasto: últimos min(7, ⌊n/2⌋) días CON compra frente a los anteriores)
+      const k = Math.min(7, Math.floor(dd.length / 2)), rec = dd.slice(-k), ant = dd.slice(0, -k);
+      const avg = a => a.length ? a.reduce((s, d) => s + d.g, 0) / a.length : 0;
+      const esc = k >= 3 && ant.length ? { k, desde: rec[0].f, hasta: rec[rec.length - 1].f, rec: avg(rec), ant: avg(ant), nAnt: ant.length, factor: avg(ant) > 0 ? avg(rec) / avg(ant) : null } : null;
+      // ── totales, jackpots, meses ──
+      const g = rs.reduce((s, r) => s + r.costo, 0), p = rs.reduce((s, r) => s + r.pn, 0);
+      const jacks = rs.filter(r => r.jack).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+      const pJack = jacks.reduce((s, r) => s + r.pn, 0), uj = jacks[jacks.length - 1] || null;
+      const desde = uj ? rs.filter(r => r.fecha > uj.fecha) : rs;
+      const mm = new Map(); rs.forEach(r => { const m = (r.fecha || '').slice(0, 7); if (!m) return; let o = mm.get(m); if (!o) mm.set(m, o = { m, g: 0, p: 0, pj: 0, dias: new Set() }); o.g += r.costo; o.p += r.pn; if (r.jack) o.pj += r.pn; o.dias.add(r.fecha); });
+      const meses = [...mm.values()].sort((a, b) => a.m < b.m ? -1 : 1).map(o => ({ m: o.m, g: r2(o.g), p: r2(o.p), neto: r2(o.p - o.g), netoSJ: r2(o.p - o.pj - o.g), rtp: o.g ? o.p / o.g : null, dias: o.dias.size }));
+      // ── cobros (premios no cobrados): contigo / entregados en puntos ──
+      const pend = rs.filter(r => r.premio > 0 && !r.cob), cont = pend.filter(r => !r.ent), entr = pend.filter(r => r.ent);
+      const sum = a => r2(a.reduce((s, r) => s + r.pn, 0));
+      const porCompra = new Map(); cont.forEach(r => { const key = r.fecha + '|' + r.punto; const o = porCompra.get(key) || { f: r.fecha, punto: r.punto, v: 0, n: 0, tacos: new Set() }; o.v += r.pn; o.n++; o.tacos.add(r.l); porCompra.set(key, o); });
+      const puntosEnt = new Map(); entr.forEach(r => { const o = puntosEnt.get(r.pent) || { p: r.pent, v: 0, n: 0, f0: r.fent, prom: r.prom }; o.v += r.pn; o.n++; if (r.fent < o.f0) o.f0 = r.fent; if (r.prom && (!o.prom || r.prom < o.prom)) o.prom = r.prom; puntosEnt.set(r.pent, o); });
+      const cobradoEn = (a2, b2) => sum(rs.filter(r => r.cob && r.premio > 0 && r.fcob >= a2 && r.fcob <= b2));
+      const cobros = { total: sum(pend), n: pend.length, contigo: sum(cont), nCont: cont.length, enPuntos: sum(entr), nEnt: entr.length,
+        tacos: new Set(cont.map(r => r.l)).size, masViejo: pend.length ? Math.max(...pend.map(r => dias(r.fecha, HOY))) : 0,
+        compras: [...porCompra.values()].map(o => ({ ...o, v: r2(o.v), tacos: o.tacos.size })).sort((a, b) => b.v - a.v),
+        puntos: [...puntosEnt.values()].map(o => ({ ...o, v: r2(o.v), dias: dias(o.f0, HOY), vencida: !!o.prom && o.prom < HOY })),
+        hoy: cobradoEn(HOY, HOY), sem: cobradoEn(sumaD(HOY, -6), HOY), mes: cobradoEn(HOY.slice(0, 8) + '01', HOY) };
+      return { rs, dd, ult, racha, mediana, esc, g: r2(g), p: r2(p), neto: r2(p - g), rtp: g ? p / g : null, jacks, netoSJ: r2(p - pJack - g), pJack: r2(pJack), uj,
+        desde: { n: desde.length, neto: r2(desde.reduce((s, r) => s + r.pn - r.costo, 0)) }, meses, cobros,
+        ahorro: r2(rs.reduce((s, r) => s + Math.max(0, r.nom - r.costo), 0)), ahorroTacos: new Set(rs.filter(r => r.nom > r.costo + 1e-9).map(r => r.l)).size,
+        juegosConCompra: new Set(rs.map(r => r.jid)).size };
+    }
+
+    // ── economía del taco completo (juego activo; tacos de e7Base) ──
+    const T = D.tacos.map(([serie, f0, costo, pago, pagoSJ, valido, fb]) => ({ serie, f: fb || f0, costo, pago, pagoSJ, valido: !!valido, neto: pago - costo }));   // mes del taco = fecha de su primer boleto
+    const sT = a => a.reduce((s, x) => s + x, 0);
+    const netosT = T.map(x => x.neto).sort((a, b) => a - b);
+    const eco = { N: T.length, recuperan: T.filter(x => x.pago >= x.costo).length, pagoMed: med(T.map(x => x.pago)), netoMed: med(T.map(x => x.neto)),
+      costoMed: sT(T.map(x => x.costo)) / T.length, pagoMedia: sT(T.map(x => x.pago)) / T.length,
+      rtp: sT(T.map(x => x.pago)) / sT(T.map(x => x.costo)), rtpSJ: sT(T.map(x => x.pagoSJ)) / sT(T.map(x => x.costo)),
+      // precio de equilibrio = e7RenderEconomia: Σ tramos sin jackpot premioNeto(m)·(c+½)/n (prior de Jeffreys)
+      equilibrio: Object.entries(D.tramos || {}).filter(([m]) => +m < D.umbJack).reduce((a, [m, c]) => a + neto(+m) * (c + 0.5) / T.length, 0), netoP10: cuant(netosT, 0.1), netoP90: cuant(netosT, 0.9), netos: netosT };
+    if (!T.length) { eco.equilibrio = 0; }
+    eco.lista = (jAct ? jAct.cNom * jAct.tam : 100); eco.descNecesario = 1 - eco.equilibrio / eco.lista;
+    eco.mejorDesc = Math.max(0, ...[...L.values()].filter(l => l.jid === JA).map(l => l.desc || 0));
+    // ritmo habitual de e7RenderRiesgo: media de tacos por mes de los 3 meses anteriores al último con datos
+    const porMes = {}; T.forEach(x => { const m = x.f.slice(0, 7); porMes[m] = (porMes[m] || 0) + 1; });
+    const ms = Object.keys(porMes).sort().slice(-4, -1);
+    eco.ritmo = ms.length ? Math.round(ms.reduce((a, m) => a + porMes[m], 0) / ms.length) : 10; eco.ritmoMeses = ms;
+    const mesAct = HOY.slice(0, 7), Tm = T.filter(x => x.f.slice(0, 7) === mesAct);
+    eco.mes = { m: mesAct, n: Tm.length, costoMedio: Tm.length ? sT(Tm.map(x => x.costo)) / Tm.length : null, base: sT(Tm.map(x => x.pagoSJ)), esperado: Tm.length * eco.equilibrio,
+      costo: sT(Tm.map(x => x.costo)), pago: sT(Tm.map(x => x.pago)), recuperan: Tm.filter(x => x.pago >= x.costo).length };
+    // simulación de un mes (mismo método que e7RenderRiesgo: K tacos tomados al azar de tu historia), con semilla fija
+    function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+    function sim(arr, K, base, S) { S = S || 5000; const rnd = rng(20261017 + K), fin = new Array(S); for (let s = 0; s < S; s++) { let acc = base || 0; for (let i = 0; i < K; i++) acc += arr[Math.floor(rnd() * arr.length)]; fin[s] = acc; } fin.sort((a, b) => a - b);
+      return { pPerd: fin.filter(v => v < 0).length / S, med: cuant(fin, 0.5), p10: cuant(fin, 0.1), p90: cuant(fin, 0.9) }; }
+    const netos = T.map(x => x.pago - x.costo), netosSJ = T.map(x => x.pagoSJ - x.costo);
+    eco.simMes = sim(netos, eco.ritmo); eco.simMesSJ = sim(netosSJ, eco.ritmo);
+    eco.simCompra = (n, base) => ({ con: sim(netos, n, base, 3000), sj: sim(netosSJ, n, base, 3000) });
+    // ── regla de racha y evitación (motor de la app) ──
+    const regla = D.regla ? { estado: D.regla.estado, nOos: D.regla.nOos, todo: D.regla.todoRtp, filas: D.regla.res.map(x => ({ L: x.L, n: x.oos.n, rtp: x.oos.rtp, ic: x.oos.ic, y: x.oos.y })), marc: D.regla.marc } : null;
+    const b0 = (D.evit && D.evit.buckets || [])[0] || null;
+    const evit = b0 ? { p: b0.p, ic: b0.ic, nulo: b0.nulo, n: b0.n } : null;
+    // ── calibración: franjas con ≥ 50 boletos cuya tasa prevista cae dentro del IC95 (Wilson) de la observada ──
+    const wil = (y, n) => { const z = 1.96, ph = y / n, d = 1 + z * z / n, c = ph + z * z / (2 * n), s = z * Math.sqrt(ph * (1 - ph) / n + z * z / (4 * n * n)); return [(c - s) / d, (c + s) / d]; };
+    const bins = (D.calib && D.calib.bins || []).filter(b => b.n >= 50).map(b => { const ic = wil(b.sy, b.n), pr = b.sp / b.n; return { n: b.n, prev: pr, obs: b.sy / b.n, dentro: pr >= ic[0] && pr <= ic[1] }; });
+    const calib = !D.calib ? null : { dentro: bins.filter(b => b.dentro).length, total: bins.length, bins, brier: D.calib && D.calib.tot ? { racha: 1 - D.calib.tot.racha.b / D.calib.tot.dens.b, imp: 1 - D.calib.tot.imp.b / D.calib.tot.dens.b } : null };
+    // ── tacos del juego activo: en curso (≤ 14 días) / abandonados, sin punto ──
+    const ultRec = new Map(); R.forEach(r => { if (r.fecha && (!ultRec.has(r.l) || r.fecha > ultRec.get(r.l))) ultRec.set(r.l, r.fecha); });
+    const loJ = [...L.values()].filter(l => l.jid === JA);
+    const actividad = l => [l.act ? l.act.slice(0, 10) : '', l.creado ? String(l.creado).slice(0, 10) : '', ultRec.get(l.id) || ''].sort().pop();
+    const inc = loJ.filter(l => l.rev < l.total && l.rev > 0).map(l => ({ ...l, ult: actividad(l), dias: dias(actividad(l), HOY) }));
+    const tacos = { enCurso: inc.filter(l => l.dias < 14).sort((a, b) => a.dias - b.dias), abandonados: inc.filter(l => l.dias >= 14), completos: loJ.filter(l => l.total && l.rev === l.total).length,
+      sinPunto: loJ.filter(l => !l.punto).length, sinPuntoBol: R.filter(r => r.jid === JA && !r.punto).length };
+    return { HOY, J, L, R, JA, jAct, neto, r2, dias, sumaD, med, cuant, ambito, eco, regla, evit, calib, tacos, pers: D.pers, riesgo: D.riesgo, respaldo: D.respaldo, sim };
+  }
+
+    // ───── datos vivos con la misma forma que usó la propuesta ─────
+    function construirD(conMotor){
+      const ja = getJuegoActivo(), JA = String(ja ? ja.id : ((data.juegos||[])[0]||{}).id);
+      const f10 = v => v ? (typeof v==='string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice(0,10) : fechaLocalDe(v)) : '';
+      const lotes = (data.lotes||[]).map(l=>{ const c = loteCounts(l); return [String(l.id), l.serie||'', String(l.juegoId), l.punto||'', l.ciudad||'', l.modo||'', c.total, c.revealed, c.paid, Number(l.descuento)||0, f10(l.actualizadoEn), f10(l.creadoEn)]; });
+      const recs = (data.records||[]).map(r=>[String(r.loteId), String(r.fecha||'').slice(0,10), Number(r.premio)||0, Math.round((Number(r.costo)||0)*100)/100, Math.round((Number(r.costoNominal)||0)*100)/100, r.cobrado?1:0, r.fechaCobro?String(r.fechaCobro).slice(0,10):'', r.criterio||'', r.entregado?1:0, r.puntoEntrega||'', r.fechaEntrega||'', r.promesaPago||'']);
+      const juegos = (data.juegos||[]).map(j=>[String(j.id), j.nombre, j.emoji||'🎟️', Number(j.costoDefecto)||2, Number(j.tamanoLote)||50]);
+      let base = null; try{ base = e7Base(); }catch(e){}
+      const fmin = id => ((base && base.porLote.get(String(id))) || []).map(r=>String(r.fecha||'')).filter(Boolean).sort()[0] || '';
+      const tacos = base ? base.tacos.map(x=>[x.serie, fechaLocalDe(x.t), Math.round(x.costo*100)/100, x.pago, x.pagoSJ, x.valido?1:0, fmin(x.id)]) : [];
+      const tramos = {}; if(base) base.tacos.forEach(x=>x.bruto.forEach((b,i)=>{ if(x.seq[i] && b>0) tramos[b] = (tramos[b]||0)+1; }));
+      let regla=null, evit=null, calib=null, pers=null, riesgo=null;
+      if(conMotor){ try{ regla = e7ReglaRacha(); }catch(e){} try{ evit = rgRiesgoRacha(JA); }catch(e){} try{ calib = e7Calibracion(); }catch(e){} }
+      try{ pers = rgPersecucionPerdidas(); }catch(e){}
+      try{ riesgo = riesgoRespaldo(); }catch(e){}
+      return { juegoActivo:JA, umbJack: base ? base.umbJack : 200*((ja&&Number(ja.costoDefecto))||2), tramos, lotes, recs, juegos, tacos, regla, evit, calib,
+        pers: pers || {n:0, rho:0, p:1, medPerd:0, nPerd:0, medGan:0, nGan:0}, riesgo: riesgo || {riesgo:false, motivo:''}, respaldo:'' };
+    }
+    // ───── estado de la vista (no se guarda en los datos) ─────
+    const S = { a:{ L:6 }, b:{ per:'90', amb:'todos', sel:null, cur:null } };
+    let D, M, AT, AJ, E, J, HOY, ult, mesNeto, diaMes, diasMes, ritmoHoy, SEN, nOn, mesRatio, mesEst, COMO;
+    let _key = null, _motorKey = null, _motorPend = false;
+const fmt = v => (v < 0 ? '−$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtS = v => (v > 0.004 ? '+' : '') + fmt(v);
+const fmt0 = v => (v < 0 ? '−$' : '$') + Math.round(Math.abs(v)).toLocaleString('en-US');
+const fmt0S = v => (v > 0.5 ? '+' : '') + fmt0(v);
+const nf = n => Number(n).toLocaleString('en-US');
+const pct = (v, d = 1) => (v * 100).toFixed(d) + '%';
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fc = f => { if (!f) return '—'; const d = new Date(f + 'T12:00:00'); return d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short' }).replace('.', ''); };
+const fl = f => { const d = new Date(f + 'T12:00:00'); return d.toLocaleDateString('es-EC', { weekday: 'short', day: 'numeric', month: 'short' }).replace('.', ''); };
+const mesNom = m => new Date(m + '-15T12:00:00').toLocaleDateString('es-EC', { month: 'long' });
+const pl = (n, s, p) => n === 1 ? s : (p || s + 's');
+const cls = v => v > 0.004 ? 'pos' : v < -0.004 ? 'neg' : '';
+
+    function recalc(){
+      HOY = todayStr();
+      const k = _dataVersion+'|'+(getJuegoActivo()||{}).id+'|'+HOY;
+      const conMotor = _motorKey === k;
+      if(_key === k+'|'+conMotor && M) return k;
+      D = construirD(conMotor); M = crear(D, HOY); AT = M.ambito('todos'); AJ = M.ambito(M.JA); E = M.eco; J = M.jAct;
+      if(S.b.amb !== 'todos') S.b.amb = M.JA;
+ult = AT.ult, mesNeto = (AT.meses.find(m => m.m === HOY.slice(0, 7)) || { neto: 0, g: 0, dias: 0 });
+diaMes = +HOY.slice(8, 10), diasMes = new Date(+HOY.slice(0, 4), +HOY.slice(5, 7), 0).getDate();
+ritmoHoy = E.ritmo * diaMes / diasMes;
+SEN = [
+  { k: 'racha', on: AT.racha >= 3, t: 'Días seguidos en rojo', v: AT.racha + ' ' + pl(AT.racha, 'día'), u: 'se enciende con 3 · ' + AT.dd.slice(-AT.racha).map(d => fmt0(d.neto)).join(' · ') },
+  { k: 'pico', on: ult && AT.mediana && ult.g / AT.mediana >= 3, t: 'Tu último día de compra', v: (ult.g / AT.mediana).toFixed(1) + '×', u: fmt0(ult.g) + ' frente a tu día típico de ' + fmt(AT.mediana) + ' · se enciende con 3×' },
+  { k: 'ritmo', on: AT.esc && AT.esc.factor >= 1.5, t: 'Ritmo de gasto', v: '×' + (AT.esc ? AT.esc.factor.toFixed(1) : '—'), u: AT.esc ? fmt0(AT.esc.rec) + '/día en tus últimos ' + AT.esc.k + ' días con compra (' + fc(AT.esc.desde) + '→' + fc(AT.esc.hasta) + ') frente a ' + fmt0(AT.esc.ant) + ' · se enciende con ×1.5' : '' },
+  { k: 'mes', on: E.mes.n > ritmoHoy, t: mesNom(HOY.slice(0, 7)).replace(/^./, c => c.toUpperCase()) + ': tacos', v: E.mes.n + ' / ' + Math.round(ritmoHoy), u: 'a tu ritmo habitual (' + E.ritmo + ' al mes) llevarías ' + Math.round(ritmoHoy) + ' al día ' + diaMes + ' · se enciende si vas por encima' },
+];
+nOn = SEN.filter(s => s.on).length;
+mesRatio = E.mes.esperado ? E.mes.base / E.mes.esperado : 1;
+mesEst = mesRatio < 0.9 ? 'la base pagó menos de lo esperado' : mesRatio > 1.1 ? 'la base pagó más de lo esperado' : 'la base pagó lo esperado';
+
+COMO = {
+  freno: ['Cómo se encienden las señales', '<p class="ix-note">Cada señal tiene su umbral a la vista; no hay puntaje inventado. Fuentes: días con compra de todos tus juegos (data.records, premios netos de retención).</p><table><tr><th>Señal</th><th>Regla</th><th>Hoy</th></tr>' + SEN.map(s => '<tr><td>' + esc(s.t) + '</td><td>' + esc(s.u.split(' · ').pop()) + '</td><td class="r ' + (s.on ? 'neg' : 'pos') + '">' + esc(s.v) + '</td></tr>').join('') + '</table><p class="ix-note">Persecución de pérdidas (rgPersecucionPerdidas): tras un día en rojo, tu gasto típico el siguiente día con compra fue ' + fmt(M.pers.medPerd) + ' (' + M.pers.nPerd + ' días); tras uno en verde o empate, ' + fmt(M.pers.medGan) + ' (' + M.pers.nGan + '). ρ = ' + M.pers.rho.toFixed(2) + ', p = ' + M.pers.p.toFixed(3) + ' con ' + M.pers.n + ' pares.</p>'],
+  sim: ['Cómo se simula «¿y si compro hoy?»', '<p class="ix-note">Igual que la sección $ de Avanzado (e7RenderRiesgo): se toman al azar N tacos completos de tu historia (' + E.N + ' tacos de ' + esc(J.nombre) + '), 3.000 veces, y se suman al resultado de lo que va del mes (' + fmtS(mesNeto.neto) + '). «Sin premios grandes» repite la cuenta quitando los premios de ' + fmt0(D.umbJack) + ' o más. El gasto estimado usa el costo medio de tus tacos de este mes (' + fmt(E.mes.costoMedio || E.costoMed) + ').</p>'],
+  regla: !M.regla || !M.evit ? ['La regla de racha', '<p class="ix-note">Calculando…</p>'] : ['La regla de racha', '<p class="ix-note">Del motor de la app (e7ReglaRacha). Se juzga solo con los ' + M.regla.nOos + ' tacos posteriores a su creación (fuera de muestra). Retorno sin premios grandes, al costo real. Estado: <b>' + esc(M.regla.estado) + '</b>.</p><table><tr><th>Comprar tras…</th><th>Boletos</th><th>Retorno</th><th>IC95</th></tr>' + M.regla.filas.map(f => '<tr><td>' + f.L + '+ perdedores</td><td class="r">' + nf(f.n) + '</td><td class="r">' + pct(f.rtp, 1) + '</td><td class="r">' + pct(f.ic[0], 0) + '–' + pct(f.ic[1], 0) + '</td></tr>').join('') + '<tr><td>Comprar el taco entero</td><td></td><td class="r">' + pct(M.regla.todo, 1) + '</td><td></td></tr></table><p class="ix-note"><b>Solo rinde si ves la racha sin pagarla</b> (boletos ya vendidos a otros). Evitación: justo después de un premio, el siguiente paga el ' + pct(M.evit.p, 1) + ' de las veces, frente al ' + pct(M.evit.nulo, 1) + ' del azar.</p>'],
+  taco: ['La verdad del taco completo', '<p class="ix-note">' + E.N + ' tacos completos de ' + esc(J.nombre) + ' (e7Base). Premios netos de retención.</p><table><tr><td>Recuperan su costo</td><td class="r">' + E.recuperan + ' de ' + E.N + ' (' + pct(E.recuperan / E.N) + ')</td></tr><tr><td>Pago típico (mediana) · media</td><td class="r">' + fmt(E.pagoMed) + ' · ' + fmt(E.pagoMedia) + '</td></tr><tr><td>Costo medio</td><td class="r">' + fmt(E.costoMed) + '</td></tr><tr><td>Neto típico (mediana)</td><td class="r">' + fmt(E.netoMed) + '</td></tr><tr><td>8 de cada 10 tacos quedan entre</td><td class="r">' + fmt0(E.netoP10) + ' y ' + fmt0(E.netoP90) + '</td></tr><tr><td>Retorno total · sin premios grandes</td><td class="r">' + pct(E.rtp) + ' · ' + pct(E.rtpSJ) + '</td></tr></table>'],
+  precio: ['Precio del taco', '<p class="ix-note">Precio de equilibrio = lo que paga en promedio la base de un taco sin premios grandes (e7RenderEconomia: ' + fmt(E.equilibrio) + '). Para que la base sola cubra el costo, el taco de ' + fmt0(E.lista) + ' tendría que costarte eso: un ' + pct(E.descNecesario, 0) + ' de descuento. Tu mejor descuento registrado: ' + E.mejorDesc.toFixed(2) + '%. Este mes pagaste ' + fmt(E.mes.costoMedio || E.costoMed) + ' por taco.</p><p class="ix-note">Ahorro por descuentos, todos los juegos: ' + fmt(AT.ahorro) + ' en ' + AT.ahorroTacos + ' tacos (una sola cifra; antes había tres con ámbitos distintos).</p>'],
+  mes: ['Tu mes frente a su banda', '<p class="ix-note">' + mesNom(E.mes.m) + ': ' + E.mes.n + ' tacos completos. La base (premios menores a ' + fmt0(D.umbJack) + ') pagó ' + fmt(E.mes.base) + '; lo esperado por el precio de equilibrio era ' + fmt(E.mes.esperado) + ' (' + pct(mesRatio, 0) + '). Lo que faltó para no perder fue un premio grande.</p><p class="ix-note">Un mes de ' + E.ritmo + ' tacos (tu ritmo de ' + E.ritmoMeses.map(mesNom).join(', ') + '): típico ' + fmt0(E.simMes.med) + ', 8 de cada 10 entre ' + fmt0(E.simMes.p10) + ' y ' + fmt0(E.simMes.p90) + ', P(pérdida) ' + pct(E.simMes.pPerd, 0) + '. Sin premios grandes: típico ' + fmt0(E.simMesSJ.med) + ', P(pérdida) ' + pct(E.simMesSJ.pPerd, 0) + '.</p>'],
+  calib: !M.calib ? ['Salud del instrumento', '<p class="ix-note">Calculando…</p>'] : ['Salud del instrumento', '<p class="ix-note">Calibración fuera de muestra (e7Calibracion, ' + nf(D.calib.tot.n) + ' boletos): ' + M.calib.dentro + ' de ' + M.calib.total + ' franjas caen dentro de su intervalo (HALLAZGOS del 9-oct decía 6 de 8). Brier: la racha mejora ' + pct(M.calib.brier.racha) + ' y la imprenta ' + pct(M.calib.brier.imp) + ' sobre la contabilidad pura.</p><table><tr><th>Franja</th><th>Prevista</th><th>Observada</th><th></th></tr>' + M.calib.bins.map(b => '<tr><td class="r">' + nf(b.n) + ' bol</td><td class="r">' + pct(b.prev) + '</td><td class="r">' + pct(b.obs) + '</td><td>' + (b.dentro ? '✓' : '✗') + '</td></tr>').join('') + '</table>'],
+};
+
+
+      _key = k+'|'+conMotor;
+      if(!conMotor && !_motorPend){ _motorPend = true;
+        // Regla de racha, evitación y calibración: ~250 ms la primera vez (luego quedan en memoria del motor).
+        setTimeout(()=>{ const run = ()=>{ try{ e7ReglaRacha(); e7Calibracion(); }catch(e){} _motorKey = k; _motorPend = false; const p = document.getElementById('panel-inicio'); if(p && p.classList.contains('active')) render(); };
+          if(window.requestIdleCallback) requestIdleCallback(run, {timeout:1500}); else run(); }, 80); }
+      return k;
+    }
+    function topesHTML(){ let h = '';
+      try{ const m = Number(presupuestoConfig && presupuestoConfig.mensual)||0, d = Number(presupuestoConfig && presupuestoConfig.diario)||0, g = (mesNeto && mesNeto.g) || 0;
+        if(m>0) h += '<div class="ix-sub" style="display:flex; justify-content:space-between; gap:8px; margin-top:4px;"><span>Tope del mes '+fmt0(m)+'</span><b class="mono">'+fmt0(g)+'</b></div><div class="ix-prog '+(g>m?'mal':'')+'"><span style="width:'+Math.min(100, g/m*100)+'%"></span></div>';
+        if(d>0) h += '<div id="stopLossPanel"></div>';   // decisión v40.1: el tope diario solo se ve si ya estaba guardado
+      }catch(e){} return h; }
+function banda(d, dsj, marca, etq) {
+  const xs = [d.p10, d.p90, dsj ? dsj.p10 : d.p10, dsj ? dsj.p90 : d.p90, marca == null ? 0 : marca, 0];
+  let lo = Math.min(...xs), hi = Math.max(...xs); const pad = (hi - lo) * 0.08 || 50; lo -= pad; hi += pad;
+  const x = v => ((v - lo) / (hi - lo) * 100).toFixed(2) + '%';
+  return '<div class="ix-banda" role="img" aria-label="' + esc(etq || '') + '"><div class="eje"></div><div class="cero" style="left:' + x(0) + '"></div>'
+    + (dsj ? '<div class="rg sj" style="left:' + x(dsj.p10) + '; width:calc(' + x(dsj.p90) + ' - ' + x(dsj.p10) + ')" title="Sin premios grandes"></div>' : '')
+    + '<div class="rg" style="left:' + x(d.p10) + '; width:calc(' + x(d.p90) + ' - ' + x(d.p10) + ')"></div><div class="md" style="left:' + x(d.med) + '"></div>'
+    + (marca != null ? '<div class="md" style="left:' + x(marca) + '; background:var(--stamp);"></div><span class="lb top" style="left:' + x(marca) + '; color:var(--stamp);">hoy ' + fmt0(marca) + '</span>' : '')
+    + '<span class="lb" style="left:' + x(d.p10) + '">' + fmt0(d.p10) + '</span><span class="lb" style="left:' + x(d.p90) + '">' + fmt0(d.p90) + '</span></div>';
+}
+function reglaRows(sel) {
+  const max = 2.2, x = v => Math.min(100, v / max * 100);
+  return M.regla.filas.map(f => '<button type="button" class="ix-rr ' + (f.L === sel ? 'sel' : '') + '" data-regla="' + f.L + '" style="border:0;background:transparent;padding:2px 0;color:inherit;text-align:left;"><span>L≥' + f.L + '</span><span class="bar"><i style="width:' + x(f.rtp) + '%"></i><u style="left:' + x(f.ic[0]) + '%; width:' + (x(f.ic[1]) - x(f.ic[0])) + '%"></u><b style="left:' + x(1) + '%"></b></span><span class="mono" style="text-align:right;">' + pct(f.rtp, 0) + '</span></button>').join('')
+    + '<div class="ix-rr"><span class="mut">todo</span><span class="bar"><i style="width:' + x(M.regla.todo) + '%; background:color-mix(in srgb, var(--neg) 60%, transparent);"></i><b style="left:' + x(1) + '%"></b></span><span class="mono" style="text-align:right;">' + pct(M.regla.todo, 0) + '</span></div>';
+}
+function precio() {
+  const max = E.lista, x = v => (v / max * 100).toFixed(1) + '%';
+  return '<div class="ix-precio">'
+    + '<div class="r"><span>Precio de lista</span><span class="b" style="width:100%; background:color-mix(in srgb, var(--silver) 45%, transparent);"></span><span class="mono" style="text-align:right;">' + fmt0(E.lista) + '</span></div>'
+    + '<div class="r"><span>Pagas (' + mesNom(E.mes.m).slice(0, 3) + ')</span><span class="b" style="width:' + x(E.mes.costoMedio || E.costoMed) + '; background:var(--stamp);"></span><span class="mono" style="text-align:right;">' + fmt(E.mes.costoMedio || E.costoMed) + '</span></div>'
+    + '<div class="r"><span>Equilibrio</span><span class="b" style="width:' + x(E.equilibrio) + '; background:var(--ok);"></span><span class="mono" style="text-align:right;">' + fmt(E.equilibrio) + '</span></div></div>';
+}
+function diaDet(d) {
+  return '<div class="ix-dia"><div><span class="ix-l">' + fl(d.f) + '</span><b>' + esc(d.punto) + '</b></div><div><span class="ix-l">Compraste</span><b>' + nf(d.n) + ' bol · ' + d.nTacos + ' ' + pl(d.nTacos, 'taco') + '</b></div><div><span class="ix-l">Pusiste → volvió</span><b>' + fmt0(d.g) + ' → ' + fmt0(d.p) + '</b></div><div><span class="ix-l">Resultado</span><b class="' + cls(d.neto) + '">' + fmtS(d.neto) + ' · ' + pct(d.g ? d.p / d.g : 0, 0) + '</b></div></div>';
+}
+function hoja(titulo, cuerpo) {
+  const prev = document.activeElement, cont = document.body;
+  const f = document.createElement('div'); f.className = 'ix-fondo';
+  f.innerHTML = '<div class="ix-hoja" role="dialog" aria-modal="true" aria-label="' + esc(titulo) + '"><button type="button" class="ix-btn sm x" data-cerrar>Cerrar ✕</button><h2 style="margin:0; font:800 18px \'Trebuchet MS\',sans-serif;">' + titulo + '</h2>' + cuerpo + '</div>';
+  cont.appendChild(f);
+  const fin = () => { document.removeEventListener('keydown', tec, true); f.remove(); try { prev && prev.focus(); } catch (_) { } };
+  const tec = e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fin(); } if (e.key === 'Tab') { const bs = [...f.querySelectorAll('button')]; const i = bs.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); bs[bs.length - 1].focus(); } else if (!e.shiftKey && i === bs.length - 1) { e.preventDefault(); bs[0].focus(); } } };
+  document.addEventListener('keydown', tec, true);
+  f.addEventListener('click', e => { if (e.target === f || e.target.closest('[data-cerrar]')) fin(); });
+  setTimeout(() => f.querySelector('[data-cerrar]').focus(), 0);
+}
+function datosB() {
+  const A = S.b.amb === 'todos' ? AT : AJ, desde = S.b.per === 'todo' ? '0000' : M.sumaD(HOY, -(+S.b.per));
+  const dd = A.dd.filter(d => d.f >= desde), antes = A.dd.filter(d => d.f < desde);
+  let acc = antes.reduce((s, d) => s + d.neto, 0), accSJ = acc - 0; const jk = new Map(); A.jacks.forEach(r => jk.set(r.fecha, (jk.get(r.fecha) || 0) + r.pn));
+  let base0 = acc, sjAcc = antes.reduce((s, d) => s + d.neto - (jk.get(d.f) || 0), 0), base0SJ = sjAcc;
+  const pts = dd.map(d => { acc += d.neto; sjAcc += d.neto - (jk.get(d.f) || 0); return { ...d, acc, accSJ: sjAcc, jack: jk.get(d.f) || 0 }; });
+  const g = dd.reduce((s, d) => s + d.g, 0), p = dd.reduce((s, d) => s + d.p, 0), pj = dd.reduce((s, d) => s + (jk.get(d.f) || 0), 0);
+  return { A, dd, pts, desde, g, p, neto: p - g, netoSJ: p - pj - g, nJ: dd.filter(d => jk.get(d.f)).length, base0, base0SJ, rojo: dd.filter(d => d.neto < 0).length };
+}
+function vistaB() {
+  const X = datosB(), A = X.A, c = AT.cobros, per = { '30': 'últimos 30 días', '90': 'últimos 90 días', todo: 'desde el inicio' }[S.b.per], amb = S.b.amb === 'todos' ? '🌐 todos tus juegos' : J.emoji + ' ' + J.nombre;
+  return '<div class="ix ixB">' + cabApp()
+    + '<div class="ix-ctrl"><h2 style="margin:0; font:800 20px \'Trebuchet MS\',sans-serif;">Panorama</h2><span class="ix-sub">' + esc(per) + ' · ' + esc(amb) + '</span><span style="flex:1"></span>'
+    + '<div class="ix-seg" role="radiogroup" aria-label="Periodo">' + [['30', '30 d'], ['90', '90 d'], ['todo', 'Todo']].map(([k, t]) => '<button type="button" role="radio" aria-checked="' + (S.b.per === k) + '" class="' + (S.b.per === k ? 'on' : '') + '" data-per="' + k + '">' + t + '</button>').join('') + '</div>'
+    + '<div class="ix-seg" role="radiogroup" aria-label="Ámbito">' + [['todos', '🌐 Todos'], [M.JA, J.emoji + ' Juego']].map(([k, t]) => '<button type="button" role="radio" aria-checked="' + (S.b.amb === k) + '" class="' + (S.b.amb === k ? 'on' : '') + '" data-amb="' + esc(k) + '">' + esc(t) + '</button>').join('') + '</div>'
+    + '<button type="button" class="ix-pil ' + (M.riesgo.riesgo ? 'neg' : 'ok') + '" style="border:0; cursor:pointer;" data-accion="export" title="' + esc((M.riesgo.motivo || 'Nube o copia externa al día') + ' · toca para ir a Exportar') + '">' + (M.riesgo.riesgo ? '⚠ datos sin copia fuera' : '✓ datos a salvo') + '</button></div>'
+    + '<div class="ix-ribbon">'
+    + '<button type="button" class="ix-kpi" data-como="b-res"><span class="ix-l">Resultado · ' + esc(per) + '</span><span class="v ' + cls(X.neto) + '">' + fmtS(X.neto) + '</span><span class="s">' + fmt0(X.g) + ' puesto · retorno ' + pct(X.g ? X.p / X.g : 0, 0) + ' · ' + X.rojo + ' de ' + X.dd.length + ' días en rojo</span></button>'
+    + '<button type="button" class="ix-kpi" data-como="b-sj"><span class="ix-l">Sin premios grandes</span><span class="v ' + cls(X.netoSJ) + '">' + fmtS(X.netoSJ) + '</span><span class="s">' + (X.nJ ? X.nJ + ' ' + pl(X.nJ, 'día') + ' con premio grande en el periodo' : 'ningún premio grande en el periodo') + '</span></button>'
+    + '<button type="button" class="ix-kpi" data-accion="cobros"><span class="ix-l">Te deben</span><span class="v cur">' + fmt(c.total) + '</span><span class="s">contigo ' + fmt0(c.contigo) + ' · 📦 ' + fmt0(c.enPuntos) + ' · cobrado este mes ' + fmt0(c.mes) + '</span></button>'
+    + '<button type="button" class="ix-kpi" data-como="mes"><span class="ix-l">' + mesNom(HOY.slice(0, 7)) + ' frente a su banda</span><span class="v ' + cls(mesNeto.neto) + '">' + fmtS(mesNeto.neto) + '</span><span class="s">' + mesEst + ' (' + pct(mesRatio, 0) + ')</span></button></div>'
+    + '<div class="ix-bento">'
+    + '<section class="ix-card" style="--s:8;"><div class="ix-tile-h"><h3>Tu historia en dinero</h3><span class="ix-ley"><span><i style="background:var(--stamp)"></i>acumulado</span><span><i style="background:var(--silver-dark)"></i>sin premios grandes</span><span><i style="background:var(--gold); border-radius:50%"></i>premio grande</span></span></div><div class="ix-chart" id="bCurva">' + curvaSVG(X) + '</div><div class="ix-note">←/→ para recorrer los días · cada estrella es un premio de ' + fmt0(D.umbJack) + ' o más. La distancia entre las dos líneas es cuánto depende tu resultado de esos premios.</div></section>'
+    + '<section class="ix-card" style="--s:4;"><div class="ix-tile-h"><h3>🛑 Freno</h3><button type="button" class="q" data-como="freno">Detalle</button></div><div class="ix-veredicto"><span class="n ' + (nOn ? 'neg' : 'pos') + '" style="font-size:30px;">' + nOn + '/' + SEN.length + '</span><span class="ix-sub">señales encendidas</span></div>' + frenoSVG() + SEN.map(s => '<div class="ix-sub" style="display:flex; justify-content:space-between; gap:8px;"><span>' + (s.on ? '🔴' : '🟢') + ' ' + esc(s.t) + '</span><b class="mono">' + esc(s.v) + '</b></div>').join('') + topesHTML() + '</section>'
+    + '<section class="ix-card" style="--s:8;"><div class="ix-tile-h"><h3>Calendario de compras</h3><span class="ix-ley"><span><i style="background:var(--neg)"></i>día en rojo</span><span><i style="background:var(--ok)"></i>en verde</span><span>intensidad = tamaño del resultado</span></span></div><div class="ix-cal">' + calSVG(X) + '</div><div id="bDia">' + (S.b.sel ? diaDet(A.dd.find(d => d.f === S.b.sel)) : '<div class="ix-note">Toca un día para ver qué pasó.</div>') + '</div></section>'
+    + '<section class="ix-card" style="--s:4;">' + (M.regla && M.evit ? '<div class="ix-tile-h"><h3>⏱ Regla de racha <span class="ix-pil ' + (M.regla.estado === 'VIGENTE' ? 'ok' : 'amb') + '">' + esc(M.regla.estado) + '</span></h3><button type="button" class="q" data-como="regla">Detalle</button></div>' + reglaRows(S.a.L) + '<div class="ix-note">Fuera de muestra, sin premios grandes. Solo si ves la racha sin pagarla. Evitación: tras un premio paga ' + pct(M.evit.p, 0) + ' vs ' + pct(M.evit.nulo, 0) + '.</div>' : '<h3>⏱ Regla de racha</h3><div class="ix-note">Calculando con tus tacos completos…</div>') + '</section>'
+    + '<section class="ix-card m6" style="--s:6;"><div class="ix-tile-h"><h3>La verdad del taco · ' + E.N + ' tacos</h3><button type="button" class="q" data-como="taco">Detalle</button></div>' + histSVG() + '<div class="ix-sub">Solo <b>' + pct(E.recuperan / E.N) + '</b> de tus tacos recupera su costo; el típico deja <b>' + fmt(E.netoMed) + '</b>. Sin premios grandes el retorno es ' + pct(E.rtpSJ) + '.</div></section>'
+    + '<section class="ix-card m6" style="--s:6;"><div class="ix-tile-h"><h3>' + mesNom(HOY.slice(0, 7)).replace(/^./, x => x.toUpperCase()) + ' frente a un mes normal</h3><button type="button" class="q" data-como="mes">Detalle</button></div>' + banda(E.simMes, E.simMesSJ, mesNeto.neto, 'Banda de un mes normal') + '<div class="ix-ley"><span><i style="background:color-mix(in srgb, var(--cur) 40%, transparent)"></i>8 de cada 10 meses de ' + E.ritmo + ' tacos</span><span><i style="background:color-mix(in srgb, var(--neg) 30%, transparent)"></i>sin premios grandes</span></div><div class="ix-sub">Típico ' + fmt0S(E.simMes.med) + ' · P(pérdida) ' + pct(E.simMes.pPerd, 0) + '. Este mes: ' + E.mes.n + ' tacos; la base pagó ' + fmt0(E.mes.base) + ' de ' + fmt0(E.mes.esperado) + ' esperados.</div><div class="ix-l" style="margin-top:6px;">Precio del taco</div>' + precio() + '</section>'
+    + '<section class="ix-card" style="--s:4;"><div class="ix-tile-h"><h3>💵 Te deben</h3><span class="ix-pil cur">' + fmt0(c.total) + '</span></div>' + debenSVG(c) + c.compras.map(x => '<div class="ix-sub" style="display:flex; justify-content:space-between;"><span>' + fc(x.f) + ' · ' + esc(x.punto) + ' · ' + x.tacos + ' tacos</span><b class="mono">' + fmt0(x.v) + '</b></div>').join('') + (c.puntos.length ? c.puntos.map(p => '<div class="ix-sub">📦 ' + esc(p.p) + ' ' + fmt0(p.v) + (p.vencida ? ' · promesa vencida' : '') + '</div>').join('') : '<div class="ix-sub">📦 Nada entregado en puntos.</div>') + '<button type="button" class="ix-btn pri" data-accion="cobros">Ir a cobrar</button></section>'
+    + '<section class="ix-card" style="--s:4;"><div class="ix-tile-h"><h3>🎟 Tus tacos · ' + esc(J.emoji) + '</h3></div><div class="ix-grid" style="--c:2; gap:10px;">'
+    + '<button type="button" class="ix-kpi" data-accion="mt:activo"><span class="ix-l">En curso</span><span class="v">' + M.tacos.enCurso.length + '</span><span class="s">tocados en 14 días</span></button><button type="button" class="ix-kpi" data-accion="mt:abandonado"><span class="ix-l">Abandonados</span><span class="v amb">' + M.tacos.abandonados.length + '</span><span class="s">sueltos viejos</span></button>'
+    + '<button type="button" class="ix-kpi" data-accion="mt:completo"><span class="ix-l">Completos</span><span class="v">' + nf(M.tacos.completos) + '</span><span class="s">base del instrumento</span></button><button type="button" class="ix-kpi" data-accion="mt:sinpunto"><span class="ix-l">Sin punto</span><span class="v amb">' + M.tacos.sinPunto + '</span><span class="s">' + nf(M.tacos.sinPuntoBol) + ' boletos</span></button></div></section>'
+    + '<section class="ix-card" style="--s:4;">' + (M.calib ? '<div class="ix-tile-h"><h3>🔬 Salud del instrumento</h3><button type="button" class="q" data-como="calib">Detalle</button></div>' + calibSVG() + '<div class="ix-sub">' + M.calib.dentro + ' de ' + M.calib.total + ' franjas dentro de su intervalo' + (M.calib.dentro < 6 ? ' (en la auditoría del 9-oct eran 6 de 8): conviene vigilarlo' : '') + '. Regla de racha ' + (M.regla ? M.regla.estado.toLowerCase() : '…') + '.</div>' : '<h3>🔬 Salud del instrumento</h3><div class="ix-note">Calculando la calibración…</div>') + '</section>'
+    + '</div><div class="ix-note">Todo lo de dinero responde al periodo y al ámbito; el instrumento (regla, taco, precio, mes) es siempre de ' + esc(J.emoji + ' ' + J.nombre) + '. Salud del sistema y la lupa están en Exportar · el Diario de sesiones en Rendimiento · el Resumen general en Mis tacos.</div></div>';
+}
+function curvaSVG(X) {
+  const pts = X.pts; if (pts.length < 2) return '<div class="ix-note">Pocos días en el periodo.</div>';
+  const W = 760, H = 230, pl0 = 56, pr = 12, pt = 14, pb = 24, vs = pts.flatMap(p => [p.acc, p.accSJ]).concat([X.base0, X.base0SJ, 0]);
+  const mn = Math.min(...vs), mx = Math.max(...vs), y = v => pt + (mx - v) / ((mx - mn) || 1) * (H - pt - pb), x = i => pl0 + i / (pts.length - 1) * (W - pl0 - pr);
+  const ticks = [mn, (mn + mx) / 2, mx, 0].filter((v, i, a) => a.findIndex(w => Math.abs(w - v) < (mx - mn) * 0.08) === i);
+  const ln = k => pts.map((p, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p[k]).toFixed(1)).join(' ');
+  const i = S.b.cur != null && S.b.cur < pts.length ? S.b.cur : pts.length - 1, P = pts[i];
+  return '<svg class="ix-svg" viewBox="0 0 ' + W + ' ' + H + '" tabindex="0" role="img" aria-label="Resultado acumulado: ' + esc(fc(P.f) + ' ' + fmtS(P.acc)) + '" data-curva>'
+    + ticks.map(v => '<line x1="' + pl0 + '" x2="' + (W - pr) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)"' + (Math.abs(v) < 1e-6 ? ' stroke="var(--silver)" stroke-width="1.5"' : '') + '/><text class="num" x="' + (pl0 - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + fmt0(v) + '</text>').join('')
+    + '<path d="' + ln('accSJ') + '" fill="none" stroke="var(--silver-dark)" stroke-width="2" stroke-dasharray="5 4"/><path d="' + ln('acc') + '" fill="none" stroke="var(--stamp)" stroke-width="2.6"/>'
+    + pts.map((p, k) => p.jack ? '<g><circle cx="' + x(k) + '" cy="' + y(p.acc) + '" r="5.5" fill="var(--gold)" stroke="var(--paper)" stroke-width="1.5"/><title>' + esc(fc(p.f) + ': premio grande ' + fmt0(p.jack)) + '</title></g>' : '').join('')
+    + '<line x1="' + x(i) + '" x2="' + x(i) + '" y1="' + pt + '" y2="' + (H - pb) + '" stroke="var(--ink)" stroke-opacity=".35"/><circle cx="' + x(i) + '" cy="' + y(P.acc) + '" r="4.5" fill="var(--stamp)"/>'
+    + '<text x="' + pl0 + '" y="' + (H - 6) + '">' + fc(pts[0].f) + '</text><text x="' + (W - pr) + '" y="' + (H - 6) + '" text-anchor="end">' + fc(pts[pts.length - 1].f) + '</text>'
+    + '<rect x="' + pl0 + '" y="' + pt + '" width="' + (W - pl0 - pr) + '" height="' + (H - pt - pb) + '" fill="transparent" data-curva-hit/></svg>'
+    + '<div class="ix-dia" style="margin-top:8px;"><div><span class="ix-l">' + fl(P.f) + '</span><b>' + esc(P.punto) + '</b></div><div><span class="ix-l">Ese día</span><b class="' + cls(P.neto) + '">' + fmtS(P.neto) + '</b></div><div><span class="ix-l">Acumulado</span><b class="' + cls(P.acc) + '">' + fmtS(P.acc) + '</b></div><div><span class="ix-l">Sin grandes</span><b class="' + cls(P.accSJ) + '">' + fmtS(P.accSJ) + '</b></div></div>';
+}
+function calSVG(X) {
+  const A = X.A, fin = HOY, ini0 = S.b.per === 'todo' ? (A.dd[0] ? A.dd[0].f : HOY) : X.desde;
+  const d0 = new Date(ini0 + 'T12:00:00'); d0.setDate(d0.getDate() - ((d0.getDay() + 6) % 7));
+  const byF = new Map(A.dd.map(d => [d.f, d])), cap = (() => { const s = A.dd.map(d => Math.abs(d.neto)).sort((a, b) => a - b); return s[Math.floor(s.length * 0.75)] || 1; })();
+  const lastF = A.dd.length ? A.dd[A.dd.length - 1].f : '', focoF = S.b.sel || lastF;
+  const cs = 15, gp = 3, cells = []; let w = 0, cur = new Date(d0); const fmtD = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const mesesL = [];
+  while (fmtD(cur) <= fin) { const wd = (cur.getDay() + 6) % 7, f = fmtD(cur), d = byF.get(f); if (wd === 0 && cur.getDate() <= 7) mesesL.push({ w, m: f.slice(0, 7) });
+    cells.push('<rect class="' + (d ? 'd' : '') + '" x="' + (28 + w * (cs + gp)) + '" y="' + (16 + wd * (cs + gp)) + '" width="' + cs + '" height="' + cs + '" rx="3" fill="' + (d ? (d.neto >= 0 ? 'var(--ok)' : 'var(--neg)') : 'color-mix(in srgb, var(--silver) 28%, transparent)') + '" fill-opacity="' + (d ? (0.3 + 0.7 * Math.min(1, Math.abs(d.neto) / cap)).toFixed(2) : 1) + '"' + (d ? ' tabindex="' + (f === focoF ? 0 : -1) + '" data-cal="' + f + '"' + (S.b.sel === f ? ' stroke="var(--ink)" stroke-width="2"' : '') : '') + '><title>' + esc(fc(f) + (d ? ': ' + fmtS(d.neto) + ' · ' + nf(d.n) + ' boletos' : ': sin compra')) + '</title></rect>');
+    if (wd === 6) w++; cur.setDate(cur.getDate() + 1); }
+  const W = 28 + (w + 1) * (cs + gp), H = 16 + 7 * (cs + gp);
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + Math.max(W, 300) + '" height="' + H + '" style="max-width:none;" role="group" aria-label="Calendario de compras">' + ['L', '', 'X', '', 'V', '', 'D'].map((t, i) => '<text x="0" y="' + (28 + i * (cs + gp)) + '" style="font:600 10px Inter,sans-serif; fill:var(--silver-dark);">' + t + '</text>').join('')
+    + mesesL.map(o => '<text x="' + (28 + o.w * (cs + gp)) + '" y="10" style="font:600 10px Inter,sans-serif; fill:var(--silver-dark);">' + mesNom(o.m).slice(0, 3) + '</text>').join('') + cells.join('') + '</svg>';
+}
+function frenoSVG() {
+  const ds = AT.dd.slice(-14), W = 320, H = 90, mx = Math.max(...ds.map(d => d.g), AT.mediana) * 1.05, bw = W / ds.length, y = v => H - 12 - v / mx * (H - 18);
+  return '<svg class="ix-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Gasto de tus últimos 14 días con compra frente a tu día típico">' + ds.map((d, i) => '<rect x="' + (i * bw + 2) + '" y="' + y(d.g) + '" width="' + (bw - 4) + '" height="' + (H - 12 - y(d.g)) + '" rx="3" fill="' + (d.g > 3 * AT.mediana ? 'var(--neg)' : 'var(--silver-dark)') + '" opacity=".8"><title>' + esc(fc(d.f) + ': gastaste ' + fmt0(d.g)) + '</title></rect>').join('')
+    + '<line x1="0" x2="' + W + '" y1="' + y(AT.mediana) + '" y2="' + y(AT.mediana) + '" stroke="var(--ok)" stroke-width="2" stroke-dasharray="4 3"/><text x="2" y="10">línea = tu día típico ' + fmt0(AT.mediana) + ' · rojo = más de 3×</text></svg>';
+}
+function histSVG() {
+  const lo = -100, hi = 200, st = 25, nb = (hi - lo) / st, b = new Array(nb + 1).fill(0);
+  E.netos.forEach(v => { const k = v >= hi ? nb : Math.max(0, Math.floor((v - lo) / st)); b[k]++; });
+  const W = 520, H = 150, mx = Math.max(...b), bw = W / (nb + 1), y = v => H - 22 - v / mx * (H - 34), x0 = (0 - lo) / st * bw;
+  return '<svg class="ix-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cuántos tacos dejaron cada resultado">' + b.map((n, i) => { const v0 = lo + i * st; return '<rect x="' + (i * bw + 2) + '" y="' + y(n) + '" width="' + (bw - 4) + '" height="' + (H - 22 - y(n)) + '" rx="3" fill="' + (v0 >= 0 ? 'var(--ok)' : 'var(--neg)') + '" opacity=".8"><title>' + (i === nb ? 'más de ' + fmt0(hi) : fmt0(v0) + ' a ' + fmt0(v0 + st)) + ': ' + n + ' tacos</title></rect>' + (n ? '<text class="num" x="' + (i * bw + bw / 2) + '" y="' + (y(n) - 3) + '" text-anchor="middle">' + n + '</text>' : ''); }).join('')
+    + '<line x1="' + x0 + '" x2="' + x0 + '" y1="6" y2="' + (H - 18) + '" stroke="var(--ink)" stroke-width="1.5"/><text x="' + (x0 + 4) + '" y="12">recupera →</text>'
+    + '<text x="2" y="' + (H - 6) + '">' + fmt0(lo) + '</text><text x="' + x0 + '" y="' + (H - 6) + '" text-anchor="middle">$0</text><text x="' + W + '" y="' + (H - 6) + '" text-anchor="end">+' + fmt0(hi) + ' o más</text></svg>';
+}
+function debenSVG(c) {
+  const t = c.total || 1;
+  return '<div style="display:flex; height:14px; border-radius:7px; overflow:hidden; background:color-mix(in srgb, var(--silver) 30%, transparent);" role="img" aria-label="Contigo ' + fmt0(c.contigo) + ', en puntos ' + fmt0(c.enPuntos) + '"><span style="width:' + (c.contigo / t * 100) + '%; background:var(--stamp);"></span><span style="width:' + (c.enPuntos / t * 100) + '%; background:var(--cur);"></span></div><div class="ix-ley"><span><i style="background:var(--stamp)"></i>contigo ' + fmt0(c.contigo) + '</span><span><i style="background:var(--cur)"></i>📦 en puntos ' + fmt0(c.enPuntos) + '</span><span>el más viejo: ' + c.masViejo + ' días</span></div>';
+}
+function calibSVG() {
+  const bs = M.calib.bins, W = 300, H = 120, mx = Math.max(...bs.map(b => Math.max(b.prev, b.obs))) * 1.1, x = v => 20 + v / mx * (W - 30), y = v => H - 16 - v / mx * (H - 26);
+  return '<svg class="ix-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Calibración: prevista frente a observada"><line x1="' + x(0) + '" y1="' + y(0) + '" x2="' + x(mx) + '" y2="' + y(mx) + '" stroke="var(--silver)" stroke-dasharray="4 3"/>'
+    + bs.map(b => '<circle cx="' + x(b.prev) + '" cy="' + y(b.obs) + '" r="' + (3 + Math.min(5, Math.sqrt(b.n) / 12)) + '" fill="' + (b.dentro ? 'var(--ok)' : 'var(--amb)') + '" opacity=".85"><title>' + esc('prevista ' + pct(b.prev) + ' · observada ' + pct(b.obs) + ' · ' + nf(b.n) + ' boletos') + '</title></circle>').join('')
+    + '<text x="' + (W - 4) + '" y="' + (H - 4) + '" text-anchor="end">prevista →</text><text x="4" y="10">observada</text></svg>';
+}
+
+// ═════════════ AUDITORÍA ═════════════
+function cabApp() {
+  return '<div class="ix-app"><span class="lg">🍀 Bitácora</span>' + (() => { const h = document.getElementById('juegoSelectorHeader'); return h ? '<select class="jg ix-jsel" data-ix-juego aria-label="Juego que analizas" title="Cambia el juego que estás analizando — afecta a toda la app">' + h.innerHTML + '</select>' : '<span class="jg">' + esc(J.emoji + ' ' + J.nombre) + '</span>'; })()
+    + '<span class="mut">' + nf(AJ.rs.length) + ' boletos · ' + nf(M.tacos.completos) + ' tacos completos · ' + M.tacos.enCurso.length + ' en curso</span><span class="sp"></span><span class="mut mono">' + fl(HOY) + '</span></div>';
+}
+
+    function irMisTacos(k){ goTab('boletos'); setTimeout(()=>{
+      if(k==='sinpunto'){ const sp = document.getElementById('loteFiltroPunto'); if(sp){ if(![...sp.options].some(o=>o.value==='__sin__')) sp.add(new Option('Sin punto de venta','__sin__')); sp.value='__sin__'; sp.dispatchEvent(new Event('change',{bubbles:true})); } }
+      else { const s = document.getElementById('loteFiltroEstado'); if(s){ s.value = k; s.dispatchEvent(new Event('change',{bubbles:true})); } }
+    }, 60); }
+    function render(){
+      const el = document.getElementById('inicioB'); if(!el) return;
+      if(!(data.records||[]).length){ el.innerHTML = '<div class="ix"><div class="ix-card"><h2>Bienvenido</h2><div class="ix-sub">Cuando registres tu primer taco, aquí verás cómo vas, qué te deben y cómo comprar mejor.</div></div></div>'; enlazar(el); return; }
+      recalc();
+      if(!AT.dd.length){ el.innerHTML = '<div class="ix"><div class="ix-card"><h2>Panorama</h2><div class="ix-sub">Aún no hay días con compra registrados.</div></div></div>'; enlazar(el); return; }
+      const ae = document.activeElement, foco = ae && el.contains(ae) ? (ae.dataset && ae.dataset.cal ? '[data-cal="'+ae.dataset.cal+'"]' : ae.hasAttribute && ae.hasAttribute('data-curva') ? '[data-curva]' : ae.dataset && ae.dataset.per ? '[data-per="'+ae.dataset.per+'"]' : ae.dataset && ae.dataset.amb ? '[data-amb="'+ae.dataset.amb+'"]' : null) : null;
+      el.innerHTML = vistaB();
+      { const sj = el.querySelector('[data-ix-juego]'), h = document.getElementById('juegoSelectorHeader'); if(sj && h) sj.value = h.value; }
+      if(document.getElementById('stopLossPanel')) { try{ renderStopLoss(); }catch(e){} }
+      if(foco){ const n = el.querySelector(foco); if(n){ try{ n.focus({preventScroll:true}); }catch(_){} } }
+      enlazar(el);
+    }
+    function enlazar(el){
+      if(el._ixBind) return; el._ixBind = true;
+      el.addEventListener('click', e=>{
+        const t = e.target.closest('button, [data-cal], [data-curva-hit]'); if(!t || !el.contains(t)) return; const d = t.dataset || {};
+        if(d.accion){ const a = d.accion;
+          if(a==='cobros') goTab('cobros'); else if(a==='export') goTab('export');
+          else if(a==='juego'){ const s = document.querySelector('.juego-switch select'); if(s){ s.scrollIntoView({block:'center'}); try{ s.focus(); s.showPicker && s.showPicker(); }catch(_){} } }
+          else if(a.startsWith('mt:')) irMisTacos(a.slice(3));
+          return; }
+        if(d.como){ if(d.como==='b-res' || d.como==='b-sj'){ const X = datosB(); hoja(d.como==='b-res' ? 'Resultado del periodo' : 'Sin premios grandes', '<p class="ix-note">'+fmt(X.g)+' puesto y '+fmt(X.p)+' de vuelta en '+X.dd.length+' días con compra ('+(S.b.amb==='todos' ? 'todos tus juegos' : esc(J.nombre))+'). Premios netos de retención. «Sin premios grandes» quita los premios de '+fmt0(D.umbJack)+' o más: '+fmtS(X.netoSJ)+'.</p><p class="ix-note">Con todo tu historial: '+fmtS(AT.neto)+'; sin los '+AT.jacks.length+' premios grandes '+fmtS(AT.netoSJ)+(AT.uj ? '; desde el último ('+fc(AT.uj.fecha)+') '+fmtS(AT.desde.neto) : '')+'.</p>'); return; }
+          const c = COMO[d.como]; if(c) hoja(c[0], c[1]); return; }
+        if(d.regla){ S.a.L = +d.regla; const f = M.regla && M.regla.filas.find(x=>x.L===+d.regla); if(f) toast('Comprar tras '+f.L+'+ perdedores: '+pct(f.rtp,1)+' (IC '+pct(f.ic[0],0)+'–'+pct(f.ic[1],0)+') en '+nf(f.n)+' boletos'); render(); return; }
+        if(d.per){ S.b.per = d.per; S.b.cur = null; render(); return; }
+        if(d.amb){ S.b.amb = d.amb; S.b.cur = null; render(); return; }
+        if(d.cal){ S.b.sel = d.cal; render(); const n = el.querySelector('[data-cal="'+d.cal+'"]'); if(n) try{ n.focus({preventScroll:true}); }catch(_){} return; }
+        if(t.hasAttribute('data-curva-hit')){ const svg = t.closest('svg'), r = svg.getBoundingClientRect(), X = datosB(), W = 760, pl0 = 56, pr = 12; const fx = (e.clientX - r.left)/r.width*W; S.b.cur = Math.max(0, Math.min(X.pts.length-1, Math.round((fx-pl0)/(W-pl0-pr)*(X.pts.length-1)))); render(); const n = el.querySelector('[data-curva]'); if(n) try{ n.focus({preventScroll:true}); }catch(_){} return; }
+      });
+      // el selector de juego de la línea de Inicio maneja el de la cabecera (uno solo en pantalla)
+      el.addEventListener('change', e=>{ if(e.target.matches && e.target.matches('[data-ix-juego]')){ const h = document.getElementById('juegoSelectorHeader'); if(h){ h.value = e.target.value; h.dispatchEvent(new Event('change', {bubbles:true})); } } });
+      el.addEventListener('keydown', e=>{ const t = e.target;
+        if(t.hasAttribute && t.hasAttribute('data-curva') && /^Arrow(Left|Right)$|^Home$|^End$/.test(e.key)){ e.preventDefault(); const X = datosB(), n = X.pts.length, i = S.b.cur!=null ? S.b.cur : n-1; S.b.cur = e.key==='Home' ? 0 : e.key==='End' ? n-1 : Math.max(0, Math.min(n-1, i+(e.key==='ArrowRight'?1:-1))); render(); return; }
+        if(t.dataset && t.dataset.cal && /^Arrow/.test(e.key)){ e.preventDefault(); const f = t.dataset.cal, step = {ArrowLeft:-7, ArrowRight:7, ArrowUp:-1, ArrowDown:1}[e.key], A = (S.b.amb==='todos' ? AT : AJ); let g = M.sumaD(f, step); for(let k=0; k<120 && !A.dd.find(x=>x.f===g); k++) g = M.sumaD(g, step>0?1:-1); if(A.dd.find(x=>x.f===g)){ S.b.sel = g; render(); const n = el.querySelector('[data-cal="'+g+'"]'); if(n) try{ n.focus({preventScroll:true}); }catch(_){} } return; }
+        if((e.key==='Enter' || e.key===' ') && t.dataset && t.dataset.cal){ e.preventDefault(); S.b.sel = t.dataset.cal; render(); const n = el.querySelector('[data-cal="'+t.dataset.cal+'"]'); if(n) try{ n.focus({preventScroll:true}); }catch(_){} }
+      });
+    }
+    return { render, _calc: ()=>{ recalc(); return { M, AT, AJ, E, SEN, nOn }; } };
+  })();
+
   function renderCobros(){ KB.render(); }
   function _renderCobrosV41(){
     const el = document.getElementById('cobrosContent');
@@ -28229,7 +28779,8 @@
       if((r.premio||0)>0) map[key].ganados++;
     });
     const sesiones=Object.values(map).sort((a,b)=> (a.fecha<b.fecha?1:a.fecha>b.fecha?-1:0)).slice(0,10);
-    const totalNeto=recs.reduce((s,r)=>s+(r.premio||0)-(r.costo||0),0);
+    // v41.6 — en NETO, como cada fila: antes sumaba el premio bruto e inflaba el total con el 14 % retenido.
+    const totalNeto=recs.reduce((s,r)=>s+premioNeto(r.premio||0)-(r.costo||0),0);
     el.innerHTML = `
       <div style="font-size:12px; color:var(--silver-dark); margin-bottom:10px;">Tus últimas <strong>${sesiones.length}</strong> visita(s) · resultado acumulado de todas: <strong style="color:${totalNeto>=0?'#065F46':'#7F1D1D'};">${totalNeto>=0?'+':''}${fmt(totalNeto)}</strong></div>
       <div style="display:flex; flex-direction:column; gap:8px;">
@@ -30711,6 +31262,7 @@
     cobroTandas, revertirTandaCobro, revertirCobroBoleto,
     // v41.5 — Cobros (módulo KB) expuesto para auditar el estado «entregado» desde la consola.
     KB, fmt, todayStr, setCobroTab(v){ cobroTab = v; KB.render(); },
+    IX,   // v41.6 — Inicio (propuesta B)
     get records(){ return data.records; }, get lotes(){ return data.lotes; }, get juegos(){ return data.juegos; },
     render, renderTodo, renderPestana, renderTable, renderMetrics, renderLoteList,
     sugerirSerieSiguiente, getCtxCompra, crearLoteIgual, revisarLoteAlCompletar,
