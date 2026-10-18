@@ -2029,6 +2029,130 @@
     .k-pie [data-falta-quedan], .k-pie [data-liqok]{ grid-column:1 / -1; }
   }
 
+/* ═══ v41.7 · Estrategia = propuesta A «Compra guiada» (prefijo es- / e- en los estados; módulo EG).
+   Mismas variables de la app; container queries como Cobros, Mis tacos e Inicio. Colores propios en .es Y en
+   .es-fondo (la hoja «¿cómo se calcula?» vive fuera de .es: en v41.6 las barras salían negras por eso). ═══ */
+.es, .es-fondo{ --es-cur:#5B4BD6; --es-amb:#A86A12; --es-neg:#C62828; --es-gold:color-mix(in srgb, var(--gold) 45%, #2A1E00); }
+body.theme-arcade .es, body.theme-arcade .es-fondo{ --es-cur:#9C8EFF; --es-amb:#F5B33C; --es-neg:#FF7A7A; --es-gold:var(--gold); }
+.es{ container-type:inline-size; container-name:es; display:flex; flex-direction:column; gap:14px; color:var(--ink); }
+.es *{ box-sizing:border-box; }
+.es button{ font:inherit; cursor:pointer; }
+.es-col{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+.es-cab{ display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--ink); padding-bottom:8px; font-size:12.5px; flex-wrap:wrap; }
+.es-cab .es-lg{ font:800 18px 'Trebuchet MS','Segoe UI',sans-serif; } .es-cab .es-sp{ margin-left:auto; }
+.es-cab #btnExportEstrategiaPdf{ margin-left:6px; }
+.es-l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--silver-dark); font-weight:800; }
+.es-card{ border:1px solid var(--line); background:var(--white); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.es-card h2, .es-card h3{ margin:0; font:800 16px 'Trebuchet MS','Segoe UI',sans-serif; display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--ink); }
+.es-card h3{ font-size:14.5px; }
+.es-sub{ font-size:12.5px; color:var(--silver-dark); line-height:1.5; }
+.es-note{ font-size:12px; color:var(--silver-dark); line-height:1.5; }
+.es-btn{ height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:13px; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:6px; color:var(--ink); }
+.es-btn.es-sm{ height:32px; padding:0 12px; font-size:12px; } .es-btn:disabled{ opacity:.4; cursor:default; }
+.es-pil{ display:inline-flex; align-items:center; gap:4px; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:800; white-space:nowrap; }
+.es-pil.e-ok{ background:color-mix(in srgb, var(--ok) 16%, transparent); color:var(--ok); } .es-pil.e-cur{ background:color-mix(in srgb, var(--es-cur) 18%, transparent); color:var(--es-cur); }
+.es-seg{ display:inline-flex; border:1px solid var(--silver); border-radius:12px; overflow:hidden; height:36px; max-width:100%; }
+.es-seg button{ border:0; background:transparent; padding:0 12px; font-weight:700; font-size:12.5px; color:var(--silver-dark); white-space:nowrap; }
+.es-seg button.e-on{ background:var(--ink); color:var(--paper); }
+.es-grid{ display:grid; gap:14px; grid-template-columns:repeat(var(--c,3), minmax(0,1fr)); align-items:stretch; }
+.es-kpi{ border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; background:var(--white); min-width:0; color:var(--ink); text-align:left; }
+.es-kpi .es-v{ font:800 24px 'Courier New',monospace; font-variant-numeric:tabular-nums; } .es-kpi .es-s{ font-size:12px; color:var(--silver-dark); margin-top:auto; line-height:1.4; }
+.es-ver .es-kpi .es-v{ font-size:30px; }
+.es .es-pos, .es-fondo .es-pos{ color:var(--ok); } .es .es-neg{ color:var(--es-neg); } .es .es-amb{ color:var(--es-amb); } .es .es-cur{ color:var(--es-cur); } .es .es-gold{ color:var(--es-gold); } .es .es-mut{ color:var(--silver-dark); }
+.es-como{ align-self:flex-start; border:0; background:transparent; color:var(--es-cur); font-weight:700; font-size:12px; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+.es-kpi .es-como{ margin-top:2px; }
+/* ── tablero del taco ── */
+.es-tab{ display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:14px; align-items:start; }
+.es-izq{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+.es-board{ display:grid; grid-template-columns:repeat(var(--eg-cols,10), minmax(0,1fr)); gap:5px; }
+.es-c{ position:relative; aspect-ratio:1 / 1.05; border-radius:10px; border:1.5px solid var(--line); background:var(--paper-dark); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; padding:0; font:700 11px 'Segoe UI',sans-serif; color:var(--ink-soft); min-width:0; max-width:100%; }
+.es-c .es-cp{ font:800 12px 'Courier New',monospace; color:var(--ink); } .es-c .es-cn{ font-size:10px; opacity:.75; }
+.es-c.e-evita{ opacity:.55; border-style:dashed; }
+.es-c.e-tau{ background:color-mix(in srgb, var(--es-amb) 16%, var(--paper-dark)); border-color:color-mix(in srgb, var(--es-amb) 55%, var(--line)); }
+.es-c.e-ev{ background:color-mix(in srgb, var(--ok) 20%, var(--paper-dark)); border-color:var(--ok); }
+.es-c.e-fija{ background:color-mix(in srgb, var(--gold) 32%, var(--paper-dark)); border:2px solid var(--gold); }
+.es-c.e-fija::after{ content:'FIJA'; position:absolute; top:2px; right:3px; font:900 7.5px 'Segoe UI',sans-serif; letter-spacing:.04em; color:var(--es-gold); }
+.es-c.e-gano{ background:var(--ok); border-color:var(--ok); color:#04241A; } .es-c.e-gano .es-cp{ color:#04241A; }
+.es-c.e-nogano{ background:color-mix(in srgb, var(--silver) 30%, var(--paper-dark)); color:var(--silver-dark); border-color:transparent; } .es-c.e-nogano .es-cp{ color:var(--silver-dark); }
+.es-c.e-vend{ background:repeating-linear-gradient(45deg, var(--paper-dark) 0 5px, color-mix(in srgb, var(--silver) 45%, var(--paper-dark)) 5px 7px); color:var(--silver-dark); border-style:dotted; } .es-c.e-vend .es-cp{ color:var(--silver-dark); }
+.es-c.e-fant{ outline:2px dashed var(--ok); outline-offset:-4px; } .es-c.e-fant .es-cn{ color:var(--ok); opacity:1; font-weight:900; }
+.es-c.e-sel{ outline:3px solid var(--ink); outline-offset:1px; }
+.es-c.e-rec{ box-shadow:0 0 0 3px var(--stamp); animation:esPulso 1.6s ease-in-out infinite; }
+@keyframes esPulso{ 0%,100%{ box-shadow:0 0 0 3px var(--stamp); } 50%{ box-shadow:0 0 0 6px color-mix(in srgb, var(--stamp) 35%, transparent); } }
+.es-ley{ display:flex; gap:8px 14px; flex-wrap:wrap; font-size:11.5px; color:var(--silver-dark); align-items:center; }
+.es-ley i{ display:inline-block; width:12px; height:12px; border-radius:4px; margin-right:5px; vertical-align:-2px; border:1.5px solid var(--line); }
+.es-ley i.e-lf{ background:color-mix(in srgb, var(--gold) 32%, var(--paper-dark)); border-color:var(--gold); }
+.es-ley i.e-le{ background:color-mix(in srgb, var(--ok) 20%, var(--paper-dark)); border-color:var(--ok); }
+.es-ley i.e-lt{ background:color-mix(in srgb, var(--es-amb) 16%, var(--paper-dark)); border-color:color-mix(in srgb, var(--es-amb) 55%, var(--line)); }
+.es-ley i.e-lv{ background:var(--paper-dark); opacity:.6; border-style:dashed; } .es-ley i.e-lg{ background:var(--ok); border-color:var(--ok); }
+.es-tecl{ font-size:11.5px; }
+.es-side{ display:flex; flex-direction:column; gap:10px; min-width:0; } .es-side > .es-btn{ align-self:flex-start; }
+.es-rec{ border:2px solid var(--stamp); border-radius:16px; padding:12px 14px; display:flex; flex-direction:column; gap:6px; background:color-mix(in srgb, var(--stamp) 7%, var(--white)); }
+.es-rec.e-para{ border-color:var(--silver); background:var(--white); }
+.es-rec .es-q{ font:800 26px 'Courier New',monospace; color:var(--ink); }
+.es-acc{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; } .es-acc.es-tres{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+.es-acc button{ height:40px; border-radius:12px; border:1px solid var(--line); background:var(--white); font-weight:800; font-size:13px; color:var(--ink); white-space:normal; line-height:1.15; padding:0 6px; }
+.es-acc button:disabled{ opacity:.4; cursor:default; }
+.es-acc button.e-no{ background:color-mix(in srgb, var(--silver) 30%, var(--white)); } .es-acc button.e-si{ background:color-mix(in srgb, var(--ok) 22%, var(--white)); border-color:var(--ok); }
+.es-acc button.e-vd{ background:repeating-linear-gradient(45deg, var(--white) 0 5px, color-mix(in srgb, var(--silver) 35%, var(--white)) 5px 7px); }
+.es-stats{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; }
+.es-stats > div{ border:1px solid var(--line); border-radius:12px; padding:8px 10px; min-width:0; } .es-stats b{ display:block; font:800 16px 'Courier New',monospace; color:var(--ink); }
+.es-res{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+.es-res > div{ border:1px solid var(--line); border-radius:12px; padding:8px 10px; display:flex; flex-direction:column; gap:2px; min-width:0; }
+.es-res b{ font:800 18px 'Courier New',monospace; } .es-res .es-mut{ font-size:11.5px; } .es-res.e-on > div:first-child{ border:2px solid var(--stamp); }
+.es-ctl{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:12.5px; }
+.es-ctl select, .es-ctl input[type=number]{ height:34px; border-radius:10px; border:1px solid var(--silver); background:var(--paper); color:var(--ink); padding:0 8px; font:inherit; font-weight:700; width:auto; margin:0; }
+/* ── gráficos ── */
+.es-svg{ width:100%; height:auto; display:block; overflow:visible; max-width:100%; }
+.es-svg text{ font:600 10.5px 'Segoe UI',sans-serif; fill:var(--silver-dark); } .es-svg .es-num{ font-family:'Courier New',monospace; font-weight:700; fill:var(--ink); }
+.es-bars{ display:flex; flex-direction:column; gap:8px; }
+.es-bar{ display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,2fr) 64px; gap:10px; align-items:center; font-size:12.5px; text-align:left; color:var(--ink); padding:3px 4px; border-radius:8px; }
+.es-bar.e-on{ background:color-mix(in srgb, var(--stamp) 10%, transparent); font-weight:800; }
+.es-bar .es-bt{ position:relative; height:14px; border-radius:7px; background:color-mix(in srgb, var(--silver) 28%, transparent); }
+.es-bar .es-bt i{ position:absolute; top:0; bottom:0; left:0; border-radius:7px; } .es-bar .es-bt u{ position:absolute; top:5px; height:4px; background:var(--ink); opacity:.5; }
+.es-bar .es-bt b{ position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--ink); }
+.es-bar .es-bv{ font:800 13px 'Courier New',monospace; text-align:right; }
+.es-det summary{ cursor:pointer; font-size:12.5px; font-weight:700; color:var(--es-cur); }
+.es-det[open] summary{ margin-bottom:8px; }
+/* ── herramientas y archivo ── */
+.es-herr{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+.es-herr-t{ border:1px solid var(--line); border-radius:14px; padding:10px 12px; display:grid; grid-template-columns:28px minmax(0,1fr); grid-template-rows:auto auto 1fr; column-gap:8px; row-gap:4px; align-items:start; text-align:left; background:var(--white); color:var(--ink); }
+.es-herr-t.e-on{ border:2px solid var(--stamp); background:color-mix(in srgb, var(--stamp) 6%, var(--white)); }
+.es-herr-t .es-hi{ grid-row:1 / span 3; font-size:20px; line-height:1.2; } .es-herr-t b{ font-size:13px; } .es-herr-t .es-pil{ justify-self:start; } .es-herr-t .es-mut{ font-size:12px; line-height:1.45; }
+.es-herr-cuerpo{ border:1px dashed var(--silver); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.es-arch{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; }
+.es-arch-t{ border:1px dashed var(--silver); border-radius:12px; padding:8px 10px; font-size:12px; text-align:left; background:transparent; color:var(--ink); display:flex; flex-direction:column; gap:2px; }
+.es-arch-t b{ font-size:12.5px; } .es-arch-t .es-mut{ font-size:11.5px; }
+#egArchCuerpo{ border-top:1px dashed var(--silver); padding-top:12px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.es-mini{ width:100%; border-collapse:collapse; font-size:12.5px; } .es-mini td, .es-mini th{ padding:7px 6px; border-top:1px solid var(--line); vertical-align:top; text-align:left; }
+.es-mini th{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); }
+.es-mini .es-r, .es-hoja .es-r{ text-align:right; font:800 13px 'Courier New',monospace; white-space:nowrap; }
+.es-tw{ overflow-x:auto; }
+/* ── hoja «¿cómo se calcula?» ── */
+.es-fondo{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:9000; display:flex; justify-content:flex-end; }
+.es-hoja{ width:min(460px, 100%); height:100%; background:var(--paper); color:var(--ink); border-left:1px solid var(--line); padding:18px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; }
+.es-hoja table{ width:100%; border-collapse:collapse; font-size:12.5px; } .es-hoja td{ padding:6px 4px; border-top:1px solid var(--line); text-align:left; }
+.es-hoja p{ margin:0; } .es-hoja .es-btn{ height:32px; padding:0 12px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:12px; color:var(--ink); cursor:pointer; }
+.es-hoja .es-sub{ font-size:12.5px; color:var(--silver-dark); line-height:1.5; }
+@media (prefers-reduced-motion: reduce){ .es *{ animation:none !important; transition:none !important; } }
+@container es (max-width: 900px){ .es-tab{ grid-template-columns:minmax(0,1fr); } .es-herr{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@container es (max-width: 620px){
+  .es-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } .es-grid.es-uno{ grid-template-columns:minmax(0,1fr); }
+  .es-ver{ grid-template-columns:minmax(0,1fr) !important; }
+  .es-board{ gap:3px; } .es-c{ border-radius:7px; font-size:9px; } .es-c .es-cp{ font-size:10px; } .es-c .es-cn{ font-size:8.5px; } .es-c.e-fija::after{ font-size:6px; top:1px; right:2px; }
+  .es-tecl{ display:none; } .es-res b{ font-size:16px; }
+  .es-arch, .es-herr{ grid-template-columns:minmax(0,1fr); }
+  .es-seg{ display:flex; flex-wrap:nowrap; height:auto; min-height:36px; width:100%; } .es-seg button{ flex:1 1 0; min-width:0; min-height:34px; white-space:normal; line-height:1.15; padding:4px 8px; }
+  .es-bar{ grid-template-columns:minmax(0,1fr) minmax(0,1fr) 54px; font-size:11.5px; }
+  .es-card{ padding:14px; border-radius:16px; } .es-kpi .es-v{ font-size:20px; } .es-ver .es-kpi .es-v{ font-size:26px; }
+}
+@media (max-width: 620px){ .es-fondo{ align-items:flex-end; } .es-hoja{ width:100%; height:auto; max-height:86%; border-left:0; border-top:1px solid var(--line); border-radius:20px 20px 0 0; } }
+
+/* rejilla de Boletos con la compra guiada (v41.7): mismos estados que el tablero de Estrategia */
+.pos-cell.eg-fija{ position:relative; }
+.pos-cell .eg-fija-tag{ position:absolute; top:1px; right:2px; font:900 7px 'Segoe UI',sans-serif; color:color-mix(in srgb, var(--gold) 45%, #2A1E00); letter-spacing:.04em; line-height:1; }
+.pos-cell.eg-rec{ animation:esPulso 1.6s ease-in-out infinite; box-shadow:0 0 0 3px var(--stamp); }
+@media (prefers-reduced-motion: reduce){ .pos-cell.eg-rec{ animation:none; } }
 /* ═══ v41.6 · Inicio = propuesta B «Panorama» (prefijo ix-) — mismas variables de la app; container queries como Cobros y Mis tacos ═══ */
 .ix{ container-type:inline-size; container-name:ix; display:flex; flex-direction:column; gap:14px; }
 .ix-app{ display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--ink); padding-bottom:8px; font-size:12.5px; }
@@ -2974,7 +3098,11 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   <!-- TAB 4: ESTRATEGIA (moved here, after Boletos & Lotes) -->
   <!-- =================================================== -->
   <div class="tabpanel" id="panel-estrategia">
-    <div class="section">
+    <!-- v41.7: propuesta A «Compra guiada» (módulo EG). Lo de abajo (#estratViejo) se conserva entero: EG lo reparte en
+         «Herramientas que siguen» y «Archivo de pruebas» moviendo los mismos nodos (ids, renderers y botones intactos). -->
+    <div id="estratA"></div>
+    <div id="estratViejo">
+    <div class="section" id="estratSeccionR" hidden>
       <div class="section-head"><span class="tag">R</span><h2>La regla con respaldo: el premio según la racha</h2><span class="hint">v39.6 · lo que los datos sí sostienen</span></div>
       <div class="card"><div id="estratRiesgoRacha"></div></div>
     </div>
@@ -2992,7 +3120,9 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         </p>
 
         <!-- 00-PRE PANEL DE DECISIÓN MAESTRO + QUÉ COMPRAR AHORA -->
-        <div style="margin-bottom:24px; padding-bottom:20px; border-bottom:2px solid var(--ink);">
+        <!-- v41.7: reemplazado por la compra guiada (instrumento sin tacos abandonados, break-even único); el aviso de regla
+             suspendida (#e7AvisoRegla) sube a la cabecera de Estrategia. renderPanelDecision queda en el código sin ejecutarse. -->
+        <div id="estratBloqueDecision" hidden style="margin-bottom:24px; padding-bottom:20px; border-bottom:2px solid var(--ink);">
           <p class="subhead" style="margin-bottom:4px;">🛒 Panel de decisión — qué comprar AHORA</p>
           <p class="note" style="margin-top:0; margin-bottom:12px;">
             Este panel es el <strong>único veredicto accionable</strong> de la pestaña; todo lo de abajo es evidencia de apoyo.
@@ -3005,13 +3135,13 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         </div>
 
         <!-- v40.7 · mejora 12: diario de decisiones -->
-        <div style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px dashed var(--silver-dark);">
+        <div id="estratBloqueDiario" style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px dashed var(--silver-dark);">
           <p class="subhead" style="margin-bottom:4px;">📓 Diario de decisiones — ¿seguir al motor rinde?</p>
           <div id="e7Diario"></div>
         </div>
 
         <!-- 00 PORTERO DE SEÑAL (gobierna la confianza en toda la pestaña) -->
-        <div style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px dashed var(--silver-dark);">
+        <div id="estratBloquePortero" style="margin-bottom:24px; padding-bottom:20px; border-bottom:1px dashed var(--silver-dark);">
           <p class="subhead" style="margin-bottom:4px;">Estado de la señal — ¿hay patrón o es azar?</p>
           <p class="note" style="margin-top:0; margin-bottom:12px;">
             Test de permutación que respeta el número fijo de premios por lote: baraja miles de veces qué posiciones reciben
@@ -3022,7 +3152,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         </div>
 
         <!-- 00b DIAGNÓSTICO DE DATOS + ESTRATIFICACIÓN -->
-        <div style="margin-bottom:28px; padding-bottom:24px; border-bottom:1px dashed var(--silver-dark);">
+        <div id="estratBloqueCalidad" style="margin-bottom:28px; padding-bottom:24px; border-bottom:1px dashed var(--silver-dark);">
           <p class="subhead" style="margin-bottom:4px;">Calidad de datos y estratificación</p>
           <p class="note" style="margin-top:0; margin-bottom:12px;">
             El patrón de imprenta es fijo <strong>dentro de una misma tirada</strong>. Mezclar tiradas distintas diluye o inventa
@@ -3166,7 +3296,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
           </div>
 
           <!-- CUSUM: ¿la tirada es una sola población? -->
-          <div style="margin-top:18px; padding-top:16px; border-top:2px solid var(--silver-dark);">
+          <div id="estratBloqueCusum" style="margin-top:18px; padding-top:16px; border-top:2px solid var(--silver-dark);">
             <p class="subhead" style="margin-bottom:4px;">¿Cambió la imprenta a mitad de la tirada? (CUSUM)</p>
             <p class="note" style="margin-top:0; margin-bottom:12px;">
               Todo el motor supone que una tirada es homogénea: misma plantilla, mismo diseño de premios de principio a fin.
@@ -3269,6 +3399,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
 
       </div>
     </div>
+    </div><!-- /#estratViejo -->
   </div>
 
   <!-- =================================================== -->
@@ -3422,7 +3553,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
            manda al sitio donde de verdad se decide. -->
       <div style="background:var(--paper-dark); border:1px solid var(--silver); border-left:3px solid var(--stamp); border-radius:0 8px 8px 0; padding:11px 14px; margin-bottom:12px; font-size:12.5px;">
         <strong>Para decidir no use esta sección.</strong> El
-        <a href="#" id="lnkIrPanelDecision" style="color:var(--stamp); font-weight:700;">instrumento de campo de Estrategia</a>
+        <a href="#" id="lnkIrPanelDecision" style="color:var(--stamp); font-weight:700;">compra guiada de Estrategia</a>
         hace este mismo cálculo por cada taco en curso, con el prior aprendido de sus tacos completos
         y con la regla de racha incorporada. Esta calculadora queda para comprobar a mano un supuesto puntual.
       </div>
@@ -4446,11 +4577,17 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   // v41.6 — Inicio = propuesta B «Panorama» (módulo IX): resultado con y sin premios grandes, freno con señales y
   //   umbrales, regla de racha, verdad del taco, mes frente a su banda, te deben (de Cobros), tacos con la definición de
   //   Mis tacos, salud del instrumento; periodo y ámbito. Salud y Lupa → Exportar; Diario → Rendimiento (total en neto).
+  // v41.7 — Estrategia = propuesta A «Compra guiada» (módulo EG): tablero del taco con el motor de la rejilla y el tope
+  //   duro de la imprenta (fijas, «evitar», regla de parada al 26 %), tus tacos en curso (≤ 14 días), taco nuevo con
+  //   «vendido a otro», repetir tus tacos reales; veredicto, racha fuera de muestra, muro de los 8 y qué rinde cada forma
+  //   de comprar medido sin mirar el futuro; un solo break-even (costo real ÷ premio típico) y una sola calibración (la del
+  //   motor que decide, también en Inicio). Lo útil anterior → «Herramientas que siguen»; posiciones → «Archivo de pruebas».
+  //   La rejilla de Boletos usa el mismo motor y muestra la compra guiada. Campo nuevo: ninguno (el diario es por aparato).
   // v41.5 — Cobros: estado «📦 Entregado» (propuesta B): boletos que dejas en el punto hasta que te paguen.
   //   Paso 3 «Lo que falta» al cerrar la caja (punto, promesa, nota), sección «📦 Entregados» con una
   //   cuenta por punto, «Me pagó…» por boletos (el monto ayuda a marcarlos) y recibo «Pago de entrega».
   //   Campos opcionales nuevos en el boleto: entregado, fechaEntrega, puntoEntrega, promesaPago, notaEntrega.
-  const APP_VERSION = { num: '41.6', fecha: '2026-10-17' };
+  const APP_VERSION = { num: '41.7', fecha: '2026-10-17' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -8502,7 +8639,9 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
       // renderTable ya NO vive aquí: el Historial se mudó a Reporte (v38.1).
     ],
     qr: [ ['mkPintar', ()=>mkPintar()], ['renderTacoVivo', ()=>renderTacoVivo()] ],
-    estrategia: [ ['renderEstrategia', ()=>renderEstrategia(), true],
+    // v41.7 — primero la compra guiada (EG): ligera; su medición sin mirar el futuro corre aparte en tiempo ocioso.
+    estrategia: [ ['renderEstrategiaGuiada', ()=>EG.render()],
+      ['renderEstrategia', ()=>renderEstrategia(), true],
       // v40.7 — después de renderEstrategia (la cola de pesados respeta el orden): el diario
       // anota lo que el instrumento de campo acaba de recomendar.
       ['e7RenderAvisoRegla', ()=>e7RenderAvisoRegla(), true],
@@ -14678,6 +14817,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
 
     let panelHtml = '';
     let probsPorPos = null;   // P(premio) por posición del motor — lo usa el grid (B2)
+    let recPosG = null, tauG = 0.26;   // v41.7: la posición que recomienda la compra guiada y su umbral de parada
     let ctxMotor = null;
     if(!completo05){
       let res = null;
@@ -14686,8 +14826,11 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         const {pt, probs} = res;
         probsPorPos = {};
         probs.forEach(p=>{ probsPorPos[p.pos] = p.P; });
+        try{ EG.anotarVista(lote, probsPorPos); }catch(_){}   // v41.7: diario de compras guiadas (lo que prometía el motor)
         // Costo real de ESTE taco (con su descuento congelado): su break-even es propio.
-        const V = ctxMotor.V, cU = costoUnitarioLote(lote);
+        // v41.7 — un solo break-even en toda la app: costo real del taco ÷ premio TÍPICO (Vdec, el que decide).
+        // Antes la rejilla usaba el premio medio (V) y salía 37–41 %; Estrategia pedía 58 % o 47 %.
+        const V = ctxMotor.Vdec || ctxMotor.V, cU = costoUnitarioLote(lote);
         const pBase = pt.u > 0 ? pt.eRest/pt.u : 0;             // P media del próximo boleto
         const mejor = probs.length ? probs[0] : null;
         const breakEven = V > 0 ? cU/V : 1;
@@ -14739,14 +14882,33 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
               }).join('')}
             </div>
             <div style="font-size:11.5px; color:var(--silver-dark); margin-top:7px; line-height:1.5;">
-              <strong>L</strong> = perdedores seguidos antes de esa posición. Con tus datos: L=0 → 13% de premio, L=2 → 32%, L=4 → 43%, L=6+ → 61%. El break-even pide <strong>${(breakEven*100).toFixed(0)}%</strong>.
-              ${cands[0].forzado?` <strong style="color:#065F46;">🔥 ${padPos(cands[0].pos)} lleva ${cands[0].racha} perdedores seguidos y el máximo observado en 36 tacos es ${TOPE_RACHA}</strong> — la imprenta casi obliga a un premio cerca.`:''}
+              <strong>L</strong> = perdedores seguidos antes de esa posición.${ctxMotor.curva&&ctxMotor.curva.p?` Con tus datos: L=0 → ${Math.round(ctxMotor.curva.p[0]*100)}% de premio, L=2 → ${Math.round(ctxMotor.curva.p[2]*100)}%, L=4 → ${Math.round(ctxMotor.curva.p[4]*100)}%, L=6 → ${Math.round(ctxMotor.curva.p[6]*100)}%.`:''} El break-even pide <strong>${(breakEven*100).toFixed(0)}%</strong>.
+              ${cands[0].forzado?` <strong style="color:#065F46;">🔥 ${padPos(cands[0].pos)} lleva ${cands[0].racha} perdedores seguidos y el máximo observado en ${(ctxMotor.completos||[]).length} tacos es ${TOPE_RACHA}</strong> — la imprenta obliga a un premio aquí.`:''}
               ${cands.some(c=>c.pegado)?' <span title="Los premios adyacentes salen 13% vs 27% del azar">⚠ = pegado a un premio ya salido (menos probable).</span>':''}
             </div>
           </div>` : '';
 
+        // v41.7 — la compra guiada de Estrategia, aquí mismo: qué boleto comprar ahora, cuándo es fija y cuándo parar.
+        let guiaHtml = '';
+        try{
+          tauG = (typeof EG!=='undefined' && EG.tauActual) ? EG.tauActual() : 0.26;
+          const priorG = rgPriorParaLote(lote);
+          const tMaxG = priorG && priorG.soporte && priorG.soporte.length ? Math.max(...priorG.soporte.map(x=>x.t)) : Infinity;
+          const noMasG = pt.k >= tMaxG && !priorG.fueraDeDiseno;
+          const mg = probs.length ? probs[0] : null;      // probs viene ordenado de mayor a menor
+          const RG = (typeof EG!=='undefined' && EG.rapido) ? EG.rapido() : null;
+          if(noMasG){
+            guiaHtml = `<div class="es-rec e-para" style="margin-bottom:12px;"><span class="es-l">Fija de NO · para</span><span class="es-sub">Salieron ${pt.k} premios y ningún taco tuyo pasó de ${tMaxG}${RG&&RG.fijas?`: de los ${RG.fijas.no.n.toLocaleString('en-US')} boletos que quedaron así en tus tacos, ${RG.fijas.no.y?RG.fijas.no.y+' premiaron':'ninguno premió'}`:''}. No compres más aquí.</span></div>`;
+          } else if(mg && mg.P >= tauG){
+            recPosG = mg.pos;
+            const fija = mg.P >= 0.99;
+            guiaHtml = `<div class="es-rec" style="margin-bottom:12px;"><span class="es-l">🛒 Compra guiada · ${fija?'⭐ fija · compra':'compra'}</span><span class="es-q" style="font:800 22px 'Courier New',monospace;">la ${padPos(mg.pos)}</span><span class="es-sub">${(mg.P*100).toFixed(1)}% de premio · vale ${mg.P*V-cU>=0?'+':''}${fmt(mg.P*V-cU)} con el premio típico (${fmt(V)})${fija?` · el diseño obliga a que salga premio${RG&&RG.fijas&&RG.fijas.racha.n?`: tras ${RG.est.maxEntre} perdedores seguidos, ${RG.fijas.racha.y} de ${RG.fijas.racha.n}`:''}`:mg.P>=breakEven?` · supera el break-even de este taco (${(breakEven*100).toFixed(0)}%)`:` · bajo el break-even (${(breakEven*100).toFixed(0)}%), pero es lo mejor que queda`}. Paras cuando lo mejor quede bajo ${Math.round(tauG*100)}%.</span></div>`;
+          } else if(mg){
+            guiaHtml = `<div class="es-rec e-para" style="margin-bottom:12px;"><span class="es-l">🛒 Compra guiada · para aquí</span><span class="es-sub">Lo mejor que queda tiene ${(mg.P*100).toFixed(1)}% y el umbral pide ${Math.round(tauG*100)}%. Seguir es comprar a ciegas.</span></div>`;
+          }
+        }catch(e){ console.warn('[rejilla · compra guiada]', e); }
         panelHtml = `
-        ${recoHtml}
+        ${guiaHtml}${recoHtml}
         <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
           <div style="flex:1;min-width:90px;background:var(--paper-dark);border-radius:6px;padding:10px 12px;">
             <div style="font-size:11px;color:var(--silver-dark);margin-bottom:3px;">Premios encontrados</div>
@@ -14784,7 +14946,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
           <span style="font-size:18px;flex-shrink:0;">${veredicto.ic}</span>
           <span>${veredicto.txt}</span>
         </div>
-        <p class="note" style="margin:0 0 14px;">Mismo motor que el Panel de decisión${res.modo==='espacial'?' · <strong>⚡ motor espacial v2</strong> (rachas)':res.modo==='plantilla'?' · plantilla histórica':' · contabilidad del taco (sin plantilla: no hay señal posicional demostrada)'}. El EV usa ${ctxMotor.dist?`el premio medio <strong>robusto</strong> de tus datos (${fmt(ctxMotor.V)}, de ${ctxMotor.dist.n} premios; mediana ${fmt(ctxMotor.dist.mediana)})${(ctxMotor.dist.extremos&&ctxMotor.dist.extremos.length)?` — se acotó ${ctxMotor.dist.extremos.length} premio(s) extremo(s) (hasta ${fmt(ctxMotor.dist.max)}) para no inflar el veredicto: con ellos el break-even parecería ${(((cU)/(ctxMotor.Vopt||ctxMotor.V))*100).toFixed(0)}% en vez de ${(breakEven*100).toFixed(0)}%`:''}`:`el valor configurado del juego (${fmt(ctxMotor.V)})`}${getDescuentoLote(lote)>0?` y el costo <strong>con tu ${getDescuentoLote(lote)}% de descuento</strong> (${fmt(cU)} por boleto): por eso el break-even aquí es ${(breakEven*100).toFixed(0)}% y no ${(((getJuego(lote.juegoId)?.costoDefecto??2)/V)*100).toFixed(0)}%`:''}.</p>`;
+        <p class="note" style="margin:0 0 14px;">Mismo motor que Estrategia › Compra guiada${res.modo==='espacial'?' · <strong>⚡ motor espacial</strong> (rachas, con el tope de la imprenta: tras la racha más larga jamás vista el premio es seguro)':res.modo==='plantilla'?' · plantilla histórica':' · contabilidad del taco (sin plantilla: no hay señal posicional demostrada)'}. El EV y el break-even usan ${ctxMotor.dist?`el premio <strong>típico</strong> de tus datos (${fmt(V)}: media recortada al 95 % de ${ctxMotor.dist.n} premios; mediana ${fmt(ctxMotor.dist.mediana)}), el mismo con el que decide toda la app`:`el valor configurado del juego (${fmt(V)})`}${getDescuentoLote(lote)>0?` y el costo <strong>con tu ${getDescuentoLote(lote)}% de descuento</strong> (${fmt(cU)} por boleto): por eso el break-even aquí es ${(breakEven*100).toFixed(0)}% y no ${(((getJuego(lote.juegoId)?.costoDefecto??2)/V)*100).toFixed(0)}%`:''}.</p>`;
       }
     }
 
@@ -14861,7 +15023,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
       // gris→ámbar que nunca se parece a un resultado.
       const GRID_FONT = "'Segoe UI',Helvetica,Arial,sans-serif";
       // Break-even del TACO (con su descuento): decide qué casillas se pintan como rentables.
-      const breakEvenPos = (ctxMotor && ctxMotor.V>0) ? costoUnitarioLote(lote)/ctxMotor.V : 0.4;
+      const breakEvenPos = (ctxMotor && (ctxMotor.Vdec||ctxMotor.V)>0) ? costoUnitarioLote(lote)/(ctxMotor.Vdec||ctxMotor.V) : 0.4;   // v41.7: break-even único (Vdec)
       if(estado === 'gano'){
         // v38.5 — el color depende del TRAMO del premio. Un $2 y un $10.000 ya no son la
         // misma casilla verde: los dorados saltan a la vista al recorrer el taco.
@@ -14873,10 +15035,23 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
       } else if(estado === 'no-gano'){
         cell.style.background='#E8E4DA'; cell.style.color='#9A948A';
         cell.style.outline='none';
+      } else if(pMotor !== undefined && pMotor >= 0.99){
+        // v41.7 — FIJA: el diseño de la imprenta obliga a que esta posición premie (mismo dorado que Estrategia).
+        cell.classList.add('eg-fija');
+        cell.style.background='color-mix(in srgb, var(--gold) 32%, var(--paper-dark))'; cell.style.color='var(--ink)';
+        cell.style.outline='2px solid var(--gold)'; cell.style.outlineOffset='-2px';
       } else if(pMotor !== undefined && pMotor >= breakEvenPos){
         // Sin raspar y por ENCIMA del break-even: lo único accionable de verdad.
         cell.style.background='#FDBA31'; cell.style.color='#4A3000';
         cell.style.outline='2px dashed #92400E'; cell.style.outlineOffset='-3px';
+      } else if(pMotor !== undefined && pMotor >= tauG){
+        // v41.7 — sobre el umbral de parada de la compra guiada: aún vale la pena seguir comprando aquí.
+        cell.style.background='color-mix(in srgb, #F5B33C 18%, var(--paper-dark))'; cell.style.color='var(--ink-soft)';
+        cell.style.outline='1px solid color-mix(in srgb, #F5B33C 60%, var(--silver))'; cell.style.outlineOffset='-2px';
+      } else if(pMotor !== undefined && pMotor < 0.15){
+        // v41.7 — evitar: casi siempre pegada a un premio que acaba de salir (la imprenta los separa).
+        cell.style.background='var(--paper-dark)'; cell.style.color='var(--silver-dark)'; cell.style.opacity='.55';
+        cell.style.outline='1px dashed var(--silver-dark)'; cell.style.outlineOffset='-2px';
       } else if(pMotor !== undefined){
         cell.style.background='var(--paper-dark)'; cell.style.color='var(--ink-soft)';
         cell.style.outline='1px dashed var(--silver-dark)'; cell.style.outlineOffset='-2px';
@@ -14899,6 +15074,8 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         : `font-size:8px;font-weight:400;font-family:${GRID_FONT};opacity:.85;line-height:1;`;
       cell.appendChild(spanPos);
       cell.appendChild(spanSub);
+      if(estado !== 'gano' && estado !== 'no-gano' && pMotor !== undefined && pMotor >= 0.99){ const tg = document.createElement('span'); tg.className = 'eg-fija-tag'; tg.textContent = 'FIJA'; cell.appendChild(tg); }
+      if(recPosG === i && estado !== 'gano' && estado !== 'no-gano') cell.classList.add('eg-rec');   // v41.7: la que recomienda la compra guiada
 
       const rec = recCel;   // ya resuelto arriba: el monto decide texto y color de la casilla
       let cellLabel;
@@ -14910,8 +15087,9 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
             + (rec.cobrado ? ' · cobrado' : ' · SIN COBRAR')
           : `Posición ${padPos(i)} — No ganó`;
       } else if(pMotor !== undefined){
-        const ev = ctxMotor ? (pMotor*ctxMotor.V - costoUnitarioLote(lote)) : null;
+        const ev = ctxMotor ? (pMotor*(ctxMotor.Vdec||ctxMotor.V) - costoUnitarioLote(lote)) : null;   // v41.7: premio típico
         cellLabel = `Posición ${padPos(i)} — sin raspar · ${(pMotor*100).toFixed(1)}% de premio`
+          + (pMotor>=0.99 ? ' · FIJA (el diseño obliga)' : pMotor<0.15 ? ' · evitar' : '') + (recPosG===i ? ' · la recomienda la compra guiada' : '')
           + (ev!==null ? ` · EV ${ev>=0?'+':''}${fmt(ev)}${ev>0?' (rentable)':''}` : '')
           + (conSenalPos && tasa!==null ? ` · histórico ${Math.round(tasa*100)}% (#${rankMap[i]||'—'})` : '');
       } else {
@@ -16907,7 +17085,10 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
     const okBins = C.bins.filter(b=>b.n>=30).filter(b=>{ const pm=b.sp/b.n, w=wilsonInterval(b.sy,b.n,1.96); return pm>=w.low && pm<=w.high; }).length;
     const nBins = bins.length;
     const mejor = sk('racha')>=sk('imp') ? 'racha' : 'imp';
-    el.innerHTML = `
+    // v41.7 — una sola calibración para decidir: la del motor de la rejilla (Estrategia › Salud del motor). Esta sección
+    // compara modelos (contabilidad, racha, imprenta) mes a mes; no es la que dice si puedes fiarte de los porcentajes.
+    let _cMotor = ''; try{ EG.asegurarLab(); const CM = EG.calibResumen(); if(CM) _cMotor = `<p class="note" style="margin:0 0 8px; border-left:3px solid var(--ok); padding-left:10px;"><strong>Para decidir vale una sola calibración</strong>: la del motor que usan la rejilla y Estrategia (con el tope de la imprenta): ${CM.dentro} de ${CM.total} franjas dentro de su margen y Brier ${(CM.mejora*100).toFixed(1)}% mejor que adivinar, en ${CM.n.toLocaleString('en-US')} boletos fuera de muestra. Lo de abajo compara modelos entre sí.</p>`; }catch(e){}
+    el.innerHTML = _cMotor + `
       <div class="verdict ${sk('racha')>0?'ready':'warn'}" style="margin-bottom:10px; line-height:1.55;">
         Sobre <strong>${n.toLocaleString('en-US')}</strong> boletos predichos fuera de muestra (cada mes con los modelos de los meses anteriores):
         el modelo de racha mejora la puntuación Brier de la contabilidad pura en <strong>${_e7Pct(sk('racha'))}</strong>;
@@ -20453,8 +20634,13 @@ const cls = v => v > 0.004 ? 'pos' : v < -0.004 ? 'neg' : '';
       HOY = todayStr();
       const k = _dataVersion+'|'+(getJuegoActivo()||{}).id+'|'+HOY;
       const conMotor = _motorKey === k;
+      // v41.7: si la calibración del motor (Estrategia) terminó después de armar el panel, se rearma una vez para mostrarla
+      if(_key === k+'|'+conMotor && M && !M.calib){ try{ EG.asegurarLab(); if(EG.calibResumen()) _key = null; }catch(e){} }
       if(_key === k+'|'+conMotor && M) return k;
       D = construirD(conMotor); M = crear(D, HOY); AT = M.ambito('todos'); AJ = M.ambito(M.JA); E = M.eco; J = M.jAct;
+      // v41.7 — una sola calibración en toda la app: la del motor que decide (Estrategia › Salud del motor). Se calcula
+      // en segundo plano la primera vez (luego queda guardada en el aparato) y este panel se repinta al terminar.
+      try{ EG.asegurarLab(); M.calib = EG.calibResumen(); }catch(e){ M.calib = null; }
       if(S.b.amb !== 'todos') S.b.amb = M.JA;
 ult = AT.ult, mesNeto = (AT.meses.find(m => m.m === HOY.slice(0, 7)) || { neto: 0, g: 0, dias: 0 });
 diaMes = +HOY.slice(8, 10), diasMes = new Date(+HOY.slice(0, 4), +HOY.slice(5, 7), 0).getDate();
@@ -20476,7 +20662,7 @@ COMO = {
   taco: ['La verdad del taco completo', '<p class="ix-note">' + E.N + ' tacos completos de ' + esc(J.nombre) + ' (e7Base). Premios netos de retención.</p><table><tr><td>Recuperan su costo</td><td class="r">' + E.recuperan + ' de ' + E.N + ' (' + pct(E.recuperan / E.N) + ')</td></tr><tr><td>Pago típico (mediana) · media</td><td class="r">' + fmt(E.pagoMed) + ' · ' + fmt(E.pagoMedia) + '</td></tr><tr><td>Costo medio</td><td class="r">' + fmt(E.costoMed) + '</td></tr><tr><td>Neto típico (mediana)</td><td class="r">' + fmt(E.netoMed) + '</td></tr><tr><td>8 de cada 10 tacos quedan entre</td><td class="r">' + fmt0(E.netoP10) + ' y ' + fmt0(E.netoP90) + '</td></tr><tr><td>Retorno total · sin premios grandes</td><td class="r">' + pct(E.rtp) + ' · ' + pct(E.rtpSJ) + '</td></tr></table>'],
   precio: ['Precio del taco', '<p class="ix-note">Precio de equilibrio = lo que paga en promedio la base de un taco sin premios grandes (e7RenderEconomia: ' + fmt(E.equilibrio) + '). Para que la base sola cubra el costo, el taco de ' + fmt0(E.lista) + ' tendría que costarte eso: un ' + pct(E.descNecesario, 0) + ' de descuento. Tu mejor descuento registrado: ' + E.mejorDesc.toFixed(2) + '%. Este mes pagaste ' + fmt(E.mes.costoMedio || E.costoMed) + ' por taco.</p><p class="ix-note">Ahorro por descuentos, todos los juegos: ' + fmt(AT.ahorro) + ' en ' + AT.ahorroTacos + ' tacos (una sola cifra; antes había tres con ámbitos distintos).</p>'],
   mes: ['Tu mes frente a su banda', '<p class="ix-note">' + mesNom(E.mes.m) + ': ' + E.mes.n + ' tacos completos. La base (premios menores a ' + fmt0(D.umbJack) + ') pagó ' + fmt(E.mes.base) + '; lo esperado por el precio de equilibrio era ' + fmt(E.mes.esperado) + ' (' + pct(mesRatio, 0) + '). Lo que faltó para no perder fue un premio grande.</p><p class="ix-note">Un mes de ' + E.ritmo + ' tacos (tu ritmo de ' + E.ritmoMeses.map(mesNom).join(', ') + '): típico ' + fmt0(E.simMes.med) + ', 8 de cada 10 entre ' + fmt0(E.simMes.p10) + ' y ' + fmt0(E.simMes.p90) + ', P(pérdida) ' + pct(E.simMes.pPerd, 0) + '. Sin premios grandes: típico ' + fmt0(E.simMesSJ.med) + ', P(pérdida) ' + pct(E.simMesSJ.pPerd, 0) + '.</p>'],
-  calib: !M.calib ? ['Salud del instrumento', '<p class="ix-note">Calculando…</p>'] : ['Salud del instrumento', '<p class="ix-note">Calibración fuera de muestra (e7Calibracion, ' + nf(D.calib.tot.n) + ' boletos): ' + M.calib.dentro + ' de ' + M.calib.total + ' franjas caen dentro de su intervalo (HALLAZGOS del 9-oct decía 6 de 8). Brier: la racha mejora ' + pct(M.calib.brier.racha) + ' y la imprenta ' + pct(M.calib.brier.imp) + ' sobre la contabilidad pura.</p><table><tr><th>Franja</th><th>Prevista</th><th>Observada</th><th></th></tr>' + M.calib.bins.map(b => '<tr><td class="r">' + nf(b.n) + ' bol</td><td class="r">' + pct(b.prev) + '</td><td class="r">' + pct(b.obs) + '</td><td>' + (b.dentro ? '✓' : '✗') + '</td></tr>').join('') + '</table>'],
+  calib: !M.calib ? ['Salud del instrumento', '<p class="ix-note">Calculando…</p>'] : ['Salud del instrumento', '<p class="ix-note">Calibración del motor que decide (el de la rejilla y de Estrategia › Salud del motor), fuera de muestra: ' + nf(M.calib.n) + ' boletos, cada uno predicho solo con los tacos anteriores. ' + M.calib.dentro + ' de ' + M.calib.total + ' franjas caen dentro de su margen del 95 %. Brier: ' + pct(M.calib.mejora) + ' mejor que adivinar con la tasa base (antes del tope duro, ' + (M.calib.base ? pct(1 - M.calib.brierA / M.calib.base) : '—') + '). Fijas marcadas: ' + M.calib.fijas.n + ', premiaron ' + M.calib.fijas.y + '.</p><table><tr><th>Franja</th><th>Prevista</th><th>Observada</th><th></th></tr>' + M.calib.bins.map(b => '<tr><td class="r">' + nf(b.n) + ' bol</td><td class="r">' + pct(b.prev) + '</td><td class="r">' + pct(b.obs) + '</td><td>' + (b.dentro ? '✓' : '✗') + '</td></tr>').join('') + '</table>'],
 };
 
 
@@ -20560,7 +20746,7 @@ function vistaB() {
     + '<section class="ix-card" style="--s:4;"><div class="ix-tile-h"><h3>🎟 Tus tacos · ' + esc(J.emoji) + '</h3></div><div class="ix-grid" style="--c:2; gap:10px;">'
     + '<button type="button" class="ix-kpi" data-accion="mt:activo"><span class="ix-l">En curso</span><span class="v">' + M.tacos.enCurso.length + '</span><span class="s">tocados en 14 días</span></button><button type="button" class="ix-kpi" data-accion="mt:abandonado"><span class="ix-l">Abandonados</span><span class="v amb">' + M.tacos.abandonados.length + '</span><span class="s">sueltos viejos</span></button>'
     + '<button type="button" class="ix-kpi" data-accion="mt:completo"><span class="ix-l">Completos</span><span class="v">' + nf(M.tacos.completos) + '</span><span class="s">base del instrumento</span></button><button type="button" class="ix-kpi" data-accion="mt:sinpunto"><span class="ix-l">Sin punto</span><span class="v amb">' + M.tacos.sinPunto + '</span><span class="s">' + nf(M.tacos.sinPuntoBol) + ' boletos</span></button></div></section>'
-    + '<section class="ix-card" style="--s:4;">' + (M.calib ? '<div class="ix-tile-h"><h3>🔬 Salud del instrumento</h3><button type="button" class="q" data-como="calib">Detalle</button></div>' + calibSVG() + '<div class="ix-sub">' + M.calib.dentro + ' de ' + M.calib.total + ' franjas dentro de su intervalo' + (M.calib.dentro < 6 ? ' (en la auditoría del 9-oct eran 6 de 8): conviene vigilarlo' : '') + '. Regla de racha ' + (M.regla ? M.regla.estado.toLowerCase() : '…') + '.</div>' : '<h3>🔬 Salud del instrumento</h3><div class="ix-note">Calculando la calibración…</div>') + '</section>'
+    + '<section class="ix-card" style="--s:4;">' + (M.calib ? '<div class="ix-tile-h"><h3>🔬 Salud del instrumento</h3><button type="button" class="q" data-como="calib">Detalle</button></div>' + calibSVG() + '<div class="ix-sub">' + M.calib.dentro + ' de ' + M.calib.total + ' franjas dentro de su margen' + (M.calib.dentro < M.calib.total ? ': conviene vigilarlo' : '') + '. Regla de racha ' + (M.regla ? M.regla.estado.toLowerCase() : '…') + '.</div>' : '<h3>🔬 Salud del instrumento</h3><div class="ix-note">Calculando la calibración…</div>') + '</section>'
     + '</div><div class="ix-note">Todo lo de dinero responde al periodo y al ámbito; el instrumento (regla, taco, precio, mes) es siempre de ' + esc(J.emoji + ' ' + J.nombre) + '. Salud del sistema y la lupa están en Exportar · el Diario de sesiones en Rendimiento · el Resumen general en Mis tacos.</div></div>';
 }
 function curvaSVG(X) {
@@ -22902,14 +23088,20 @@ function cabApp() {
     // Racha máxima realmente observada: el último estado con observaciones.
     let maxLobs=0;
     for(let b=0;b<buckets.length;b++) if(buckets[b].n>0) maxLobs=b;
-    const p=buckets.map((b,i)=>{
+    const pApp=buckets.map((b,i)=>{
       // Estado NUNCA observado por encima del tope: la imprenta jamás dejó llegar la racha
       // hasta aquí ⇒ premio casi forzado. No es una suposición: es la ausencia sistemática
       // del estado en 36 tacos completos. Se acota a 0.95 para no afirmar certeza absoluta.
       if(b.n===0 && i>maxLobs) return 0.95;
       return Math.min(0.95, Math.max(0.02, (b.k+c*pbar)/(b.n+c)));
     });
-    return {p, pbar, nObs:gn, maxLobs};
+    // v41.7 — TOPE DURO. El encogimiento hacia la media dejaba la racha máxima en ~86 % cuando tus datos dicen 43 de 43
+    // (tras 8 perdedores siempre hubo premio): el motor nunca marcaba una fija y en la franja alta se quedaba corto (decía
+    // 84 %, salía 100 %). Desde la racha más larga jamás superada, si ese estado nunca falló (o nunca se vio), el premio es
+    // seguro. Validado sin mirar el futuro (auditoría 17-oct, 12.700 boletos): Brier 0,1758 frente a 0,1761, 10 de 10
+    // franjas dentro de su margen (antes 7 de 9) y 42 fijas marcadas que premiaron las 42. pApp guarda la curva anterior.
+    const p=pApp.map((v,i)=> (i>=maxLobs && (buckets[i].n===0 || buckets[i].k===buckets[i].n)) ? 1 : v);
+    return {p, pApp, pbar, nObs:gn, maxLobs};
   }
 
   // B7d: TEST DE ASIMETRÍA DIRECCIONAL — ¿los premios se cargan hacia un extremo de la tira?
@@ -23678,6 +23870,37 @@ function cabApp() {
   //   2. ¿Sigue viva la ventaja?           → vigilante del coeficiente de racha
   //   3. ¿Qué sé y con cuánta certeza?     → registro de hipótesis con regla de parada
   // Todo lo demás (ranking, mapa de calor, simulador) baja a evidencia de apoyo.
+  // v41.7 — «¿Sigue viva la ventaja?» (antes dentro de _icHTML): lo usa también «Qué sé y con cuánta certeza» de Estrategia.
+  function vigilanteHTML(ctx){
+    let vig = '';
+    try{
+      const m = _cron('ic.modelo', ()=>rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote));
+      if(m){
+        const lo = m.coefRacha - 1.96*m.seRacha;
+        const viva = lo > RACHA_UMBRAL_MUERTA;
+        vig = `<div style="background:var(--paper-dark);border:1px solid ${viva?'var(--silver)':'#E24B4A'};border-radius:9px;padding:12px 14px;margin-bottom:12px;">
+          <div style="font-size:13px;font-weight:800;margin-bottom:5px;">${viva?'🩺':'🛑'} ¿Sigue viva la ventaja?</div>
+          <div style="font-size:12px;line-height:1.6;">
+            Efecto de la racha sobre ${m.n.toLocaleString('en-US')} posiciones de ${m.nLotes} tacos completos:
+            <b style="font-family:'Courier New',monospace;">${m.coefRacha>=0?'+':''}${m.coefRacha.toFixed(3)}</b>
+            <span style="color:var(--silver-dark);">IC95 [${lo.toFixed(3)} – ${(m.coefRacha+1.96*m.seRacha).toFixed(3)}]</span>
+            · momio por cada perdedor previo <b>×${Math.exp(m.coefRacha).toFixed(2)}</b>.
+          </div>
+          <div style="font-size:12px;margin-top:6px;color:${viva?'var(--ok)':'#E24B4A'};font-weight:700;">
+            ${viva ? 'Vigente — el suelo del intervalo ('+lo.toFixed(3)+') sigue por encima del umbral de '+RACHA_UMBRAL_MUERTA+'.'
+                   : 'ALARMA — el suelo cayó bajo '+RACHA_UMBRAL_MUERTA+'. La imprenta pudo cambiar el espaciado: deja de usar la regla hasta revisarlo.'}
+          </div>
+          <div style="font-size:11.5px;color:var(--silver-dark);margin-top:5px;">
+            El umbral se fijó ANTES de mirar, para que la decisión no se acomode al resultado.
+            La racha explica un ${((m.pseudoR2Full/Math.max(1e-9,m.pseudoR2Dens)-1)*100).toFixed(0)}% más que la densidad sola
+            (pseudo-R² ${m.pseudoR2Dens.toFixed(3)} → ${m.pseudoR2Full.toFixed(3)}).
+          </div>
+        </div>`;
+      }
+    }catch(e){}
+
+    return vig;
+  }
   function _icHTML(){
     let ctx;
     try{ ctx = rgContextoMotor(); }catch(e){ return ''; }
@@ -23749,33 +23972,8 @@ function cabApp() {
         </div>
       </div>`;
 
-    // ---------- 2. VIGILANTE DE LA VENTAJA ----------
-    let vig = '';
-    try{
-      const m = _cron('ic.modelo', ()=>rgModeloRacha(ctx.completos, ctx.dataR.tamanoLote));
-      if(m){
-        const lo = m.coefRacha - 1.96*m.seRacha;
-        const viva = lo > RACHA_UMBRAL_MUERTA;
-        vig = `<div style="background:var(--paper-dark);border:1px solid ${viva?'var(--silver)':'#E24B4A'};border-radius:9px;padding:12px 14px;margin-bottom:12px;">
-          <div style="font-size:13px;font-weight:800;margin-bottom:5px;">${viva?'🩺':'🛑'} ¿Sigue viva la ventaja?</div>
-          <div style="font-size:12px;line-height:1.6;">
-            Efecto de la racha sobre ${m.n.toLocaleString('en-US')} posiciones de ${m.nLotes} tacos completos:
-            <b style="font-family:'Courier New',monospace;">${m.coefRacha>=0?'+':''}${m.coefRacha.toFixed(3)}</b>
-            <span style="color:var(--silver-dark);">IC95 [${lo.toFixed(3)} – ${(m.coefRacha+1.96*m.seRacha).toFixed(3)}]</span>
-            · momio por cada perdedor previo <b>×${Math.exp(m.coefRacha).toFixed(2)}</b>.
-          </div>
-          <div style="font-size:12px;margin-top:6px;color:${viva?'var(--ok)':'#E24B4A'};font-weight:700;">
-            ${viva ? 'Vigente — el suelo del intervalo ('+lo.toFixed(3)+') sigue por encima del umbral de '+RACHA_UMBRAL_MUERTA+'.'
-                   : 'ALARMA — el suelo cayó bajo '+RACHA_UMBRAL_MUERTA+'. La imprenta pudo cambiar el espaciado: deja de usar la regla hasta revisarlo.'}
-          </div>
-          <div style="font-size:11.5px;color:var(--silver-dark);margin-top:5px;">
-            El umbral se fijó ANTES de mirar, para que la decisión no se acomode al resultado.
-            La racha explica un ${((m.pseudoR2Full/Math.max(1e-9,m.pseudoR2Dens)-1)*100).toFixed(0)}% más que la densidad sola
-            (pseudo-R² ${m.pseudoR2Dens.toFixed(3)} → ${m.pseudoR2Full.toFixed(3)}).
-          </div>
-        </div>`;
-      }
-    }catch(e){}
+    // ---------- 2. VIGILANTE DE LA VENTAJA ---------- (v41.7: en vigilanteHTML, compartido con Estrategia › Qué sé)
+    let vig = ''; try{ vig = vigilanteHTML(ctx); }catch(e){}
 
     // ---------- 3. REGISTRO DE HIPÓTESIS ----------
     const reg = _cron('ic.hipotesis', ()=>_registroHipotesisHTML(ctx));
@@ -26001,6 +26199,703 @@ function cabApp() {
       if(wrap && wrap._accOpen) estratPintarSeccion(id);
     });
   }
+  // ════════════════════════════════════════════════════════════════════════════════════════
+  // v41.7 — ESTRATEGIA = PROPUESTA A «COMPRA GUIADA» (docs/propuestas/estrategia-auditoria-y-2-propuestas.html)
+  // ════════════════════════════════════════════════════════════════════════════════════════
+  // POR QUÉ. La auditoría del 17-oct (284 tacos completos; cada estrategia reproducida sin mirar el futuro en
+  // 254 tacos) dejó cuatro cosas claras: (1) las posiciones no predicen (las 13 «que más ganan» aciertan
+  // 25.5 % frente a 27.0 %); (2) la imprenta sí deja fijas (tras 8 perdedores, 43 de 43); (3) JP solo conoce
+  // lo que paga, y así la regla de racha rinde lo mismo que comprar el taco entero (67.2 % sin premios
+  // grandes); (4) lo que mejor rinde con lo que se paga es comprar de uno en uno el boleto más probable y
+  // parar cuando el mejor queda bajo el 26 % (87.7 %). Este módulo es ese copiloto: el MISMO motor de la
+  // rejilla (rgProbLote, ahora con el tope duro de la imprenta), un solo break-even (costo real del taco ÷
+  // premio típico Vdec) y, en segundo plano, la medición sin mirar el futuro de cada forma de comprar.
+  // Nada se borra: lo útil de la pestaña anterior pasa a «Herramientas que siguen» y las secciones de
+  // posiciones al «Archivo de pruebas» (siguen funcionando igual, con sus mismos ids y botones).
+  const EG = (function(){
+    const INI = 30, TAU_DEF = 0.26, UMB_EVITA = 0.15, FIJA = 0.99;
+    // La regla de racha se creó con los tacos hasta esta fecha: lo posterior es «fuera de muestra» (HALLAZGOS).
+    const CORTE_REGLA = '2026-07-14';
+    const LS_UI = 'bitacora_eg_ui', LS_LAB = 'bitacora_eg_lab_v1', LS_DIA = 'bitacora_eg_diario_v1';
+    const pct = (v, d = 1) => ((Number(v) || 0) * 100).toFixed(d) + '%';
+    const fmtS = v => (v > 0.004 ? '+' : '') + fmt(v);
+    const nf = n => Number(n || 0).toLocaleString('en-US');
+    const esc = escapeHtml;
+    const fc = f => { if(!f) return '—'; const d = new Date(String(f).slice(0,10) + 'T12:00:00'); return isNaN(d) ? String(f) : d.toLocaleDateString('es-EC', { day:'2-digit', month:'short' }).replace('.', ''); };
+    const wil = (y, n) => { if (!n) return [0, 0]; const z = 1.96, ph = y / n, d = 1 + z * z / n, c = ph + z * z / (2 * n), s = z * Math.sqrt(ph * (1 - ph) / n + z * z / (4 * n * n)); return [(c - s) / d, (c + s) / d]; };
+    const lsGet = (k, def) => { try{ const v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? def : v; }catch(e){ return def; } };
+    const lsSet = (k, v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+    let ANCHO = 1200;   // ancho útil del módulo, medido en cada pintada: los gráficos se dibujan a ese tamaño
+    const wDe = (c, uno) => { const tel = ANCHO <= 620, cols = tel ? (uno ? 1 : Math.min(2, c)) : c; return Math.max(140, Math.floor((ANCHO - 14 * (cols - 1)) / cols - (tel ? 30 : 34))); };
+    const ui = Object.assign({ tau: TAU_DEF, modo: null }, lsGet(LS_UI, {}));
+    const guardarUI = () => lsSet(LS_UI, { tau: ui.tau, modo: ui.modo });
+
+    // ───────────── datos rápidos (sin motor): memo por versión de datos + juego + filtro ─────────────
+    let _rapido = null;
+    function filtroTirada(){ try{ return rigorGetFiltros().tirada || '__todas__'; }catch(e){ return '__todas__'; } }
+    function rapido(){
+      const clave = _dataVersion + '|' + juegoActivoId + '|' + filtroTirada();
+      if(_rapido && _rapido.clave === clave) return _rapido.v;
+      const base = e7Base(); if(!base){ _rapido = { clave, v: null }; return null; }
+      const tir = filtroTirada();
+      const T = base.tacos.filter(t => t.valido && (tir === '__todas__' || t.tirada === tir));
+      const U = base.umbJack, cNom = base.cNom;
+      const v = { base, T, U, cNom, n: T.length };
+      if(T.length){
+        // estructura de imprenta
+        const tot = {}, antes = {}, entre = {}, despues = {};
+        T.forEach(t => { const pos = t.seq.map((x, i) => x ? i : -1).filter(i => i >= 0); if(!pos.length) return;
+          tot[pos.length] = (tot[pos.length] || 0) + 1; antes[pos[0]] = (antes[pos[0]] || 0) + 1; despues[t.N - 1 - pos[pos.length - 1]] = (despues[t.N - 1 - pos[pos.length - 1]] || 0) + 1;
+          for(let j = 1; j < pos.length; j++){ const g = pos[j] - pos[j - 1] - 1; entre[g] = (entre[g] || 0) + 1; } });
+        const mx = o => Math.max(0, ...Object.keys(o).map(Number));
+        v.est = { tot, antes, entre, despues, maxEntre: mx(entre), maxAntes: mx(antes), maxDesp: mx(despues), tMin: Math.min(...Object.keys(tot).map(Number)), tMax: mx(tot) };
+        // fijas: lo que el diseño OBLIGÓ a premiar, mirando solo lo vendido antes (orden de venta)
+        const F = { racha: { n: 0, y: 0 }, arranque: { n: 0, y: 0 }, cuenta: { n: 0, y: 0 }, no: { n: 0, y: 0 } };
+        const E = v.est;
+        T.forEach(t => { let L = 0, k = 0; t.seq.forEach((x, i) => { const resto = t.N - i; let tipo = null;
+          if(k > 0 && L >= E.maxEntre) tipo = 'racha'; else if(k === 0 && L >= E.maxAntes) tipo = 'arranque'; else if(E.tMin - k >= resto && resto > 0) tipo = 'cuenta';
+          if(k >= E.tMax){ F.no.n++; if(x) F.no.y++; }
+          if(tipo){ F[tipo].n++; if(x) F[tipo].y++; }
+          if(x){ L = 0; k++; } else L++; }); });
+        v.fijas = F;
+        // probabilidad de premio según los perdedores seguidos, fuera de muestra (tacos posteriores al corte)
+        const RF = Array.from({ length: 10 }, () => ({ n: 0, y: 0 }));
+        T.filter(t => fechaLocalDe(t.t) > CORTE_REGLA).forEach(t => { let L = 0; t.seq.forEach(x => { const o = RF[Math.min(L, 9)]; o.n++; if(x) o.y++; L = x ? 0 : L + 1; }); });
+        v.rachaFuera = RF; v.nFuera = T.filter(t => fechaLocalDe(t.t) > CORTE_REGLA).length;
+        // costo real medio y descuento habitual más alto (el que se repite en ≥ 10 tacos)
+        const sN = T.reduce((s, t) => s + t.N, 0), sC = T.reduce((s, t) => s + t.costo, 0);
+        v.costoMedio = sN ? sC / sN : cNom;
+        v.pbar = sN ? T.reduce((s, t) => s + t.seq.reduce((a, x) => a + x, 0), 0) / sN : null;   // tasa base real (a ciegas)
+        const dc = {}; T.forEach(t => { const d = Math.round((1 - t.costo / (t.N * cNom)) * 1000) / 1000; dc[d] = (dc[d] || 0) + 1; });
+        const hab = Object.entries(dc).filter(([d, c]) => c >= 10 && +d > 0).sort((a, b) => b[0] - a[0])[0];
+        v.descHab = hab ? { d: +hab[0], n: hab[1] } : null;
+        // walk-forward SIN motor (todo, hasta el primer premio, top-13 por historial, «viendo» tras 6+): filas por taco
+        const cnt = new Array(Math.max(...T.map(t => t.N))).fill(0);
+        const filas = [];
+        T.forEach((t, j) => {
+          if(j >= INI){
+            const cu = t.costo / t.N, nt = t.seq.map((x, i) => x ? premioNeto(t.bruto[i]) : 0), sjOf = i => t.bruto[i] < U ? nt[i] : 0;
+            const pol = idxs => { let n = 0, p = 0, sj = 0, y = 0; idxs.forEach(i => { n++; if(t.seq[i]){ y++; p += nt[i]; sj += sjOf(i); } }); return [n, n * cu, p, sj, y]; };
+            const todo = pol(t.seq.map((x, i) => i));
+            const prim = []; for(let i = 0; i < t.N; i++){ prim.push(i); if(t.seq[i]) break; }
+            const top = cnt.map((c, i) => [c, i]).filter(x => x[1] < t.N).sort((a, b) => b[0] - a[0]).slice(0, 13).map(x => x[1]);
+            const vl6 = []; let L = 0, k = 0; t.seq.forEach((x, i) => { if(k > 0 && L >= 6) vl6.push(i); if(x){ L = 0; k++; } else L++; });
+            filas.push({ id: t.id, f: fechaLocalDe(t.t), todo, prim: pol(prim), top: pol(top), vl6: pol(vl6) });
+          }
+          t.seq.forEach((x, i) => { cnt[i] += x; });
+        });
+        v.filas = filas;
+      }
+      _rapido = { clave, v };
+      return v;
+    }
+
+    // ───────────── laboratorio en segundo plano (con motor), incremental y guardado en el aparato ─────────────
+    // Mismo cálculo que la auditoría: para el taco j, curva de racha y prior SOLO con los tacos anteriores; curva
+    // con tope duro (premio seguro desde la racha más larga jamás superada). Fase G: compra guiada (el más
+    // probable mientras P ≥ 25 %; la de 26 % es su prefijo). Fases H y A: revelado en orden con el motor nuevo y
+    // con el anterior (calibración, fijas, «solo fijas»). Cada fila guarda la huella de los tacos que la produjeron:
+    // un taco nuevo solo calcula su fila; si cambia un taco viejo, se recalcula desde ahí.
+    const LAB = { clave: null, filas: [], cola: [], hecho: 0, total: 0, listo: false, timer: null, t0: 0 };
+    function curvaLab(b, gk, gn){
+      const pbar = gk / gn; let maxL = 0; b.forEach((x, i) => { if(x.n > 0) maxL = i; });
+      const app = b.map((x, i) => (x.n === 0 && i > maxL) ? 0.95 : Math.min(0.95, Math.max(0.02, (x.k + 10 * pbar) / (x.n + 10))));
+      return { app: { p: app, pbar }, hib: { p: b.map((x, i) => (i >= maxL && (x.n === 0 || x.k === x.n)) ? 1 : app[i]), pbar }, pbar };
+    }
+    function priorLab(tc){ const ks = Object.keys(tc).map(Number); const sop = []; for(let t = Math.min(...ks); t <= Math.max(...ks); t++) sop.push({ t, w: (tc[t] || 0) + 0.5 }); const Z = sop.reduce((s, x) => s + x.w, 0); sop.forEach(x => x.prob = x.w / Z); return { soporte: sop }; }
+    const probsLab = (obs, N, pr, cv) => { const c = rgEspacialCore(obs, N, pr, cv); if(c) return c.P; const P = {}; obs.forEach((o, i) => { if(o === null) P[i] = cv.pbar; }); return P; };
+    function labPreparar(){
+      const R = rapido(); if(!R || !R.T || R.T.length <= INI) return null;
+      const T = R.T, clave = juegoActivoId + '|' + filtroTirada();
+      const guard = lsGet(LS_LAB, null);
+      const prev = (guard && guard.clave === clave && Array.isArray(guard.filas)) ? guard.filas : [];
+      const LMAX = 9, b = Array.from({ length: LMAX + 1 }, () => ({ n: 0, k: 0 })); let gk = 0, gn = 0; const tc = {};
+      let h = 'eg'; const trabajos = []; const filas = [];
+      T.forEach((t, j) => {
+        h = _h53(h + '|' + t.id + ':' + t.seq.join('') + ':' + t.costo + ':' + t.bruto.join(','));
+        if(j >= INI){
+          const fila0 = prev[j - INI];
+          if(fila0 && fila0.h === h && fila0.G && fila0.H && fila0.A) filas.push(fila0);
+          else { filas.push({ h, id: t.id }); trabajos.push({ j, t, cv: curvaLab(b.map(x => ({ ...x })), gk, gn), pr: priorLab(tc) }); }
+        }
+        let L = 0; t.seq.forEach(x => { const o = b[Math.min(L, LMAX)]; o.n++; o.k += x; gn++; gk += x; L = x ? 0 : L + 1; });
+        const k = t.seq.reduce((a, x) => a + x, 0); tc[k] = (tc[k] || 0) + 1;
+      });
+      return { clave, filas, trabajos, U: R.U };
+    }
+    function labPaso(w, U){
+      const t = w.t, N = t.N, cu = t.costo / N, f = LAB.filas[w.j - INI];
+      const nt = i => premioNeto(t.bruto[i]), sjOf = i => t.bruto[i] < U ? nt(i) : 0;
+      if(!f.G){
+        // compra guiada: el más probable entre lo no comprado; se para cuando el mejor queda bajo 25 %
+        const obs = new Array(N).fill(null); const g = { n: 0, p: 0, sj: 0, y: 0, f: 0, fy: 0 }, g6 = { n: 0, p: 0, sj: 0, y: 0, f: 0, fy: 0 }; let sigue26 = true;
+        for(let guard = 0; guard < N + 2; guard++){
+          const P = probsLab(obs, N, w.pr, w.cv.hib); let m = -1, pm = -1;
+          for(let i = 0; i < N; i++){ if(obs[i] !== null) continue; const p = P[i]; if(p != null && p > pm){ pm = p; m = i; } }
+          if(m < 0 || pm < 0.25) break;
+          if(pm < 0.26) sigue26 = false;
+          const x = t.seq[m]; obs[m] = x;
+          const add = o => { o.n++; if(pm >= FIJA){ o.f++; if(x) o.fy++; } if(x){ o.y++; o.p += nt(m); o.sj += sjOf(m); } };
+          add(g); if(sigue26) add(g6);
+        }
+        f.G = [[g.n, g.n * cu, g.p, g.sj, g.y, g.f, g.fy], [g6.n, g6.n * cu, g6.p, g6.sj, g6.y, g6.f, g6.fy]];
+        return;
+      }
+      const seq = (cv) => {   // revelado en orden: lo que el motor decía de cada boleto justo antes de verlo
+        const obs = new Array(N).fill(null), bins = {}; let bs = 0, bb = 0; const vf = [0, 0, 0, 0, 0];
+        for(let i = 0; i < N; i++){
+          const P = probsLab(obs, N, w.pr, cv), p = P[i] != null ? P[i] : cv.pbar, x = t.seq[i];
+          const k = p >= FIJA ? 10 : Math.min(9, Math.floor(p * 10)); const o = bins[k] || (bins[k] = [0, 0, 0]); o[0]++; o[1] += x; o[2] += p;
+          bs += (p - x) * (p - x); bb += (cv.pbar - x) * (cv.pbar - x);
+          if(p >= FIJA){ vf[0]++; vf[1] += cu; if(x){ vf[4]++; vf[2] += nt(i); vf[3] += sjOf(i); } }
+          obs[i] = x;
+        }
+        return { bins, bs, bb, n: N, vf };
+      };
+      if(!f.H){ f.H = seq(w.cv.hib); return; }
+      if(!f.A){ const a = seq(w.cv.app); f.A = { bins: a.bins, bs: a.bs, n: a.n }; }
+    }
+    function labArrancar(){
+      const clave = juegoActivoId + '|' + filtroTirada();
+      if(LAB.timer && LAB.clave === clave && LAB.version === _dataVersion) return;   // ya corriendo con estos datos
+      const P = labPreparar(); if(!P){ LAB.listo = false; LAB.clave = clave; LAB.version = _dataVersion; LAB.filas = []; return; }
+      if(LAB.timer){ clearTimeout(LAB.timer); LAB.timer = null; }
+      LAB.clave = P.clave; LAB.version = _dataVersion; LAB.filas = P.filas; LAB.total = P.filas.length; LAB.cola = [];
+      P.trabajos.forEach(w => { LAB.cola.push(w, w, w); });   // tres fases por taco: G, H, A
+      LAB.hecho = LAB.total - P.trabajos.length; LAB.listo = !LAB.cola.length; LAB.t0 = performance.now();
+      if(LAB.listo){ labGuardar(); return; }
+      const correr = () => {
+        LAB.timer = null; const t0 = performance.now();
+        while(LAB.cola.length && performance.now() - t0 < 20){ /* tramos cortos: la pantalla sigue respondiendo */ const w = LAB.cola.shift(); try{ labPaso(w, P.U); }catch(e){ console.warn('[EG lab]', e); } const f = LAB.filas[w.j - INI]; if(f.G && f.H && f.A && !f._c){ f._c = 1; LAB.hecho++; } }
+        if(LAB.cola.length){ LAB.timer = setTimeout(correr, 8); if(LAB.hecho % 8 === 0) progreso(); return; }
+        LAB.listo = true; _renderTiempos['eg.lab'] = Math.round(performance.now() - LAB.t0); labGuardar(); _met = null; repintarSiVisible();
+        // Inicio muestra la misma calibración: si está a la vista, se repinta con el resultado
+        try{ const pi = document.getElementById('panel-inicio'); if(pi && pi.classList.contains('active')) IX.render(); else _tabsSucias.add('inicio'); _tabsSucias.add('avanzado'); }catch(_){}
+      };
+      LAB.timer = setTimeout(correr, 30);
+    }
+    function labGuardar(){ lsSet(LS_LAB, { clave: LAB.clave, filas: LAB.filas.map(f => ({ h: f.h, id: f.id, G: f.G, H: f.H, A: f.A })) }); }
+    function progreso(){ document.querySelectorAll('[data-eg-prog]').forEach(el => { el.textContent = 'Calculando sin mirar el futuro… ' + LAB.hecho + ' de ' + LAB.total + ' tacos'; }); }
+
+    // ───────────── métricas de cada forma de comprar ─────────────
+    let _met = null;
+    function filasPol(id){
+      const R = rapido(); if(!R || !R.filas) return null;
+      if(id === 'todo' || id === 'prim' || id === 'top' || id === 'vl6') return R.filas.map(f => f[id]);
+      if(!LAB.listo || LAB.clave !== juegoActivoId + '|' + filtroTirada()) return null;
+      if(id === 'g25') return LAB.filas.map(f => f.G[0]);
+      if(id === 'g26') return LAB.filas.map(f => f.G[1]);
+      if(id === 'vf') return LAB.filas.map(f => f.H.vf);
+      return null;
+    }
+    const _memoMet = new Map();
+    function met(id, desc){
+      const R = rapido(), F = filasPol(id); if(!F || !F.length) return null;
+      const mk = id + '|' + desc + '|' + (_rapido && _rapido.clave) + '|' + LAB.version + '|' + LAB.listo; if(_memoMet.has(mk)) return _memoMet.get(mk); if(_memoMet.size > 200) _memoMet.clear();
+      const res = met0(R, F, desc); _memoMet.set(mk, res); return res;
+    }
+    function met0(R, F, desc){
+      const cost = r => desc == null ? r[1] : r[0] * R.cNom * (1 - desc);
+      const n = F.reduce((s, r) => s + r[0], 0), y = F.reduce((s, r) => s + r[4], 0), g = F.reduce((s, r) => s + cost(r), 0), p = F.reduce((s, r) => s + r[2], 0), sj = F.reduce((s, r) => s + r[3], 0);
+      let a = 7; const rnd = () => { a = (a * 1103515245 + 12345) % 2147483648; return a / 2147483648; }; const bs = [];
+      for(let b = 0; b < 600; b++){ let G = 0, P = 0; for(let k = 0; k < F.length; k++){ const r = F[Math.floor(rnd() * F.length)]; G += cost(r); P += r[3]; } bs.push(G ? P / G : 0); } bs.sort((x, z) => x - z);
+      const h = F.length >> 1, mit = A => { const G = A.reduce((s, r) => s + cost(r), 0); return G ? A.reduce((s, r) => s + r[3], 0) / G : 0; };
+      return { n, y, g, ret: g ? p / g : 0, retSJ: g ? sj / g : 0, ic: [bs[30], bs[569]], acierto: n ? y / n : 0, porTaco: n / F.length, tacos: F.length,
+        fijas: F.reduce((s, r) => s + (r[5] || 0), 0), fijasY: F.reduce((s, r) => s + (r[6] || 0), 0), mitades: [mit(F.slice(0, h)), mit(F.slice(h))] };
+    }
+    function calib(){
+      if(!LAB.listo || LAB.clave !== juegoActivoId + '|' + filtroTirada() || !LAB.filas.length) return null;
+      const agg = k => { const bins = {}; let bs = 0, n = 0; LAB.filas.forEach(f => { const o = f[k]; bs += o.bs; n += o.n; Object.entries(o.bins).forEach(([b, v]) => { const x = bins[b] || (bins[b] = [0, 0, 0]); x[0] += v[0]; x[1] += v[1]; x[2] += v[2]; }); });
+        const lista = Object.entries(bins).map(([b, v]) => ({ b: +b, n: v[0], y: v[1], sp: v[2] })).sort((a, b2) => a.b - b2.b);
+        const dentro = lista.filter(x => { const p = x.sp / x.n, sd = Math.sqrt(x.n * p * (1 - p)); return sd > 0 ? Math.abs(x.y - x.sp) / sd <= 1.96 : Math.abs(x.y - x.sp) < 0.5; }).length;
+        return { lista, dentro, total: lista.length, brier: n ? bs / n : 0, n }; };
+      const H = agg('H'), A = agg('A'); const bb = LAB.filas.reduce((s, f) => s + f.H.bb, 0);
+      const fij = H.lista.find(x => x.b === 10); const fA = A.lista.find(x => x.b === 10);
+      return { H, A, base: H.n ? bb / H.n : 0, fijas: fij ? { n: fij.n, y: fij.y } : { n: 0, y: 0 }, fijasApp: fA ? fA.n : 0 };
+    }
+
+    // ───────────── tablero del taco ─────────────
+    let B = null;
+    const juegoAct = () => getJuegoActivo();
+    function vivos(){
+      const hoy = todayStr(), ult = new Map();
+      (data.records || []).forEach(r => { if(r.loteId != null && r.fecha){ const k = String(r.loteId); if(!ult.has(k) || r.fecha > ult.get(k)) ult.set(k, r.fecha); } });
+      const act = l => [l.actualizadoEn ? fechaLocalDe(l.actualizadoEn) : '', l.creadoEn ? fechaLocalDe(l.creadoEn) : '', ult.get(String(l.id)) || ''].sort().pop();
+      const dias = f => f ? Math.round((new Date(hoy + 'T00:00:00') - new Date(f + 'T00:00:00')) / 86400000) : 9999;
+      const inc = getLotesDelJuegoActivo().filter(l => { const c = loteCounts(l); return c.revealed > 0 && c.revealed < c.total; }).map(l => ({ l, ult: act(l), dias: dias(act(l)) }));
+      return { vivos: inc.filter(x => x.dias < 14).sort((a, b) => a.dias - b.dias || (b.ult > a.ult ? 1 : -1)), quietos: inc.filter(x => x.dias >= 14), viejos: inc.filter(x => x.dias >= 60).length };
+    }
+    function recsDeLote(l){ const m = {}; (data.records || []).forEach(r => { if(String(r.loteId) === String(l.id) && r.posicion != null) m[Number(r.posicion)] = r; }); return m; }
+    function nuevoB(modo, ref){
+      const j = juegoAct(), R = rapido(), cNom = R ? R.cNom : (Number(j && j.costoDefecto) || 2);
+      const b = { juego: String(j && j.id), modo, ref: ref == null ? null : String(ref), N: (j && j.tamanoLote) || 50, obs: [], m: [], vend: [], pP: {}, antes: 0, compras: [], sel: null, desc: R ? Math.max(0, Math.round((1 - R.costoMedio / cNom) * 1000) / 1000) : 0, ver: false, cNom, serie: '' };
+      if(modo === 'vivo'){
+        const V = vivos().vivos; let x = V.find(v => String(v.l.id) === b.ref) || V[0];
+        if(x){ const l = x.l, rs = recsDeLote(l); b.ref = String(l.id); b.N = loteCounts(l).total; b.serie = l.serie; b.punto = l.punto || ''; b.ult = x.ult;
+          for(let i = 0; i < b.N; i++){ const e = (l.posiciones || {})[i] && l.posiciones[i].estado; if(e === 'gano' || e === 'no-gano'){ b.obs[i] = e === 'gano' ? 1 : 0; b.m[i] = rs[i] ? (Number(rs[i].premio) || 0) : 0; b.antes++; } }
+          b.desc = Math.max(0, Math.round((1 - costoUnitarioLote(l) / cNom) * 1000) / 1000); }
+      }
+      if(modo === 'repetir' && R && R.T.length){
+        const t = R.T.find(x => x.id === b.ref) || R.T[defRepetir()];
+        b.ref = t.id; b.N = t.N; b.serie = t.serie; b.taco = t;
+        const rev = esReversa(t.l.juegoId, t.l.serie);
+        b.real = Array.from({ length: t.N }, (_, i) => { const s = rev ? t.N - 1 - i : i; return { x: t.seq[s], b: t.bruto[s] }; });   // por posición FÍSICA
+      }
+      if(modo === 'nuevo'){ const u = R && R.T.length ? R.T[R.T.length - 1] : null; b.serie = u ? (u.tirada + '-000000') : ''; }
+      for(let i = 0; i < b.N; i++){ if(b.obs[i] === undefined) b.obs[i] = null; if(b.m[i] === undefined) b.m[i] = 0; b.vend[i] = false; }
+      return b;
+    }
+    function defRepetir(){
+      const R = rapido(); if(!R || !R.T.length) return 0;
+      // el taco más reciente en el que la guía (medida sin mirar el futuro) llegó a una fija; si aún no está, el último
+      if(LAB.listo && LAB.filas.length){ for(let k = LAB.filas.length - 1; k >= 0; k--){ const f = LAB.filas[k]; if(f.G && f.G[1][5] > 0){ const ix = R.T.findIndex(t => t.id === f.id); if(ix >= 0) return ix; } } }
+      return R.T.length - 1;
+    }
+    function loteVirtual(b){
+      const pos = {}; for(let i = 0; i < b.N; i++) pos[i] = { estado: b.obs[i] === 1 ? 'gano' : b.obs[i] === 0 ? 'no-gano' : 'sin-info' };
+      return { id: '__eg__', juegoId: b.juego, serie: b.serie, tamanoLote: b.N, modo: 'sueltos', posiciones: pos };
+    }
+    function motorB(b){
+      const vl = loteVirtual(b), c = rgContextoMotor();
+      const k = b.obs.filter(v => v === 1).length, r = b.obs.filter(v => v !== null).length;
+      let prior = null; try{ prior = rgPriorParaLote(vl); }catch(e){}
+      const tMax = prior && prior.soporte && prior.soporte.length ? Math.max(...prior.soporte.map(x => x.t)) : Infinity;
+      if(k >= tMax && !(prior && prior.fueraDeDiseno)){ const P = {}; b.obs.forEach((v, i) => { if(v === null) P[i] = 0; }); return { P, eRest: 0, k, u: b.N - r, noMas: true }; }
+      let res = null; try{ res = rgProbLote(vl, { curvaRacha: c.espacialOn ? c.curva : null, conSenal: c.conSenal, eb: c.eb, counts: c.dataR.counts }); }catch(e){ console.warn('[EG motor]', e); }
+      const P = {}; if(res && res.probs) res.probs.forEach(x => { P[x.pos] = x.P; });
+      else { const pb = c.curva ? c.curva.pbar : ((rapido() || {}).pbar || 0); b.obs.forEach((v, i) => { if(v === null) P[i] = pb; }); }
+      return { P, eRest: res && res.pt ? res.pt.eRest : 0, k, u: b.N - r, noMas: false, modo: res && res.modo };
+    }
+    const mejor = (M, b) => { let i0 = -1, pb = -1; for(let i = 0; i < b.N; i++){ const p = M.P[i]; if(p == null || b.vend[i]) continue; if(p > pb){ pb = p; i0 = i; } } return [i0, pb]; };
+    const pbarB = () => { const c = rgContextoMotor(); return c.curva ? c.curva.pbar : ((rapido() || {}).pbar ?? null); };
+    const costoB = b => b.modo === 'repetir' && b.taco ? b.taco.costo / b.taco.N : b.cNom * (1 - b.desc);
+    function asegurarB(){
+      const j = juegoAct(); if(!j) return null;
+      if(B && B.juego === String(j.id)) return B;
+      const R = rapido(), V = vivos();
+      let modo = ui.modo || 'repetir';
+      if(modo === 'repetir' && !(R && R.T.length)) modo = V.vivos.length ? 'vivo' : 'nuevo';
+      if(modo === 'vivo' && !V.vivos.length) modo = (R && R.T.length) ? 'repetir' : 'nuevo';
+      B = nuevoB(modo); return B;
+    }
+    function comprarReal(i){ const b = B; if(!b.real || b.obs[i] !== null) return false; b.pP[i] = motorB(b).P[i] ?? 0; b.obs[i] = b.real[i].x; b.m[i] = b.real[i].b || 0; b.compras.push(i); b.sel = null; return true; }
+    function pasoGuiado(){ const b = B, M = motorB(b), [i0, pb] = mejor(M, b); if(M.noMas || i0 < 0 || pb < ui.tau) return -1; comprarReal(i0); return i0; }
+    function anotar(i, res){
+      const b = B;
+      if(res === 'x'){ b.obs[i] = null; b.m[i] = 0; b.vend[i] = false; b.compras = b.compras.filter(j => j !== i); return; }
+      if(res === 'v'){ if(b.obs[i] !== null) b.compras = b.compras.filter(j => j !== i); b.obs[i] = null; b.m[i] = 0; b.vend[i] = true; return; }
+      if(b.obs[i] === null && !b.compras.includes(i)){ b.pP[i] = motorB(b).P[i] ?? 0; b.compras.push(i); }
+      b.vend[i] = false; b.obs[i] = res === '0' ? 0 : 1; b.m[i] = res === '0' ? 0 : +res;
+    }
+    function tableroHTML(){
+      const b = asegurarB(); if(!b) return '<p class="note">Elige un juego.</p>';
+      const c = rgContextoMotor(), VD = c.Vdec || c.V || 0, M = motorB(b), cu = costoB(b), be = VD > 0 ? cu / VD : 1, [best, pb] = mejor(M, b), tau = ui.tau;
+      const compra = !M.noMas && best >= 0 && pb >= tau;
+      const foco = b.sel != null ? b.sel : (best >= 0 ? best : 0);
+      const pP = padPos;
+      const cel = Array.from({ length: b.N }, (_, i) => {
+        const o = b.obs[i]; let cls = 'es-c', lab, sub;
+        if(o === 1){ cls += ' e-gano'; sub = b.m[i] ? montoCorto(b.m[i]) : '✓'; lab = b.m[i] ? 'premió ' + fmt(b.m[i]) : 'premió'; }
+        else if(o === 0){ cls += ' e-nogano'; sub = '✗'; lab = 'no premió'; }
+        else if(b.vend[i]){ cls += ' e-vend'; sub = 'otro'; lab = 'vendido a otro, no se sabe qué salió'; }
+        else { const p = M.P[i] ?? 0; sub = Math.round(p * 100) + '%'; lab = 'sin raspar, ' + pct(p) + ' de premio';
+          if(p >= FIJA) cls += ' e-fija'; else if(p >= be) cls += ' e-ev'; else if(p >= tau) cls += ' e-tau'; else if(p < UMB_EVITA) cls += ' e-evita';
+          if(b.ver && b.real && b.real[i].x){ cls += ' e-fant'; sub = montoCorto(b.real[i].b) || '✓'; lab += ' (en el taco real premiaba ' + fmt(b.real[i].b) + ')'; } }
+        if(compra && i === best) cls += ' e-rec'; if(b.sel === i) cls += ' e-sel';
+        return `<button type="button" class="${cls}" data-eg-cel="${i}" tabindex="${foco === i ? 0 : -1}" aria-label="Posición ${pP(i)}: ${esc(lab)}${compra && i === best ? ' · recomendada' : ''}"><span class="es-cp">${pP(i)}</span><span class="es-cn">${sub}</span></button>`;
+      }).join('');
+      const n = b.compras.length, y = b.compras.filter(i => b.obs[i] === 1).length, gasto = n * cu, cobro = b.compras.reduce((s, i) => s + premioNeto(b.m[i]), 0);
+      const prom = n ? b.compras.reduce((s, i) => s + (b.pP[i] || 0), 0) / n : 0, fj = b.compras.filter(i => (b.pP[i] || 0) >= FIJA), fjY = fj.filter(i => b.obs[i] === 1).length;
+      const R = rapido(), kMax = R && R.est ? R.est.tMax : 15, nNo = R && R.fijas ? R.fijas.no : { n: 0, y: 0 };
+      const recHTML = M.noMas ? `<div class="es-rec e-para"><span class="es-l">Fija de NO · para</span><span class="es-q">Ya no</span><span class="es-sub">Salieron ${M.k} premios y ningún taco tuyo pasó de ${kMax}: de los ${nf(nNo.n)} boletos que quedaron así en tus tacos, ${nNo.y ? nNo.y + ' premiaron' : 'ninguno premió'}.</span></div>`
+        : compra ? `<div class="es-rec"><span class="es-l">${pb >= FIJA ? '⭐ Fija · compra' : 'Compra'}</span><span class="es-q">la ${pP(best)}</span><span class="es-sub">${pct(pb)} de premio · vale ${fmtS(pb * VD - cu)} con el premio típico (${fmt(VD)})${pb >= FIJA ? ' · el diseño obliga a que salga premio' + (R && R.fijas && R.fijas.racha.n ? ': tras ' + R.est.maxEntre + ' perdedores seguidos, ' + R.fijas.racha.y + ' de ' + R.fijas.racha.n : '') : pb >= be ? ' · supera el break-even de este taco (' + pct(be, 0) + ')' : ' · bajo el break-even (' + pct(be, 0) + '), pero es lo mejor que queda'}</span></div>`
+        : `<div class="es-rec e-para"><span class="es-l">Para aquí</span><span class="es-q">Ninguno</span><span class="es-sub">${best < 0 ? 'No queda nada que puedas comprar.' : 'Lo mejor que queda tiene ' + pct(pb) + ' y el umbral pide ' + pct(tau, 0) + '. Seguir es comprar a ciegas.'}</span></div>`;
+      const acc = b.modo === 'repetir'
+        ? `<div class="es-acc es-tres"><button type="button" class="e-si" data-eg-paso ${compra ? '' : 'disabled'}>▶ Comprar${compra ? ' la ' + pP(best) : ''}</button><button type="button" data-eg-auto ${compra ? '' : 'disabled'}>⏩ Hasta que pare</button><button type="button" data-eg-reini>↺ Reiniciar</button></div>
+           <div class="es-note">Toca cualquier posición para comprarla tú y comparar con la guía.</div>`
+        : `<div class="es-note">${b.sel != null ? 'Posición <b>' + pP(b.sel) + '</b>: ¿qué salió?' : compra ? 'Compra la ' + pP(best) + ' y marca qué salió (o toca otra posición).' : 'Toca una posición y marca qué salió.'}</div>
+           <div class="es-acc"><button type="button" class="e-no" data-eg-res="0">✗ No</button><button type="button" class="e-si" data-eg-res="2">✓ $2</button><button type="button" class="e-si" data-eg-res="4">✓ $4</button><button type="button" class="e-si" data-eg-res="5">✓ $5</button><button type="button" class="e-si" data-eg-res="10">✓ $10</button><button type="button" class="e-si" data-eg-res="20">✓ $20</button><button type="button" class="e-si" data-eg-res="40">✓ $40+</button><button type="button" class="e-vd" data-eg-res="v">🚫 Vendido</button></div>
+           <div class="es-ctl"><button type="button" class="es-btn es-sm" data-eg-res="x">Quitar lo marcado</button><button type="button" class="es-btn es-sm" data-eg-reini>↺ Empezar de nuevo</button></div>`;
+      let pie = '';
+      if(b.modo === 'repetir' && b.taco){ const t = b.taco, pt = t.seq.reduce((s, x, i) => s + (x ? premioNeto(t.bruto[i]) : 0), 0), fin = !compra && n > 0;
+        pie = `<div class="es-res ${fin ? 'e-on' : ''}"><div><span class="es-l">${fin ? 'Guía (paró)' : 'Guía hasta ahora'}</span><b class="${n ? (cobro - gasto >= 0 ? 'es-pos' : 'es-neg') : ''}">${n ? fmtS(cobro - gasto) : '—'}</b><span class="es-mut">${n} bol · ${fmt(gasto)} → ${fmt(cobro)}</span></div><div><span class="es-l">Taco entero</span><b class="${pt - t.costo >= 0 ? 'es-pos' : 'es-neg'}">${fmtS(pt - t.costo)}</b><span class="es-mut">${t.N} bol · ${fmt(t.costo)} → ${fmt(pt)}</span></div></div>
+          <button type="button" class="es-btn es-sm" data-eg-ver aria-pressed="${b.ver}">${b.ver ? '🙈 Ocultar el taco real' : '👁 Ver lo que no compraste'}</button>`; }
+      const V = vivos();
+      const descIn = `<label class="es-ctl">Descuento <input type="number" data-eg-desc min="0" max="40" step="0.5" value="${(b.desc * 100).toFixed(1)}" style="width:72px;" aria-label="Descuento del taco"> %</label>`;
+      const ctl = b.modo === 'repetir'
+        ? `<label class="es-ctl">Taco <select data-eg-taco aria-label="Taco a repetir">${(R ? R.T : []).map((x, i) => i).slice(-60).reverse().map(i => `<option value="${esc(R.T[i].id)}" ${R.T[i].id === b.ref ? 'selected' : ''}>${esc(R.T[i].serie)} · ${fc(fechaLocalDe(R.T[i].t))}</option>`).join('')}</select></label><button type="button" class="es-btn es-sm" data-eg-azar>🎲 Otro</button>`
+        : b.modo === 'vivo'
+          ? (V.vivos.length ? `<label class="es-ctl">Taco <select data-eg-vivo aria-label="Taco en curso">${V.vivos.map(x => `<option value="${esc(x.l.id)}" ${String(x.l.id) === b.ref ? 'selected' : ''}>${esc(x.l.serie)} · ${loteCounts(x.l).revealed} raspados</option>`).join('')}</select></label>${descIn}` : '')
+          : descIn;
+      const ayuda = b.modo === 'repetir' ? 'Teclado: flechas para moverte · Enter compra esa posición · G compra la recomendada'
+        : 'Teclado: flechas · N o 0 = no premió · 2, 4, 5 = ese premio · 1 = $10 · V = vendido a otro · Supr = quitar';
+      const nota = b.modo === 'vivo'
+        ? (b.serie ? `Raspaste ${b.antes} de este taco (${b.punto ? esc(b.punto) + ', ' : ''}último ${fc(b.ult)}). Solo aparecen los ${V.vivos.length} tacos con compras en los últimos 14 días; los otros ${V.quietos.length} «en curso» llevan más tiempo quietos${V.viejos ? ' (' + V.viejos + ' sin compras hace más de 60 días)' : ''} y ya no se recomiendan. Aquí consultas y practicas; lo que registras de verdad va en Boletos, que muestra este mismo tablero. <button type="button" class="es-btn es-sm" data-eg-abrir>Abrir en Boletos ›</button>`
+          : `No tienes tacos con compras en los últimos 14 días${V.quietos.length ? ' (hay ' + V.quietos.length + ' «en curso» quietos: ya no se recomiendan)' : ''}. Usa «Nuevo» en el kiosco o «Repetir» para practicar.`)
+        : b.modo === 'nuevo' ? 'En el kiosco: marca lo que compras y lo que el vendedor ya vendió a otros. El motor usa lo que sabes y deja lo demás como «no sé». En la app, la rejilla de Boletos es este mismo tablero y guarda cada boleto.'
+        : (b.taco ? `${esc(b.taco.serie)} · ${fc(fechaLocalDe(b.taco.t))} · ${fmt(b.taco.costo)} el taco. Juega con la guía sin ver el resultado: cada compra revela el boleto real.` : 'Todavía no hay tacos completos para repetir.');
+      const modoBtn = (m, tx) => `<button type="button" role="radio" aria-checked="${b.modo === m}" class="${b.modo === m ? 'e-on' : ''}" data-eg-modo="${m}">${tx}</button>`;
+      const sinTablero = b.modo === 'vivo' && !b.serie;
+      // stop-loss del bankroll (de la pestaña anterior): si está activo, se avisa también aquí
+      const bk = bankrollEstado(); const stop = bk && bk.stop ? `<div class="es-rec e-para" style="border-color:var(--es-neg);"><span class="es-l" style="color:var(--es-neg);">🛑 Stop-loss activado</span><span class="es-sub">Llevas ${fmt(bk.neto)} en ${esc(bk.ambito)}: más del 20 % de tu bankroll (${fmt(bk.bankroll)}). Para de comprar y revisa antes de seguir.</span></div>` : '';
+      return `<div class="es-tab"><div class="es-izq">
+          <div class="es-ctl"><div class="es-seg" role="radiogroup" aria-label="Qué taco">${modoBtn('vivo', 'En curso (' + V.vivos.length + ')')}${modoBtn('nuevo', 'Nuevo')}${modoBtn('repetir', 'Repetir')}</div>${ctl}
+            <label class="es-ctl">Para bajo <select data-eg-tau aria-label="Umbral de parada">${[0.25, 0.26, 0.27].map(x => `<option value="${x}" ${x === tau ? 'selected' : ''}>${Math.round(x * 100)} %${x === TAU_DEF ? ' (recomendado)' : ''}</option>`).join('')}</select></label></div>
+          <div class="es-note">${nota}</div>
+          ${sinTablero ? '' : `<div class="es-board" role="group" aria-label="Taco: probabilidad de premio por posición" style="--eg-cols:${b.N >= 100 ? 10 : 10};">${cel}</div>
+          <div class="es-ley"><span><i class="e-lf"></i>fija (el diseño obliga)</span><span><i class="e-le"></i>supera el break-even (${pct(be, 0)})</span><span><i class="e-lt"></i>sobre el umbral</span><span><i class="e-lv"></i>evitar (&lt;15 %, pegado a un premio)</span><span><i class="e-lg"></i>premió</span></div>
+          <div class="es-note es-tecl">${ayuda}</div>`}
+        </div><div class="es-side">${stop}${sinTablero ? '' : recHTML + acc}
+          <div class="es-stats"><div><span class="es-l">Compraste</span><b>${n} bol</b></div><div><span class="es-l">Gastaste</span><b>${fmt(gasto)}</b></div><div><span class="es-l">Volvió</span><b class="${cobro >= gasto && n ? 'es-pos' : ''}">${fmt(cobro)}</b></div><div><span class="es-l">Prometía</span><b>${n ? pct(prom, 0) : '—'}</b></div><div><span class="es-l">Acierto</span><b class="${n && y / n > pbarB() ? 'es-pos' : ''}">${n ? pct(y / n, 0) : '—'}</b></div><div><span class="es-l">Fijas</span><b class="${fj.length ? 'es-gold' : ''}">${fj.length ? fjY + '/' + fj.length : '—'}</b></div></div>
+          ${pie}<div class="es-note">Quedan ~${Math.max(0, M.eRest).toFixed(1)} premios en ${M.u} boletos sin raspar · ${fmt(cu)} por boleto · a ciegas aciertas ${pbarB() != null ? pct(pbarB(), 0) : '—'}.</div>
+        </div></div>`;
+    }
+
+    // ───────────── gráficos (se dibujan al ancho real) ─────────────
+    function rachaSVG(R){
+      const RF = R.rachaFuera, pbar = pbarB() || 0;
+      const W = wDe(2, true), H = 220, pl = 34, conN = W >= 420, pb = conN ? 34 : 22, pt = 16, nL = Math.min(9, R.est.maxEntre + 1), bw = (W - pl) / nL, y = v => pt + (1 - v) * (H - pt - pb);
+      let s = `<svg class="es-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Probabilidad de premio según los perdedores seguidos, fuera de muestra">`;
+      [0, 0.25, 0.5, 0.75, 1].forEach(v => s += `<line x1="${pl}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${pl - 4}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`);
+      s += `<line x1="${pl}" x2="${W}" y1="${y(pbar)}" y2="${y(pbar)}" stroke="var(--es-amb)" stroke-dasharray="5 4"/><text x="${pl + 4}" y="${y(pbar) - 5}" text-anchor="start" style="fill:var(--es-amb)">a ciegas ${pct(pbar, 0)}</text>`;
+      RF.forEach((o, L) => { if(!o.n || L >= nL) return; const v = o.y / o.n, ic = wil(o.y, o.n), x0 = pl + L * bw + bw * 0.18, w = bw * 0.64, tope = L === R.est.maxEntre;
+        s += `<rect x="${x0}" y="${y(v)}" width="${w}" height="${y(0) - y(v)}" rx="5" fill="${tope ? 'var(--gold)' : v >= 0.51 ? 'var(--ok)' : 'var(--es-cur)'}" opacity=".85"><title>${L} perdedores: ${o.y} de ${o.n} (${pct(v)})</title></rect><line x1="${x0 + w / 2}" x2="${x0 + w / 2}" y1="${y(ic[0])}" y2="${y(ic[1])}" stroke="var(--ink)" stroke-width="1.5"/>`;
+        s += `<text class="es-num" x="${x0 + w / 2}" y="${y(v) - 6}" text-anchor="middle">${tope ? o.y + '/' + o.n : pct(v, 0)}</text><text x="${x0 + w / 2}" y="${H - (conN ? 18 : 6)}" text-anchor="middle">${L}</text>${conN ? `<text x="${x0 + w / 2}" y="${H - 5}" text-anchor="middle" style="font-size:9px">n=${nf(o.n)}</text>` : ''}`; });
+      return s + `</svg><div class="es-note" style="text-align:center;">perdedores seguidos justo antes · fuera de muestra (tacos posteriores al ${fc(CORTE_REGLA)}) · barra negra = intervalo 95 %</div>`;
+    }
+    function histSVG(obj, maxX, muro, titulo, W, H, etq){
+      W = W || 300; H = H || 150;
+      const ks = Array.from({ length: maxX + 2 }, (_, i) => i), v = ks.map(k => obj[k] || 0), mx = Math.max(1, ...v), bw = W / ks.length, y = c => 22 + (1 - c / mx) * (H - 46), num = bw >= 26;
+      let s = `<svg class="es-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(titulo)}">`;
+      ks.forEach((k, i) => { const c = v[i], ultimo = i === ks.length - 1;
+        s += ultimo ? `<rect x="${i * bw + 3}" y="${H - 28}" width="${bw - 6}" height="2" fill="var(--es-neg)"><title>nunca</title></rect><text x="${i * bw + bw / 2}" y="${H - 34}" text-anchor="middle" style="fill:var(--es-neg); font-weight:800">${bw >= 44 ? 'nunca' : '0'}</text>`
+          : `<rect x="${i * bw + 3}" y="${y(c)}" width="${bw - 6}" height="${H - 24 - y(c)}" rx="3" fill="${k === maxX && muro ? 'var(--gold)' : 'var(--es-cur)'}" opacity=".8"><title>${etq ? etq(k) : k}: ${nf(c)} veces</title></rect>${num ? `<text class="es-num" x="${i * bw + bw / 2}" y="${y(c) - 5}" text-anchor="middle">${nf(c)}</text>` : ''}`;
+        s += `<text x="${i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${ultimo ? (etq ? etq(maxX + 1) : maxX + 1) + '+' : etq ? etq(k) : k}</text>`; });
+      return s + '</svg>';
+    }
+    const NOMBRES = { todo: 'Comprar el taco entero', top: 'Las 13 posiciones con más premios en tu historia', prim: 'En orden, hasta el primer premio', g25: 'Guiada: el más probable mientras P ≥ 25 %', g26: 'Guiada: el más probable mientras P ≥ 26 %' };
+    const GRUPO = { todo: 'base', top: 'mito', prim: 'simple', g25: 'motor', g26: 'motor' };
+    function barras(ids, sel){
+      const ms = ids.map(id => ({ id, m: met(id, null) }));
+      const mx = Math.max(1.2, ...ms.filter(x => x.m).map(x => x.m.ic[1] * 1.05)), x = v => Math.min(100, v / mx * 100);
+      return '<div class="es-bars">' + ms.map(({ id, m }) => !m
+        ? `<div class="es-bar"><span>${esc(NOMBRES[id])}</span><span class="es-bt"></span><span class="es-bv es-mut" data-eg-prog>…</span></div>`
+        : `<div class="es-bar ${id === sel ? 'e-on' : ''}"><span>${esc(NOMBRES[id])}</span><span class="es-bt"><i style="width:${x(m.retSJ)}%; background:${m.retSJ >= 1 ? 'var(--ok)' : GRUPO[id] === 'motor' ? 'var(--es-cur)' : GRUPO[id] === 'mito' ? 'var(--es-neg)' : 'var(--silver-dark)'}"></i><u style="left:${x(m.ic[0])}%; width:${x(m.ic[1]) - x(m.ic[0])}%"></u><b style="left:${x(1)}%"></b></span><span class="es-bv">${pct(m.retSJ)}</span></div>`).join('')
+        + `<div class="es-ley"><span><i style="background:var(--ink); width:2px; border:0"></i>línea = 100 % (recuperas lo pagado)</span><span>barrita = intervalo del 90 % (remuestreo por taco)</span><span>retorno sin premios grandes</span></div></div>`;
+    }
+
+    // ───────────── «¿cómo se calcula?» (hoja con foco atrapado; Esc cierra y devuelve el foco) ─────────────
+    function hoja(titulo, cuerpo){
+      const prev = document.activeElement, f = document.createElement('div'); f.className = 'es-fondo' + (document.body.classList.contains('theme-arcade') ? '' : '');
+      f.innerHTML = `<div class="es-hoja" role="dialog" aria-modal="true" aria-label="${esc(titulo)}"><button type="button" class="es-btn es-sm" data-cerrar style="align-self:flex-end;">Cerrar ✕</button><h2 style="margin:0; font:800 18px 'Trebuchet MS',sans-serif;">${titulo}</h2>${cuerpo}</div>`;
+      document.body.appendChild(f);
+      const fin = () => { document.removeEventListener('keydown', tec, true); f.remove(); try{ prev && prev.focus(); }catch(_){} };
+      const tec = e => { if(e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); fin(); return; }
+        if(e.key === 'Tab'){ const q = [...f.querySelectorAll('button, [href], select, input, [tabindex]:not([tabindex="-1"])')]; if(!q.length) return; const a = q[0], z = q[q.length - 1];
+          if(e.shiftKey && document.activeElement === a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey && document.activeElement === z){ e.preventDefault(); a.focus(); } } };
+      document.addEventListener('keydown', tec, true); f.addEventListener('click', e => { if(e.target === f || e.target.closest('[data-cerrar]')) fin(); }); setTimeout(() => f.querySelector('[data-cerrar]').focus(), 0);
+    }
+    const tabla = filas => `<table><tbody>${filas.map(r => `<tr><td>${r[0]}</td><td class="es-r">${r[1]}</td></tr>`).join('')}</tbody></table>`;
+    function como(k){
+      const R = rapido(), c = rgContextoMotor(), VD = c.Vdec || c.V; if(!R) return;
+      const W = posStats(R);
+      if(k === 'pos') return hoja('¿Hay posiciones que ganan más?', `<p class="es-sub">Para cada taco desde el ${fc(W.desde)} (${W.tacos} tacos) se eligieron, solo con los tacos anteriores, las 13 posiciones que más premios habían dado, y se miró si premiaron en ese taco.</p>${tabla([['Las 13 «mejores»', nf(W.top.y) + ' de ' + nf(W.top.n) + ' · ' + pct(W.top.y / W.top.n)], ['Cualquier boleto', nf(W.todo.y) + ' de ' + nf(W.todo.n) + ' · ' + pct(W.todo.y / W.todo.n)]])}<p class="es-sub">El portero de la app baraja ${nf(PORTERO_NPERM)} veces qué posiciones reciben los premios dentro de cada taco (respetando cuántos tiene)${c.portero && !c.portero.insuf ? ': tus posiciones se separan ' + (c.portero.pval < 0.05 ? 'más que el azar (p = ' + c.portero.pval.toFixed(3) + ')' : 'como el azar (p = ' + c.portero.pval.toFixed(3) + ')') : ''}. Con ${R.n} tacos completos, si hubiera una plantilla se vería.</p>`);
+      if(k === 'fija'){ const F = R.fijas, E = R.est, g = met('g26', null);
+        return hoja('¿Qué es una fija?', `<p class="es-sub">Una posición que, por las reglas de la imprenta, tuvo que premiar. En tus ${R.n} tacos:</p>${tabla([['Tras ' + E.maxEntre + ' perdedores seguidos después de un premio', F.racha.y + ' de ' + F.racha.n], ['Con ' + E.maxAntes + ' perdedores al arrancar el taco', F.arranque.y + ' de ' + F.arranque.n], ['Faltan tantos premios para llegar a ' + E.tMin + ' como boletos quedan', F.cuenta.y + ' de ' + F.cuenta.n], ['Fija de NO: ya salieron ' + E.tMax + ' premios', F.no.y + ' de ' + F.no.n + ' premiaron']])}<p class="es-sub">Salen de las reglas de diseño que se ven en tus tacos: nunca más de ${E.maxEntre} perdedores seguidos entre premios, nunca más de ${E.maxAntes} antes del primero y siempre entre ${E.tMin} y ${E.tMax} premios. Con lo que pagas, llegar a una fija cuesta los perdedores de antes; por eso la compra guiada no las persigue: las aprovecha cuando aparecen${g ? ' (compró ' + g.fijas + ' y premiaron ' + g.fijasY + ')' : ''}.</p>`); }
+      if(k === 'guia'){ const g = met('g26', null), td = met('todo', null); if(!g) return hoja('¿Cómo se mide la compra guiada?', '<p class="es-sub">Se está calculando en segundo plano; vuelve en unos segundos.</p>');
+        const F = filasPol('g26'), h = F.length >> 1, Rf = R.filas;
+        return hoja('¿Cómo se midió la compra guiada?', `<p class="es-sub">Sin mirar el futuro, sobre ${g.tacos} tacos: en cada taco el motor (el de la rejilla con el tope duro) aprende solo de los tacos anteriores. Se compra el boleto más probable, se revela, se recalcula, y se para cuando el mejor queda bajo 26 %.</p>${tabla([['Boletos comprados', nf(g.n) + ' (' + g.porTaco.toFixed(1) + ' por taco)'], ['Acierto', pct(g.acierto) + ' · a ciegas ' + pct(td.acierto)], ['Retorno sin premios ≥ ' + fmt(R.U), pct(g.retSJ) + ' · IC90 ' + pct(g.ic[0], 0) + '–' + pct(g.ic[1], 0)], ['Primera mitad (' + fc(Rf[0].f) + ' a ' + fc(Rf[h - 1].f) + ')', pct(g.mitades[0]) + ' · taco entero ' + pct(td.mitades[0])], ['Segunda mitad (' + fc(Rf[h].f) + ' a ' + fc(Rf[Rf.length - 1].f) + ')', pct(g.mitades[1]) + ' · taco entero ' + pct(td.mitades[1])], ['Con todos los premios', pct(g.ret)]])}<p class="es-sub">El retorno usa el costo real de cada taco (con su descuento) y los premios netos de retención. Se deja fuera lo de ${fmt(R.U)} o más porque nadie lo predice. ${g.mitades[0] > td.mitades[0] && g.mitades[1] > td.mitades[1] ? 'La ventaja sobre el taco entero se mantiene en las dos mitades.' : 'Ojo: la ventaja sobre el taco entero no se mantiene en las dos mitades.'}</p>`); }
+      if(k === 'be'){ const d = R.descHab; return hoja('¿Cuándo vale la pena un boleto?', `${tabla([['Costo real medio del boleto', fmt(R.costoMedio)], ['Premio típico (media recortada al 95 %)', fmt(VD)], ['Precio de equilibrio', pct(R.costoMedio / VD, 0)]])}<p class="es-sub">Un boleto vale la pena si su probabilidad de premio supera costo ÷ premio típico. Cada taco usa su propio costo${d ? ': con ' + pct(d.d, 0) + ' de descuento, ' + fmt(R.cNom * (1 - d.d)) + ' → ' + pct(R.cNom * (1 - d.d) / VD, 0) : ''}; a precio de lista, ${fmt(R.cNom)} → ${pct(R.cNom / VD, 0)}. Antes la app usaba tres reglas distintas (${pct(R.cNom / VD, 0)}, ${pct(R.cNom / c.V, 0)} y ${pct(R.costoMedio / c.V, 0)}); ahora todas las pantallas usan esta.</p>`); }
+      if(k === 'salud'){ const C = calib(); if(!C) return hoja('¿Cómo se sabe que el motor es fiable?', '<p class="es-sub">Se está calculando en segundo plano; vuelve en unos segundos.</p>');
+        return hoja('¿Cómo se sabe que el motor es fiable?', `${tabla([['Brier del motor nuevo', C.H.brier.toFixed(4)], ['Brier del motor anterior', C.A.brier.toFixed(4)], ['Brier de adivinar con la tasa base', C.base.toFixed(4)], ['Franjas dentro de su margen (95 %)', C.H.dentro + ' de ' + C.H.total + ' · antes ' + C.A.dentro + ' de ' + C.A.total], ['Fijas marcadas · premiaron', C.fijas.n + ' · ' + C.fijas.y]])}<p class="es-sub">Brier = promedio de (probabilidad dicha − lo que salió)²: menor es mejor. ${nf(C.H.n)} boletos, cada uno predicho solo con los tacos anteriores. Una franja está «dentro de su margen» si lo que salió cae en el intervalo del 95 % de lo que el motor prometió.</p>`); }
+      if(k === 'glos') return hoja('Qué significa cada término', `<div class="es-sub" style="line-height:1.7;">${glosario()}</div>`);
+    }
+    const btnComo = k => `<button type="button" class="es-como" data-eg-como="${k}">¿cómo se calcula?</button>`;
+    function glosario(){
+      const R = rapido(), c = rgContextoMotor(), VD = c.Vdec || c.V; const be = R ? R.costoMedio / VD : null;
+      return '<strong>Break-even</strong>: el % de boletos que deben pagar para no perder: costo real ÷ premio típico' + (be ? ' (con tu costo medio, ' + pct(be, 0) + ')' : '') + '.<br>'
+        + '<strong>Premio típico (Vdec)</strong>: la media de tus premios netos sin la cola alta (recortada al 95 %); es la que decide.<br>'
+        + '<strong>EV (valor esperado)</strong>: lo que, en promedio, ganas o pierdes por boleto. Positivo = conviene.<br>'
+        + '<strong>P(premio)</strong>: probabilidad de que ese boleto pague, con lo que ya raspaste del taco.<br>'
+        + '<strong>Fija</strong>: posición que el diseño obliga a premiar (por ejemplo, tras la racha de perdedores más larga que la imprenta permite). <strong>Fija de NO</strong>: ya salieron todos los premios posibles.<br>'
+        + '<strong>Evitar</strong>: menos del 15 %: casi siempre pegada a un premio que acaba de salir.<br>'
+        + '<strong>Umbral de parada</strong>: si el mejor boleto que queda no llega a él (26 % por defecto), la guía dice «para aquí».<br>'
+        + '<strong>Sin mirar el futuro (walk-forward)</strong>: cada taco se decide solo con lo aprendido de los anteriores, como en la vida real.<br>'
+        + '<strong>IC90 / IC95</strong>: intervalo donde cae el valor real con 90 % / 95 % de confianza.<br>'
+        + '<strong>Brier</strong>: error de las probabilidades (menor es mejor).<br>'
+        + '<strong>Motor espacial</strong>: usa las rachas de perdedores ya visibles en el taco para afinar la probabilidad de cada boleto.<br>'
+        + '<strong>FDR ≤ 10 %</strong> y <strong>q-valor</strong>: control de falsas alarmas al mirar muchas posiciones a la vez (secciones del archivo).<br>'
+        + '<strong>Kelly ½</strong>: cuánto apostar sin arriesgar de más, según tu bankroll.';
+    }
+
+    // ───────────── piezas ─────────────
+    function posStats(R){
+      const F = R.filas || []; const s = k => F.reduce((a, f) => { a.n += f[k][0]; a.y += f[k][4]; return a; }, { n: 0, y: 0 });
+      return { top: s('top'), todo: s('todo'), tacos: F.length, desde: F.length ? F[0].f : null };
+    }
+    function cab(){
+      const j = juegoAct(), R = rapido();
+      return `<div class="es-cab"><span class="es-lg">🎯 Estrategia</span><span class="es-pil e-cur">${esc((j && j.emoji) || '🎟')} ${esc(j ? j.nombre : '')}</span><span class="es-mut">${nf(R ? R.n : 0)} tacos completos · motor validado sin mirar el futuro</span><span class="es-sp es-mut">${LAB.listo ? 'medición al día' : '<span data-eg-prog>calculando…</span>'}</span><span data-eg-slot="pdf"></span></div>`;
+    }
+    function veredicto(R){
+      const W = posStats(R), F = R.fijas, E = R.est, c = rgContextoMotor();
+      const nfj = F.racha.n + F.arranque.n + F.cuenta.n, yfj = F.racha.y + F.arranque.y + F.cuenta.y;
+      const g = met('g26', null), td = met('todo', null);
+      const tTop = W.top.n ? W.top.y / W.top.n : 0, tTodo = W.todo.n ? W.todo.y / W.todo.n : 0;
+      const portTxt = c.portero && !c.portero.insuf ? (c.portero.pval < 0.05 ? 'Ojo: el portero ve patrón (p = ' + c.portero.pval.toFixed(3) + ').' : 'Es azar: portero p = ' + c.portero.pval.toFixed(3) + '.') : '';
+      const gTxt = g ? (g.retSJ < 1 ? `Pierdes ${Math.round((1 - g.retSJ) * 100)}¢ por dólar en vez de ${Math.round((1 - td.retSJ) * 100)}¢.` : `Ganas ${Math.round((g.retSJ - 1) * 100)}¢ por dólar; el taco entero ${td.retSJ < 1 ? 'pierde ' + Math.round((1 - td.retSJ) * 100) + '¢' : 'gana ' + Math.round((td.retSJ - 1) * 100) + '¢'}.`) : '';
+      return `<div class="es-grid es-ver" style="--c:3;">
+        <div class="es-kpi"><span class="es-l">Las posiciones no predicen</span><span class="es-v es-neg">${W.top.n ? pct(tTop) : '—'}</span><span class="es-s">aciertan las 13 posiciones «que más ganan» elegidas con tu pasado, contra ${pct(tTodo)} de cualquier boleto (${nf(W.top.n)} boletos). ${portTxt}</span>${btnComo('pos')}</div>
+        <div class="es-kpi"><span class="es-l">La imprenta sí: hay fijas</span><span class="es-v es-gold">${yfj}/${nfj}</span><span class="es-s">${yfj === nfj ? 'premiaron siempre' : 'premiaron'}: tras ${E.maxEntre} perdedores seguidos (${F.racha.y}/${F.racha.n}), al arrancar con ${E.maxAntes} perdedores (${F.arranque.y}/${F.arranque.n}) o cuando faltan premios para el mínimo (${F.cuenta.y}/${F.cuenta.n}). Llegar ahí cuesta los perdedores que pagas.</span>${btnComo('fija')}</div>
+        <div class="es-kpi"><span class="es-l">Con lo que pagas · sin premios grandes</span><span class="es-v es-cur">${g ? pct(g.retSJ, 0) : '…'}</span><span class="es-s">${g ? `vuelve comprando guiado por el motor (acierto ${pct(g.acierto, 0)}), contra ${pct(td.retSJ, 0)} a ciegas. ${gTxt}` : '<span data-eg-prog>Calculando sin mirar el futuro…</span>'}</span>${btnComo('guia')}</div></div>`;
+    }
+    function bankrollEstado(){
+      const bankroll = parseFloat(localStorage.getItem('bitacora_bankroll') || '') || 0; if(!(bankroll > 0)) return null;
+      const f = rigorGetFiltros();
+      const ids = new Set(getLotesDelJuegoActivo().filter(l => f.tirada === '__todas__' || getTiradaSerie(l.serie) === f.tirada).map(l => String(l.id)));
+      const neto = getRecordsDelJuegoActivo().filter(r => ids.has(String(r.loteId))).reduce((s, r) => s + (r.premio || 0) - (r.costo || 0), 0);
+      return { bankroll, neto, stop: neto < -0.2 * bankroll, ambito: f.tirada !== '__todas__' ? 'tirada ' + f.tirada : 'este juego' };
+    }
+    function bankrollHTML(){
+      const bk = bankrollEstado(), bankroll = bk ? bk.bankroll : 0;
+      let kelly = '';
+      if(bk && B){ try{ const c = rgContextoMotor(), M = motorB(B), [i0, pb] = mejor(M, B), cu = costoB(B);
+        const fi = c.dist ? kellyDistribucional(pb, c.dist, cu) : ((pb * (c.Vdec || c.V) - cu) / ((c.Vdec || c.V) - cu));
+        const pres = Math.min(0.5 * Math.max(0, fi) * bankroll, 0.25 * bankroll), kMax = Math.floor(pres / cu);
+        kelly = i0 < 0 ? '' : kMax > 0 ? `<div class="es-note">💰 Kelly ½ con la mejor posición del tablero (${padPos(i0)}, ${pct(pb, 0)}): tope de <b>${kMax}</b> boleto(s) en este taco (${fmt(kMax * cu)}).</div>` : `<div class="es-note">💰 Kelly ½: con la mejor posición del tablero (${pct(pb, 0)}) el valor esperado no aguanta apuesta: si compras, que sea con monto mínimo.</div>`; }catch(e){} }
+      return `<div class="es-ctl"><label for="eg-bankroll"><b>💰 Bankroll:</b></label><input type="number" id="eg-bankroll" min="0" step="1" value="${bankroll || ''}" placeholder="ej. 100" style="width:96px;">
+        ${bk ? `<span class="es-note">Tu neto en ${esc(bk.ambito)}: <b class="${bk.neto >= 0 ? 'es-pos' : 'es-neg'}">${fmtS(bk.neto)}</b> · stop-loss al −20 % (${fmt(-0.2 * bankroll)})${bk.stop ? ' · <b class="es-neg">🛑 activado</b>' : ''}</span>` : '<span class="es-note">Escribe cuánto destinas en total a jugar: activa el tope por taco (Kelly ½) y el stop-loss.</span>'}</div>
+        ${kelly}<div class="es-note">Kelly solo es fiable para la <b>compra suelta</b> (su retorno está acotado). Para tacos completos usa un tope mensual fijo: su retorno depende de los jackpots (Análisis avanzado → $).</div>`;
+    }
+    function queSeHTML(){
+      let ctx = null; try{ ctx = rgContextoMotor(); }catch(e){}
+      let vig = '', reg = '';
+      try{ vig = vigilanteHTML(ctx); }catch(e){}
+      try{ reg = _registroHipotesisHTML(ctx); }catch(e){}
+      return vig + reg + '<div data-eg-slot="portero"></div>';
+    }
+    function diarioLeer(){ const a = lsGet(LS_DIA, []); return Array.isArray(a) ? a : []; }
+    function diarioHTML(){
+      const a = diarioLeer().filter(x => x.j === String(juegoActivoId));
+      const lotes = new Map((data.lotes || []).map(l => [String(l.id), l])), rp = new Map((data.records || []).map(r => [String(r.id), r]));
+      const umb = e7Base() ? e7Base().umbJack : 400;
+      const res = a.map(x => { const l = lotes.get(x.lote); const p = l && l.posiciones && l.posiciones[x.pos]; const e = p && p.estado; const r = p && p.recordId != null ? rp.get(String(p.recordId)) : null; return { x, e, r, l }; }).filter(o => o.e === 'gano' || o.e === 'no-gano');
+      const n = res.length, y = res.filter(o => o.e === 'gano').length, sp = res.reduce((s, o) => s + o.x.p, 0);
+      const cst = res.reduce((s, o) => s + (o.r ? (Number(o.r.costo) || 0) : costoUnitarioLote(o.l)), 0), msj = res.reduce((s, o) => s + (o.r && (Number(o.r.premio) || 0) < umb ? premioNeto(Number(o.r.premio) || 0) : 0), 0);
+      const w = wil(y, n), viejo = (()=>{ try{ return _e7DiarioLeer().filter(x => x.j === String(juegoActivoId)); }catch(e){ return []; } })();
+      const ult = res.slice(-10).reverse().map(o => `<tr><td>${fc(o.x.t)}</td><td>${esc(o.x.serie || '')}</td><td class="es-r">${padPos(o.x.pos)}</td><td class="es-r">${pct(o.x.p, 0)}</td><td class="es-r">${o.e === 'gano' ? '✓ ' + (o.r ? fmt(o.r.premio) : '') : '✗'}</td></tr>`).join('');
+      return `<div class="es-stats"><div><span class="es-l">Compras anotadas</span><b>${nf(n)}</b></div><div><span class="es-l">Prometía</span><b>${n ? pct(sp / n, 0) : '—'}</b></div><div><span class="es-l">Acierto</span><b>${n ? pct(y / n, 0) : '—'}</b></div></div>
+        ${n ? `<div class="es-note">IC95 del acierto: ${pct(w[0], 0)}–${pct(w[1], 0)} · retorno sin premios grandes ${cst > 0 ? pct(msj / cst) : '—'}. Si el acierto queda por debajo de lo prometido mes tras mes, el motor se está pasando de optimista.</div>
+        <div class="es-tw"><table class="es-mini"><thead><tr><th>Día</th><th>Taco</th><th class="es-r">Pos.</th><th class="es-r">Prometía</th><th class="es-r">Salió</th></tr></thead><tbody>${ult}</tbody></table></div>` : '<div class="es-note">Aún no hay compras anotadas en este aparato. Se anotan solas cuando marcas un boleto en la rejilla de Boletos con el motor a la vista.</div>'}
+        <details class="es-det"><summary>Diario anterior (recomendaciones del instrumento): ${viejo.length} anotadas</summary><div data-eg-slot="diario-viejo"></div></details>`;
+    }
+    // Anota lo que el motor prometía para cada posición que se compra en la rejilla (se llama al pintarla).
+    const _vista = new Map();
+    function anotarVista(lote, probsPorPos){
+      try{
+        if(!lote || !probsPorPos) return;
+        const id = String(lote.id), ant = _vista.get(id), ahora = Date.now();
+        if(ant && ahora - ant.t < 6 * 3600 * 1000){
+          const nuevos = [];
+          Object.keys(ant.P).forEach(i => { const p = (lote.posiciones || {})[i]; if(p && (p.estado === 'gano' || p.estado === 'no-gano') && p.recordId != null) nuevos.push({ i: +i, P: ant.P[i] }); });
+          if(nuevos.length){
+            const a = diarioLeer(), ya = new Set(a.map(x => x.k));
+            nuevos.forEach(o => { const k = id + '|' + o.i; if(ya.has(k)) return; a.push({ k, t: todayStr(), lote: id, serie: lote.serie, pos: o.i, p: +o.P.toFixed(4), j: String(lote.juegoId) }); });
+            if(a.length > 5000) a.splice(0, a.length - 5000);
+            lsSet(LS_DIA, a);
+          }
+        }
+        _vista.set(id, { t: ahora, P: Object.assign({}, probsPorPos) });
+      }catch(e){}
+    }
+    function cusumRapido(){
+      const clave = _dataVersion + '|' + juegoActivoId + '|' + filtroTirada();
+      if(cusumRapido._c && cusumRapido._c.clave === clave) return cusumRapido._c.v;
+      const f = rigorGetFiltros();
+      const ls = getLotesDelJuegoActivo().filter(l => f.tirada === '__todas__' || getTiradaSerie(l.serie) === f.tirada).filter(l => loteCounts(l).revealed >= 10).sort((a, b) => rgLoteTime(a) - rgLoteTime(b));
+      let v = null;
+      if(ls.length >= 6){
+        const tasas = ls.map(l => { const c = loteCounts(l); return c.paid / c.revealed; });
+        const cus = arr => { const m = arr.reduce((a, b) => a + b, 0) / arr.length; let s = 0, mx = 0; arr.forEach(x => { s += x - m; if(Math.abs(s) > mx) mx = Math.abs(s); }); return mx; };
+        const obs = cus(tasas), rnd = _rngSemilla(SEMILLA_PERM); let ge = 0; const B2 = 2000;
+        for(let b = 0; b < B2; b++){ const sh = tasas.slice(); for(let i = sh.length - 1; i > 0; i--){ const j = (rnd() * (i + 1)) | 0; [sh[i], sh[j]] = [sh[j], sh[i]]; } if(cus(sh) >= obs) ge++; }
+        v = { p: (ge + 1) / (B2 + 1), n: ls.length };
+      }
+      cusumRapido._c = { clave, v }; return v;
+    }
+    const HERR = ['diario', 'bank', 'quese', 'calidad', 'cusum', 'glos'];
+    function herrTiles(){
+      const R = rapido(), c = rgContextoMotor(), cu = cusumRapido(), a = diarioLeer().filter(x => x.j === String(juegoActivoId));
+      const viejo = (()=>{ try{ return _e7DiarioLeer().filter(x => x.j === String(juegoActivoId)).length; }catch(e){ return 0; } })();
+      let m = null; try{ m = rgModeloRacha(c.completos, c.dataR.tamanoLote); }catch(e){}
+      const tir = filtroTirada(), enc = getLotesDelJuegoActivo().filter(l => { const k = loteCounts(l); return k.revealed > 0 && k.revealed < k.total; }).length;
+      const T = {
+        diario: ['📓', 'Diario de compras guiadas', 'mejora', `Cada compra que marcas en la rejilla anota lo que prometía el motor y se resuelve sola al raspar (arriba: «Prometía» frente a «Acierto»). Llevas ${a.length} anotadas. El diario anterior tenía ${viejo}: anotaba «IR» que casi nunca se compraban.`],
+        bank: ['💰', 'Bankroll y Kelly ½', 'se conserva', 'Para la compra suelta: escribes tu presupuesto y te da el tope por taco y el stop-loss. Para tacos completos, tope mensual fijo.'],
+        quese: ['📋', 'Qué sé y con cuánta certeza', 'se conserva', `Hipótesis con umbral fijado antes de mirar: la racha, la plantilla de posiciones${c.portero && !c.portero.insuf ? ' (p = ' + c.portero.pval.toFixed(3) + ')' : ''} y el valor del premio por posición. Incluye «¿Sigue viva la ventaja?»${m ? ' (' + (m.coefRacha >= 0 ? '+' : '') + m.coefRacha.toFixed(3) + ', IC95 ' + (m.coefRacha - 1.96 * m.seRacha).toFixed(3) + '–' + (m.coefRacha + 1.96 * m.seRacha).toFixed(3) + ')' : ''} y el estado de la señal.`],
+        calidad: ['🧹', 'Calidad de datos y tirada', 'se conserva', `Filtro de tirada (${tir === '__todas__' ? 'todas' : esc(tir)}) y «solo lotes completos»: ${nf(R ? R.base.tacos.length : 0)} completos y ${nf(enc)} en curso hoy.`],
+        cusum: ['📈', '¿Cambió la tirada?', 'se conserva', cu ? `CUSUM sobre los ${cu.n} tacos en orden: p ${cu.p.toFixed(3)}, ${cu.p < 0.05 ? 'hay indicio de cambio: revísalo antes de fiarte del motor' : 'la tirada es homogénea'}.` : 'Hacen falta 6 tacos con 10+ boletos para buscar un cambio de la imprenta.'],
+        glos: ['ⓘ', 'Qué significa cada término', 'se conserva', 'El glosario de antes, al día y en una hoja; además, cada cifra principal tiene su «¿cómo se calcula?».'],
+      };
+      return HERR.map(k => { const x = T[k]; return `<button type="button" class="es-herr-t ${_herrAbierta === k ? 'e-on' : ''}" data-eg-herr="${k}" aria-expanded="${_herrAbierta === k}" aria-controls="egHerr-${k}"><span class="es-hi" aria-hidden="true">${x[0]}</span><b>${esc(x[1])}</b><span class="es-pil ${x[2] === 'mejora' ? 'e-cur' : 'e-ok'}">${x[2]}</span><span class="es-mut">${x[3]}</span></button>`; }).join('');
+    }
+    let _herrAbierta = null;
+    const ARCH = [['rigor-shrinkage', 'Ranking honesto (A)', 'posiciones · ruido'], ['heatmapTaco', 'Mapa de calor (A₂)', 'posiciones · ruido'], ['simul-grid', 'Simulador top-N (B)', 'posiciones · ruido'], ['estrat-roi-proyectado', 'ROI proyectado (C)', 'depende del simulador'], ['estrat-cooc-wrap', 'Pares que ganan juntas (D)', 'posiciones · ruido'], ['estrat-consistencia', 'Consistencia entre lotes (E)', 'posiciones · ruido'], ['rigor-potencia', 'Potencia (H)', 'cerrado: potencia alta'], ['rigor-geometria', 'Geometría del patrón (I)', 'sin patrón'], ['rigor-validacion', 'Validación LOO de posiciones', 'pierde contra el azar']];
+
+    // ───────────── pintado ─────────────
+    function principalHTML(){
+      const R = rapido(), j = juegoAct();
+      if(!j) return '<p class="note">Elige un juego.</p>';
+      const c = rgContextoMotor(), VD = c.Vdec || c.V || 0;
+      const g = met('g26', null), dH = R && R.descHab ? met('g26', R.descHab.d) : null, d25 = met('g26', 0.25);
+      const guiaTxt = g ? `Con tus tacos, sin mirar el futuro: ${pct(g.acierto, 0)} de acierto contra ${pct(met('todo', null).acierto, 0)} a ciegas, ${g.porTaco.toFixed(0)} boletos por taco, ${pct(g.retSJ)} de retorno sin premios grandes (IC90 ${pct(g.ic[0], 0)}–${pct(g.ic[1], 0)}).` : '<span data-eg-prog>Calculando sin mirar el futuro…</span>';
+      let h = `<section class="es-card" aria-labelledby="egT1" id="egGuiada"><h2 id="egT1">🛒 Compra guiada <span class="es-pil e-ok">la que menos pierde con lo que pagas</span></h2><div class="es-sub">Compras un boleto a la vez. El motor mira lo que ya raspaste y te dice cuál es el más probable del taco; paras cuando ninguno llega al umbral. ${guiaTxt}</div>${tableroHTML()}</section>`;
+      if(!R || !R.est || !R.filas || !R.filas.length){
+        return h + `<div class="es-card"><p class="es-sub">Las mediciones (veredicto, racha, qué rinde cada forma de comprar) necesitan al menos ${INI + 1} tacos completos válidos de este juego; hay ${R ? R.n : 0}.</p></div>`;
+      }
+      const RF = R.rachaFuera, E = R.est, r0 = RF[0], rT = RF[E.maxEntre] || { n: 0, y: 0 };
+      const pAnt = c.curva && c.curva.pApp ? c.curva.pApp[Math.min(c.curva.pApp.length - 1, c.curva.maxLobs)] : null;
+      let qR = null; try{ const RR = rgRiesgoRacha(j.id); qR = RR ? RR.qRacha : null; }catch(e){}
+      const vl6 = met('vl6', null), vf = met('vf', null);
+      const C = calib();
+      const td = met('todo', null);
+      h += veredicto(R);
+      h += `<div class="es-grid es-uno" style="--c:2;">
+        <section class="es-card" id="egRacha"><h3>Por qué funciona: la imprenta espacia los premios</h3>${rachaSVG(R)}<div class="es-sub">Justo después de un premio el siguiente paga ${r0.n ? pct(r0.y / r0.n, 0) : '—'}; tras ${E.maxEntre} perdedores, ${rT.y} de ${rT.n}.${pAnt != null ? ' El motor anterior lo suavizaba a ' + pct(pAnt, 0) + ' y nunca marcaba la fija; el de ahora la marca.' : ''}</div>
+          <details class="es-det"><summary>Ver la tabla completa</summary><div data-eg-slot="racha-tabla"></div></details></section>
+        <section class="es-card" id="egMuro"><h3>El muro de los ${E.maxEntre}</h3>${histSVG(E.entre, E.maxEntre, true, 'Perdedores seguidos entre dos premios', wDe(2, true), 220)}<div class="es-note" style="text-align:center;">perdedores seguidos entre dos premios · veces en tus ${R.n} tacos</div><div class="es-sub">Perdedores seguidos entre dos premios, en tus ${R.n} tacos: nunca más de ${E.maxEntre}${qR != null ? ' (al azar, el ' + pct(qR, 0) + ' de los tacos tendría ' + (E.maxEntre + 1) + ' o más)' : ''}. Por eso la posición ${E.maxEntre + 1} tras ${E.maxEntre} perdedores es una fija.</div>
+          <button type="button" class="es-btn es-sm" data-eg-arch="estrat-secuencia" style="align-self:flex-start;">Ver la estructura secuencial (J) ›</button></section></div>`;
+      h += `<section class="es-card" id="egRinde"><h3>Qué rinde cada forma de comprar · con lo que pagas</h3>${barras(['todo', 'top', 'prim', 'g25', 'g26'], 'g26')}<div class="es-sub">${g ? `${R.descHab ? `Con tu mejor descuento habitual (${pct(R.descHab.d, 0)}, lo tuviste en ${R.descHab.n} tacos) la compra guiada devolvería <b>${pct(dH.retSJ)}</b>; con 25 %, <b>${pct(d25.retSJ)}</b>.` : `Con 25 % de descuento, la compra guiada devolvería <b>${pct(d25.retSJ)}</b>.`} El descuento y la guía juntos son lo que acerca el 100 %. ` : ''}Contraste, solo si vieras los boletos anteriores sin pagarlos: tras 6+ perdedores ${vl6 ? pct(vl6.retSJ, 0) : '—'}${vf ? ' y las fijas ' + pct(vf.retSJ, 0) : ''}.</div></section>`;
+      const be = R.costoMedio / VD, F = R.fijas;
+      h += `<div class="es-grid es-uno" style="--c:3;">
+        <div class="es-kpi"><span class="es-l">Precio de equilibrio único</span><span class="es-v">${pct(be, 0)}</span><span class="es-s">costo real del taco ÷ premio típico (${fmt(VD)}). Antes había tres: ${pct(R.cNom / VD, 0)} (lista), ${pct(R.cNom / c.V, 0)} y ${pct(R.costoMedio / c.V, 0)}; ahora todas las pantallas usan este.</span>${btnComo('be')}</div>
+        <div class="es-kpi"><span class="es-l">Fija de NO</span><span class="es-v">${F.no.y}/${F.no.n}</span><span class="es-s">cuando ya salieron ${E.tMax} premios, ${F.no.y ? F.no.y + ' boleto(s) restante(s) premiaron' : 'ningún boleto restante premió'}: la guía para sola.</span>${btnComo('fija')}</div>
+        <div class="es-kpi"><span class="es-l">Salud del motor</span><span class="es-v es-pos">${C ? pct(1 - C.H.brier / C.base, 1) + ' mejor' : '…'}</span><span class="es-s">${C ? `que adivinar con la tasa base (Brier), y ${C.H.dentro === C.H.total ? 'calibrado en todas sus franjas' : C.H.dentro + ' de ' + C.H.total + ' franjas dentro de su margen'}: ${nf(C.H.n)} boletos fuera de muestra.` : '<span data-eg-prog>Calculando…</span>'}</span>${btnComo('salud')}</div></div>`;
+      return h;
+    }
+    function estructura(){
+      // Se crea UNA vez: lo que se mueve aquí (secciones anteriores) no puede destruirse al repintar.
+      const raiz = document.getElementById('estratA'); if(!raiz || raiz.dataset.egListo) return raiz;
+      raiz.dataset.egListo = '1';
+      raiz.innerHTML = `<div class="es">
+        <div id="egCab"></div>
+        <div data-eg-slot="aviso"></div>
+        <div id="egMain" class="es-col"></div>
+        <section class="es-card" id="egHerr"><h3>🧰 Herramientas que siguen</h3><div class="es-sub">Lo útil de la pestaña anterior no se pierde: se queda aquí, junto a la compra guiada.</div><div class="es-herr" id="egHerrTiles"></div>
+          ${HERR.map(k => `<div class="es-herr-cuerpo" id="egHerr-${k}" hidden><div data-eg-din="${k}"></div><div data-eg-slot="h-${k}"></div></div>`).join('')}</section>
+        <section class="es-card" id="egArch"><h3>📦 Archivo de pruebas (se conservan, no deciden)</h3><div class="es-sub">Todo lo que probó que las posiciones son azar sigue disponible, plegado, para que se vea que se probó. Nada se borra.</div>
+          <div class="es-arch">${ARCH.map(a => `<button type="button" class="es-arch-t" data-eg-arch="${a[0]}"><b>${esc(a[1])}</b><span class="es-mut">${esc(a[2])}</span></button>`).join('')}</div>
+          <div id="egArchCuerpo" hidden><div class="es-ctl" style="justify-content:space-between;"><span class="es-l">Secciones anteriores, tal cual</span><button type="button" class="es-btn es-sm" data-eg-archcerrar>Plegar el archivo</button></div><div data-eg-slot="archivo"></div></div></section>
+        <div class="es-note">En la app: la misma compra guiada vive en la rejilla del taco (Boletos › Estado del lote), donde se registran los boletos, y aquí, con el taco que elijas. Los tacos abandonados ya no se recomiendan.</div></div>`;
+      // ── mover las piezas de la pestaña anterior a su nuevo sitio (mismos nodos: sus ids, renderers y botones siguen) ──
+      // #egGuarda es el depósito oculto: lo que vive dentro de una parte que se repinta se rescata ahí antes.
+      const guarda = document.createElement('div'); guarda.id = 'egGuarda'; guarda.hidden = true; raiz.querySelector('#egHerr').appendChild(guarda);
+      const mover = (id, slot) => { const n = document.getElementById(id), s = slot ? raiz.querySelector('[data-eg-slot="' + slot + '"]') : guarda; if(n && s) s.appendChild(n); return n; };
+      mover('e7AvisoRegla', 'aviso');                 // aviso de regla SUSPENDIDA: arriba, a la vista
+      mover('btnExportEstrategiaPdf'); mover('estratRiesgoRacha');
+      mover('estratBloqueCalidad', 'h-calidad'); mover('estratBloqueCusum', 'h-cusum');
+      mover('estratBloqueDiario'); mover('estratBloquePortero');
+      mover('estratViejo', 'archivo');
+      return raiz;
+    }
+    // rescata al depósito las piezas movidas que cuelgan de partes que se van a repintar
+    function rescatar(){ const g = document.getElementById('egGuarda'); if(!g) return; ['btnExportEstrategiaPdf', 'estratRiesgoRacha', 'estratBloqueDiario', 'estratBloquePortero'].forEach(id => { const n = document.getElementById(id); if(n && n.parentElement !== g) g.appendChild(n); }); }
+    function colgar(id, sel){ const n = document.getElementById(id), s = document.querySelector(sel); if(n && s && n.parentElement !== s) s.appendChild(n); }
+    function render(){
+      const t0 = performance.now();
+      const raiz = estructura(); if(!raiz) return;
+      ANCHO = Math.max(300, (raiz.querySelector('.es') || raiz).clientWidth || 1200);
+      const ja = String(juegoActivoId); if(B && B.juego !== ja) B = null;
+      const tablaR = document.getElementById('estratRiesgoRacha'); const detR = tablaR && tablaR.closest('details'); const abiertoR = !!(detR && detR.open);
+      rescatar();   // botón PDF, tabla de la regla, diario anterior y portero: al depósito antes de repintar
+      document.getElementById('egCab').innerHTML = cab();
+      colgar('btnExportEstrategiaPdf', '#egCab [data-eg-slot="pdf"]');
+      const main = document.getElementById('egMain');
+      main.innerHTML = principalHTML().replace(/(\d) %/g, '$1&nbsp;%');
+      colgar('estratRiesgoRacha', '#egMain [data-eg-slot="racha-tabla"]'); if(abiertoR){ const d = main.querySelector('[data-eg-slot="racha-tabla"]'); if(d) d.closest('details').open = true; }
+      document.getElementById('egHerrTiles').innerHTML = herrTiles();
+      pintarHerr();
+      const clave = juegoActivoId + '|' + filtroTirada();
+      if(!LAB.listo || LAB.clave !== clave || LAB.version !== _dataVersion) labArrancar();
+      _renderTiempos['eg.render'] = Math.round(performance.now() - t0);
+    }
+    function pintarHerr(){
+      rescatar(); colgar('btnExportEstrategiaPdf', '#egCab [data-eg-slot="pdf"]'); colgar('estratRiesgoRacha', '#egMain [data-eg-slot="racha-tabla"]');
+      HERR.forEach(k => { const cu = document.getElementById('egHerr-' + k); if(!cu) return; cu.hidden = _herrAbierta !== k; if(_herrAbierta !== k) return;
+        const din = cu.querySelector('[data-eg-din]');
+        if(k === 'diario') din.innerHTML = diarioHTML();
+        else if(k === 'bank') din.innerHTML = bankrollHTML();
+        else if(k === 'quese') din.innerHTML = queSeHTML();
+        else if(k === 'glos') din.innerHTML = `<div class="es-sub" style="line-height:1.7;">${glosario()}</div>`;
+        else if(k === 'cusum'){ const v = cusumRapido(); din.innerHTML = v ? `<div class="es-note">Resumen al día: p ${v.p.toFixed(3)} sobre ${v.n} tacos (${v.p < 0.05 ? 'indicio de cambio' : 'homogénea'}). Abajo, la prueba completa con su gráfico.</div>` : ''; }
+        else din.innerHTML = '';
+      });
+      // el diario anterior y el estado de la señal (portero) se cuelgan dentro de su herramienta si está abierta
+      colgar('estratBloqueDiario', '#egHerr-diario [data-eg-slot="diario-viejo"]');
+      colgar('estratBloquePortero', '#egHerr-quese [data-eg-slot="portero"]');
+    }
+    function repintarSiVisible(){ const p = document.getElementById('panel-estrategia'); if(p && p.classList.contains('active')) repintar(); }
+    function repintar(foco){ render(); if(foco){ const n = document.querySelector(foco); if(n) try{ n.focus({ preventScroll: true }); }catch(_){} } }
+    function abrirArchivo(id){
+      const cu = document.getElementById('egArchCuerpo'); if(cu) cu.hidden = false;
+      setTimeout(() => { try{ abrirAccDe(id === 'rigor-validacion' ? 'simul-grid' : id); }catch(e){} if(id === 'rigor-validacion') setTimeout(() => document.getElementById('rigor-validacion')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120); }, 30);
+    }
+
+    // ───────────── eventos ─────────────
+    function enlazar(){
+      const raiz = document.getElementById('estratA'); if(!raiz || raiz._egEnlazado) return; raiz._egEnlazado = true;
+      raiz.addEventListener('click', e => {
+        const bt = e.target.closest('button'); if(!bt || !raiz.contains(bt)) return; const d = bt.dataset; const b = B;
+        if(d.egCel != null){ const i = +d.egCel;
+          if(b.modo === 'repetir'){ if(b.obs[i] === null){ comprarReal(i); toast('Compraste la ' + padPos(i) + ': ' + (b.obs[i] ? 'premió ' + fmt(b.m[i]) : 'no premió')); } }
+          else b.sel = b.sel === i ? null : i;
+          repintar('[data-eg-cel="' + i + '"]'); return; }
+        if(d.egModo){ ui.modo = d.egModo; guardarUI(); B = nuevoB(d.egModo, d.egModo === b.modo ? b.ref : undefined); repintar('[data-eg-modo="' + d.egModo + '"]'); return; }
+        if(d.egPaso != null){ const i = pasoGuiado(); toast(i < 0 ? 'La guía para aquí' : 'Compraste la ' + padPos(i) + ': ' + (b.obs[i] ? 'premió ' + fmt(b.m[i]) : 'no premió')); repintar(raiz.querySelector('[data-eg-paso]:not([disabled])') ? '[data-eg-paso]' : '[data-eg-reini]'); return; }
+        if(d.egAuto != null){ let k = 0; while(pasoGuiado() >= 0 && k++ < 200); const n = b.compras.length, y = b.compras.filter(i => b.obs[i] === 1).length; toast('La guía compró ' + n + ' boletos (' + y + ' premiados) y paró'); repintar('[data-eg-reini]'); return; }
+        if(d.egReini != null){ B = nuevoB(b.modo, b.ref); repintar('[data-eg-modo="' + b.modo + '"]'); return; }
+        if(d.egAzar != null){ const R = rapido(); if(R && R.T.length){ B = nuevoB('repetir', R.T[Math.floor(Math.random() * R.T.length)].id); } repintar('[data-eg-azar]'); return; }
+        if(d.egVer != null){ b.ver = !b.ver; repintar('[data-eg-ver]'); return; }
+        if(d.egRes != null){ let i = b.sel; if(i == null){ const [bi] = mejor(motorB(b), b); i = bi; } if(i == null || i < 0) return;
+          anotar(i, d.egRes); b.sel = null; const [nb] = mejor(motorB(b), b); repintar('[data-eg-cel="' + (nb >= 0 ? nb : i) + '"]'); return; }
+        if(d.egAbrir != null){ const id = b.ref; activeLoteId = ((data.lotes || []).find(l => String(l.id) === String(id)) || {}).id; goTab('boletos'); setTimeout(() => { try{ renderLoteList(); renderLoteDetail(); document.getElementById('loteDetailSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }catch(_){} }, 80); return; }
+        if(d.egComo){ como(d.egComo); return; }
+        if(d.egHerr){ _herrAbierta = _herrAbierta === d.egHerr ? null : d.egHerr; document.getElementById('egHerrTiles').innerHTML = herrTiles(); pintarHerr(); const nb = raiz.querySelector('[data-eg-herr="' + d.egHerr + '"]'); if(nb) nb.focus({ preventScroll: true }); if(_herrAbierta === 'cusum'){ const r = document.getElementById('rigor-cusum'); if(r && !r.innerHTML.trim()) document.getElementById('rigor-cusum-run')?.click(); } return; }
+        if(d.egArch){ abrirArchivo(d.egArch); return; }
+        if(d.egArchcerrar != null){ document.getElementById('egArchCuerpo').hidden = true; raiz.querySelector('[data-eg-arch]')?.focus(); return; }
+      });
+      raiz.addEventListener('change', e => { const el = e.target, b = B;
+        if(el.matches('[data-eg-taco]')){ B = nuevoB('repetir', el.value); repintar('[data-eg-taco]'); }
+        else if(el.matches('[data-eg-vivo]')){ B = nuevoB('vivo', el.value); repintar('[data-eg-vivo]'); }
+        else if(el.matches('[data-eg-tau]')){ ui.tau = +el.value; guardarUI(); repintar('[data-eg-tau]'); }
+        else if(el.matches('[data-eg-desc]')){ b.desc = Math.max(0, Math.min(0.4, (+el.value || 0) / 100)); repintar('[data-eg-desc]'); }
+        else if(el.id === 'eg-bankroll'){ try{ localStorage.setItem('bitacora_bankroll', el.value || ''); }catch(_){} repintar('#eg-bankroll'); } });
+      raiz.addEventListener('keydown', e => { const c = e.target.closest && e.target.closest('[data-eg-cel]'); if(!c || e.ctrlKey || e.metaKey || e.altKey) return; const i = +c.dataset.egCel, b = B;
+        // las teclas que usa el tablero (flechas, 0–5, N, V, G, Supr) no deben llegar a los atajos globales (1–8 cambian de pestaña)
+        if(/^(Arrow|Home|End|Delete|Backspace|[0-9]|[nNvVgG])/.test(e.key)) e.stopPropagation();
+        const mov = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -10, ArrowDown: 10, Home: -9999, End: 9999 }[e.key];
+        if(mov != null){ e.preventDefault(); const j = Math.max(0, Math.min(b.N - 1, i + mov)); raiz.querySelectorAll('[data-eg-cel]').forEach(x => x.tabIndex = -1); const n = raiz.querySelector('[data-eg-cel="' + j + '"]'); if(n){ n.tabIndex = 0; n.focus(); } return; }
+        if(b.modo === 'repetir'){ if(e.key === 'g' || e.key === 'G'){ e.preventDefault(); raiz.querySelector('[data-eg-paso]:not([disabled])')?.click(); } return; }
+        const k = { n: '0', N: '0', '0': '0', '2': '2', '4': '4', '5': '5', '1': '10', v: 'v', V: 'v' }[e.key];
+        if(k){ e.preventDefault(); anotar(i, k); b.sel = null; repintar('[data-eg-cel="' + i + '"]'); return; }
+        if(e.key === 'Delete' || e.key === 'Backspace'){ e.preventDefault(); anotar(i, 'x'); repintar('[data-eg-cel="' + i + '"]'); }
+        if(e.key === 'Escape' && b.sel != null){ e.preventDefault(); b.sel = null; repintar('[data-eg-cel="' + i + '"]'); } });
+      let _rz = null, _w = innerWidth; addEventListener('resize', () => { if(Math.abs(innerWidth - _w) < 8) return; _w = innerWidth; clearTimeout(_rz); _rz = setTimeout(repintarSiVisible, 180); });
+    }
+    function renderPublico(){ estructura(); enlazar(); render(); }
+    // para la rejilla de Boletos: mismo umbral de parada que el tablero
+    const tauActual = () => ui.tau;
+    // para Inicio (Salud del instrumento) y Avanzado: UNA sola calibración, la del motor que decide
+    function calibResumen(){
+      const C = calib(); if(!C) return null;
+      const bins = C.H.lista.map(x => { const p = x.sp / x.n, sd = Math.sqrt(x.n * p * (1 - p)); return { n: x.n, prev: p, obs: x.y / x.n, dentro: sd > 0 ? Math.abs(x.y - x.sp) / sd <= 1.96 : Math.abs(x.y - x.sp) < 0.5 }; });
+      return { motor: true, dentro: C.H.dentro, total: C.H.total, bins, n: C.H.n, mejora: C.base ? 1 - C.H.brier / C.base : 0, brierH: C.H.brier, brierA: C.A.brier, base: C.base, fijas: C.fijas };
+    }
+    function asegurarLab(){ try{ const clave = juegoActivoId + '|' + filtroTirada(); if(!LAB.listo || LAB.clave !== clave || LAB.version !== _dataVersion) labArrancar(); }catch(e){} }
+    return { render: renderPublico, anotarVista, tauActual, met, calib, calibResumen, asegurarLab, rapido, LAB, como, get B(){ return B; }, nuevoB: (m, r) => (B = nuevoB(m, r)) };
+  })();
+
+
   function renderEstrategia(){
     const juegoActivo = getJuegoActivo();
     if(!juegoActivo) return;
@@ -26014,7 +26909,8 @@ function cabApp() {
     // calcularlas aquí era computar 10 análisis pesados que nadie podía ver: por eso la
     // pestaña tardaba tanto en abrir. Ahora cada una se calcula al desplegarla.
     try{ _cron('estr.riesgoRacha', renderRiesgoRacha); }catch(e){ console.warn('[riesgo racha]', e); }   // v39.6
-    _cron('estr.panelDecision', renderPanelDecision);
+    // v41.7 — el Panel de decisión (instrumento + tarjetas por taco) lo reemplaza la compra guiada (EG): no se calcula.
+    // Era lo más caro de la pestaña (~600 ms) y recomendaba tacos abandonados con tres break-even distintos.
     _cron('estr.portero', renderRigorPortero);
     _cron('estr.diagnostico', renderRigorDiagnostico);
 
@@ -26059,7 +26955,7 @@ function cabApp() {
       try{
         goTab('estrategia');
         setTimeout(function(){
-          document.getElementById('panel-decision')?.scrollIntoView({behavior:'smooth', block:'start'});
+          (document.getElementById('egGuiada') || document.getElementById('estratA'))?.scrollIntoView({behavior:'smooth', block:'start'});
         }, 120);
       }catch(_){}
     }
@@ -26238,7 +27134,7 @@ function cabApp() {
         doc.setFont('helvetica','bold');
         doc.setFontSize(18);
         doc.setTextColor(cInk[0],cInk[1],cInk[2]);
-        doc.text('Estrategia de Posiciones', marginX, y); y+=22;
+        doc.text('Estrategia · Compra guiada', marginX, y); y+=22;
         doc.setFontSize(10);
         doc.setFont('helvetica','normal');
         doc.setTextColor(cSoft[0],cSoft[1],cSoft[2]);
@@ -26248,7 +27144,10 @@ function cabApp() {
 
         // Captura cada sección visible como imagen
         const secciones = [
-          { id:'panel-decision',       titulo:'Panel de decisión — qué comprar ahora' },
+          { id:'egGuiada',             titulo:'Compra guiada — qué boleto comprar y cuándo parar' },
+          { id:'egRacha',              titulo:'Por qué funciona: la imprenta espacia los premios' },
+          { id:'egMuro',               titulo:'El muro de los perdedores' },
+          { id:'egRinde',              titulo:'Qué rinde cada forma de comprar (con lo que pagas)' },
           { id:'rigor-portero',        titulo:'Estado de la señal' },
           { id:'rigor-diagnostico',    titulo:'Calidad de datos y estratificación' },
           { id:'rigor-shrinkage',      titulo:'A · Ranking honesto (FDR + decisión)' },
@@ -26296,7 +27195,7 @@ function cabApp() {
           y += imgH + 18;
         }
 
-        doc.save(`estrategia_posiciones_${juego?.nombre?.replace(/\s+/g,'_')||'juego'}_${todayStr()}.pdf`);
+        doc.save(`estrategia_${juego?.nombre?.replace(/\s+/g,'_')||'juego'}_${todayStr()}.pdf`);
         toast('PDF generado');
       } catch(err){
         toast(err.message || 'Error al generar el PDF');
@@ -31263,6 +32162,7 @@ function cabApp() {
     // v41.5 — Cobros (módulo KB) expuesto para auditar el estado «entregado» desde la consola.
     KB, fmt, todayStr, setCobroTab(v){ cobroTab = v; KB.render(); },
     IX,   // v41.6 — Inicio (propuesta B)
+    EG,   // v41.7 — Estrategia (propuesta A «Compra guiada»)
     get records(){ return data.records; }, get lotes(){ return data.lotes; }, get juegos(){ return data.juegos; },
     render, renderTodo, renderPestana, renderTable, renderMetrics, renderLoteList,
     sugerirSerieSiguiente, getCtxCompra, crearLoteIgual, revisarLoteAlCompletar,
