@@ -2029,6 +2029,168 @@
     .k-pie [data-falta-quedan], .k-pie [data-liqok]{ grid-column:1 / -1; }
   }
 
+/* ═══ v41.8 · Pistola QR = propuesta A «Consola de captura» (prefijo qx- / e- en los estados; módulo QX).
+   Mismas variables de la app; container queries como Estrategia. ═══ */
+/* ═══ Módulo QR (prefijo qx-) — mismas variables de la app; container queries como Estrategia ═══ */
+.qx, .qx-fondo{ --qx-cur:#5B4BD6; --qx-amb:#A86A12; --qx-neg:#C62828; --qx-gold:color-mix(in srgb, var(--gold) 45%, #2A1E00); }
+body.theme-arcade .qx, body.theme-arcade .qx-fondo{ --qx-cur:#9C8EFF; --qx-amb:#F5B33C; --qx-neg:#FF7A7A; --qx-gold:var(--gold); }
+.qx{ container-type:inline-size; container-name:qx; display:flex; flex-direction:column; gap:14px; color:var(--ink); }
+.qx *{ box-sizing:border-box; } .qx button{ font:inherit; cursor:pointer; color:inherit; }
+.qx-cab{ display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--ink); padding-bottom:8px; font-size:12.5px; flex-wrap:wrap; }
+.qx-cab .qx-lg{ font:800 18px 'Trebuchet MS','Segoe UI',sans-serif; } .qx-cab .qx-sp{ margin-left:auto; }
+.qx-l{ font-size:10.5px; text-transform:uppercase; letter-spacing:.07em; color:var(--silver-dark); font-weight:800; }
+.qx-card{ border:1px solid var(--line); background:var(--white); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.qx-card h2, .qx-card h3{ margin:0; font:800 16px 'Trebuchet MS','Segoe UI',sans-serif; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.qx-card h3{ font-size:14.5px; }
+.qx-sub{ font-size:12.5px; color:var(--silver-dark); line-height:1.5; } .qx-note{ font-size:12px; color:var(--silver-dark); line-height:1.5; }
+.qx-btn{ height:40px; padding:0 16px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:13px; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center; gap:6px; color:var(--ink); }
+.qx-btn.qx-pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; } .qx-btn.qx-ok{ background:var(--ok); border-color:var(--ok); color:#06261B; }
+.qx-btn.qx-sm{ height:32px; padding:0 12px; font-size:12px; } .qx-btn:disabled{ opacity:.4; cursor:default; }
+.qx-pil{ display:inline-flex; align-items:center; gap:4px; padding:2px 9px; border-radius:999px; font-size:11.5px; font-weight:800; white-space:nowrap; }
+.qx-pil.e-ok{ background:color-mix(in srgb, var(--ok) 16%, transparent); color:var(--ok); } .qx-pil.e-neg{ background:color-mix(in srgb, var(--qx-neg) 15%, transparent); color:var(--qx-neg); }
+.qx-pil.e-amb{ background:color-mix(in srgb, var(--qx-amb) 18%, transparent); color:var(--qx-amb); } .qx-pil.e-cur{ background:color-mix(in srgb, var(--qx-cur) 18%, transparent); color:var(--qx-cur); }
+.qx-pil.e-gold{ background:color-mix(in srgb, var(--gold) 24%, transparent); color:var(--qx-gold); } .qx-pil.e-sin{ background:color-mix(in srgb, var(--silver) 40%, transparent); color:var(--silver-dark); }
+.qx-seg{ display:inline-flex; border:1px solid var(--silver); border-radius:12px; overflow:hidden; min-height:36px; max-width:100%; }
+.qx-seg button{ border:0; background:transparent; padding:0 12px; font-weight:700; font-size:12.5px; color:var(--silver-dark); white-space:nowrap; }
+.qx-seg button.e-on{ background:var(--ink); color:var(--paper); }
+.qx-grid{ display:grid; gap:14px; grid-template-columns:repeat(var(--c,3), minmax(0,1fr)); align-items:stretch; }
+.qx-kpi{ border:1px solid var(--line); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; background:var(--white); min-width:0; text-align:left; }
+.qx-kpi .qx-v{ font:800 24px 'Courier New',monospace; font-variant-numeric:tabular-nums; } .qx-kpi .qx-s{ font-size:12px; color:var(--silver-dark); margin-top:auto; line-height:1.4; }
+.qx .qx-pos{ color:var(--ok); } .qx .qx-neg{ color:var(--qx-neg); } .qx .qx-amb{ color:var(--qx-amb); } .qx .qx-cur{ color:var(--qx-cur); } .qx .qx-gold{ color:var(--qx-gold); } .qx .qx-mut{ color:var(--silver-dark); }
+.qx-ctl{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:12.5px; }
+.qx-ctl select, .qx-ctl input{ height:34px; border-radius:10px; border:1px solid var(--silver); background:var(--paper); color:var(--ink); padding:0 8px; font:inherit; font-weight:700; }
+.qx-como{ align-self:flex-start; border:0; background:transparent; color:var(--qx-cur); font-weight:700; font-size:12px; padding:2px 0; text-decoration:underline; text-underline-offset:2px; }
+/* ── marcador (último disparo) ── */
+.qx-mk{ display:flex; align-items:center; gap:18px; border:2px solid var(--line); border-radius:16px; padding:14px 18px; background:var(--white); min-width:0; }
+.qx-mk .qx-mkp{ font:800 clamp(34px,6vw,56px) 'Courier New',monospace; letter-spacing:-.02em; line-height:1; min-width:2.5em; text-align:center; color:var(--ink); }
+.qx-mk .qx-mkm{ flex:1; min-width:0; } .qx-mk .qx-mke{ font-weight:800; font-size:17px; line-height:1.2; } .qx-mk .qx-mks{ font:12px 'Courier New',monospace; color:var(--silver-dark); margin-top:3px; }
+.qx-mk .qx-mkn{ text-align:right; flex:none; } .qx-mk .qx-mkn span{ display:block; font-size:11px; color:var(--silver-dark); } .qx-mk .qx-mkn b{ font:800 24px 'Courier New',monospace; }
+.qx-mk .qx-mksep{ padding-left:14px; border-left:1px solid var(--line); }
+.qx-mk.e-gano{ border-color:var(--ok); background:color-mix(in srgb, var(--ok) 12%, var(--white)); } .qx-mk.e-gano .qx-mkp{ color:var(--ok); }
+.qx-mk.e-sin{ border-color:color-mix(in srgb, var(--qx-neg) 55%, var(--line)); background:color-mix(in srgb, var(--qx-neg) 8%, var(--white)); } .qx-mk.e-sin .qx-mkp{ color:var(--qx-neg); }
+.qx-mk.e-esp{ border-color:var(--qx-amb); } .qx-mk.e-esp .qx-mkp{ color:var(--qx-amb); }
+.qx-mk.e-dup{ border-color:var(--qx-amb); background:color-mix(in srgb, var(--qx-amb) 10%, var(--white)); }
+.qx-banda{ border:2px dashed var(--qx-amb); border-radius:12px; padding:8px 12px; font-size:12.5px; font-weight:800; color:var(--qx-amb); display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+/* ── guía ── */
+.qx-guia{ border:2px solid var(--stamp); border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:14px; background:color-mix(in srgb, var(--stamp) 7%, var(--white)); min-width:0; flex-wrap:wrap; }
+.qx-guia.e-para{ border-color:var(--silver); background:var(--white); } .qx-guia.e-fija{ border-color:var(--gold); background:color-mix(in srgb, var(--gold) 16%, var(--white)); }
+.qx-guia.e-ini{ border-color:var(--line); border-style:dashed; background:var(--white); }
+.qx-guia .qx-gq{ font:800 30px 'Courier New',monospace; line-height:1; color:var(--ink); } .qx-guia .qx-gm{ flex:1; min-width:180px; }
+/* ── taco en vivo ── */
+.qx-tab{ display:grid; grid-template-columns:repeat(10, minmax(0,1fr)); gap:5px; }
+.qx-c{ position:relative; aspect-ratio:1 / .92; border-radius:9px; border:1.5px solid var(--line); background:var(--paper-dark); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; padding:0; min-width:0; max-width:100%; color:var(--ink-soft); }
+.qx-c .qx-cp{ font:800 12px 'Courier New',monospace; color:var(--ink); } .qx-c .qx-cn{ font:700 10px 'Segoe UI',sans-serif; opacity:.8; }
+.qx-c.e-gano{ background:var(--ok); border-color:var(--ok); color:#04241A; } .qx-c.e-gano .qx-cp, .qx-c.e-gano .qx-cn{ color:#04241A; opacity:1; }
+.qx-c.e-nogano{ background:color-mix(in srgb, var(--qx-neg) 22%, var(--paper-dark)); border-color:color-mix(in srgb, var(--qx-neg) 45%, transparent); }
+.qx-c.e-pend{ border:2px solid var(--qx-amb); animation:qxPulso 1s ease-in-out infinite; }
+.qx-c.e-vend{ background:repeating-linear-gradient(45deg, var(--paper-dark) 0 5px, color-mix(in srgb, var(--silver) 45%, var(--paper-dark)) 5px 7px); border-style:dotted; }
+.qx-c.e-fija{ background:color-mix(in srgb, var(--gold) 30%, var(--paper-dark)); border:2px solid var(--gold); }
+.qx-c.e-fija::after{ content:'FIJA'; position:absolute; top:2px; right:3px; font:900 7px 'Segoe UI',sans-serif; color:var(--qx-gold); }
+.qx-c.e-ev{ background:color-mix(in srgb, var(--ok) 18%, var(--paper-dark)); border-color:var(--ok); }
+.qx-c.e-tau{ background:color-mix(in srgb, var(--qx-amb) 15%, var(--paper-dark)); border-color:color-mix(in srgb, var(--qx-amb) 50%, var(--line)); }
+.qx-c.e-evita{ opacity:.55; border-style:dashed; }
+.qx-c.e-rec{ box-shadow:0 0 0 3px var(--stamp); animation:qxRec 1.6s ease-in-out infinite; }
+@keyframes qxRec{ 0%,100%{ box-shadow:0 0 0 3px var(--stamp); } 50%{ box-shadow:0 0 0 6px color-mix(in srgb, var(--stamp) 35%, transparent); } }
+@keyframes qxPulso{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+.qx-ley{ display:flex; gap:6px 14px; flex-wrap:wrap; font-size:11.5px; color:var(--silver-dark); align-items:center; }
+.qx-ley i{ display:inline-block; width:12px; height:12px; border-radius:4px; margin-right:5px; vertical-align:-2px; border:1.5px solid var(--line); }
+.qx-ley i.e1{ background:var(--ok); border-color:var(--ok); } .qx-ley i.e2{ background:color-mix(in srgb, var(--qx-neg) 22%, var(--paper-dark)); }
+.qx-ley i.e3{ background:color-mix(in srgb, var(--gold) 30%, var(--paper-dark)); border-color:var(--gold); } .qx-ley i.e4{ background:color-mix(in srgb, var(--ok) 18%, var(--paper-dark)); border-color:var(--ok); }
+.qx-ley i.e5{ background:color-mix(in srgb, var(--qx-amb) 15%, var(--paper-dark)); } .qx-ley i.e6{ border:2px solid var(--qx-amb); } .qx-ley i.e7{ opacity:.55; border-style:dashed; }
+/* ── consola (propuesta A) ── */
+.qx-con{ display:grid; grid-template-columns:minmax(0,1.75fr) minmax(0,1fr); gap:14px; align-items:start; }
+.qx-izq, .qx-der{ display:flex; flex-direction:column; gap:12px; min-width:0; }
+.qx-chips{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+.qx-chip{ border:1px solid var(--line); border-radius:12px; padding:8px 10px; display:flex; flex-direction:column; gap:2px; min-width:0; background:var(--white); }
+.qx-chip b{ font:800 15px 'Courier New',monospace; } .qx-chip.e-ok{ border-color:color-mix(in srgb, var(--ok) 55%, var(--line)); } .qx-chip.e-mal{ border-color:var(--qx-neg); background:color-mix(in srgb, var(--qx-neg) 8%, var(--white)); } .qx-chip.e-av{ border-color:var(--qx-amb); }
+.qx-feed{ display:flex; flex-direction:column; gap:6px; max-height:300px; overflow:auto; }
+.qx-fi{ display:grid; grid-template-columns:52px minmax(0,1fr) auto; gap:8px; align-items:center; border:1px solid var(--line); border-radius:10px; padding:6px 10px; font-size:12.5px; }
+.qx-fi .qx-fp{ font:800 14px 'Courier New',monospace; text-align:center; border-radius:7px; padding:2px 0; background:color-mix(in srgb, var(--silver) 30%, transparent); }
+.qx-fi.e-gano .qx-fp{ background:var(--ok); color:#04241A; } .qx-fi.e-sin .qx-fp{ background:color-mix(in srgb, var(--qx-neg) 22%, transparent); } .qx-fi.e-esp .qx-fp{ background:color-mix(in srgb, var(--qx-amb) 30%, transparent); }
+.qx-ficha{ border:2px solid var(--qx-cur); border-radius:16px; padding:12px 14px; display:flex; flex-direction:column; gap:8px; background:color-mix(in srgb, var(--qx-cur) 6%, var(--white)); }
+.qx-ficha.e-ok{ border-color:color-mix(in srgb, var(--ok) 60%, var(--line)); background:var(--white); }
+.qx-fgrid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; } .qx-fgrid label{ display:flex; flex-direction:column; gap:3px; font-size:11.5px; color:var(--silver-dark); font-weight:700; min-width:0; }
+.qx-fgrid input, .qx-fgrid select{ height:36px; border-radius:10px; border:1px solid var(--silver); background:var(--paper); color:var(--ink); padding:0 8px; font:inherit; font-weight:700; width:100%; min-width:0; }
+.qx-recibo{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px; }
+/* ── bitácora ── */
+.qx-tw{ overflow-x:auto; } .qx-t{ width:100%; border-collapse:collapse; font-size:12.5px; } .qx-t th, .qx-t td{ text-align:left; padding:7px 8px; border-top:1px solid var(--line); vertical-align:top; white-space:nowrap; }
+.qx-t th{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--silver-dark); } .qx-t td.r, .qx-t th.r{ text-align:right; font-family:'Courier New',monospace; font-weight:700; }
+.qx-svg{ width:100%; height:auto; display:block; overflow:visible; } .qx-svg text{ font:600 10.5px 'Segoe UI',sans-serif; fill:var(--silver-dark); } .qx-svg .qx-num{ font-family:'Courier New',monospace; font-weight:700; fill:var(--ink); }
+.qx-reglas{ display:flex; flex-direction:column; gap:8px; }
+.qx-regla{ display:grid; grid-template-columns:30px minmax(0,1fr) auto; gap:10px; align-items:center; border:1px solid var(--line); border-radius:12px; padding:9px 12px; }
+.qx-regla .qx-ri{ font-size:18px; text-align:center; } .qx-regla.e-ok{ border-color:color-mix(in srgb, var(--ok) 50%, var(--line)); } .qx-regla.e-av{ border-color:var(--qx-amb); } .qx-regla.e-mal{ border-color:var(--qx-neg); }
+.qx-fondo{ position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:80; display:flex; justify-content:flex-end; }
+.qx-hoja{ width:min(480px, 100%); height:100%; background:var(--paper); color:var(--ink); border-left:1px solid var(--line); padding:18px; overflow-y:auto; display:flex; flex-direction:column; gap:12px; }
+.qx-hoja table{ width:100%; border-collapse:collapse; font-size:12.5px; } .qx-hoja td{ padding:6px 4px; border-top:1px solid var(--line); } .qx-hoja td.r{ text-align:right; font:800 13px 'Courier New',monospace; white-space:nowrap; } .qx-hoja p{ margin:0; }
+.qx-hoja .qx-btn{ height:32px; padding:0 12px; border-radius:999px; border:1px solid var(--silver); background:transparent; font-weight:800; font-size:12px; color:var(--ink); cursor:pointer; }
+.qx-kbd{ display:inline-block; border:1px solid var(--silver); border-bottom-width:2px; border-radius:4px; padding:0 6px; font:700 11px 'Courier New',monospace; background:var(--paper-dark); }
+@media (prefers-reduced-motion: reduce){ .qx *{ animation:none !important; } }
+@container qx (max-width: 900px){ .qx-con{ grid-template-columns:minmax(0,1fr); } }
+@container qx (max-width: 620px){
+  .qx-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } .qx-grid.qx-uno{ grid-template-columns:minmax(0,1fr); }
+  .qx-tab{ gap:3px; } .qx-c{ border-radius:7px; } .qx-c .qx-cp{ font-size:10px; } .qx-c .qx-cn{ font-size:8.5px; } .qx-c.e-fija::after{ font-size:6px; top:1px; right:2px; }
+  .qx-mk{ gap:10px; padding:10px 12px; } .qx-mk .qx-mkp{ font-size:36px; min-width:2.2em; } .qx-mk .qx-mke{ font-size:15px; } .qx-mk .qx-mkn b{ font-size:18px; } .qx-mk .qx-mksep{ padding-left:8px; }
+ 
+  .qx-recibo{ grid-template-columns:repeat(2, minmax(0,1fr)); } .qx-fgrid{ grid-template-columns:minmax(0,1fr); }
+  .qx-card{ padding:14px; border-radius:16px; } .qx-kpi .qx-v{ font-size:20px; } .qx-guia .qx-gq{ font-size:26px; }
+  .qx-seg{ display:flex; width:100%; } .qx-seg button{ flex:1 1 0; min-width:0; white-space:normal; line-height:1.15; padding:4px 6px; }
+  .qx-tecl{ display:none; }
+}
+@media (max-width: 620px){ .qx-fondo{ align-items:flex-end; } .qx-hoja{ width:100%; height:auto; max-height:86%; border-left:0; border-top:1px solid var(--line); border-radius:20px 20px 0 0; } }
+
+/* ═══ v41.8 — piezas propias de la app ═══ */
+#qxRaiz{ margin-top:4px; }
+/* El escáner sigue montado con el lector (recibe los disparos), pero sin ocupar sitio. */
+#qrHost.qx-oculto{ height:0 !important; min-height:0 !important; border:0 !important; margin:0 !important; overflow:hidden !important; }
+.qx #qrHost{ border-radius:16px; background:transparent !important; }
+/* sin hueco: con el lector el escáner no ocupa sitio, y lo que está vacío no suma separación */
+.qx-izq{ position:relative; }
+.qx:not(.qx-camara) [data-qxslot="escaner"]{ position:absolute; left:0; right:0; top:0; height:0; overflow:hidden; pointer-events:none; }
+.qx-izq > div:empty, .qx-der > div:empty{ display:none; }
+.qx-camara #qrHost{ min-height:240px; }
+.qx [data-qxslot="origen"] span{ display:inline-flex; gap:5px; }
+.qx #origenCam, .qx #origenLector{ min-height:32px; }
+.qx [data-qxslot="guardar"] label{ cursor:pointer; font-weight:700; }
+.qx [data-qxslot="guardar"] input{ width:16px; height:16px; }
+.qx #origenNota{ font-size:12px; color:var(--silver-dark); }
+.qx #origenNota:empty{ display:none; }
+.qx-mk{ position:relative; }
+.qx-mk.e-mal{ border-color:var(--qx-cur); } .qx-mk.e-mal .qx-mkp{ color:var(--qx-cur); }
+.qx-mk.e-cons{ border-style:dashed; }
+.qx-banda{ border-radius:12px; }
+.qx-banda .qx-btn{ color:var(--ink); }
+.qx-mini{ width:30px; height:30px; border-radius:8px; border:1px solid var(--line); background:transparent; font-weight:800; font-size:13px; color:var(--ink); display:inline-grid; place-items:center; padding:0; }
+.qx-mini:hover, .qx-mini:focus-visible{ border-color:var(--stamp); }
+.qx-fi .qx-fa{ display:inline-flex; gap:4px; }
+.qx-fi.e-av .qx-fp{ background:color-mix(in srgb, var(--qx-cur) 22%, transparent); }
+.qx-c.e-rech{ border:2px solid var(--qx-cur); background:color-mix(in srgb, var(--qx-cur) 14%, var(--paper-dark)); }
+.qx-c.e-sel{ outline:3px solid var(--ink); outline-offset:1px; z-index:1; }
+.qx-c:focus-visible{ outline:3px solid var(--stamp); outline-offset:1px; z-index:1; }
+.qx-c.e-vend .qx-cn{ font-style:italic; }
+.qx-ley i.e8{ background:repeating-linear-gradient(45deg, var(--paper-dark) 0 3px, color-mix(in srgb, var(--silver) 45%, var(--paper-dark)) 3px 5px); border-style:dotted; }
+.qx-ley i.e9{ border:2px solid var(--qx-cur); }
+.qx-menu{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; border:1px solid var(--line); border-radius:12px; padding:8px 10px; background:var(--paper-dark); font-size:12.5px; }
+.qx-menu b{ font-size:15px; }
+.qx-tacos{ display:flex; gap:6px; overflow-x:auto; padding-bottom:2px; scrollbar-width:thin; }
+.qx-tacos button{ flex:none; display:flex; flex-direction:column; align-items:flex-start; gap:1px; border:1px solid var(--line); border-radius:12px; padding:6px 10px; background:var(--white); font-size:11.5px; color:var(--silver-dark); min-height:44px; }
+.qx-tacos button b{ font-size:13px; color:var(--ink); }
+.qx-tacos button.e-on{ border:2px solid var(--stamp); background:color-mix(in srgb, var(--stamp) 8%, var(--white)); }
+.qx-apunta{ flex:1; min-width:0; font-weight:800; font-size:15px; }
+.qx-pref{ border:2px solid var(--qx-amb); }
+.qx-fgrid4{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+.qx-guia .qx-btn{ flex:none; }
+.qx #qrAuditWrap{ margin-top:0 !important; }
+@container qx (max-width: 900px){ .qx-fgrid4{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+@container qx (max-width: 620px){
+  .qx-fgrid4{ grid-template-columns:minmax(0,1fr); }
+  .qx-cab{ gap:8px; } .qx-cab .qx-sp{ order:9; flex-basis:100%; margin-left:0; }
+  .qx-btn:not(.qx-sm){ min-height:40px; } .qx-mini{ width:36px; height:36px; }
+  .qx-cab .qx-btn.qx-sm{ padding:0 9px; } .qx-cab{ font-size:12px; }
+  .qx-guia .qx-btn{ width:100%; height:44px; }
+  .qx-chips{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .qx-fi{ grid-template-columns:44px minmax(0,1fr) auto; }
+}
+
 /* ═══ v41.7 · Estrategia = propuesta A «Compra guiada» (prefijo es- / e- en los estados; módulo EG).
    Mismas variables de la app; container queries como Cobros, Mis tacos e Inicio. Colores propios en .es Y en
    .es-fondo (la hoja «¿cómo se calcula?» vive fuera de .es: en v41.6 las barras salían negras por eso). ═══ */
@@ -3841,6 +4003,10 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
     </div>
   </div>
   <div class="tabpanel" id="panel-qr">
+    <!-- v41.8: propuesta A «Consola de captura» (módulo QX). Los nodos de abajo (origen, casilla, sonido, limpiar, marcador,
+         escáner y auditoría) NO se reescriben: QX los mueve a su sitio al arrancar, antes de que nazca el escáner. -->
+    <div id="qxRaiz"></div>
+    <div id="qrViejo" hidden>
     <div class="section-head"><span class="tag">🔫</span><h2>Pistola QR</h2><span class="hint">escanea el boleto y consulta el premio</span></div>
     <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:8px;">
       <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px;">
@@ -3903,6 +4069,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
       </div>
       <pre id="qrAuditPre" style="white-space:pre-wrap; font-family:monospace; font-size:11px; line-height:1.5; background:var(--paper-dark); border:1px solid var(--silver); border-radius:8px; padding:10px; max-height:44vh; overflow:auto; color:var(--ink); margin:0;"></pre>
     </details>
+    </div>
   </div>
   <div class="tabpanel" id="panel-reporte">
 
@@ -4587,7 +4754,17 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   //   Paso 3 «Lo que falta» al cerrar la caja (punto, promesa, nota), sección «📦 Entregados» con una
   //   cuenta por punto, «Me pagó…» por boletos (el monto ayuda a marcarlos) y recibo «Pago de entrega».
   //   Campos opcionales nuevos en el boleto: entregado, fechaEntrega, puntoEntrega, promesaPago, notaEntrega.
-  const APP_VERSION = { num: '41.7', fecha: '2026-10-17' };
+  // v41.8 — Pistola QR = propuesta A «Consola de captura» (módulo QX): marcador legible en los dos temas y en los dos
+  //   orígenes (con el aviso de SOLO CONSULTA también en la cámara), compra guiada con el motor de Estrategia («siguiente a
+  //   pistolear» / «pídele al vendedor la», fija, para aquí, 🚫 No está → la siguiente), taco en vivo por serie con pestañas
+  //   para varias series en una misma compra, acciones por posición (vendida a otro, reconsultar, portal, ver boleto), ficha
+  //   del taco nuevo (punto, ciudad, descuento y fecha a TODO el taco, con Deshacer), integridad y últimos disparos, cierre
+  //   del taco y recibo de la compra, bitácora de la guía (validación, calibración, afinamiento con umbrales fijados antes,
+  //   captura) y juego nuevo sin salir de la pistola (los boletos que esperan se registran solos). Escáner: la imagen se
+  //   decodifica por el centro (donde está el visor) con el formato del boleto y la imagen entera cada 4 lecturas, ritmo
+  //   adaptado al teléfono. Campos opcionales nuevos: en el boleto guiaP, guiaRec, guiaTipo, guiaTau, guiaVer, guiaModo,
+  //   guiaParoP (lo que el motor esperaba antes de leerlo); en el taco fechaCompra.
+  const APP_VERSION = { num: '41.8', fecha: '2026-10-18' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -18564,33 +18741,599 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   // 100, el último disparo desaparecía de pantalla justo cuando más falta hace. Aquí queda
   // fijo encima del escáner. Se alimenta de los mismos mensajes que ya llegaban.
   // ============================================================================
+  // ════════════════════════════════════════════════════════════════════════════════════════
+  // v41.8 — PISTOLA QR = PROPUESTA A «CONSOLA DE CAPTURA» (docs/propuestas/qr-auditoria-y-2-propuestas.html)
+  // ════════════════════════════════════════════════════════════════════════════════════════
+  // POR QUÉ. Por aquí entra el 81 % de los boletos. La auditoría del 18-oct mostró que el motor de captura es sólido
+  // (cola, reintentos, eco anticruce, importe del texto del portal) y se deja INTACTO; los huecos estaban alrededor:
+  // 285 de 289 tacos nacían en la pistola sin punto ni descuento (a precio de lista hasta corregirlos a mano), el
+  // aviso de «solo consulta» faltaba en modo cámara, el marcador era ilegible en tema claro, la lista del escáner
+  // repetía el taco en vivo y no había compra guiada ni forma de validarla. Este módulo pinta la consola (marcador,
+  // guía, taco en vivo por serie, ficha, integridad, últimos, cierre y bitácora) alrededor del MISMO escáner, y guarda
+  // en cada boleto lo que el motor esperaba de él antes de leerlo (campos opcionales guia*), que es lo que permite
+  // validar y afinar con datos y no a ojo. Nada que hoy funciona deja de funcionar: los nodos de la pantalla anterior
+  // (chips de origen, casilla, sonido, limpiar, marcador, escáner, auditoría) se reubican, no se reescriben.
+  const QX = (function(){
+    const TAU_DEF = 0.26, FIJA = 0.99, EVITA = 0.15;
+    const LS_UI = 'bitacora_qx_ui', LS_VEND = 'bitacora_qx_vend', LS_FICHA = 'bitacora_qx_ficha', LS_CIERRE = 'bitacora_qx_cierres';
+    const pct = (v, d = 1) => ((Number(v) || 0) * 100).toFixed(d) + '%';
+    const fmtS = v => (v > 0.004 ? '+' : '') + fmt(v);
+    const nf = n => Number(n || 0).toLocaleString('en-US');
+    const esc = escapeHtml, pad = padPos;
+    const wil = (y, n) => { if (!n) return [0, 0]; const z = 1.96, ph = y / n, d = 1 + z * z / n, c = ph + z * z / (2 * n), s = z * Math.sqrt(ph * (1 - ph) / n + z * z / (4 * n * n)); return [(c - s) / d, (c + s) / d]; };
+    const lsGet = (k, def) => { try{ const v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? def : v; }catch(e){ return def; } };
+    const lsSet = (k, v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+    const fc = f => { if(!f) return '—'; const d = new Date(String(f).slice(0, 10) + 'T12:00:00'); return isNaN(d) ? String(f) : d.toLocaleDateString('es-EC', { day: '2-digit', month: 'short' }).replace('.', ''); };
+    const ui = Object.assign({ validar: true, n0: 5, tau: TAU_DEF, bit: 'guia' }, lsGet(LS_UI, {}));
+    const guardarUI = () => lsSet(LS_UI, { validar: ui.validar, n0: ui.n0, tau: ui.tau, bit: ui.bit });
+    let activa = null;            // serie del taco que se mira (la del último disparo, o la pestaña elegida)
+    let marcarVend = false;       // modo «tocar = vendida a otro» (kiosco)
+    let menuCel = null;           // {serie, i} casilla con el menú abierto
+    let reciboKiosco = null;      // recibo de «Terminar la compra»
+    const esCam = () => (typeof origenQR === 'function') && origenQR() === 'camara';
+
+    // ───── sesión: series del historial del escáner (mismo localStorage: el iframe es srcdoc) ─────
+    // FLUIDEZ (medido: 225 ms por repintado con el procesador a 1/4, como un teléfono de gama media): el historial se lee
+    // una vez por repintado, los boletos se indexan por taco y la guía de cada taco se recuerda mientras no cambie nada.
+    let _hC = null, _hT = 0;
+    function hist(){ const t = performance.now(); if(_hC && t - _hT < 60) return _hC; try{ const a = JSON.parse(localStorage.getItem('qr_boletos_hist') || '[]'); _hC = Array.isArray(a) ? a : []; }catch(_){ _hC = []; } _hT = t; return _hC; }
+    function seriesSesion(){
+      const ult = new Map();
+      hist().forEach(x => { if(!x || typeof x.code !== 'string' || !/^[0-9]{12,}$/.test(x.code)) return; const s = x.code.slice(0, 3) + '-' + x.code.slice(3, 9); if(!ult.has(s) || (x.ts || 0) > ult.get(s)) ult.set(s, x.ts || 0); });
+      return [...ult.entries()].sort((a, b) => b[1] - a[1]).map(e => e[0]);
+    }
+    const loteDe = serie => (data.lotes || []).find(l => String(l.serie) === String(serie)) || null;
+    let _ix = { k: null, m: null };
+    function recsDe(lote){
+      const R = data.records || [], k = _dataVersion + '|' + R.length;
+      if(_ix.k !== k){ const m = new Map(); R.forEach(r => { const id = String(r.loteId); let a = m.get(id); if(!a) m.set(id, a = []); a.push(r); }); _ix = { k, m }; }
+      return _ix.m.get(String(lote.id)) || [];
+    }
+    function taco(){
+      const ss = seriesSesion().filter(s => loteDe(s));
+      if(activa && !ss.includes(activa)) activa = null;
+      return { series: ss, serie: activa || ss[0] || null };
+    }
+    // ───── vendidas a otro (ayuda de la sesión: no son compras, no se guardan como boletos) ─────
+    function vendDe(lote){ const m = lsGet(LS_VEND, {}); return new Set((m[String(lote.id)] || []).map(Number)); }
+    function setVend(lote, i, on){ const m = lsGet(LS_VEND, {}), k = String(lote.id), s = new Set((m[k] || []).map(Number)); on ? s.add(i) : s.delete(i); m[k] = [...s]; lsSet(LS_VEND, m); }
+
+    // ───── guía: el MISMO motor de la rejilla y de Estrategia (rgProbLoteCtx) ─────
+    const _gMemo = new Map();
+    function guia(lote){
+      if(!lote) return { estado: 'nada' };
+      const c0 = loteCounts(lote), k = [lote.id, c0.revealed, c0.paid, [...vendDe(lote)].join(','), ui.validar, ui.n0, ui.tau, esCam(), _dataVersion, juegoActivoId].join('|');
+      if(_gMemo.has(k)) return _gMemo.get(k);
+      if(_gMemo.size > 60) _gMemo.clear();
+      const g = guiaCalc(lote); _gMemo.set(k, g); return g;
+    }
+    function guiaCalc(lote){
+      const c = loteCounts(lote), cam = esCam();
+      // El motor (rgContextoMotor) es el del juego activo: con el de otro juego la guía mentiría.
+      if(String(lote.juegoId) !== String(juegoActivoId)) return { estado: 'otroJuego', c };
+      if(!cam && !ui.validar) return { estado: 'off', c };
+      if(!cam && c.revealed < ui.n0) return { estado: 'inicio', faltan: ui.n0 - c.revealed, c };
+      let res = null; try{ res = rgProbLoteCtx(lote); }catch(e){}
+      if(!res) return { estado: 'nada', c };
+      let prior = null; try{ prior = rgPriorParaLote(lote); }catch(_){}
+      const tMax = prior && prior.soporte && prior.soporte.length ? Math.max(...prior.soporte.map(x => x.t)) : Infinity;
+      if(c.paid >= tMax && !(prior && prior.fueraDeDiseno)) return { estado: 'nomas', k: c.paid, tMax, res, c };
+      const vend = vendDe(lote), P = {}; res.probs.forEach(x => { P[x.pos] = x.P; });
+      let b = -1, pb = -1, quedan = 0;
+      res.probs.forEach(x => { quedan++; if(vend.has(x.pos)) return; if(x.P > pb){ pb = x.P; b = x.pos; } });
+      if(b < 0) return { estado: 'fin', res, P, c };
+      if(pb < ui.tau) return { estado: 'para', p: pb, quedan, res, P, c };
+      return { estado: pb >= FIJA ? 'fija' : 'compra', i: b, p: pb, res, P, c };
+    }
+    // Lo que el motor esperaba de ESTE boleto justo antes de guardarlo (lo llama qrRegistrarBoleto).
+    function anotarGuia(lote, pos){
+      try{
+        const cam = esCam(), g = guia(lote);
+        let P = g.P && g.P[pos]; if(P == null && g.estado !== 'otroJuego'){ const r = rgProbLoteCtx(lote); const x = r && r.probs.find(y => y.pos === pos); P = x ? x.P : null; }
+        if(g.estado === 'otroJuego') return {};
+        if(P == null || !isFinite(P)) return {};
+        const o = { guiaP: Math.round(P * 10000) / 10000, guiaVer: String(APP_VERSION.num), guiaTau: ui.tau };
+        if(!cam && !ui.validar) o.guiaTipo = 'normal';
+        else if(g.estado === 'inicio') o.guiaTipo = 'inicio';
+        else if(g.estado === 'compra' || g.estado === 'fija'){ o.guiaTipo = 'guia'; o.guiaRec = g.i === pos ? 1 : 0; }
+        else { o.guiaTipo = 'resto'; if(!recsDe(lote).some(r => r.guiaTipo === 'resto')) o.guiaParoP = g.estado === 'para' ? Math.round(g.p * 10000) / 10000 : 0; }
+        if(cam) o.guiaModo = 'kiosco';
+        return o;
+      }catch(e){ return {}; }
+    }
+
+    // ───── ficha del taco nuevo ─────
+    const fichas = () => lsGet(LS_FICHA, {});
+    function fichaPendiente(lote){
+      if(!lote) return false; const f = fichas(); if(f[String(lote.id)]) return false;
+      // solo para tacos que nacieron en la pistola en esta sesión (los demás ya pasaron por «Crear lote» o Mis tacos)
+      const t0 = lote.creadoEn ? new Date(lote.creadoEn).getTime() : 0, rs = recsDe(lote);
+      if(!t0 || Date.now() - t0 > 36 * 3600 * 1000) return false;   // un taco viejo ya pasó por Mis tacos
+      return rs.length > 0 && rs.every(r => r.criterio === 'pistola') && rs.some(r => r.qrTs && Math.abs(r.qrTs - t0) < 120000);
+    }
+    let fichaEd = {};   // valores en edición por lote
+    function fichaDefaults(lote){
+      if(fichaEd[lote.id]) return fichaEd[lote.id];
+      const prev = (data.lotes || []).filter(l => String(l.id) !== String(lote.id) && l.punto && String(l.juegoId) === String(lote.juegoId)).sort((a, b) => rgLoteTime(b) - rgLoteTime(a))[0];
+      const punto = lote.punto || (prev && prev.punto) || '';
+      const ref = (data.lotes || []).filter(l => String(l.id) !== String(lote.id) && l.punto === punto && String(l.juegoId) === String(lote.juegoId)).sort((a, b) => rgLoteTime(b) - rgLoteTime(a))[0];
+      return (fichaEd[lote.id] = { punto, ciudad: lote.ciudad || (typeof mtCiudadDe === 'function' && (mtCiudadDe(punto) || {}).c) || (ref && ref.ciudad) || '', desc: (getDescuentoLote(lote) || (ref && ref.descuento) || 0), fecha: 'hoy', fechaOtra: '', prevSerie: prev ? prev.serie : null });
+    }
+    function aplicarFicha(lote){
+      const f = fichaDefaults(lote), rs = recsDe(lote), desc = Math.max(0, Math.min(99, Number(f.desc) || 0));
+      const fecha = f.fecha === 'hoy' ? null : f.fecha === 'ayer' ? (() => { const d = new Date(); d.setDate(d.getDate() - 1); return fechaLocalDe(d); })() : (/^\d{4}-\d{2}-\d{2}$/.test(f.fechaOtra) ? f.fechaOtra : null);
+      if(f.fecha === 'otra' && !fecha){ toast('Elige la fecha de compra'); return; }
+      const antes = { punto: lote.punto, ciudad: lote.ciudad, descuento: lote.descuento, fechaCompra: lote.fechaCompra, recs: rs.map(r => ({ r, punto: r.punto, ciudad: r.ciudad, costo: r.costo, costoNominal: r.costoNominal, fecha: r.fecha })) };
+      lote.punto = f.punto || ''; lote.ciudad = f.ciudad || '';
+      if(desc > 0) lote.descuento = desc; else delete lote.descuento;
+      if(fecha) lote.fechaCompra = fecha; else delete lote.fechaCompra;
+      rs.forEach(r => {
+        r.punto = lote.punto; r.ciudad = lote.ciudad;
+        const nominal = r.costoNominal != null ? r.costoNominal : (r.costo || 0);
+        if(desc > 0){ r.costoNominal = nominal; r.costo = costoConDescuento(nominal, desc); } else { r.costo = nominal; delete r.costoNominal; }
+        if(fecha) r.fecha = fecha;
+      });
+      lote.actualizadoEn = new Date().toISOString();
+      const m = fichas(); m[String(lote.id)] = Date.now(); lsSet(LS_FICHA, m);
+      save(); render();
+      toastUndo('✓ Ficha aplicada a ' + rs.length + ' boleto(s) de ' + lote.serie + ' · ' + (lote.punto || 'sin punto') + (desc ? ' · −' + desc + ' %' : ''), () => {
+        lote.punto = antes.punto; lote.ciudad = antes.ciudad; if(antes.descuento == null) delete lote.descuento; else lote.descuento = antes.descuento; if(antes.fechaCompra == null) delete lote.fechaCompra; else lote.fechaCompra = antes.fechaCompra;
+        antes.recs.forEach(a => { a.r.punto = a.punto; a.r.ciudad = a.ciudad; a.r.costo = a.costo; if(a.costoNominal == null) delete a.r.costoNominal; else a.r.costoNominal = a.costoNominal; a.r.fecha = a.fecha; });
+        const mm = fichas(); delete mm[String(lote.id)]; lsSet(LS_FICHA, mm); save(); render(); toast('Ficha deshecha');
+      });
+      delete fichaEd[lote.id];
+      try{ qrDevolverFocoAlLector(); }catch(_){}
+    }
+
+    // ───── piezas ─────
+    function guiaHTML(lote){
+      if(!lote) return '';
+      const g = guia(lote), cu = costoUnitarioLote(lote), c = rgContextoMotor(), VD = c.Vdec || c.V || 0, be = VD > 0 ? cu / VD : 1, cam = esCam();
+      if(g.estado === 'nada') return '';
+      if(g.estado === 'otroJuego'){ const j = getJuego(lote.juegoId) || {}; return `<div class="qx-guia e-ini"><div class="qx-gm"><span class="qx-l">Compra guiada</span><div class="qx-sub">Este taco es de ${esc((j.emoji || '') + ' ' + (j.nombre || 'otro juego'))} y el juego activo es otro: la guía usa lo aprendido de cada juego. <button type="button" class="qx-btn qx-sm" data-qx="usar-juego" data-jid="${esc(String(lote.juegoId))}">Usar ${esc(j.nombre || 'ese juego')}</button></div></div></div>`; }
+      if(g.estado === 'off') return `<div class="qx-guia e-ini"><div class="qx-gm"><span class="qx-l">Compra guiada</span><div class="qx-sub">Apagada para este taco. <button type="button" class="qx-btn qx-sm" data-qx="validar-on">Validar la guía</button></div></div></div>`;
+      if(g.estado === 'inicio') return `<div class="qx-guia e-ini"><span class="qx-gq">${g.faltan}</span><div class="qx-gm"><span class="qx-l">Validación de la guía</span><div class="qx-sub">Pistolea ${g.faltan === 1 ? '1 boleto más' : g.faltan + ' boletos más'} en orden (o los que quieras). Después te digo cuál pistolear y lo comparo con lo que salga.</div></div></div>`;
+      if(g.estado === 'nomas') return `<div class="qx-guia e-para"><span class="qx-gq">Ya no</span><div class="qx-gm"><span class="qx-l">Fija de NO · para</span><div class="qx-sub">Salieron ${g.k} premios y ningún taco tuyo pasó de ${g.tMax}: lo que queda no premia.${cam ? '' : ' Pistolea el resto para cerrar el taco: cada boleto se sigue midiendo.'}</div></div></div>`;
+      if(g.estado === 'fin') return `<div class="qx-guia e-para"><span class="qx-gq">—</span><div class="qx-gm"><span class="qx-l">Compra guiada</span><div class="qx-sub">No queda nada que puedas comprar en este taco${vendDe(lote).size ? ' (las que quedan están marcadas como vendidas a otro)' : ''}.</div></div></div>`;
+      if(g.estado === 'para') return `<div class="qx-guia e-para"><span class="qx-gq">Para</span><div class="qx-gm"><span class="qx-l">Para aquí</span><div class="qx-sub">Lo mejor que queda tiene ${pct(g.p)} y el umbral pide ${pct(ui.tau, 0)}. ${cam ? 'Seguir es comprar a ciegas.' : 'Pistolea el resto para cerrar el taco: la bitácora mide si parar aquí era correcto.'}</div></div></div>`;
+      const fija = g.estado === 'fija';
+      return `<div class="qx-guia ${fija ? 'e-fija' : ''}"><span class="qx-gq">${pad(g.i)}</span><div class="qx-gm"><span class="qx-l">${fija ? '⭐ Fija · ' : ''}${cam ? 'Pídele al vendedor la' : 'Siguiente a pistolear'}</span><div class="qx-sub"><b>${pct(g.p)}</b> de premio · vale ${fmtS(g.p * VD - cu)} con el premio típico (${fmt(VD)})${fija ? ' · el diseño obliga a que premie' : g.p >= be ? ' · supera el break-even (' + pct(be, 0) + ')' : ' · bajo el break-even (' + pct(be, 0) + '), pero es lo mejor del taco'}.</div></div><button type="button" class="qx-btn qx-sm" data-qx="no-esta" data-pos="${g.i}" title="El vendedor ya no la tiene: se marca como vendida a otro y te doy la siguiente">🚫 No está (la vendieron)</button></div>`;
+    }
+    function tablero(lote){
+      const g = guia(lote), tam = loteCounts(lote).total, c = rgContextoMotor(), VD = c.Vdec || c.V || 0, be = VD > 0 ? costoUnitarioLote(lote) / VD : 1;
+      const rp = new Map(recsDe(lote).map(r => [Number(r.posicion), r])), vend = vendDe(lote), mostrarP = g.P && g.estado !== 'off' && g.estado !== 'inicio';
+      const enCola = new Set(hist().filter(x => x.status === 'encolado' && x.code && x.code.slice(0, 3) + '-' + x.code.slice(3, 9) === lote.serie).map(x => parseInt(x.code.slice(9, 12), 10)));
+      // «revisar» = el portal contestó pero el boleto NO se guardó (y no se guardó después: un prefijo resuelto o un monto confirmado ya no cuenta)
+      const rech = new Set((_audit || []).filter(e => e.phase === 'rechazo' && String(e.serie || '') === String(lote.serie) && e.motivo !== 'ya_registrado').map(e => parseInt(e.pos, 10)).filter(i => !(lote.posiciones && lote.posiciones[i] && lote.posiciones[i].estado && lote.posiciones[i].estado !== 'sin-info')));
+      const cols = tam >= 100 ? 10 : 10;
+      const cel = Array.from({ length: tam }, (_, i) => {
+        const st = (lote.posiciones && lote.posiciones[i] && lote.posiciones[i].estado) || 'sin-info', r = rp.get(i);
+        let cls = 'qx-c', sub = '', lab = '';
+        if(st === 'gano'){ cls += ' e-gano'; sub = r ? montoCorto(Number(r.premio) || 0) || '✓' : '✓'; lab = 'premió ' + (r ? fmt(r.premio) : ''); }
+        else if(st === 'no-gano'){ cls += ' e-nogano'; sub = '✗'; lab = 'sin premio'; }
+        else if(enCola.has(i)){ cls += ' e-pend'; sub = '…'; lab = 'consultando'; }
+        else if(rech.has(i)){ cls += ' e-rech'; sub = '⚠'; lab = 'el portal respondió algo raro: revisa'; }
+        else if(vend.has(i)){ cls += ' e-vend'; sub = 'otro'; lab = 'vendida a otro'; }
+        else { lab = 'sin pistolear'; const p = mostrarP ? g.P[i] : null;
+          if(p != null){ sub = Math.round(p * 100) + '%'; lab += ', ' + pct(p) + ' de premio'; if(p >= FIJA) cls += ' e-fija'; else if(p >= be) cls += ' e-ev'; else if(p >= ui.tau) cls += ' e-tau'; else if(p < EVITA) cls += ' e-evita'; } }
+        if(g.i === i && (g.estado === 'compra' || g.estado === 'fija')){ cls += ' e-rec'; lab += ' · recomendada'; }
+        if(menuCel && menuCel.serie === lote.serie && menuCel.i === i) cls += ' e-sel';
+        return `<button type="button" class="${cls}" data-qxcel="${i}" tabindex="${(menuCel && menuCel.serie === lote.serie ? menuCel.i : (g.i != null ? g.i : 0)) === i ? 0 : -1}" aria-label="Posición ${pad(i)}: ${esc(lab)}"><span class="qx-cp">${pad(i)}</span><span class="qx-cn">${sub}</span></button>`;
+      }).join('');
+      const k = loteCounts(lote), rs = recsDe(lote), gan = rs.reduce((a, r) => a + premioNeto(Number(r.premio) || 0), 0), gasto = rs.reduce((a, r) => a + (Number(r.costo) || 0), 0), juego = getJuego(lote.juegoId) || {};
+      return `<div class="qx-ctl" style="justify-content:space-between;"><span><b>🎫 ${esc(lote.serie)}</b> <span class="qx-mut">${esc(juego.nombre || '')}</span></span><span class="qx-mut qx-mono">${k.revealed}/${k.total} · ${k.paid} premios · ganado <b class="qx-pos">${fmt(gan)}</b> · gastado <b>${fmt(gasto)}</b>${fichaPendiente(lote) ? ' <span class="qx-amb">(sin ficha: a precio de lista)</span>' : ''}</span></div>
+        <div class="qx-tab" style="--qx-cols:${cols};" role="group" aria-label="Taco en vivo: flechas para moverte, Enter para ver las acciones de una posición">${cel}</div>
+        ${menuHTML(lote)}
+        <div class="qx-ley"><span><i class="e1"></i>premió</span><span><i class="e2"></i>sin premio</span>${mostrarP ? '<span><i class="e3"></i>fija</span><span><i class="e4"></i>supera el break-even</span><span><i class="e5"></i>sobre el umbral</span><span><i class="e7"></i>evitar</span>' : ''}<span><i class="e6"></i>consultando</span><span><i class="e8"></i>vendida a otro</span>${rech.size ? '<span><i class="e9"></i>revisar</span>' : ''}</div>`;
+    }
+    function menuHTML(lote){
+      if(!menuCel || menuCel.serie !== lote.serie) return '';
+      const i = menuCel.i, st = (lote.posiciones && lote.posiciones[i] && lote.posiciones[i].estado) || 'sin-info', r = recsDe(lote).find(x => Number(x.posicion) === i), vend = vendDe(lote).has(i);
+      const code = r ? qrCodigoCompleto(r, lote) : null;
+      const b = (act, tx) => `<button type="button" class="qx-btn qx-sm" data-qx="${act}" data-pos="${i}">${tx}</button>`;
+      return `<div class="qx-menu" role="group" aria-label="Acciones de la posición ${pad(i)}"><b class="qx-mono">${pad(i)}</b>${st === 'sin-info' ? (vend ? b('vend-off', '↩ Quitar «vendida a otro»') : b('vend-on', '🚫 Vendida a otro')) : ''}${r ? b('ver', 'Ver boleto') : ''}${code ? b('reconsultar', '⟳ Reconsultar en el portal') + b('portal', '⧉ Copiar código y abrir portal') : ''}${b('cerrar-menu', 'Cerrar')}</div>`;
+    }
+    function fichaHTML(lote){
+      if(!lote) return '';
+      const f = fichaDefaults(lote), ok = !fichaPendiente(lote);
+      if(ok){
+        if(!recsDe(lote).some(r => r.criterio === 'pistola')) return '';
+        return `<div class="qx-ficha e-ok"><div class="qx-ctl" style="justify-content:space-between;"><span><span class="qx-pil e-ok">✓ ficha</span> <b>${esc(lote.punto || 'sin punto')}</b> · ${esc(lote.ciudad || '—')} · ${getDescuentoLote(lote) ? '−' + getDescuentoLote(lote) + ' %' : 'sin descuento'} · compra ${lote.fechaCompra ? fc(lote.fechaCompra) : 'hoy'}</span><button type="button" class="qx-btn qx-sm" data-qx="ficha-editar">Editar</button></div></div>`;
+      }
+      const puntos = [...new Set((data.lotes || []).map(l => l.punto).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+      return `<div class="qx-ficha"><h3 style="margin:0;">📋 Ficha del taco nuevo <span class="qx-pil e-cur">no detiene el pistoleo</span></h3>
+        <div class="qx-sub">${esc(lote.serie)} es nuevo.${f.prevSerie ? ' Se llenó con lo de tu último taco (' + esc(f.prevSerie) + ');' : ''} confirma o cambia. Se aplica a TODOS los boletos de este taco, también a los ya pistoleados: así no queda a precio de lista ni sin punto.</div>
+        <div class="qx-fgrid"><label>Punto de venta<input data-qxf="punto" list="qxPuntos" value="${esc(f.punto)}" placeholder="escribe o elige"><datalist id="qxPuntos">${puntos.map(p => `<option value="${esc(p)}">`).join('')}</datalist></label>
+          <label>Ciudad<input data-qxf="ciudad" value="${esc(f.ciudad)}" placeholder="sale sola del punto"></label>
+          <label>Descuento %<input data-qxf="desc" type="number" min="0" max="40" step="0.01" value="${(+f.desc || 0).toFixed(2)}"></label>
+          <label>Fecha de compra<select data-qxf="fecha"><option value="hoy" ${f.fecha === 'hoy' ? 'selected' : ''}>hoy</option><option value="ayer" ${f.fecha === 'ayer' ? 'selected' : ''}>ayer</option><option value="otra" ${f.fecha === 'otra' ? 'selected' : ''}>otro día…</option></select></label>
+          ${f.fecha === 'otra' ? `<label>¿Qué día?<input data-qxf="fechaOtra" type="date" value="${esc(f.fechaOtra)}" max="${todayStr()}"></label>` : ''}</div>
+        <div class="qx-ctl"><button type="button" class="qx-btn qx-ok qx-sm" data-qx="ficha-ok">✓ Listo, aplicar a todo el taco</button><span class="qx-note" data-qxcosto>${costoFichaTxt(lote)}</span></div></div>`;
+    }
+    function costoFichaTxt(lote){
+      const f = fichaDefaults(lote), lista = (getJuego(lote.juegoId) || {}).costoDefecto || 2, cuF = costoConDescuento(lista, Math.max(0, Math.min(99, Number(f.desc) || 0))), tam = loteCounts(lote).total;
+      return `Costo por boleto: <b>${fmt(cuF)}</b> · ${tam} boletos = <b>${fmt(tam * cuF)}</b> (sin ficha quedaría en ${fmt(tam * lista)})`;
+    }
+    function costoFicha(lote){ const n = document.querySelector('#qxRaiz [data-qxcosto]'); if(n) n.innerHTML = costoFichaTxt(lote); }
+    function auditTanda(){ const cre = (_audit || []).filter(e => e.phase === 'crear'); return { cre, rech: (_audit || []).filter(e => e.phase === 'rechazo'), fal: (_audit || []).filter(e => e.phase === 'fallo') }; }
+    function chips(lote){
+      const A = auditTanda(), okC = {}; A.cre.forEach(e => { okC[String(e.serie) + '|' + String(e.pos)] = 1; });
+      const perd = A.rech.filter(e => e.motivo !== 'ya_registrado' && !okC[String(e.serie) + '|' + String(e.pos)]).length, dups = A.rech.filter(e => e.motivo === 'ya_registrado').length;
+      const falK = new Set(A.fal.map(e => String(e.serie) + '|' + String(e.pos))), recup = [...falK].filter(k => okC[k]).length;
+      const cola = hist().filter(x => x.status === 'encolado').length, guardando = qrPistolaOn();
+      const rs = lote ? recsDe(lote).filter(r => r.qrCode || r.qrSeg) : [], ver = rs.filter(r => r.verificadoEn).length;
+      const C = (cls, l, v) => `<div class="qx-chip ${cls}"><span class="qx-l">${l}</span><b>${v}</b></div>`;
+      return `<div class="qx-chips">${C(lote ? (fichaPendiente(lote) ? 'e-av' : 'e-ok') : '', 'Ficha del taco', lote ? (fichaPendiente(lote) ? 'falta' : '✓ completa') : '—')}${C(guardando ? 'e-ok' : 'e-mal', 'Guardando', guardando ? '✓ en el taco' : 'solo consulta')}${C(cola ? 'e-av' : '', 'En cola', cola)}${C(falK.size ? (recup >= falK.size ? 'e-ok' : 'e-av') : '', 'Fallos del portal', falK.size ? falK.size + ' · ' + recup + ' recuperados' : '0')}${C(perd ? 'e-mal' : (dups ? 'e-av' : ''), perd ? 'NO guardados' : 'Duplicados evitados', perd ? perd + ' ⚠' : dups)}${C(rs.length && ver === rs.length ? 'e-ok' : '', 'Verificado', rs.length ? (ver === rs.length ? '✓ sellado' : ver + ' de ' + rs.length) : '—')}</div>`;
+    }
+    function feedHTML(n){
+      const h = hist().slice().sort((a, b) => (b.ts || 0) - (a.ts || 0)).slice(0, n || 12), multi = seriesSesion().length > 1;
+      if(!h.length) return '<div class="qx-note">Aún no hay disparos en esta sesión.</div>';
+      const errores = hist().filter(x => x.status === 'error').length;
+      return (errores ? `<button type="button" class="qx-btn qx-sm" data-qx="reint-todos">🔁 Reintentar sin respuesta (${errores})</button>` : '') + '<div class="qx-feed">' + h.map(x => {
+        const pos = /^[0-9]{12,}$/.test(x.code) ? x.code.slice(9, 12) : '···', ser = /^[0-9]{12,}$/.test(x.code) ? x.code.slice(0, 3) + '-' + x.code.slice(3, 9) : '';
+        const l = ser ? loteDe(ser) : null, r = l ? recsDe(l).find(y => Number(y.posicion) === parseInt(pos, 10)) : null;
+        const cls = x.status === 'ganado' ? 'e-gano' : x.status === 'sin_premio' ? 'e-sin' : x.status === 'encolado' ? 'e-esp' : 'e-av';
+        const txt = x.status === 'encolado' ? (x.message || 'consultando…') : x.status === 'ganado' ? 'premió ' + fmt(Number(x.amount) || 0) : x.status === 'sin_premio' ? 'sin premio' : x.status === 'ya_cobrado' ? 'ya cobrado' : x.status === 'error' ? 'sin respuesta del portal — toca ⟳' : (x.message || x.status || '—');
+        const guiaTx = r && r.guiaP != null ? ` <span class="qx-mut">· prometía ${pct(r.guiaP, 0)}${r.guiaTipo === 'guia' ? (r.guiaRec ? ' · recomendada' : ' · elegiste otra') : ''}</span>` : '';
+        const noGuardado = !r && (x.status === 'ganado' || x.status === 'sin_premio') && !qrPistolaOn() ? ' · <i>no se guardó</i>' : '';
+        return `<div class="qx-fi ${cls}"><span class="qx-fp">${esc(pos)}</span><span>${esc(txt)}${multi && ser ? ' <span class="qx-mut qx-mono">' + esc(ser) + '</span>' : ''}${guiaTx}${noGuardado}</span><span class="qx-fa">${x.status === 'encolado' ? '⏳' : `<button type="button" class="qx-mini" data-qx="reconsultar-code" data-code="${esc(x.code)}" title="Reconsultar" aria-label="Reconsultar ${esc(pos)}">⟳</button><button type="button" class="qx-mini" data-qx="portal-code" data-code="${esc(x.code)}" title="Copiar código y abrir portal" aria-label="Abrir portal para ${esc(pos)}">⧉</button>`}</span></div>`;
+      }).join('') + '</div>';
+    }
+    function resumenGuia(rs){
+      const g = rs.filter(r => r.guiaTipo === 'guia' && r.guiaRec === 1), ord = rs.slice().sort((a, b) => (a.qrTs || 0) - (b.qrTs || 0));
+      const tr = g.map(r => { const desp = ord.filter(x => (x.qrTs || 0) > (r.qrTs || 0)); return desp.length ? desp.filter(x => (Number(x.premio) || 0) > 0).length / desp.length : null; }).filter(v => v != null);
+      return { n: g.length, y: g.filter(r => (Number(r.premio) || 0) > 0).length, sp: g.reduce((a, r) => a + (Number(r.guiaP) || 0), 0), tr: tr.length ? tr.reduce((a, b) => a + b, 0) / tr.length : null, paro: rs.find(r => r.guiaParoP != null) };
+    }
+    function cierreHTML(lote){
+      if(!lote) return '';
+      const k = loteCounts(lote); if(k.revealed < k.total) return '';
+      const cierres = lsGet(LS_CIERRE, {}); if(cierres[String(lote.id)] === 'oculto') return '';
+      const rs = recsDe(lote), gasto = rs.reduce((a, r) => a + (Number(r.costo) || 0), 0), volvio = rs.reduce((a, r) => a + premioNeto(Number(r.premio) || 0), 0);
+      const A = auditTanda(), okC = {}; A.cre.forEach(e => { okC[String(e.serie) + '|' + String(e.pos)] = 1; });
+      const perd = A.rech.filter(e => String(e.serie) === lote.serie && e.motivo !== 'ya_registrado' && !okC[String(e.serie) + '|' + String(e.pos)]).length, dups = A.rech.filter(e => String(e.serie) === lote.serie && e.motivo === 'ya_registrado').length;
+      const falK = new Set(A.fal.filter(e => String(e.serie) === lote.serie).map(e => String(e.pos))), con = rs.filter(r => r.qrCode || r.qrSeg), ver = con.filter(r => r.verificadoEn).length;
+      const G = resumenGuia(rs), d = getDescuentoLote(lote);
+      return `<div class="qx-card" id="qxCierre"><h3>🧾 Taco cerrado · ${esc(lote.serie)}</h3>
+        <div class="qx-recibo"><div class="qx-kpi"><span class="qx-l">Boletos</span><span class="qx-v">${k.revealed}/${k.total}</span><span class="qx-s">${k.paid} premiados</span></div>
+          <div class="qx-kpi"><span class="qx-l">Gastado real</span><span class="qx-v">${fmt(gasto)}</span><span class="qx-s">${d ? 'con −' + d + ' %' : fichaPendiente(lote) ? 'a precio de lista (sin ficha)' : 'sin descuento'}</span></div>
+          <div class="qx-kpi"><span class="qx-l">Volvió</span><span class="qx-v ${volvio >= gasto ? 'qx-pos' : ''}">${fmt(volvio)}</span><span class="qx-s">neto ${fmtS(volvio - gasto)}</span></div>
+          <div class="qx-kpi"><span class="qx-l">Integridad</span><span class="qx-v ${perd ? 'qx-neg' : 'qx-pos'}">${perd ? '⚠' : '✓'}</span><span class="qx-s">${perd} no guardados · ${dups} duplicados evitados · ${falK.size} fallos</span></div></div>
+        ${G.n ? `<div class="qx-sub"><b>La guía en este taco:</b> ${G.n} recomendaciones seguidas, premiaron ${G.y} (${pct(G.y / G.n, 0)}; prometía ${pct(G.sp / G.n, 0)})${G.tr != null ? `; el resto de boletos que había en cada momento premiaba ${pct(G.tr, 0)}: <b class="${G.y / G.n - G.tr >= 0 ? 'qx-pos' : 'qx-neg'}">${G.y / G.n - G.tr >= 0 ? '+' : ''}${((G.y / G.n - G.tr) * 100).toFixed(1)} puntos</b> a favor de la guía` : ''}${G.paro ? `. Paró cuando lo mejor tenía ${pct(G.paro.guiaParoP, 0)}` : ''}. Quedó en la bitácora.</div>` : '<div class="qx-sub">La guía no se siguió en este taco: igual se guardó lo que el motor esperaba de cada boleto (calibración).</div>'}
+        <div class="qx-ctl"><button type="button" class="qx-btn qx-sm ${ver === con.length && con.length ? '' : 'qx-ok'}" data-qx="sellar" ${ver === con.length && con.length ? 'disabled' : ''}>${ver === con.length && con.length ? '✓ Sellado con el portal' : '🔍 Sellar este taco (reverificar con el portal)'}</button><button type="button" class="qx-btn qx-sm qx-pri" data-qx="otro">Pistolear otro taco</button><button type="button" class="qx-btn qx-sm" data-qx="ver-bit">Ver la bitácora</button></div></div>`;
+    }
+    function reciboHTML(){
+      if(!reciboKiosco) return '';
+      const R = reciboKiosco;
+      return `<div class="qx-card" id="qxCierre"><h3>🧾 Compra en el kiosco · recibo</h3>
+        <div class="qx-recibo"><div class="qx-kpi"><span class="qx-l">Boletos</span><span class="qx-v">${R.n}</span><span class="qx-s">${R.y} premiados · ${R.series} taco(s)</span></div><div class="qx-kpi"><span class="qx-l">Gastado</span><span class="qx-v">${fmt(R.gasto)}</span><span class="qx-s">lo que pagaste</span></div><div class="qx-kpi"><span class="qx-l">Volvió</span><span class="qx-v ${R.volvio >= R.gasto ? 'qx-pos' : ''}">${fmt(R.volvio)}</span><span class="qx-s">neto ${fmtS(R.volvio - R.gasto)}</span></div><div class="qx-kpi"><span class="qx-l">Integridad</span><span class="qx-v qx-pos">✓</span><span class="qx-s">todo quedó en sus tacos</span></div></div>
+        ${R.g.n ? `<div class="qx-sub"><b>La guía en esta compra:</b> ${R.g.n} recomendaciones seguidas, premiaron ${R.g.y} (${pct(R.g.y / R.g.n, 0)}; prometía ${pct(R.g.sp / R.g.n, 0)}). Quedó en la bitácora.</div>` : ''}
+        <div class="qx-ctl"><button type="button" class="qx-btn qx-sm qx-pri" data-qx="nueva-compra">Nueva compra</button><button type="button" class="qx-btn qx-sm" data-qx="ver-bit">Ver la bitácora</button></div></div>`;
+    }
+    function terminarCompra(){
+      const ss = seriesSesion(), rs = [], codes = new Set(hist().map(x => x.code));
+      ss.forEach(s => { const l = loteDe(s); if(l) recsDe(l).forEach(r => { const c = qrCodigoCompleto(r, l); if(c && codes.has(c)) rs.push(r); }); });
+      if(!rs.length){ toast('Aún no hay boletos guardados en esta compra'); return; }
+      const g = rs.filter(r => r.guiaTipo === 'guia' && r.guiaRec === 1);
+      reciboKiosco = { n: rs.length, y: rs.filter(r => (Number(r.premio) || 0) > 0).length, series: new Set(rs.map(r => String(r.loteId))).size, gasto: rs.reduce((a, r) => a + (Number(r.costo) || 0), 0), volvio: rs.reduce((a, r) => a + premioNeto(Number(r.premio) || 0), 0), g: { n: g.length, y: g.filter(r => (Number(r.premio) || 0) > 0).length, sp: g.reduce((a, r) => a + (Number(r.guiaP) || 0), 0) } };
+      render(); setTimeout(() => document.getElementById('qxCierre')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+    }
+
+    // ───── bitácora de la guía (de los boletos: viaja con ellos a la nube) ─────
+    function bitacora(){
+      const lotes = new Map((data.lotes || []).map(l => [String(l.id), l]));
+      const conG = (data.records || []).filter(r => r.guiaP != null && isFinite(Number(r.guiaP)));
+      const porLote = new Map(); conG.forEach(r => { const k = String(r.loteId); if(!porLote.has(k)) porLote.set(k, []); porLote.get(k).push(r); });
+      const ses = [...porLote.entries()].map(([k, rs]) => ({ lote: lotes.get(k), rs })).filter(x => x.lote && x.rs.some(r => r.guiaTipo === 'guia'))
+        .map(x => { const todos = recsDe(x.lote), G = resumenGuia(todos), cu = costoUnitarioLote(x.lote), gr = todos.filter(r => r.guiaTipo === 'guia' && r.guiaRec === 1); return Object.assign(x, { G, t: todos.reduce((m, r) => Math.max(m, r.qrTs || 0), 0), neto: gr.reduce((a, r) => a + premioNeto(Number(r.premio) || 0), 0) - gr.length * cu, fijas: gr.filter(r => r.guiaP >= FIJA), otras: todos.filter(r => r.guiaTipo === 'guia' && r.guiaRec === 0).length, kiosco: todos.some(r => r.guiaModo === 'kiosco') }); })
+        .sort((a, b) => b.t - a.t);
+      // recomendaciones seguidas, con la tasa del resto (lo que se pistoleó DESPUÉS de cada una, cuando el taco ya está completo)
+      const recs = []; ses.forEach(s => { const ord = recsDe(s.lote).slice().sort((a, b) => (a.qrTs || 0) - (b.qrTs || 0)), comp = loteCounts(s.lote); ord.forEach(r => { if(r.guiaTipo !== 'guia' || r.guiaRec !== 1) return; const desp = ord.filter(x => (x.qrTs || 0) > (r.qrTs || 0)); recs.push({ p: Number(r.guiaP), y: (Number(r.premio) || 0) > 0 ? 1 : 0, tr: comp.revealed === comp.total && desp.length ? desp.filter(x => (Number(x.premio) || 0) > 0).length / desp.length : null }); }); });
+      const n = recs.length, y = recs.filter(r => r.y).length, sp = recs.reduce((a, r) => a + r.p, 0), conR = recs.filter(r => r.tr != null);
+      const dif = conR.map(r => r.y - r.tr), md = dif.length ? dif.reduce((a, b) => a + b, 0) / dif.length : 0, sd = dif.length > 1 ? Math.sqrt(dif.reduce((a, x) => a + (x - md) ** 2, 0) / (dif.length - 1)) : 0, se = dif.length ? sd / Math.sqrt(dif.length) : 0;
+      const resuel = conG.filter(r => { const l = lotes.get(String(r.loteId)); const st = l && l.posiciones && l.posiciones[r.posicion] && l.posiciones[r.posicion].estado; return st === 'gano' || st === 'no-gano'; });
+      const bins = {}; resuel.forEach(r => { const p = Number(r.guiaP), yy = (Number(r.premio) || 0) > 0 ? 1 : 0, b = p >= FIJA ? 10 : Math.min(9, Math.floor(p * 10)); const o = bins[b] || (bins[b] = { b, n: 0, y: 0, sp: 0 }); o.n++; o.y += yy; o.sp += p; });
+      const franjas = Object.values(bins).sort((a, b) => a.b - b.b).map(o => { const pm = o.sp / o.n, sdv = Math.sqrt(o.n * pm * (1 - pm)); return Object.assign(o, { pm, ob: o.y / o.n, dentro: sdv > 0 ? Math.abs(o.y - o.sp) / sdv <= 1.96 : Math.abs(o.y - o.sp) < 0.5 }); });
+      const pbar = (rgContextoMotor().curva || {}).pbar || 0.27; let bs = 0, bb = 0; resuel.forEach(r => { const yy = (Number(r.premio) || 0) > 0 ? 1 : 0, p = Number(r.guiaP); bs += (p - yy) ** 2; bb += (pbar - yy) ** 2; });
+      const fij = recs.filter(r => r.p >= FIJA);
+      const post = []; ses.forEach(s => { const paro = recsDe(s.lote).filter(r => r.guiaTipo === 'resto'); paro.forEach(r => post.push((Number(r.premio) || 0) > 0 ? 1 : 0)); });
+      return { ses, n, y, sp, nR: conR.length, tr: conR.length ? conR.reduce((a, r) => a + r.tr, 0) / conR.length : 0, md, ic: [md - 1.96 * se, md + 1.96 * se], fij: { n: fij.length, y: fij.filter(r => r.y).length }, franjas, nTodos: resuel.length, brier: resuel.length ? bs / resuel.length : 0, base: resuel.length ? bb / resuel.length : 0, post: { n: post.length, y: post.filter(Boolean).length } };
+    }
+    function reglas(B){
+      const R = [], fFall = B.fij.n - B.fij.y;
+      R.push(fFall ? ['mal', '⛔', 'Fijas', `${fFall} fija(s) NO premiaron: el tope de la imprenta se rompió. Hay que revisar el motor antes de seguir comprando con la guía.`, 'revisar']
+        : ['ok', '✓', 'Fijas', B.fij.n ? `${B.fij.y} de ${B.fij.n} fijas premiaron. Si una sola falla, se avisa al instante.` : 'Todavía no se compró ninguna fija con la guía. Si una falla, se avisa al instante.', B.fij.n ? 'en orden' : 'sin casos']);
+      const fuera = B.franjas.filter(f => f.n >= 50 && !f.dentro), juzg = B.franjas.filter(f => f.n >= 50);
+      R.push(!juzg.length ? ['sin', '…', 'Calibración', `Se juzga con 50 boletos por franja; llevas ${nf(B.nTodos)} boletos medidos en total.`, 'faltan datos']
+        : fuera.length >= 2 ? ['av', '⚠', 'Calibración', `${fuera.length} franjas con 50+ boletos se salen de su margen (${fuera.map(f => f.b === 10 ? 'fijas' : (f.b * 10) + '–' + (f.b * 10 + 10) + ' %').join(', ')}). Ajuste propuesto: corregir esas franjas con lo observado.`, 'recalibrar']
+        : ['ok', '✓', 'Calibración', `${juzg.filter(f => f.dentro).length} de ${juzg.length} franjas con 50+ boletos dentro de su margen: lo que promete, sale.`, 'en orden']);
+      const minR = 300;
+      if(B.nR < minR) R.push(['sin', '…', '¿Elige mejor que el resto?', `Con ${B.nR} recomendaciones medidas la ventaja es ${(B.md * 100).toFixed(1)} puntos${B.nR > 1 ? ' (IC95 ' + (B.ic[0] * 100).toFixed(1) + ' a ' + (B.ic[1] * 100).toFixed(1) + ')' : ''}. Se decide con ${minR}.`, 'faltan ' + (minR - B.nR)]);
+      else R.push(B.ic[0] > 0 ? ['ok', '✓', '¿Elige mejor que el resto?', `La recomendada premió ${(B.md * 100).toFixed(1)} puntos más que el resto de boletos que había en ese momento (IC95 ${(B.ic[0] * 100).toFixed(1)} a ${(B.ic[1] * 100).toFixed(1)}).`, 'en orden']
+        : B.md < 0 ? ['mal', '⛔', '¿Elige mejor que el resto?', 'La recomendada premia MENOS que el resto: la guía no está ayudando.', 'revisar'] : ['av', '⚠', '¿Elige mejor que el resto?', 'La ventaja no se distingue de cero: seguir midiendo antes de fiarse.', 'vigilar']);
+      const minP = 200;
+      if(B.post.n < minP) R.push(['sin', '…', 'Regla de parada', `Después de «para aquí» salieron ${B.post.y} premios en ${B.post.n} boletos (${B.post.n ? pct(B.post.y / B.post.n) : '—'}). Se juzga con ${minP}.`, 'faltan ' + (minP - B.post.n)]);
+      else { const tr = B.post.y / B.post.n; R.push(tr > ui.tau + 0.03 ? ['av', '⚠', 'Regla de parada', `Después de parar premió el ${pct(tr)} (más que el umbral de ${pct(ui.tau, 0)}): conviene bajar el umbral para seguir comprando un poco más.`, 'bajar umbral']
+          : ['ok', '✓', 'Regla de parada', `Después de «para aquí» solo premió el ${pct(tr)} de lo que quedaba: parar ahí era correcto (umbral ${pct(ui.tau, 0)}).`, 'en orden']); }
+      const minT = 30;
+      R.push(B.ses.length < minT ? ['sin', '…', 'Umbral óptimo', `Con ${minT} tacos validados se re-simula el umbral (22–30 %) sobre esos mismos tacos y se propone el mejor, si gana con margen. Llevas ${B.ses.length}.`, 'faltan ' + (minT - B.ses.length)]
+        : ['ok', '✓', 'Umbral óptimo', 'Ya hay tacos suficientes para re-simular el umbral con tus tacos validados.', 'disponible']);
+      return R;
+    }
+    function veredicto(R){
+      if(R.some(r => r[0] === 'mal')) return ['mal', 'Revisar ya', 'Hay una alarma: no sigas comprando con la guía hasta revisarla.'];
+      if(R.some(r => r[0] === 'av')) return ['av', 'Ajuste sugerido', 'Los datos piden un ajuste: está detallado abajo, con su efecto.'];
+      if(R.some(r => r[0] === 'sin')) return ['sin', 'Aún no ajustar', 'Lo que ya se puede juzgar está en orden; lo demás necesita más tacos validados.'];
+      return ['ok', 'Todo en orden', 'La guía cumple lo que promete: no hace falta ajustar nada.'];
+    }
+    function calSVG(B){
+      const raiz = document.getElementById('qxRaiz'), W = Math.max(280, Math.min(((raiz && raiz.clientWidth) || 600) - 70, 560)), H = Math.round(Math.min(280, W * 0.6)), x = v => 34 + v * (W - 46), y = v => H - 22 - v * (H - 36);
+      let s = `<svg class="qx-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Lo que prometió el motor frente a lo que salió"><line x1="${x(0)}" y1="${y(0)}" x2="${x(1)}" y2="${y(1)}" stroke="var(--silver)" stroke-dasharray="4 3"/>`;
+      [0, 0.25, 0.5, 0.75, 1].forEach(v => s += `<text x="${x(v)}" y="${H - 6}" text-anchor="middle">${v * 100}%</text><text x="28" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`);
+      B.franjas.forEach(f => { const ic = wil(f.y, f.n); s += `<line x1="${x(f.pm)}" x2="${x(f.pm)}" y1="${y(ic[0])}" y2="${y(ic[1])}" stroke="var(--ink)" stroke-opacity=".45"/><circle cx="${x(f.pm)}" cy="${y(f.ob)}" r="${3 + Math.min(6, Math.sqrt(f.n) / 6)}" fill="${f.b === 10 ? 'var(--gold)' : f.dentro ? 'var(--ok)' : 'var(--qx-neg)'}" opacity=".9"><title>prometía ${pct(f.pm)} · salió ${pct(f.ob)} · ${f.n} boletos</title></circle>`; });
+      return s + `<text x="${x(0.02)}" y="${y(0.95)}" text-anchor="start">salió ↑</text><text x="${x(0.98)}" y="${y(0.04)}" text-anchor="end">prometía →</text></svg>`;
+    }
+    function bitacoraHTML(){
+      const B = bitacora(), R = reglas(B), V = veredicto(R), t = ui.bit;
+      const kp = (l, v, s2, c) => `<div class="qx-kpi"><span class="qx-l">${l}</span><span class="qx-v ${c || ''}">${v}</span><span class="qx-s">${s2}</span></div>`;
+      const tabs = [['guia', 'La guía'], ['cal', 'Calibración'], ['afin', 'Afinamiento'], ['cap', 'Captura']].map(([k, tx]) => `<button type="button" role="tab" aria-selected="${t === k}" class="${t === k ? 'e-on' : ''}" data-qxbit="${k}">${tx}</button>`).join('');
+      let cuerpo = '';
+      const ref = (() => { try{ EG.asegurarLab(); return EG.calibResumen(); }catch(e){ return null; } })();
+      if(t === 'guia'){
+        cuerpo = !B.ses.length ? `<div class="qx-note">Aún no hay tacos validados. En la PC, deja activada «Validar la guía» y pistolea un taco: los primeros en orden y luego la recomendada. En el kiosco (cámara), cada boleto que compras siguiendo la guía queda anotado. Aquí verás si lo que promete, sale.</div>`
+          : `<div class="qx-grid" style="--c:4;">${kp('Tacos validados', B.ses.length, B.ses.filter(s => s.kiosco).length + ' de kiosco')}${kp('Recomendaciones seguidas', nf(B.n), B.ses.reduce((a, s) => a + s.otras, 0) + ' veces elegiste otra')}${kp('Acierto', B.n ? pct(B.y / B.n) : '—', B.n ? 'prometía ' + pct(B.sp / B.n) : '', B.n && Math.abs(B.y / B.n - B.sp / B.n) < 0.03 ? 'qx-pos' : 'qx-amb')}${kp('Frente al resto', B.nR ? (B.md >= 0 ? '+' : '') + (B.md * 100).toFixed(1) + ' pts' : '—', B.nR ? `el resto premiaba ${pct(B.tr)} · IC95 ${(B.ic[0] * 100).toFixed(1)} a ${(B.ic[1] * 100).toFixed(1)}` : 'se mide al cerrar el taco', B.nR && B.ic[0] > 0 ? 'qx-pos' : '')}</div>
+          <div class="qx-tw"><table class="qx-t"><thead><tr><th>Taco</th><th>Día</th><th class="r">Recom.</th><th class="r">Premiaron</th><th class="r">Prometía</th><th class="r">Resto</th><th class="r">Fijas</th><th>Paró</th><th class="r">Guía</th></tr></thead><tbody>
+          ${B.ses.map(s => `<tr><td><b>${esc(s.lote.serie)}</b>${s.kiosco ? ' <span class="qx-pil e-cur">kiosco</span>' : ''}</td><td>${s.t ? fc(fechaLocalDe(s.t)) : '—'}</td><td class="r">${s.G.n}</td><td class="r">${s.G.y}</td><td class="r">${s.G.n ? pct(s.G.sp / s.G.n, 0) : '—'}</td><td class="r">${s.G.tr != null ? pct(s.G.tr, 0) : '—'}</td><td class="r">${s.fijas.length ? s.fijas.filter(r => (Number(r.premio) || 0) > 0).length + '/' + s.fijas.length : '—'}</td><td>${s.G.paro ? 'con ' + pct(s.G.paro.guiaParoP, 0) : '—'}</td><td class="r ${s.neto >= 0 ? 'qx-pos' : 'qx-neg'}">${fmtS(s.neto)}</td></tr>`).join('')}</tbody></table></div>
+          <div class="qx-note">«Resto» = cuánto premiaba, en promedio, lo que quedaba por pistolear cuando la guía recomendó (se sabe al cerrar el taco). Si la guía elige bien, «Premiaron» queda por encima de «Resto».</div>`;
+      } else if(t === 'cal'){
+        cuerpo = `<div class="qx-grid" style="--c:3;">${kp('Boletos medidos', nf(B.nTodos), 'cada uno con lo que el motor esperaba antes de leerlo')}${kp('Franjas dentro', B.franjas.length ? B.franjas.filter(f => f.dentro).length + ' de ' + B.franjas.length : '—', 'margen del 95 %', B.franjas.length && B.franjas.every(f => f.dentro) ? 'qx-pos' : 'qx-amb')}${kp('Error (Brier)', B.nTodos ? B.brier.toFixed(4) : '—', B.nTodos ? 'adivinar con la tasa base: ' + B.base.toFixed(4) : '', B.nTodos && B.brier < B.base ? 'qx-pos' : '')}</div>
+          ${B.franjas.length ? calSVG(B) + `<div class="qx-tw"><table class="qx-t"><thead><tr><th>Franja</th><th class="r">Boletos</th><th class="r">Prometía</th><th class="r">Salió</th><th></th></tr></thead><tbody>${B.franjas.map(f => `<tr><td>${f.b === 10 ? '⭐ fijas (≥ 99 %)' : (f.b * 10) + '–' + (f.b * 10 + 10) + ' %'}</td><td class="r">${nf(f.n)}</td><td class="r">${pct(f.pm)}</td><td class="r">${pct(f.ob)}</td><td>${f.dentro ? '<span class="qx-pil e-ok">✓</span>' : '<span class="qx-pil e-neg">fuera</span>'}</td></tr>`).join('')}</tbody></table></div>` : ''}
+          <div class="qx-note">Esto se llena solo: cada boleto que pistoleas (guiado o no) guarda la probabilidad que el motor le daba justo antes de leerlo.${ref ? ` Referencia de toda tu historia, medida sin mirar el futuro: ${nf(ref.n)} boletos, ${ref.dentro} de ${ref.total} franjas dentro.` : ''}</div>`;
+      } else if(t === 'afin'){
+        cuerpo = `<div class="qx-guia ${V[0] === 'ok' ? 'e-fija' : 'e-ini'}" style="border-color:${V[0] === 'mal' ? 'var(--qx-neg)' : V[0] === 'av' ? 'var(--qx-amb)' : V[0] === 'ok' ? 'var(--ok)' : 'var(--line)'};"><span class="qx-gq" style="font-size:22px;">${V[0] === 'ok' ? '✓' : V[0] === 'mal' ? '⛔' : V[0] === 'av' ? '⚠' : '…'}</span><div class="qx-gm"><span class="qx-l">Veredicto del afinamiento</span><div style="font-weight:800; font-size:16px;">${V[1]}</div><div class="qx-sub">${V[2]}</div></div></div>
+          <div class="qx-reglas">${R.map(r => `<div class="qx-regla e-${r[0]}"><span class="qx-ri">${r[1]}</span><span><b>${r[2]}</b><br><span class="qx-sub">${r[3]}</span></span><span class="qx-pil ${r[0] === 'ok' ? 'e-ok' : r[0] === 'mal' ? 'e-neg' : r[0] === 'av' ? 'e-amb' : 'e-sin'}">${r[4]}</span></div>`).join('')}</div>
+          <div class="qx-note">Los umbrales (50 boletos por franja, 300 recomendaciones, 200 boletos después de parar, 30 tacos) se fijaron ANTES de mirar los datos, como en «Qué sé y con cuánta certeza»: así acumular tacos no se convierte en buscar hasta encontrar. Un ajuste solo se propone si gana con margen y se ve su efecto antes de aplicarlo.</div>
+          <div class="qx-ctl"><button type="button" class="qx-btn qx-sm" data-qx="copiar-bit">📋 Copiar la bitácora</button><span class="qx-note">Texto para guardar o compartir: tacos, recomendaciones, franjas y veredicto.</span></div>`;
+      } else {
+        const A = auditTanda(), cre = A.cre.slice().sort((a, b) => a.ts - b.ts), ts = cre.map(e => e.ts), dur = ts.length > 1 ? (ts[ts.length - 1] - ts[0]) / 60000 : 0;
+        const wm = cre.map(e => e.worker_ms).filter(Number.isFinite).sort((a, b) => a - b), q = p => wm.length ? wm[Math.min(wm.length - 1, Math.floor(p * wm.length))] : null;
+        const okC = {}; cre.forEach(e => { okC[String(e.serie) + '|' + String(e.pos)] = 1; }); const perd = A.rech.filter(e => e.motivo !== 'ya_registrado' && !okC[String(e.serie) + '|' + String(e.pos)]).length;
+        const falK = new Set(A.fal.map(e => String(e.serie) + '|' + String(e.pos))), recup = [...falK].filter(k => okC[k]).length;
+        const cuenta = ph => (_audit || []).filter(e => e.phase === ph).length;
+        cuerpo = `<div class="qx-grid" style="--c:4;">${kp('Boletos', cre.length, 'guardados en esta tanda')}${kp('Ritmo', dur > 0 ? ((cre.length - 1) / dur).toFixed(0) + '/min' : '—', 'boletos por minuto')}${kp('Portal', q(0.5) != null ? q(0.5) + ' ms' : '—', q(0.9) != null ? 'p90 ' + q(0.9) + ' ms' : 'mediana')}${kp('Integridad', perd ? '⚠ ' + perd : '✓', perd + ' no guardados · ' + cuenta('cruce') + ' cruces · ' + cuenta('monto_discrepa') + ' montos corregidos', perd ? 'qx-neg' : 'qx-pos')}</div>
+          <div class="qx-grid" style="--c:3;">${kp('Fallos del portal', falK.size, recup + ' recuperados al reintentar')}${kp('Duplicados evitados', A.rech.filter(e => e.motivo === 'ya_registrado').length, 'mismo boleto dos veces: no se guarda dos veces')}${kp('Sin eco del portal', cuenta('sin_eco'), cuenta('sin_eco') ? '⚠ la defensa anticruce no se pudo aplicar' : 'la defensa anticruce se aplicó siempre')}</div>
+          <div class="qx-ctl"><button type="button" class="qx-btn qx-sm" data-qx="copiar-diag">📋 Copiar diagnóstico</button><button type="button" class="qx-btn qx-sm" data-qx="sellar-sesion">🔍 Sellar lo pistoleado (toda la sesión)</button><button type="button" class="qx-btn qx-sm" data-qx="diag-escaner">🔧 Diagnóstico del escáner</button></div>
+          <div data-qxslot="audit"></div>
+          <div class="qx-note">Es la «Auditoría del pistoleo» de hoy, leída de un vistazo. El texto técnico completo (tiempos del Worker, sesiones, envíos) sale al copiar el diagnóstico y en el desplegable de abajo.</div>`;
+      }
+      return `<div class="qx-sub">Para validar en vivo si el análisis del sistema acierta y si hay que afinar algo. Cada recomendación queda guardada con lo que prometía y lo que salió.</div><div class="qx-seg" role="tablist" aria-label="Bitácora">${tabs}</div>${cuerpo}`;
+    }
+    function textoBitacora(){
+      const B = bitacora(), R = reglas(B), V = veredicto(R);
+      return ['📒 BITÁCORA DE LA GUÍA · app v' + APP_VERSION.num + ' · ' + new Date().toLocaleString('es-EC'), 'tacos ' + B.ses.length + ' · recomendaciones seguidas ' + B.n + ' · premiaron ' + B.y + (B.n ? ' (' + pct(B.y / B.n) + ', prometía ' + pct(B.sp / B.n) + ')' : ''),
+        'frente al resto: ' + (B.md * 100).toFixed(1) + ' pts (n=' + B.nR + ', IC95 ' + (B.ic[0] * 100).toFixed(1) + ' a ' + (B.ic[1] * 100).toFixed(1) + ')', 'fijas ' + B.fij.y + '/' + B.fij.n + ' · después de parar ' + B.post.y + '/' + B.post.n,
+        'franjas (' + B.nTodos + ' boletos): ' + B.franjas.map(f => (f.b === 10 ? 'fijas' : f.b * 10 + '%') + ' ' + pct(f.pm, 0) + '→' + pct(f.ob, 0) + ' (n' + f.n + ')' + (f.dentro ? '' : ' FUERA')).join(' · '),
+        'veredicto: ' + V[1] + ' — ' + V[2]].concat(R.map(r => '· ' + r[2] + ': ' + r[4]), B.ses.map(s => '  ' + s.lote.serie + ': ' + s.G.y + '/' + s.G.n + ' (prometía ' + (s.G.n ? pct(s.G.sp / s.G.n, 0) : '—') + ', resto ' + (s.G.tr != null ? pct(s.G.tr, 0) : '—') + ')')).join('\n');
+    }
+
+    // ───── creación rápida de un juego para un prefijo desconocido ─────
+    const pendPref = new Map();   // prefijo → boletos que esperan (se registran todos al resolver)
+    let crearEd = null;
+    function preguntarPrefijo(m){
+      const p = String(m.prefijo); if(!pendPref.has(p)) pendPref.set(p, []);
+      const a = pendPref.get(p); if(!a.some(x => x.code === m.code)) a.push(m);
+      if(!crearEd || crearEd.prefijo !== p){ if(!crearEd) crearEd = { prefijo: p, preset: '', nombre: '', emoji: '🎟️', costo: '', tam: 50 }; }
+      render();
+      try{ playAvisoSound(); }catch(_){}
+      setTimeout(() => document.getElementById('qxPref')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+    }
+    function prefHTML(){
+      if(!pendPref.size){ crearEd = null; return ''; }
+      const p = crearEd ? crearEd.prefijo : [...pendPref.keys()][0]; if(!crearEd) crearEd = { prefijo: p, preset: '', nombre: '', emoji: '🎟️', costo: '', tam: 50 };
+      const n = (pendPref.get(p) || []).length, otros = [...pendPref.keys()].filter(k => k !== p).length, e = crearEd;
+      const usados = new Set((data.juegos || []).map(j => String(j.nombre).toLowerCase()));
+      const presets = (typeof JUEGOS_OFICIALES !== 'undefined' ? JUEGOS_OFICIALES : []).map((j, i) => ({ j, i })).filter(x => !usados.has(String(x.j.nombre).toLowerCase()));
+      return `<section class="qx-card qx-pref" id="qxPref" role="region" aria-label="Juego nuevo"><h3>🆕 Prefijo <span class="qx-mono">${esc(p)}</span> sin juego <span class="qx-pil e-amb">${n} boleto(s) esperando · no se pierden</span>${otros ? ' <span class="qx-pil e-sin">+' + otros + ' prefijo(s) más</span>' : ''}</h3>
+        <div class="qx-sub">¿De qué juego es? Al elegir, los ${n} boleto(s) que esperan se registran solos; no hace falta volver a escanear.</div>
+        ${(data.juegos || []).length ? `<div class="qx-l">Es de un juego que ya tienes</div><div class="qx-ctl">${(data.juegos || []).map(j => `<button type="button" class="qx-btn qx-sm" data-qx="pref-asignar" data-jid="${esc(String(j.id))}">${esc((j.emoji || '') + ' ' + j.nombre)}${j.seriePrefijo ? ' <span class="qx-mut qx-mono">' + esc(j.seriePrefijo) + '</span>' : ''}</button>`).join('')}</div>` : ''}
+        <div class="qx-l">O créalo ahora</div>
+        <div class="qx-fgrid qx-fgrid4"><label>De la lista oficial<select data-qxc="preset"><option value="">— otro —</option>${presets.map(x => `<option value="${x.i}" ${String(e.preset) === String(x.i) ? 'selected' : ''}>${esc(x.j.emoji + ' ' + x.j.nombre + ' · $' + x.j.costo)}</option>`).join('')}</select></label>
+          <label>Nombre<input data-qxc="nombre" value="${esc(e.nombre)}" placeholder="ej. El Chanchito" autocomplete="off"></label>
+          <label>Precio del boleto ($)<input data-qxc="costo" type="number" min="0.1" step="0.01" value="${esc(e.costo)}" placeholder="2.00"></label>
+          <label>Boletos por taco<select data-qxc="tam"><option value="50" ${+e.tam === 50 ? 'selected' : ''}>50</option><option value="100" ${+e.tam === 100 ? 'selected' : ''}>100</option></select></label></div>
+        <div class="qx-ctl"><button type="button" class="qx-btn qx-ok" data-qx="pref-crear">✓ Crear «${esc(e.nombre || 'juego')}» y registrar ${n} boleto(s)</button><button type="button" class="qx-btn qx-sm" data-qx="pref-descartar">Descartar estos ${n}</button><span class="qx-note">Prefijo ${esc(p)} · premios por taco ${+e.tam === 100 ? '20–30' : '12–15'} de inicio (el diseño se ajusta solo con tus tacos completos; se edita en Juegos).</span></div></section>`;
+    }
+    function resolverPref(juego){
+      const p = crearEd.prefijo, lista = (pendPref.get(p) || []).slice(); pendPref.delete(p); crearEd = null;
+      juego.seriePrefijo = p + '-';
+      save();
+      let n = 0; lista.forEach(m => { try{ qrRegistrarBoleto(m); n++; }catch(e){ console.warn('[QX pref]', e); } });
+      toast('✓ ' + (juego.emoji || '') + ' ' + juego.nombre + ' · prefijo ' + p + ' · ' + n + ' boleto(s) registrados');
+      render(); try{ qrDevolverFocoAlLector(); }catch(_){}
+    }
+    function crearJuego(){
+      const e = crearEd; if(!e) return;
+      const nombre = String(e.nombre || '').trim(), costo = parseFloat(e.costo), tam = +e.tam === 100 ? 100 : 50;
+      if(!nombre){ toast('Escribe el nombre del juego'); document.querySelector('[data-qxc="nombre"]')?.focus(); return; }
+      if(!(costo > 0)){ toast('Escribe el precio del boleto'); document.querySelector('[data-qxc="costo"]')?.focus(); return; }
+      if((data.juegos || []).some(j => String(j.nombre).toLowerCase() === nombre.toLowerCase())){ toast('Ya existe un juego con ese nombre: elígelo arriba'); return; }
+      const pre = e.preset !== '' && typeof JUEGOS_OFICIALES !== 'undefined' ? JUEGOS_OFICIALES[+e.preset] : null;
+      const j = { id: 'juego-' + Date.now() + '-' + Math.round(Math.random() * 1000), nombre, tamanoLote: tam, costoDefecto: Math.round(costo * 100) / 100, emoji: e.emoji || (pre && pre.emoji) || '🎟️', minPremios: tam === 100 ? 20 : 12, maxPremios: tam === 100 ? 30 : 15, valorPremio: 5, seriePrefijo: e.prefijo + '-' };
+      if(pre && Array.isArray(pre.premios) && pre.premios.length) j.premios = pre.premios.slice();
+      data.juegos.push(j);
+      resolverPref(j);
+    }
+
+    // ───── estructura (se crea UNA vez: el escáner no puede moverse después de nacer, se recargaría) ─────
+    function estructura(){
+      const raiz = document.getElementById('qxRaiz'); if(!raiz || raiz.dataset.qxListo) return raiz;
+      raiz.dataset.qxListo = '1';
+      raiz.innerHTML = `<div class="qx">
+        <div class="qx-cab"><span class="qx-lg">🔫 Pistola QR</span><span data-qxslot="origen"></span><span data-qxslot="guardar"></span><span class="qx-sp" id="qxEstado"></span><span data-qxslot="sonido"></span><span data-qxslot="limpiar"></span></div>
+        <div data-qxslot="nota"></div>
+        <div id="qxPrefHost"></div>
+        <div class="qx-con" id="qxCon"><div class="qx-izq"><div data-qxslot="marcador"></div><div data-qxslot="escaner"></div><div id="qxApunta"></div><div id="qxGuia"></div><section class="qx-card" id="qxTaco"></section></div>
+          <div class="qx-der"><div id="qxFicha"></div><div id="qxDer"></div></div></div>
+        <div id="qxCierreHost"></div>
+        <section class="qx-card" id="qxBit"><h2>📒 Bitácora de la guía</h2><div id="qxBitCuerpo"></div></section>
+        <div data-qxslot="viejo"></div>
+        <div class="qx-note">El escáner sigue siendo el mismo: cola en paralelo, reintentos, defensa anticruce y montos leídos del texto del portal. Cambia lo que ves y lo que se guarda con cada boleto.</div></div>`;
+      const mover = (id, slot) => { const n = document.getElementById(id), s = raiz.querySelector('[data-qxslot="' + slot + '"]'); if(n && s) s.appendChild(n); return n; };
+      ['origenCam', 'origenLector'].forEach(id => mover(id, 'origen'));
+      const chk = document.getElementById('qrPistola'); if(chk){ const lab = chk.closest('label'); if(lab){ lab.innerHTML = ''; lab.appendChild(chk); lab.appendChild(document.createTextNode(' Guardar en el taco')); lab.className = 'qx-ctl'; lab.removeAttribute('style'); raiz.querySelector('[data-qxslot="guardar"]').appendChild(lab); } }
+      mover('btnProbarSonido', 'sonido'); mover('qrLimpiarPantalla', 'limpiar'); mover('origenNota', 'nota'); mover('mkHost', 'marcador'); mover('qrHost', 'escaner');
+      const b1 = document.getElementById('btnProbarSonido'); if(b1){ b1.className = 'qx-btn qx-sm'; b1.removeAttribute('style'); b1.textContent = '🔊 Sonido'; }
+      const b2 = document.getElementById('qrLimpiarPantalla'); if(b2){ b2.className = 'qx-btn qx-sm'; b2.removeAttribute('style'); b2.textContent = '🧹 Nueva sesión'; }
+      const viejo = document.getElementById('qrViejo'); if(viejo) mover('qrViejo', 'viejo');
+      return raiz;
+    }
+    function render(force){
+      const t0 = performance.now(), raiz = estructura(); if(!raiz) return;
+      // No se repinta bajo los dedos: si se está escribiendo en la ficha o en el juego nuevo, ese
+      // recuadro se deja quieto (el resto —taco, guía, últimos— sigue al día con cada disparo).
+      const act = document.activeElement, lockEl = !force && act && raiz.contains(act) && /INPUT|SELECT|TEXTAREA/.test(act.tagName) ? act.closest('#qxFicha,#qxPrefHost,#qxTaco') : null;
+      const put = (id, html) => { const n = document.getElementById(id); if(!n || (lockEl && lockEl.id === id)) return; n.innerHTML = html; };
+      const cam = esCam(), T = taco(), lote = T.serie ? loteDe(T.serie) : null;
+      raiz.querySelector('.qx').classList.toggle('qx-camara', cam);
+      // escáner: con la cámara se ve el visor; con el lector queda montado pero sin alto (sigue recibiendo los disparos)
+      const host = document.getElementById('qrHost'); if(host){ host.classList.toggle('qx-oculto', !cam); }
+      put('qxEstado', lote ? `<span class="qx-mono qx-mut">${esc(lote.serie)} · ${loteCounts(lote).revealed}/${loteCounts(lote).total} · ${loteCounts(lote).paid} prem</span>` : '');
+      put('qxPrefHost', prefHTML());
+      const g = lote ? guia(lote) : null;
+      put('qxApunta', cam && lote ? `<div class="qx-ctl"><span class="qx-apunta" aria-live="polite">${g && g.i != null ? '📷 Apunta a la ' + pad(g.i) : g && (g.estado === 'para' || g.estado === 'nomas') ? '✋ Para aquí' : '📷 Apunta al código del boleto'}</span><button type="button" class="qx-btn" data-qx="marcar-vend" aria-pressed="${marcarVend}">${marcarVend ? '✓ Marcando vendidas' : '🚫 Vendidas a otro'}</button></div>` : '');
+      put('qxGuia', lote ? guiaHTML(lote) : `<div class="qx-guia e-ini"><div class="qx-gm"><span class="qx-l">Compra guiada</span><div class="qx-sub">${cam ? 'Escanea el primer boleto del taco del vendedor y te digo qué pedirle después.' : 'Dispara el primer boleto: el taco aparece aquí con la guía encima.'}</div></div></div>`);
+      const tabs = T.series.length > 1 ? `<div class="qx-tacos" role="tablist" aria-label="Tacos de esta sesión">${T.series.map(s => { const l = loteDe(s), k = loteCounts(l), gg = guia(l); return `<button type="button" role="tab" aria-selected="${s === T.serie}" class="${s === T.serie ? 'e-on' : ''}" data-qxserie="${esc(s)}"><b class="qx-mono">${esc(s)}</b><span>${k.revealed}/${k.total} · ${gg.i != null ? 'pide ' + pad(gg.i) : gg.estado === 'para' || gg.estado === 'nomas' ? 'para' : '—'}</span></button>`; }).join('')}</div>` : '';
+      const validar = !cam && lote ? `<div class="qx-ctl"><label class="qx-ctl"><input type="checkbox" data-qx="validar-chk" ${ui.validar ? 'checked' : ''}> <b>Validar la guía en este taco</b></label><label class="qx-ctl">primero <select data-qx="n0">${[3, 5, 10].map(v => `<option ${v === ui.n0 ? 'selected' : ''}>${v}</option>`).join('')}</select> en orden</label><label class="qx-ctl">para bajo <select data-qx="tau">${[0.25, 0.26, 0.27].map(v => `<option value="${v}" ${v === ui.tau ? 'selected' : ''}>${Math.round(v * 100)} %</option>`).join('')}</select></label></div>` : '';
+      const tacoEl = document.getElementById('qxTaco');
+      put('qxTaco', lote ? tabs + validar + tablero(lote) + (cam ? '' : `<div class="qx-note qx-tecl">Teclado: dispara con el lector como siempre · flechas sobre el taco y <span class="qx-kbd">Enter</span> para ver las acciones de una posición (vendida a otro, reconsultar, portal, ver boleto) · <span class="qx-kbd">Esc</span> cierra.</div>`) : `<h3 style="margin:0;">🎫 Taco en vivo</h3><div class="qx-note">Aún no hay boletos en esta sesión.</div>`);
+      tacoEl.hidden = false;
+      put('qxFicha', lote ? fichaHTML(lote) : '');
+      put('qxDer', cam
+        ? `<section class="qx-card"><h3>Últimos</h3>${feedHTML(5)}${chips(lote)}<div class="qx-ctl"><button type="button" class="qx-btn qx-sm qx-ok" data-qx="terminar">✓ Terminar la compra</button></div></section>`
+        : `<section class="qx-card"><h3>Integridad</h3>${chips(lote)}</section><section class="qx-card"><h3>Últimos disparos</h3>${feedHTML(12)}</section>`);
+      put('qxCierreHost', cam ? reciboHTML() : cierreHTML(lote));
+      const bc = document.getElementById('qxBitCuerpo'); const aw = document.getElementById('qrAuditWrap'); const guarda = document.getElementById('qxGuardaAudit') || (() => { const d = document.createElement('div'); d.id = 'qxGuardaAudit'; d.hidden = true; raiz.appendChild(d); return d; })();
+      // La bitácora recorre todos los boletos y está debajo: con cada disparo se rehace en un momento ocioso (no frena la
+      // captura). Al tocar sus pestañas o al forzar, se pinta en el acto.
+      const pintarBit = () => { const aw2 = document.getElementById('qrAuditWrap'); if(aw2) guarda.appendChild(aw2); bc.innerHTML = bitacoraHTML().replace(/(\d) %/g, '$1&nbsp;%'); const sa = bc.querySelector('[data-qxslot="audit"]'); if(sa && aw2) sa.appendChild(aw2); _bitK = bitK; };
+      const bitK = _dataVersion + '|' + (data.records || []).length + '|' + ui.bit + '|' + (_audit || []).length + '|' + juegoActivoId;
+      if(force || !bc.innerHTML) pintarBit();
+      else if(bitK !== _bitK && !_bitPend){ _bitPend = true; const go = () => { _bitPend = false; try{ pintarBit(); }catch(e){ console.warn('[QX bit]', e); } }; (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2000 }) : setTimeout(go, 400)); }
+      _renderTiempos['qx.render'] = Math.round(performance.now() - t0);
+    }
+    let _bitK = null, _bitPend = false;
+    // el foco del teclado sobre el taco no debe perderse al repintar (llegan boletos cada medio segundo)
+    function repintar(){
+      const a = document.activeElement, raiz = document.getElementById('qxRaiz');
+      const sel = a && raiz && raiz.contains(a) ? (a.dataset.qxcel != null ? '[data-qxcel="' + a.dataset.qxcel + '"]' : a.dataset.qx ? '[data-qx="' + a.dataset.qx + '"]' : a.dataset.qxf ? '[data-qxf="' + a.dataset.qxf + '"]' : a.dataset.qxc ? '[data-qxc="' + a.dataset.qxc + '"]' : null) : null;
+      const enCampo = a && /INPUT|SELECT|TEXTAREA/.test(a.tagName) && raiz && raiz.contains(a);
+      render(); if(sel && !enCampo){ const n = raiz.querySelector(sel); if(n) try{ n.focus({ preventScroll: true }); }catch(_){} }
+    }
+
+    // ───── eventos ─────
+    function enlazar(){
+      const raiz = document.getElementById('qxRaiz'); if(!raiz || raiz._qxOk) return; raiz._qxOk = true;
+      raiz.addEventListener('click', e => {
+        const b = e.target.closest('button'); if(!b || !raiz.contains(b) || b.closest('#qrHost')) return; const d = b.dataset;
+        const T = taco(), lote = T.serie ? loteDe(T.serie) : null;
+        if(d.qxcel != null && lote){ const i = +d.qxcel;
+          if(marcarVend && esCam()){ const st = lote.posiciones && lote.posiciones[i] && lote.posiciones[i].estado; if(!st || st === 'sin-info'){ setVend(lote, i, !vendDe(lote).has(i)); render(); } return; }
+          menuCel = menuCel && menuCel.serie === lote.serie && menuCel.i === i ? null : { serie: lote.serie, i }; render(); raiz.querySelector('.qx-menu button')?.focus(); return; }
+        if(d.qxserie){ activa = d.qxserie; menuCel = null; render(); return; }
+        if(d.qxbit){ ui.bit = d.qxbit; guardarUI(); render(true); raiz.querySelector('[data-qxbit="' + d.qxbit + '"]')?.focus(); return; }
+        const a = d.qx; if(!a) return;
+        if(a === 'no-esta' && lote){ const i = +d.pos; setVend(lote, i, true); const g = guia(lote); toast('🚫 ' + pad(i) + ' vendida a otro' + (g.i != null ? ' · ahora pide la ' + pad(g.i) : g.estado === 'para' ? ' · para aquí' : '')); render(); return; }
+        if(a === 'vend-on' && lote){ setVend(lote, +d.pos, true); menuCel = null; render(); return; }
+        if(a === 'vend-off' && lote){ setVend(lote, +d.pos, false); menuCel = null; render(); return; }
+        if(a === 'cerrar-menu'){ const i = menuCel && menuCel.i; menuCel = null; render(); if(i != null) raiz.querySelector('[data-qxcel="' + i + '"]')?.focus(); return; }
+        if(a === 'ver' && lote){ const i = +d.pos; menuCel = null; try{ openPosicionModal(lote, i); }catch(_){} return; }
+        if(a === 'reconsultar' && lote){ const r = recsDe(lote).find(x => Number(x.posicion) === +d.pos), c = r && qrCodigoCompleto(r, lote); if(c) reconsultar(c); menuCel = null; render(); return; }
+        if(a === 'portal' && lote){ const r = recsDe(lote).find(x => Number(x.posicion) === +d.pos), c = r && qrCodigoCompleto(r, lote); if(c) abrirPortal(c); return; }
+        if(a === 'reconsultar-code'){ reconsultar(d.code); return; }
+        if(a === 'portal-code'){ abrirPortal(d.code); return; }
+        if(a === 'reint-todos'){ try{ _qrIframe && _qrIframe.contentWindow && _qrIframe.contentWindow.postMessage({ type: 'qr:reintentarErrores' }, '*'); }catch(_){} toast('🔁 Reintentando lo que quedó sin respuesta…'); setTimeout(render, 200); try{ qrDevolverFocoAlLector(); }catch(_){} return; }
+        if(a === 'usar-juego'){ try{ setJuegoActivo(d.jid); }catch(_){} setTimeout(() => render(true), 50); return; }
+        if(a === 'validar-on'){ ui.validar = true; guardarUI(); render(); return; }
+        if(a === 'ficha-ok' && lote){ aplicarFicha(lote); return; }
+        if(a === 'ficha-editar' && lote){ const m = fichas(); delete m[String(lote.id)]; lsSet(LS_FICHA, m); delete fichaEd[lote.id]; render(); return; }
+        if(a === 'sellar' && lote){ try{ revLoteActual(lote); }catch(_){} return; }
+        if(a === 'sellar-sesion'){ try{ revSesionPistoleo(); }catch(_){} return; }
+        if(a === 'otro' && lote){ const m = lsGet(LS_CIERRE, {}); m[String(lote.id)] = 'oculto'; lsSet(LS_CIERRE, m); activa = null; render(); try{ qrDevolverFocoAlLector(); }catch(_){} toast('Listo: dispara el primer boleto del siguiente taco'); return; }
+        if(a === 'ver-bit'){ ui.bit = 'guia'; guardarUI(); render(true); document.getElementById('qxBit')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if(a === 'terminar'){ terminarCompra(); return; }
+        if(a === 'nueva-compra'){ reciboKiosco = null; document.getElementById('qrLimpiarPantalla')?.click(); setTimeout(render, 300); return; }
+        if(a === 'marcar-vend'){ marcarVend = !marcarVend; render(); return; }
+        if(a === 'copiar-bit'){ copiar(textoBitacora()); return; }
+        if(a === 'copiar-diag'){ copiar(auditResumen() + '\n' + auditTexto()); return; }
+        if(a === 'diag-escaner'){ let t = ''; try{ t = _qrIframe.contentDocument.getElementById('qrDbg').textContent; }catch(_){} toast(t ? t.split('\n').slice(0, 3).join(' · ') : 'El escáner aún no está abierto'); return; }
+        if(a === 'pref-asignar'){ const j = (data.juegos || []).find(x => String(x.id) === String(d.jid)); if(j && crearEd) resolverPref(j); return; }
+        if(a === 'pref-crear'){ crearJuego(); return; }
+        if(a === 'pref-descartar'){ const p = crearEd && crearEd.prefijo; if(p){ const n = (pendPref.get(p) || []).length; pendPref.delete(p); crearEd = null; render(); toast(n + ' boleto(s) del prefijo ' + p + ' descartados: no se guardó nada'); } return; }
+      });
+      raiz.addEventListener('change', e => { const el = e.target; if(el.closest('#qrHost')) return; const T = taco(), lote = T.serie ? loteDe(T.serie) : null;
+        // Un campo de texto avisa «change» al perder el foco, justo cuando se pulsa «Listo»: repintar ahí
+        // cambiaría el botón bajo el dedo y el clic se perdería. Por eso solo se tocan los otros campos.
+        if(el.dataset.qxf && lote){ const f = fichaDefaults(lote), k = el.dataset.qxf; f[k] = el.value;
+          if(k === 'punto'){ const c = typeof mtCiudadDe === 'function' && (mtCiudadDe(el.value) || {}).c; if(c) f.ciudad = c; const ref = (data.lotes || []).filter(l => String(l.id) !== String(lote.id) && l.punto === el.value && String(l.juegoId) === String(lote.juegoId)).sort((a, b) => rgLoteTime(b) - rgLoteTime(a))[0]; if(ref && ref.descuento != null) f.desc = ref.descuento;
+            const ci = raiz.querySelector('[data-qxf="ciudad"]'), de = raiz.querySelector('[data-qxf="desc"]'); if(ci) ci.value = f.ciudad || ''; if(de) de.value = (+f.desc || 0).toFixed(2); }
+          if(k === 'fecha'){ render(true); raiz.querySelector('[data-qxf="fecha"]')?.focus(); return; }
+          costoFicha(lote); return; }
+        if(el.dataset.qxc && crearEd){ const k = el.dataset.qxc; crearEd[k] = el.value; if(k === 'nombre' || k === 'costo') return; if(k === 'preset' && el.value !== ''){ const j = JUEGOS_OFICIALES[+el.value]; if(j){ crearEd.nombre = j.nombre; crearEd.costo = j.costo.toFixed(2); crearEd.emoji = j.emoji; } } render(true); raiz.querySelector('[data-qxc="' + k + '"]')?.focus(); return; }
+        const vuelve = () => { render(true); try{ qrDevolverFocoAlLector(); }catch(_){} };   // con el foco en un selector el lector no dispara
+        if(el.dataset.qx === 'validar-chk'){ ui.validar = el.checked; guardarUI(); vuelve(); return; }
+        if(el.dataset.qx === 'n0'){ ui.n0 = +el.value; guardarUI(); vuelve(); return; }
+        if(el.dataset.qx === 'tau'){ ui.tau = +el.value; guardarUI(); vuelve(); return; } });
+      raiz.addEventListener('input', e => { const el = e.target; if(el.dataset.qxc && crearEd && el.tagName === 'INPUT'){ crearEd[el.dataset.qxc] = el.value; const bt = raiz.querySelector('[data-qx="pref-crear"]'); if(bt && el.dataset.qxc === 'nombre') bt.textContent = '✓ Crear «' + (el.value || 'juego') + '» y registrar ' + ((pendPref.get(crearEd.prefijo) || []).length) + ' boleto(s)'; }
+        if(el.dataset.qxf){ const T = taco(), lote = T.serie ? loteDe(T.serie) : null; if(lote){ fichaDefaults(lote)[el.dataset.qxf] = el.value; if(el.dataset.qxf === 'desc') costoFicha(lote); } } });
+      raiz.addEventListener('keydown', e => {
+        const c = e.target.closest && e.target.closest('[data-qxcel]'); if(e.key === 'Escape' && menuCel){ e.preventDefault(); e.stopPropagation(); const i = menuCel.i; menuCel = null; render(); raiz.querySelector('[data-qxcel="' + i + '"]')?.focus(); return; }
+        if(!c || e.ctrlKey || e.metaKey || e.altKey) return;
+        const T = taco(), lote = T.serie ? loteDe(T.serie) : null; if(!lote) return; const tam = loteCounts(lote).total, i = +c.dataset.qxcel;
+        const mov = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -10, ArrowDown: 10, Home: -9999, End: 9999 }[e.key];
+        if(mov != null){ e.preventDefault(); e.stopPropagation(); const j = Math.max(0, Math.min(tam - 1, i + mov)); raiz.querySelectorAll('[data-qxcel]').forEach(x => x.tabIndex = -1); const n = raiz.querySelector('[data-qxcel="' + j + '"]'); if(n){ n.tabIndex = 0; n.focus(); } } });
+    }
+    function reconsultar(code){ try{ _qrIframe && _qrIframe.contentWindow && _qrIframe.contentWindow.postMessage({ type: 'qr:reintentar', code: String(code) }, '*'); }catch(_){} toast('⟳ Reconsultando ' + String(code).slice(9, 12) + '…'); setTimeout(render, 150); try{ qrDevolverFocoAlLector(); }catch(_){} }
+    function abrirPortal(code){ try{ navigator.clipboard.writeText(String(code)).catch(() => {}); }catch(_){} toast('Código copiado — abriendo el portal'); try{ window.open('https://www7.loteria.com.ec/webislas/', '_blank', 'noopener'); }catch(_){} }
+    function copiar(txt){ try{ navigator.clipboard.writeText(txt).then(() => toast('📋 Copiado'), () => _copiarFallback(txt)); }catch(_){ _copiarFallback(txt); } }
+    // repintado barato y agrupado: los disparos llegan en ráfaga
+    let _t = null; function pedir(){ clearTimeout(_t); _t = setTimeout(() => { const p = document.getElementById('panel-qr'); if(p && p.classList.contains('active')) repintar(); }, 120); }
+    // El escáner, dentro de la consola, avisa por aquí lo que antes decía en su propia pantalla (oculta con el lector):
+    // un boleto repetido y sus mensajes sueltos.
+    window.addEventListener('message', ev => { if(!_msgConfiable(ev)) return; const m = ev.data; if(!m) return;
+      if(m.type === 'qr:toast' && typeof m.msg === 'string'){ try{ toast(m.msg.slice(0, 200)); }catch(_){} return; }
+      if(m.type === 'qr:repetido' && /^[0-9]{12,}$/.test(String(m.code || ''))){ const c = String(m.code), ser = c.slice(0, 3) + '-' + c.slice(3, 9), pos = c.slice(9, 12);
+        try{ _mkCola = Math.max(0, _mkCola - 1); }catch(_){}   // la lectura sumó «en cola» y no va a consultarse
+        try{ auditRechazo('ya_registrado', { code: c, prefijo: c.slice(0, 3), lote: c.slice(3, 9), posicion: pos, fuente: origenQR() }, { serie: ser, pos }); }catch(_){}
+        try{ mkPintar({ pos, txt: 'Ya registrado · no se duplica', serie: ser, cls: 'dup' }); }catch(_){}
+        try{ playAvisoSound(); }catch(_){}
+        try{ toast('⚠ Ya registrado: ' + ser + ' pos ' + pos + ' — no se duplica'); }catch(_){}
+        activa = ser; pedir(); return; } });
+    // Con el foco en la casilla (un INPUT) el lector no dispara: tras tocarla se devuelve el foco al lector.
+    document.addEventListener('change', ev => { if(ev.target && ev.target.id === 'qrPistola'){ pedir(); setTimeout(() => { try{ qrDevolverFocoAlLector(); }catch(_){} }, 0); } });
+    window.addEventListener('message', ev => { if(!_msgConfiable(ev)) return; const m = ev.data; if(m && /^qr:(capturado|boleto|fallo|histBorrado|limpiado|cruce)$/.test(m.type)){ if(m.type === 'qr:boleto' && /^[0-9]{12,}$/.test(String(m.code || ''))) activa = String(m.code).slice(0, 3) + '-' + String(m.code).slice(3, 9); if(m.type === 'qr:histBorrado'){ activa = null; menuCel = null; } pedir(); } });
+    setInterval(() => { if(hist().some(x => x.status === 'encolado')) pedir(); }, 1000);
+    try{ if(document.readyState !== 'loading') { estructura(); enlazar(); } else document.addEventListener('DOMContentLoaded', () => { estructura(); enlazar(); }); }catch(_){}
+    return { render: () => { estructura(); enlazar(); repintar(); }, anotarGuia, preguntarPrefijo, guia, bitacora, reglas, get activa(){ return activa; }, set activa(v){ activa = v; } };
+  })();
   let _mkCola = 0, _mkHechos = 0;
+  // v41.8 — el marcador va en los DOS orígenes (antes solo con el lector: con la cámara no se sabía si «Guardar en el
+  // taco» estaba apagado) y con las variables de color de la app (en tema claro era texto blanco sobre rosa claro).
   function mkPintar(estado){
     const host = document.getElementById('mkHost');
     if(!host) return;
-    const activo = (typeof origenQR==='function') && origenQR()==='lector';
-    if(!activo){ host.style.display='none'; host.innerHTML=''; return; }
-    const e = estado || _mkUlt || {pos:'—', txt:'Listo', serie:'dispara sobre el boleto', cls:''};
+    const cam = (typeof origenQR==='function') && origenQR()==='camara';
+    const e = estado || _mkUlt || {pos:'—', txt:'Listo', serie:(cam ? 'apunta la cámara al boleto' : 'dispara sobre el boleto'), cls:''};
     _mkUlt = e;
-    // Con "Modo pistola" desmarcado se consulta igual pero NO se guarda en el taco. Antes
-    // nada lo advertía: se podía pistolear una tira entera creyendo que se registraba.
+    // Con «Guardar en el taco» desmarcado se consulta igual pero NO se guarda. Antes nada lo advertía en la cámara.
     const guardando = (typeof qrPistolaOn==='function') ? qrPistolaOn() : true;
+    const cls = {'':'e-gano', sin_premio:'e-sin', esperando:'e-esp', dup:'e-dup', ya_cobrado:'e-dup', invalido:'e-mal', error:'e-mal', desconocido:'e-mal'}[e.cls||''] || '';
     host.style.display='block';
     host.innerHTML =
-      (guardando ? '' :
-        '<div style="display:flex;align-items:center;gap:8px;background:#FEF3C7;border:1px solid #FCD34D;'
-        +'border-radius:10px 10px 0 0;padding:7px 14px;font-size:12px;color:#92400E;font-weight:700;">'
-        +'⚠ SOLO CONSULTA — «Modo pistola» está desmarcado, así que nada se guarda en el taco.'
-        +'<button type="button" id="mkActivar" style="margin-left:auto;font-size:11.5px;font-weight:800;'
-        +'padding:3px 10px;border:1px solid #92400E;border-radius:7px;background:#FDE68A;color:#7C2D12;cursor:pointer;">'
-        +'Activar y guardar</button></div>')
-      + '<div class="mk '+(e.cls||'')+(guardando?'':' solo-consulta')+'">'
-      + '<div class="pos">'+escapeHtml(e.pos||'—')+'</div>'
-      + '<div class="mid"><div class="est">'+escapeHtml(e.txt||'')+'</div>'
-      +   '<div class="ser">'+escapeHtml(e.serie||'')+'</div></div>'
-      + '<div class="num"><span>en cola</span><b class="cola">'+_mkCola+'</b></div>'
-      + '<div class="num sep"><span>leídos</span><b>'+_mkHechos+'</b></div>'
-      + '</div>';
+        '<div class="qx-mk '+(e.pos==='—' ? '' : cls)+(guardando?'':' e-cons')+'" aria-live="polite"><div class="qx-mkp">'+escapeHtml(e.pos||'—')+'</div>'
+      + '<div class="qx-mkm"><div class="qx-mke">'+escapeHtml(e.txt||'')+'</div><div class="qx-mks">'+escapeHtml(e.serie||'')+(guardando?'':' · solo consulta')+'</div></div>'
+      + '<div class="qx-mkn"><span>en cola</span><b class="qx-amb">'+_mkCola+'</b></div>'
+      + '<div class="qx-mkn qx-mksep"><span>leídos</span><b>'+_mkHechos+'</b></div></div>'
+      + (guardando ? '' : '<div class="qx-banda" style="margin-top:8px;">⚠ SOLO CONSULTA — «Guardar en el taco» está apagado: nada se guarda. '
+          + '<button type="button" id="mkActivar" class="qx-btn qx-sm">Guardar desde aquí</button></div>');
   }
   let _mkUlt = null;
   // Al LEER: la posición aparece al instante, sin esperar al portal. Es lo que confirma
@@ -18645,7 +19388,9 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
     });
     return [...ultimo.entries()].sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
   }
-  function renderTacoVivo(){
+  // v41.8 — el taco en vivo lo pinta la consola (QX): en PC y en el teléfono, con lector y con cámara, con la guía.
+  function renderTacoVivo(){ try{ QX.render(); }catch(e){ console.warn('[QX]', e); } }
+  function _renderTacoVivoV41(){
     const box = document.getElementById('tacoVivo');
     if(!box) return;
     const esPC = window.innerWidth >= 901;
@@ -30585,7 +31330,8 @@ function cabApp() {
   // ======================================================
   const _CAMPOS_TEXTO = ['serie','punto','ciudad','nota','color','nombre','emoji','inicioNum',
                          'criterio','resultado','paridad','modo','qrSeg','qrCode','seriePrefijo','verificadoEn',
-                         'puntoEntrega','notaEntrega','fechaEntrega','promesaPago'];   // v41.5: estado «entregado»
+                         'puntoEntrega','notaEntrega','fechaEntrega','promesaPago',   // v41.5: estado «entregado»
+                         'guiaTipo','guiaVer','guiaModo','fechaCompra'];               // v41.8: compra guiada en la pistola
   // v39.9 — LISTA BLANCA para los campos con forma conocida. La auditoría probó que la lista
   // negra se saltaba dentro de un atributo: `x"/onfocus=…` pasaba intacto porque solo se
   // quitaba `on…=` precedido de espacio. Para series, códigos, fechas y estados se admite
@@ -30598,6 +31344,7 @@ function cabApp() {
     criterio:/[^a-z0-9_\-]/gi, resultado:/[^a-z_]/gi, paridad:/[^a-z]/gi, modo:/[^a-z_]/gi,
     color:/[^#0-9A-Za-zÁÉÍÓÚÑáéíóúñ \-]/g,
     fechaEntrega:/[^0-9\-]/g, promesaPago:/[^0-9\-]/g,   // v41.5: fechas AAAA-MM-DD
+    guiaTipo:/[^a-z]/g, guiaModo:/[^a-z]/g, guiaVer:/[^0-9.]/g, fechaCompra:/[^0-9\-]/g,   // v41.8
   };
   function _limpiarTexto(v, campo){
     if(typeof v!=='string') return v;
@@ -31171,7 +31918,11 @@ function cabApp() {
     });
   })();
   function qrSetEstado(txt){ var e=document.getElementById('qrPistolaEstado'); if(e) e.textContent=txt; }
-  function qrPreguntarPrefijo(m){
+  // v41.8 — prefijo sin juego: se resuelve en la misma pantalla (elegir un juego que ya tienes o crearlo con la lista
+  // oficial) y TODOS los boletos que esperan se registran solos. Antes «Crear juego nuevo» llevaba a Juegos, había que
+  // volver a escanear y, si llegaba un segundo boleto, el primero se perdía (un solo _qrPend).
+  function qrPreguntarPrefijo(m){ try{ QX.preguntarPrefijo(m); }catch(e){ console.warn('[QX]', e); _qrPreguntarPrefijoV41(m); } }
+  function _qrPreguntarPrefijoV41(m){
     _qrPend=m;
     var box=document.getElementById('qrPrefijoAsk'), num=document.getElementById('qrPrefijoNum'), opts=document.getElementById('qrPrefijoOpciones');
     if(!box||!opts) return; num.textContent=m.prefijo;
@@ -31719,6 +32470,7 @@ function cabApp() {
     if(!yaReg && m.code){ var _mc=String(m.code); yaReg=(data.records||[]).some(function(r){ return r.qrCode && String(r.qrCode)===_mc; }); }
     if(yaReg){ activeLoteId=lote.id; _pistolCommit();
       qrSetEstado(serie+' · pos '+padPos(pos)+' ya registrado');
+      try{ mkPintar({pos:padPos(pos), txt:'Ya registrado · no se duplica', serie:serie, cls:'dup'}); }catch(_){}
       try{ toast('⚠ Ya registrado: '+serie+' pos '+padPos(pos)+' — no se duplica'); }catch(_){}
       auditRechazo('ya_registrado', m, {serie:serie, pos:padPos(pos)});
       return; }
@@ -31771,7 +32523,11 @@ function cabApp() {
     var premio=gano? Number(m.amount):0;
     var nominal=juego.costoDefecto||0, desc=getDescuentoLote(lote), costo=costoConDescuento(nominal,desc);
     var id=nuevoId();
-    var rec={ id:id, fecha:todayStr(), loteId:lote.id, posicion:pos, punto:lote.punto||'', ciudad:lote.ciudad||'', costo:costo, premio:premio, resultado:(gano?'gano':'perdio'), criterio:'pistola', nota:'Pistoleado (Data Matrix)', orden:siguienteOrden(), qrTs:Date.now() };
+    // v41.8 — la fecha es la de la COMPRA si la ficha del taco dijo otro día (antes siempre la del escaneo).
+    var rec={ id:id, fecha:(lote.fechaCompra||todayStr()), loteId:lote.id, posicion:pos, punto:lote.punto||'', ciudad:lote.ciudad||'', costo:costo, premio:premio, resultado:(gano?'gano':'perdio'), criterio:'pistola', nota:'Pistoleado (Data Matrix)', orden:siguienteOrden(), qrTs:Date.now() };
+    // v41.8 — lo que el motor esperaba de ESTE boleto antes de leerlo (campos opcionales guia*): es lo que permite validar
+    // la compra guiada y su calibración con datos. Se calcula con el taco todavía sin este boleto.
+    try{ if(typeof QX!=='undefined') Object.assign(rec, QX.anotarGuia(lote, pos)); }catch(_){}
     // Se guarda el Data Matrix COMPLETO (lo mismo que se envía al portal), no solo la cola
     // de seguridad. Con el código entero el boleto se puede reconsultar tal cual, pegar en el
     // portal o auditar sin depender de reconstruirlo desde serie+posición.
@@ -31934,8 +32690,11 @@ function cabApp() {
     try{
       // targetOrigin '*': el iframe es srcdoc y su origen es "null" — un origen explícito
       // haría que el navegador descartara el mensaje en silencio (ya nos pasó en v17).
-      if(_qrIframe && _qrIframe.contentWindow)
+      if(_qrIframe && _qrIframe.contentWindow){
         _qrIframe.contentWindow.postMessage({type:'qr:origen', origen:_origen}, '*');
+        // v41.8 — en la consola el escáner solo muestra el visor: resultado, lista y marcador los pinta la app.
+        _qrIframe.contentWindow.postMessage({type:'qr:qx', on:true}, '*');
+      }
     }catch(_){}
   }
   // No robar teclas cuando el usuario escribe en un campo, ni con modificadores.
@@ -34149,6 +34908,10 @@ PVX_SCRIPT_CLOSE>
   .card small{font-size:.72rem;color:#8095c4;line-height:1.4}
 
   @media (prefers-reduced-motion:reduce){.scanline{animation:none;top:49%}.viewer.hit,.spinner{animation:none}}
+  /* v41.8 — dentro de la consola: el escáner solo pone el visor y su botón; lo demás lo pinta la app. */
+  body.qx .result, body.qx #againBtn, body.qx #portalBtn, body.qx .hist, body.qx #marcador, body.qx header{display:none!important}
+  body.qx{min-height:0;padding:0 0 4px}
+  body.qx.modo-lector .viewer{display:none}
 </style>
 </head>
 <body>
@@ -34254,6 +35017,12 @@ const $ = id => document.getElementById(id);
 const video = $("video"), canvas = document.createElement("canvas"), ctx = canvas.getContext("2d",{willReadFrequently:true});
 let stream=null, raf=null, scanning=false, lastCode="", lastConsulted="", track=null, torchOn=false, busy=false;
 let scanBusy=false, wasmBusy=false, detector=null; try{ if("BarcodeDetector" in window) detector=new BarcodeDetector(); }catch(e){ try{ detector=new BarcodeDetector({formats:["qr_code"]}); }catch(_){ detector=null; } }
+// v41.8 — el detector nativo (rápido, con la GPU del teléfono) se pide SOLO con los formatos del boleto (Data Matrix y QR)
+// si el teléfono los admite: buscar los 13 formatos en cada imagen gastaba tiempo para nada.
+try{ if(detector && BarcodeDetector.getSupportedFormats) BarcodeDetector.getSupportedFormats().then(function(f){
+  var q=["data_matrix","qr_code"].filter(function(x){ return f.indexOf(x)>=0; }); if(q.length){ try{ detector=new BarcodeDetector({formats:q}); }catch(_){} } }).catch(function(){}); }catch(_){}
+var roiCanvas=document.createElement("canvas"), roiCtx=roiCanvas.getContext("2d",{willReadFrequently:true});
+var _decoMs=0, _intervalo=180;
 var _fr=0,_found=0,_lastRaw="",_lastErr="";
 
 const el = {
@@ -34265,7 +35034,8 @@ const el = {
 };
 
 function endpoint(){ try{return localStorage.getItem(EP_KEY)||DEFAULT_EP}catch(_){return DEFAULT_EP} }
-function toast(m){ el.toast.textContent=m; el.toast.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.toast.classList.remove("show"),1900); }
+// v41.8 — dentro de la consola y con el lector, el escáner no se ve: sus mensajes los dice la app.
+function toast(m){ if(document.body.classList.contains("qx") && _fuente==="lector"){ try{ parent.postMessage({type:"qr:toast", msg:String(m)}, _ORIGEN_PADRE); }catch(_){} return; } el.toast.textContent=m; el.toast.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.toast.classList.remove("show"),1900); }
 
 /* ---- cámara / escaneo ---- */
 async function start(){
@@ -34298,27 +35068,45 @@ function tick(){
   // THROTTLE: decodificar en CADA frame (60 fps) con getImageData 1080p + jsQR + zxing-wasm +
   // detector nativo satura el CPU del teléfono y retrasa los timers del envío (sync). A ~5.5/s
   // se lee igual de rápido y el CPU queda libre para que el push salga a tiempo.
+  // v41.8 — RITMO ADAPTADO: el intervalo sigue a lo que tarda en decodificar este teléfono (120–400 ms), en vez de un
+  // fijo de 180 ms que en un teléfono lento encadenaba decodificaciones y en uno rápido desperdiciaba lecturas.
   var _now=Date.now();
-  if(tick._last && (_now - tick._last) < 180){ raf=requestAnimationFrame(tick); return; }
+  if(document.hidden || (tick._last && (_now - tick._last) < _intervalo)){ raf=requestAnimationFrame(tick); return; }
   tick._last=_now;
   _fr++;
   var okDraw=false, lum=-1, hit=null, imgData=null;
+  // v41.8 — ZONA DEL VISOR: 3 de cada 4 lecturas se decodifica solo el centro (68 % × 68 %, donde está el recuadro
+  // dorado) a resolución completa: ~2,2× menos píxeles, el Data Matrix pequeño conserva su detalle y se lee antes.
+  // La 4.ª lectura usa la imagen entera, como siempre, para lo que quede fuera del recuadro.
+  var _entera = (_fr % 4 === 0);
   if(video.readyState===video.HAVE_ENOUGH_DATA){
-    canvas.width=video.videoWidth; canvas.height=video.videoHeight;
-    try{ ctx.drawImage(video,0,0,canvas.width,canvas.height); imgData=ctx.getImageData(0,0,canvas.width,canvas.height); okDraw=true; }catch(e){ _lastErr="draw/getImageData: "+(e.name||e); }
+    var _vw=video.videoWidth, _vh=video.videoHeight;
+    try{
+      if(_entera){ canvas.width=_vw; canvas.height=_vh; ctx.drawImage(video,0,0,_vw,_vh); imgData=ctx.getImageData(0,0,_vw,_vh); }
+      else { var _sw=Math.round(_vw*0.68), _sh=Math.round(_vh*0.68), _sx=Math.round((_vw-_sw)/2), _sy=Math.round((_vh-_sh)/2);
+        if(roiCanvas.width!==_sw || roiCanvas.height!==_sh){ roiCanvas.width=_sw; roiCanvas.height=_sh; }
+        roiCtx.drawImage(video,_sx,_sy,_sw,_sh,0,0,_sw,_sh); imgData=roiCtx.getImageData(0,0,_sw,_sh); }
+      okDraw=true;
+    }catch(e){ _lastErr="draw/getImageData: "+(e.name||e); }
     if(imgData){
       var d=imgData.data, step=Math.max(4,(((d.length/4/1500)|0))*4), sum=0, n=0;
       for(var p=0;p+2<d.length;p+=step){ sum+=d[p]+d[p+1]+d[p+2]; n++; }
       lum = n? Math.round(sum/(n*3)) : -1;
       // 1) zxing-wasm MULTI-FORMATO (QR, DataMatrix, PDF417, Aztec, 1D...) — async, motor real
       if(window.__zxread && !wasmBusy){
-        wasmBusy=true;
-        window.__zxread(imgData, {tryHarder:true, formats:[], maxNumberOfSymbols:1}).then(list=>{
+        wasmBusy=true; var _t0=performance.now();
+        // En la zona del visor se buscan solo los formatos del boleto; la imagen entera sigue buscando TODOS.
+        window.__zxread(imgData, {tryHarder:true, formats:(_entera?[]:["DataMatrix","QRCode"]), maxNumberOfSymbols:1}).then(list=>{
           if(list && list.length && list[0].text){ _lastRaw="["+list[0].format+"] "+list[0].text; _found++; onHit(list[0].text.trim()); }
-        }).catch(e=>{ _lastErr="wasm: "+(e.name||e); }).finally(()=>{ wasmBusy=false; });
+        }).catch(e=>{ _lastErr="wasm: "+(e.name||e); }).finally(()=>{ wasmBusy=false;
+          var dt=performance.now()-_t0; _decoMs = _decoMs ? (_decoMs*0.8 + dt*0.2) : dt;
+          _intervalo = Math.max(120, Math.min(400, Math.round(_decoMs*1.15))); });
       }
-      // 2) jsQR (rápido, solo QR) por si acaso
-      try{ var r=jsQR(imgData.data,imgData.width,imgData.height,{inversionAttempts:"attemptBoth"}); if(r&&r.data){ hit=r.data.trim(); _lastRaw="[QR] "+hit; _found++; } }catch(e){ _lastErr="jsQR: "+(e.name||e); }
+      // 2) jsQR (solo QR) por si acaso. Con zxing cargado ya lee QR: jsQR va 1 de cada 3 lecturas y sin invertir colores,
+      //    que era lo más caro del ciclo (en el teléfono, más que el propio zxing). Sin zxing, como siempre.
+      if(!window.__zxread || _fr % 3 === 0){
+        try{ var r=jsQR(imgData.data,imgData.width,imgData.height,{inversionAttempts:(window.__zxread?"dontInvert":"attemptBoth")}); if(r&&r.data){ hit=r.data.trim(); _lastRaw="[QR] "+hit; _found++; } }catch(e){ _lastErr="jsQR: "+(e.name||e); }
+      }
     }
     if(hit) onHit(hit);   // la cámara ya NO se bloquea durante la consulta
     // 3) BarcodeDetector nativo (TODOS los formatos) en paralelo
@@ -34331,7 +35119,7 @@ function tick(){
     var dbg=document.getElementById("qrDbg");
     var motor=(window.__zxread?"zxing-wasm(multi) ":(window.__zxerr?"(wasm fallo) ":""))+(detector?"nativo ":"")+"jsQR";
     if(dbg) dbg.textContent="debug · motor: "+motor
-      +"\nframes: "+_fr+" · dibujo: "+(okDraw?"OK":(video.readyState<2?"video no listo":"FALLA"))
+      +"\nframes: "+_fr+" · dibujo: "+(okDraw?"OK":(video.readyState<2?"video no listo":"FALLA"))+" · ritmo "+_intervalo+" ms (decodifica "+Math.round(_decoMs)+" ms)"
       +"\nres: "+canvas.width+"x"+canvas.height+" · luz media: "+lum+"/255"
       +"\ncodigos detectados: "+_found
       +"\nultimo leido: "+(_lastRaw?_lastRaw.slice(0,64):"—")
@@ -34407,6 +35195,8 @@ function _actualizarContador(){
   }
 
   var _preguntados = new Set();   // códigos cuya existencia se está consultando al padre
+  // v41.8 — en la consola, un boleto repetido se le dice a la app (marcador «Ya registrado», integridad y sonido).
+  function _repetido(code){ if(!document.body.classList.contains("qx")) return false; try{ parent.postMessage({type:"qr:repetido", code:code}, _ORIGEN_PADRE); }catch(_){} return true; }
   function encolar(code){
     if(_encolados.has(code)){
       // NO SALIR EN SILENCIO. Este `return` mudo es lo que convirtió un estado sucio en un
@@ -34419,6 +35209,7 @@ function _actualizarContador(){
       // navegador. Ahora se le pregunta al padre si el boleto todavía existe; si lo borró,
       // la guarda lo suelta y el disparo sigue su camino normal.
       if(_preguntados.has(code)){
+        if(_repetido(code)) return;   // v41.8: la consola lo marca como «ya registrado»
         try{ toast('Ese boleto ya se consultó en esta sesión — usa «Borrar todo» para empezar de cero'); }catch(_){}
         return;
       }
@@ -34597,6 +35388,10 @@ window.addEventListener("message", function(ev){
     return;
   }
   if(m.type === "qr:remedir"){ try{ _altoUlt = 0; reportarAlto(); }catch(_){} return; }
+  // v41.8 — la consola de la app manda: modo consola, reconsultar un boleto y reintentar lo que quedó sin respuesta.
+  if(m.type === "qr:qx"){ document.body.classList.toggle("qx", !!m.on); try{ _altoUlt = 0; reportarAlto(); }catch(_){} return; }
+  if(m.type === "qr:reintentar" && typeof m.code === "string" && /^[0-9]{12,}$/.test(m.code)){ reintentar(m.code); return; }
+  if(m.type === "qr:reintentarErrores"){ try{ document.getElementById('retryAllBtn').onclick(); }catch(_){} return; }
   if(m.type === "wedge:code" && typeof m.code === "string"){
     // ACUSE DE RECIBO (v34.0): el padre necesita saber que el código LLEGÓ. Sin esto no había
     // forma de distinguir "el escáner lo está procesando" de "se perdió por el camino", que
@@ -34611,7 +35406,7 @@ window.addEventListener("message", function(ev){
   if(m.type === "qr:existeR" && typeof m.code === "string"){
     _preguntados.delete(m.code);
     if(m.existe){
-      toast('Ese boleto ya está registrado — usa «Borrar todo» para volver a consultarlo');
+      if(!_repetido(m.code)) toast('Ese boleto ya está registrado — usa «Borrar todo» para volver a consultarlo');
     }else{
       // El boleto ya no está en la app: la guarda no tiene por qué seguir bloqueándolo.
       _encolados.delete(m.code); _reintentos.delete(m.code);
@@ -34627,7 +35422,8 @@ var _fuente = "camara";
 var _altoUlt = 0;
 function reportarAlto(){
   try{
-    if(_fuente !== "lector"){ parent.postMessage({type:"qr:alto", px:0}, _ORIGEN_PADRE); _altoUlt=0; return; }
+    // v41.8 — en la consola el visor no se estira: mide lo que ocupa (visor + botón), también con la cámara.
+    if(_fuente !== "lector" && !document.body.classList.contains("qx")){ parent.postMessage({type:"qr:alto", px:0}, _ORIGEN_PADRE); _altoUlt=0; return; }
     // MEDIDO EN NAVEGADOR: NO se puede usar documentElement.scrollHeight — el <body> del
     // iframe hereda min-height del contenedor, así que la medida seguiría al host y el alto
     // nunca bajaría (con host 400 medía 426; con 900, 900). `.wrap` sí es del tamaño de su
