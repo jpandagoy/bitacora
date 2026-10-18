@@ -4764,7 +4764,18 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   //   decodifica por el centro (donde está el visor) con el formato del boleto y la imagen entera cada 4 lecturas, ritmo
   //   adaptado al teléfono. Campos opcionales nuevos: en el boleto guiaP, guiaRec, guiaTipo, guiaTau, guiaVer, guiaModo,
   //   guiaParoP (lo que el motor esperaba antes de leerlo); en el taco fechaCompra.
-  const APP_VERSION = { num: '41.8', fecha: '2026-10-18' };
+  // v41.8.1 — INTEGRIDAD Y NUBE. (1) Casillas y boletos coherentes en los DOS sentidos: una casilla marcada cuyo boleto ya
+  //   no existe se limpia (caso real 020-006508 p017: «ganó» sin boleto tras borrarlo, porque otro aparato reescribió el
+  //   taco), y una casilla con estado distinto al de su boleto se corrige desde el boleto. Al recibir un borrado de otro
+  //   aparato se limpia su casilla en el acto; borrar desde el Historial limpia siempre la casilla; la pistola crea el taco
+  //   solo cuando el boleto de verdad se guarda (antes un boleto congelado dejaba un taco vacío). (2) Firebase: sin
+  //   sincronización completa diaria (la escucha sobre la base entera se volvía a cobrar ENTERA en cada reconexión: 3 picos
+  //   de ~19.000 lecturas el 18-oct); ahora completa solo cada 7 días, al estrenar aparato o a pedido, y al terminar pasa a
+  //   «solo cambios»; la escucha se pausa con la app oculta y se reanuda desde el último punto; la subida marca como subido
+  //   SOLO lo que la nube confirmó; los borrados hechos sin red se recuerdan hasta subir; cupo agotado → aviso claro y
+  //   reintento, sin perder nada. (3) Revisión de integridad y consumo de la nube en Exportar › Salud. Correcciones
+  //   aprobadas por JP: 020-006508 (casilla fantasma + taco vacío retirado) y 020-010166 (precio de lista $0,50 → $2,00).
+  const APP_VERSION = { num: '41.8.1', fecha: '2026-10-18' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -5132,6 +5143,30 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
       if(hechos.length){ _rangoDisenoCache = {}; _rangoDisenoKey = null;
         sella('disenos_v401_'+new Date().toISOString().slice(0,10), hechos.join(' · '));
         console.info('[saneo] diseños ajustados:', hechos.join(' · ')); }
+    }
+    return toco;
+  }
+
+  // v41.8.1 — correcciones aprobadas por JP el 18-oct (se comprueban por el ESTADO de los datos, no por el sello: si la
+  // nube devolviera la versión vieja, se vuelven a aplicar).
+  function _sanearV4181(){
+    let toco = false;
+    data.saneos = data.saneos || {};
+    // (c) 020-010166: al corregir su costo en v34 ($0,48 → $1,92) quedó el precio de LISTA del Chanchito ($0,50); el de
+    //     13 de la Suerte es $2,00. El gasto (costo) ya era correcto; esto arregla el ahorro por descuento.
+    const l1 = (data.lotes||[]).find(x=>String(x.serie)==='020-010166' && String(x.juegoId)==='juego-13-suerte');
+    if(l1){
+      const malos = (data.records||[]).filter(r=>String(r.loteId)===String(l1.id) && Math.abs(Number(r.costoNominal)-0.5)<0.005 && Math.abs(Number(r.costo)-1.92)<0.005);
+      if(malos.length){ const t=Date.now(); malos.forEach(r=>{ r.costoNominal = 2; r._lm = t; });
+        data.saneos.nominal_020_010166 = {fecha:new Date().toISOString(), detalle:malos.length+' boleto(s): precio de lista $0,50 → $2,00'}; toco = true; }
+    }
+    // (a)+(b) 020-006508: casilla 017 «ganó» sin boleto (fantasma) y el taco sin ningún boleto → se retira el taco.
+    const l2 = (data.lotes||[]).find(x=>String(x.id)==='rmvdhh0w6-1-p31j88' && String(x.serie)==='020-006508');
+    if(l2 && !(data.records||[]).some(r=>String(r.loteId)===String(l2.id))){
+      data.lotes = data.lotes.filter(x=>x!==l2);
+      _bajasAnotar('lotes', l2.id);
+      data.saneos.fantasma_020_006508 = {fecha:new Date().toISOString(), detalle:'casilla 017 «ganó» sin boleto y taco vacío retirado (aprobado por JP el 18-oct)'};
+      toco = true;
     }
     return toco;
   }
@@ -7574,13 +7609,15 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         }
       });
       const huboSaneo = _sanearDatosConocidos();
+      const huboV4181 = _sanearV4181();   // v41.8.1
       const dupsReparados = repararIdsDuplicados();
       let tacosUnif = 0; try{ tacosUnif = _unificarTacosDuplicados('arranque'); }catch(e){ console.warn('[unificar]', e); }   // v40.6
-      const posRecon = reconciliarPosicionesRecords();   // sana posiciones que quedaron atrás de sus boletos
+      const posRecon = reconciliarPosicionesRecords('carga');   // v41.8.1: al abrir, en los dos sentidos y en el acto
       // Si alguna migración tocó los datos, hay que persistirla ya, al almacén que toque.
       const eraEnClaro = !!(localStorage.getItem(STORAGE_KEY)||'').length
                          && (localStorage.getItem(STORAGE_KEY)||'').lastIndexOf('{"__z"',0) !== 0;
-      if(huboSaneo || huboMigracionEstados || huboMigracionJuegos || huboMigracionCriterio || dupsReparados || tacosUnif || posRecon || eraEnClaro){
+      try{ _bajasDiff(); }catch(_){}   // v41.8.1: punto de partida de los borrados pendientes
+      if(huboSaneo || huboV4181 || huboMigracionEstados || huboMigracionJuegos || huboMigracionCriterio || dupsReparados || tacosUnif || posRecon || eraEnClaro){
         if(_usandoIDB){ await _idbGuardar(data); _copiaFria(true); }
         else { try{ _blobEscribir(data); }catch(e){ _rescatarGuardado(e); } }
         // Y SUBIRLO. Esta rama guardaba en disco pero nunca llamaba a `_syncSchedulePush`
@@ -7964,6 +8001,7 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
 
   function save(){
     _dataVersion++;
+    try{ if(_idsPrev) _bajasDiff(); }catch(_){}   // v41.8.1: anota lo que se borró desde el último guardado
 
     // ---- NUBE Y ARCHIVO: PRIMERO, Y FUERA DE CUALQUIER try DEL DISCO LOCAL ----
     // Esto es deliberado y NO debe volver a moverse dentro del guardado local.
@@ -9626,7 +9664,9 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         let restorePos = null;
         if(rec.loteId){
           const loteRef = data.lotes.find(l=>String(l.id)===String(rec.loteId));
-          if(loteRef && loteRef.posiciones[rec.posicion] && String(loteRef.posiciones[rec.posicion].recordId)===id){
+          // v41.8.1 — antes solo si el enlace coincidía exactamente; ahora siempre que no quede otro boleto en esa posición.
+          const otroEnPos = loteRef && data.records.some(r=>String(r.id)!==id && String(r.loteId)===String(rec.loteId) && Number(r.posicion)===Number(rec.posicion));
+          if(loteRef && loteRef.posiciones[rec.posicion] && !otroEnPos){
             restorePos = { loteRef, pos: rec.posicion, prev: { ...loteRef.posiciones[rec.posicion] } };
             loteRef.posiciones[rec.posicion] = {estado:'sin-info'};
           }
@@ -18973,9 +19013,10 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
         const pos = /^[0-9]{12,}$/.test(x.code) ? x.code.slice(9, 12) : '···', ser = /^[0-9]{12,}$/.test(x.code) ? x.code.slice(0, 3) + '-' + x.code.slice(3, 9) : '';
         const l = ser ? loteDe(ser) : null, r = l ? recsDe(l).find(y => Number(y.posicion) === parseInt(pos, 10)) : null;
         const cls = x.status === 'ganado' ? 'e-gano' : x.status === 'sin_premio' ? 'e-sin' : x.status === 'encolado' ? 'e-esp' : 'e-av';
-        const txt = x.status === 'encolado' ? (x.message || 'consultando…') : x.status === 'ganado' ? 'premió ' + fmt(Number(x.amount) || 0) : x.status === 'sin_premio' ? 'sin premio' : x.status === 'ya_cobrado' ? 'ya cobrado' : x.status === 'error' ? 'sin respuesta del portal — toca ⟳' : (x.message || x.status || '—');
+        const txt = x.status === 'encolado' ? (x.message || 'consultando…') : x.status === 'ganado' ? (r ? 'premió ' + fmt(Number(r.premio) || 0) : (Number(x.amount) > 0 ? 'premió ' + fmt(Number(x.amount)) : 'el portal dice que premió, pero no se pudo leer el monto')) : x.status === 'sin_premio' ? 'sin premio' : x.status === 'ya_cobrado' ? 'ya cobrado' : x.status === 'error' ? 'sin respuesta del portal — toca ⟳' : (x.message || x.status || '—');
         const guiaTx = r && r.guiaP != null ? ` <span class="qx-mut">· prometía ${pct(r.guiaP, 0)}${r.guiaTipo === 'guia' ? (r.guiaRec ? ' · recomendada' : ' · elegiste otra') : ''}</span>` : '';
-        const noGuardado = !r && (x.status === 'ganado' || x.status === 'sin_premio') && !qrPistolaOn() ? ' · <i>no se guardó</i>' : '';
+        // v41.8.1 — también cuando «Guardar» está encendido pero el boleto se congeló o se rechazó (antes decía «premió $0.00»)
+        const noGuardado = !r && (x.status === 'ganado' || x.status === 'sin_premio') ? (qrPistolaOn() ? ' · <b class="qx-neg">no se guardó: revísalo</b>' : ' · <i>no se guardó</i>') : '';
         return `<div class="qx-fi ${cls}"><span class="qx-fp">${esc(pos)}</span><span>${esc(txt)}${multi && ser ? ' <span class="qx-mut qx-mono">' + esc(ser) + '</span>' : ''}${guiaTx}${noGuardado}</span><span class="qx-fa">${x.status === 'encolado' ? '⏳' : `<button type="button" class="qx-mini" data-qx="reconsultar-code" data-code="${esc(x.code)}" title="Reconsultar" aria-label="Reconsultar ${esc(pos)}">⟳</button><button type="button" class="qx-mini" data-qx="portal-code" data-code="${esc(x.code)}" title="Copiar código y abrir portal" aria-label="Abrir portal para ${esc(pos)}">⧉</button>`}</span></div>`;
       }).join('') + '</div>';
     }
@@ -28150,6 +28191,34 @@ function cabApp() {
     const h = Math.round(m/60); if(h < 48) return 'hace '+h+' h';
     return 'hace '+Math.round(h/24)+' días';
   }
+  // v41.8.1 — REVISIÓN DE INTEGRIDAD: las mismas reglas que la auditoría de punta a punta del 18-oct. Solo lee.
+  let _integridadMemo = null;
+  function auditarIntegridad(){
+    const k = _dataVersion+'|'+(data.records||[]).length+'|'+(data.lotes||[]).length;
+    if(_integridadMemo && _integridadMemo.k===k) return _integridadMemo.v;
+    const R=data.records||[], L=data.lotes||[], lid=new Map(L.map(l=>[String(l.id),l])), rid=new Set(R.map(r=>String(r.id)));
+    const c={}; const add=(n,ej)=>{ (c[n]=c[n]||[]).push(ej); };
+    const enPos=new Map(), qr=new Set(), ids=new Set(), hoy=todayStr();
+    R.forEach(r=>{ const l=lid.get(String(r.loteId)); const s=l?(l.serie+' p'+padPos(Number(r.posicion))):String(r.id); const pr=Number(r.premio)||0;
+      if(ids.has(String(r.id))) add('Id de boleto repetido', s); ids.add(String(r.id));
+      if(r.loteId!=null && !l) add('Boleto sin taco', s);
+      if(l){ const kk=String(l.id)+'|'+Number(r.posicion); if(enPos.has(kk)) add('Dos boletos en una posición', s); enPos.set(kk, r);
+        const tam=l.tamanoLote||50; if(!(Number(r.posicion)>=0 && Number(r.posicion)<tam)) add('Posición fuera del taco', s);
+        const st=(l.posiciones||{})[r.posicion], esp=pr>0?'gano':'no-gano';
+        if(!st || !st.estado || st.estado==='sin-info') add('Boleto sin su casilla marcada', s); else if(st.estado!==esp) add('Casilla distinta a su boleto', s); }
+      if(r.qrCode){ if(qr.has(String(r.qrCode))) add('Código QR repetido', s); qr.add(String(r.qrCode)); }
+      if((r.resultado==='gano')!==(pr>0)) add('Resultado distinto del premio', s);
+      if(r.cobrado && pr<=0) add('Cobrado sin premio', s);
+      if(r.entregado && r.cobrado) add('Entregado y cobrado a la vez', s);
+      if(!(Number(r.costo)>=0)) add('Costo inválido', s);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(r.fecha||'')) add('Fecha inválida', s); else if(r.fecha>hoy) add('Fecha futura', s); });
+    const series=new Set();
+    L.forEach(l=>{ if(series.has(l.serie)) add('Serie repetida en dos tacos', l.serie); series.add(l.serie);
+      Object.keys(l.posiciones||{}).forEach(i=>{ const st=l.posiciones[i]; if(st && st.estado && st.estado!=='sin-info' && !enPos.has(String(l.id)+'|'+Number(i))) add('Casilla marcada sin boleto', l.serie+' p'+padPos(Number(i))); }); });
+    const reglas = 17, mal = Object.keys(c).map(n=>({label:n, n:c[n].length, ej:c[n].slice(0,5)}));
+    _integridadMemo = {k, v:{reglas, mal}};
+    return _integridadMemo.v;
+  }
   function renderSaludSistema(){
     const el = document.getElementById('saludSistema'); if(!el) return;
     if(_saludEstimado===null || _saludPersistido===null){ _saludRefrescarAsync(); setTimeout(()=>{ try{ if(_saludEstimado||_saludPersistido!==null) renderSaludSistema(); }catch(_){} }, 600); }
@@ -28166,6 +28235,7 @@ function cabApp() {
     if(_saludPersistido === false) avisos.push('el navegador puede borrar la app');
     if(_snapIndiceListo && !snaps.length) avisos.push('sin puntos de restauración');
     if(usuario && _syncUltimoError) avisos.push('la nube dio error');
+    try{ const I = auditarIntegridad(); if(I.mal.length) avisos.push('integridad: '+I.mal.length+' regla(s) con fallos'); }catch(_){}
     const _rr = riesgoRespaldo();   // v39.9
     if(_rr.riesgo) avisos.push('sin copia fuera de este aparato');
     if(_rsemPermisoPendiente) avisos.push('respaldo semanal espera tu permiso');
@@ -28189,6 +28259,8 @@ function cabApp() {
         ${fila('🧊','Copia fría en localStorage', _hace(tsFria), false)}
         ${fila('⏪','Puntos de restauración', snaps.length ? snaps.length+' · último '+escapeHtml(ultimo.fecha||'') : (_snapIndiceListo?'ninguno':'cargando…'), _snapIndiceListo && !snaps.length)}
         ${fila('📁','Respaldo semanal en carpeta', _rsemSoportado() ? (_rsm.carpeta ? (escapeHtml(_rsm.fecha||'pendiente')+' · '+escapeHtml(_rsm.carpeta)+(_rsemPermisoPendiente?' · <button type="button" id="btnRsemPermiso" style="font-size:11px;">Autorizar y guardar</button>':'')) : 'sin carpeta (Exportar › 21w)') : 'no disponible en este navegador', _rsemPermisoPendiente)}
+        ${(function(){ const I = auditarIntegridad(); return fila('🧪','Integridad de los datos ('+I.reglas+' reglas)', I.mal.length ? I.mal.map(x=>escapeHtml(x.label+': '+x.n)).join(' · ') : 'todo coherente', I.mal.length>0); })()}
+        ${usuario ? fila('📊','Nube hoy (este aparato, aprox.)', (_syncConsumo().l||0).toLocaleString('en-US')+' lecturas de 50.000 · '+(_syncConsumo().e||0).toLocaleString('en-US')+' escrituras de 20.000'+(_syncCupo?' · ⚠ cupo de '+_syncCupo+' agotado':''), !!_syncCupo) : ''}
         ${fila('☁','Nube', usuario ? ((_syncUltimoOk?'sincronizada '+_hace(_syncUltimoOk):'conectando…') + (_syncUltimoError?' · '+escapeHtml(_syncUltimoError):'')) : 'sin sesión (solo este aparato)', !!(usuario && _syncUltimoError))}
       </div>
     </details>`;
@@ -30734,10 +30806,11 @@ function cabApp() {
   let _fb=null, _fbAuth=null, _fbDb=null, _fbUser=null, _syncOn=false, _syncApplying=false;
   let _syncPushTimer=null, _syncPushMaxTimer=null, _syncUnsub=[], _syncLastPushed={juegos:{},lotes:{},records:{},puntos:{}}, _syncInitialPushed=false;
   const _syncEl = id => document.getElementById(id);
-  let _syncUltimoOk = 0, _syncUltimoError = '';   // v39.2: para la tarjeta de salud
+  let _syncUltimoOk = 0, _syncUltimoError = '', _syncUltimoTxt = '', _syncUltimoColor = '';   // v39.2: para la tarjeta de salud
   function _syncStatus(txt, color){
     if(/^✓/.test(txt||'')){ _syncUltimoOk = Date.now(); _syncUltimoError=''; }
     else if(/^⚠/.test(txt||'')) _syncUltimoError = txt;
+    _syncUltimoTxt = txt; _syncUltimoColor = color||'';   // v41.8.1: el panel repintado muestra el último estado real (antes «✓ Sincronizado» fijo tapaba un aviso)
     const e=_syncEl('syncEstado'); if(e){ e.textContent=txt; e.style.color=color||'var(--silver-dark)'; }
   }
 
@@ -30803,7 +30876,7 @@ function cabApp() {
     clearTimeout(_syncPushMaxTimer); _syncPushMaxTimer=null;
     _syncEnVuelo++;   // se audita: permite comprobar si el sync compite con la consulta al portal
     _syncPushDirty()
-      .catch(e=>{ console.warn('[sync] push', e); _syncStatus('⚠ Error al subir: '+(e.message||e.code), 'var(--stamp)'); })
+      .catch(e=>{ _syncFalloSubida(e); })
       .finally(()=>{ _syncEnVuelo=Math.max(0,_syncEnVuelo-1); });
   }
   function _syncSchedulePush(){
@@ -30910,28 +30983,105 @@ function cabApp() {
     if(avisos.length){ try{ toast('🔗 Taco repetido entre aparatos unificado: '+avisos.join(' — ')); }catch(_){} }
     return cambios;
   }
-  // Invariante: si existe un boleto (record) para una posición, esa posición del lote NO puede
-  // estar "sin raspar". Si por cualquier desincronización quedó atrás, se corrige DESDE el record
-  // (los boletos registrados son la verdad). Convergente e idempotente. Devuelve # de correcciones.
-  function reconciliarPosicionesRecords(){
+  // ═══ v41.8.1 — COHERENCIA CASILLA ↔ BOLETO EN LOS DOS SENTIDOS (los boletos mandan) ═══
+  // Antes solo se rellenaba la casilla desde su boleto; una casilla marcada cuyo boleto ya no existe NO se limpiaba nunca.
+  // Caso real (18-oct): 020-006508 p017 quedó «ganó» sin boleto: el taco viaja a la nube como un documento entero y otro
+  // aparato lo reescribió con la casilla vieja después del borrado. Ahora:
+  //   1. casilla vacía o sin enlace con boleto → se marca desde el boleto (como siempre);
+  //   2. casilla con estado distinto al de su boleto → se corrige desde el boleto;
+  //   3. casilla marcada SIN boleto → se limpia si ese boleto se sabe borrado (aquí o por lápida de la nube) o si su id tiene
+  //      más de 2 minutos (así no se pelea con una sincronización que llega a medias: el taco antes que sus boletos).
+  // Cada corrección marca el taco (_lm) para que suba y gane a la copia vieja de la nube, y queda en la auditoría.
+  //   Al SINCRONIZAR (el taco puede llegar antes que sus boletos) la casilla sin boleto solo se limpia si sigue así 15 s
+  //   después, salvo que el borrado ya se conozca; al ABRIR la app (el disco es coherente) se limpia en el acto.
+  var _coherenciaBorradosS = null, _coherenciaVistas = null, _coherenciaT = null;
+  function _coherenciaBorrados(){ return _coherenciaBorradosS || (_coherenciaBorradosS = new Set()); }
+  function reconciliarPosicionesRecords(modo){
+    const enCarga = modo==='carga';
+    if(!_coherenciaVistas) _coherenciaVistas = new Map();
+    const vistasAhora = new Map(); let pendientes = 0;
     const loteById=new Map((data.lotes||[]).map(l=>[String(l.id),l]));
+    const recIds=new Set(), enPos=new Map(), ahora=Date.now(), log=[];
     let cambios=0;
     (data.records||[]).forEach(function(r){
-      if(r==null || r.posicion==null) return;
+      if(r==null) return; recIds.add(String(r.id));
+      if(r.posicion==null) return;
       const l=loteById.get(String(r.loteId)); if(!l) return;
       if(!l.posiciones) l.posiciones={};
+      const k=String(l.id)+'|'+Number(r.posicion);
+      if(enPos.has(k)) return;            // dos boletos en una posición: lo resuelve repararDatos, aquí no se adivina
+      enPos.set(k, r);
       const st=l.posiciones[r.posicion];
       const esperado=(r.resultado==='gano' || (Number(r.premio)||0)>0)?'gano':'no-gano';
-      // Solo se rellena lo que está vacío/sin-info o sin recordId: nunca se pisa una posición
-      // que ya apunta a un boleto (para no romper estados legítimos).
       if(!st || st.estado==='sin-info' || !st.recordId){
-        l.posiciones[r.posicion]={estado:esperado, recordId:r.id};
-        cambios++;
+        l.posiciones[r.posicion]={estado:esperado, recordId:r.id}; l._lm=ahora; cambios++;
+      } else if(st.estado!==esperado){
+        log.push((l.serie||l.id)+' p'+padPos(Number(r.posicion))+' '+st.estado+' → '+esperado+' (como su boleto)');
+        l.posiciones[r.posicion]={estado:esperado, recordId:r.id}; l._lm=ahora; cambios++;
       }
     });
+    (data.lotes||[]).forEach(function(l){
+      const P=l.posiciones||{};
+      Object.keys(P).forEach(function(k){
+        const st=P[k]; if(!st || !st.estado || st.estado==='sin-info') return;
+        if(enPos.has(String(l.id)+'|'+Number(k))) return;
+        const rid = st.recordId!=null ? String(st.recordId) : null;
+        if(rid && recIds.has(rid)) return;   // su boleto existe (en otra posición): no se toca aquí
+        let viejo;
+        if(rid && _coherenciaBorrados().has(rid)) viejo = true;
+        else if(rid){ const t=rgIdTime(rid)[0]; viejo = !(t>0) || (ahora-t > 120000); }
+        else { const t=l.actualizadoEn ? Date.parse(l.actualizadoEn) : 0; viejo = !t || (ahora-t > 120000); }
+        if(!viejo) return;
+        const kk = String(l.id)+'|'+k;
+        if(!enCarga && !(rid && _coherenciaBorrados().has(rid))){
+          const desde = _coherenciaVistas.get(kk) || ahora; vistasAhora.set(kk, desde);
+          if(ahora - desde < 15000){ pendientes++; return; }
+        }
+        log.push((l.serie||l.id)+' p'+padPos(Number(k))+' '+st.estado+' sin boleto → sin marcar');
+        P[k]={estado:'sin-info'}; l._lm=ahora; cambios++;
+      });
+    });
+    _coherenciaVistas = vistasAhora;
+    if(pendientes && !_coherenciaT){
+      _coherenciaT = setTimeout(function(){ _coherenciaT = null; try{ if(reconciliarPosicionesRecords()){ save(); render(); } }catch(_){} }, 16000);
+    }
+    if(log.length){
+      try{ console.info('[coherencia]', log.join(' · ')); }catch(_){}
+      try{ auditLog({phase:'coherencia', n:log.length, detalle:log.slice(0,30)}); }catch(_){}
+      try{ data.saneos=data.saneos||{}; const kk='coherencia_'+todayStr(); const prev=(data.saneos[kk]&&data.saneos[kk].detalle)||'';
+           data.saneos[kk]={fecha:new Date().toISOString(), detalle:(prev?prev+' · ':'')+log.slice(0,20).join(' · ')}; }catch(_){}
+    }
     return cambios;
   }
+  // ═══ v41.8.1 — BORRADOS PENDIENTES DE SUBIR (sobreviven a una recarga) ═══
+  // La primera subida de una sesión «solo cambios» no manda lápidas (podrían borrar en la nube algo que el disco no llegó a
+  // guardar). Eso dejaba un borrado hecho sin red esperando a la sincronización completa del día siguiente. Ahora cada
+  // borrado se anota aquí al guardar (comparando con lo guardado antes) y esa lápida SÍ se sube; además, la nube no puede
+  // devolver lo que borraste mientras su lápida no haya subido.
+  var _bajasM = null, _idsPrev = null;
+  const BAJAS_KEY = 'bitacora_sync_bajas';
+  function _bajas(){ if(!_bajasM){ try{ _bajasM = new Map(JSON.parse(localStorage.getItem(BAJAS_KEY)||'[]')); }catch(_){ _bajasM = new Map(); } } return _bajasM; }
+  function _bajasGuardar(){ try{ localStorage.setItem(BAJAS_KEY, JSON.stringify([..._bajas()].slice(-5000))); }catch(_){} }
+  function _bajasTiene(col, id){ return _bajas().has(col+'|'+String(id)); }
+  function _bajasQuitar(col, id){ if(_bajas().delete(col+'|'+String(id))) _bajasGuardar(); }
+  function _bajasAnotar(col, id){ _bajas().set(col+'|'+String(id), Date.now()); if(col==='records') _coherenciaBorrados().add(String(id)); if(_idsPrev && _idsPrev[col]) _idsPrev[col].delete(String(id)); _bajasGuardar(); }
+  function _bajasDiff(){
+    const cols = (typeof SYNC_COLS!=='undefined') ? SYNC_COLS : ['juegos','lotes','records','puntos'];
+    const cur = {}; let hubo = false;
+    cols.forEach(c=>{ const st=new Set(); (data[c]||[]).forEach(e=>{ if(e && e.id!=null) st.add(String(e.id)); }); cur[c]=st;
+      if(_idsPrev && _idsPrev[c]) _idsPrev[c].forEach(id=>{ if(!st.has(id)){ _bajas().set(c+'|'+id, Date.now()); if(c==='records') _coherenciaBorrados().add(id); hubo=true; } }); });
+    _idsPrev = cur; if(hubo) _bajasGuardar();
+  }
+  // v41.8.1 — un solo envío a la vez (antes de marcar «subido» hay que esperar la confirmación de la nube, así que dos envíos
+  // solapados mandarían lo mismo dos veces y gastarían escrituras).
+  let _syncPushando = false, _syncPushOtra = false;
   async function _syncPushDirty(){
+    if(_syncPushando){ _syncPushOtra = true; return; }
+    _syncPushando = true;
+    try{ await _syncPushDirtyReal(); }
+    finally{ _syncPushando = false; if(_syncPushOtra){ _syncPushOtra = false; setTimeout(function(){ _syncPushDirty().catch(function(e){ _syncFalloSubida(e); }); }, 80); } }
+  }
+  async function _syncPushDirtyReal(){
     if(!_syncOn || !_fbUser) return;
     // v39.3: nunca antes de conocer el estado de la nube. Sin esto, un guardado en la ventana
     // entre iniciar sesión y recibir la primera foto comparaba contra un registro vacío y subía
@@ -30947,8 +31097,12 @@ function cabApp() {
     // quedaron guardados. Lotes de 400 (bajo el límite de 500 de Firestore).
     for(const col of SYNC_COLS){
       const arr = _syncArr(col), vistos = new Set();
-      let batch = _fbDb.batch(), n=0;
-      const flush = async()=>{ if(n){ await batch.commit(); batch=_fbDb.batch(); n=0; } };
+      let batch = _fbDb.batch(), n=0, pend=[];
+      // v41.8.1 — lo enviado se da por subido SOLO cuando la nube confirma el lote. Antes se marcaba antes del commit: si
+      // fallaba (sin red, cupo agotado), esos cambios quedaban como «ya subidos» y no se reintentaban.
+      const flush = async()=>{ if(n){ await batch.commit(); _syncCuentaEscritura(n);
+        pend.forEach(function(x){ if(x[1]==null){ delete _syncLastPushed[col][x[0]]; _bajasQuitar(col, x[0]); } else _syncLastPushed[col][x[0]] = x[1]; });
+        pend=[]; batch=_fbDb.batch(); n=0; } };
       for(const ent of arr){
         if(ent.id==null) continue;
         const id=String(ent.id); vistos.add(id);
@@ -30966,7 +31120,7 @@ function cabApp() {
         batch.set(base.collection(col).doc(_syncDocId(id)), _syncConSello({_id:id, _lm:lm, _deleted:false, j:js}));
         // `espera` solo tiene sentido para boletos que SUBEN POR PRIMERA VEZ.
         if(esAlta && col==='records' && ent.criterio==='pistola' && ent.qrTs && (_oldPistol==null||ent.qrTs<_oldPistol)) _oldPistol=ent.qrTs;
-        _syncLastPushed[col][id]=hj; cambios++; if(++n>=400) await flush();
+        pend.push([id, hj]); cambios++; if(++n>=400) await flush();
       }
       // Tombstones: lo que estaba enviado y ya no está en local = borrado.
       // v39.3: en la PRIMERA subida de una sesión «solo cambios» no se envían lápidas. Las
@@ -30974,16 +31128,19 @@ function cabApp() {
       // contener ids que el disco local no llegó a guardar: mandarlas como borrados eliminaría
       // datos buenos de la nube. Es el lado seguro: en el peor caso un borrado hecho sin red
       // se aplica al día siguiente (sincronización completa) en vez de perder datos.
-      if(!_syncSinLapidas) for(const id of Object.keys(_syncLastPushed[col])){
-        if(vistos.has(id)) continue;
+      // v41.8.1 — en la 1.ª subida de una sesión «solo cambios» sí van las lápidas de lo que se borró AQUÍ (anotado al guardar).
+      for(const id of Object.keys(_syncLastPushed[col])){
+        if(vistos.has(id)){ if(_bajasTiene(col, id)) _bajasQuitar(col, id); continue; }   // volvió (Deshacer)
+        if(_syncSinLapidas && !_bajasTiene(col, id)) continue;
         batch.set(base.collection(col).doc(_syncDocId(id)), _syncConSello({_id:id, _lm:_syncNow(), _deleted:true}));
-        delete _syncLastPushed[col][id]; cambios++; if(++n>=400) await flush();
+        pend.push([id, null]); cambios++; if(++n>=400) await flush();
       }
       await flush();
     }
     _syncSinLapidas = false;
     if(cambios) _syncEstadoGuardar();
-    if(cambios){ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46');
+    if(cambios && _syncCupo==='escrituras'){ _syncCupo=''; clearTimeout(_syncReintentoT); _syncReintentoT=null; }   // v41.8.1: volvió a subir
+    if(cambios && !_syncCupo){ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46');
       try{ auditLog({phase:'envio', n:cambios, altas:_altas, reenvios:_reenvios, cols:_porCol, commit_ms:(Date.now()-_pt0), desde_creacion_ms:(_oldPistol?Date.now()-_oldPistol:null), vuelo:_syncEnVuelo, rafaga:_enRafaga()}); }catch(_){}
     }
   }
@@ -31011,6 +31168,8 @@ function cabApp() {
   const SYNC_MARGEN_MS = 2*60*1000;   // colchón ante escrituras en vuelo alrededor del punto de control
   let _syncCk = {}, _syncDia = '', _syncModo = 'completo', _syncForzarCompleto = false;
   let _syncSinLapidas = false, _syncEstadoTimer = null, _syncDB = null;
+  const SYNC_FULL_CADA_MS = 7*24*3600*1000;   // v41.8.1: sincronización completa como seguro semanal
+  let _syncFull = 0, _syncPausada = false, _syncOcultoT = null, _syncReintentoT = null, _syncCupo = '';
   function _h53(str){
     // cyrb53: hash no criptográfico de 53 bits. Solo detecta «¿cambió esta entidad?».
     let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
@@ -31041,7 +31200,7 @@ function cabApp() {
     const hacer = ()=>{
       if(!_fbUser) return;
       const uid = _fbUser.uid;
-      const reg = { h:_syncLastPushed, ck:_syncCk, dia:_syncDia, t:Date.now(), v:APP_VERSION.num };
+      const reg = { h:_syncLastPushed, ck:_syncCk, dia:_syncDia, full:_syncFull, t:Date.now(), v:APP_VERSION.num };
       _syncDbAbrir().then(db=>{ if(!db) return; try{ db.transaction('estado','readwrite').objectStore('estado').put(reg, uid); }catch(_){} });
     };
     // Se espera a que el guardado local (250 ms) termine antes de declarar «esto ya está en la nube».
@@ -31059,6 +31218,116 @@ function cabApp() {
       .then(snap=>{ const d = snap && (typeof snap.data==='function' ? snap.data() : null); return d && d.t && typeof d.t.toMillis==='function' ? d.t.toMillis() : null; })
       .catch(()=> null);
   }
+  // ═══ v41.8.1 — LA NUBE DENTRO DEL PLAN GRATUITO ═══
+  // Reanudar la escucha desde el último punto de control (no desde el de la apertura): una reconexión del SDK repite la
+  // consulta entera, así que cuanto más reciente el punto, menos se cobra.
+  function _syncRefrescar(motivo){
+    if(!_syncOn || !_fbUser || !_syncInitialPushed || !SYNC_COLS.every(c=>_syncCk[c]>0)) return;
+    try{ _syncUnsub.forEach(u=>{ try{u();}catch(_){} }); }catch(_){}
+    _syncUnsub = []; _syncPausada = false;
+    try{ console.info('[sync] escucha reanudada desde el último punto ·', motivo||''); }catch(_){}
+    _syncEscucharTodo({ h:_syncLastPushed, ck:_syncCk, dia:_syncDia || todayStr(), full:_syncFull || Date.now() });
+  }
+  // Con la app oculta más de 1 minuto se suelta la escucha (al volver, el SDK la repetiría desde la apertura).
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){
+      clearTimeout(_syncOcultoT);
+      _syncOcultoT = setTimeout(function(){
+        if(!document.hidden || !_syncOn || !_syncInitialPushed || _syncModo!=='delta' || _syncPushando) return;
+        try{ _syncEstadoGuardar(true); }catch(_){}
+        try{ _syncUnsub.forEach(u=>{ try{u();}catch(_){} }); }catch(_){}
+        _syncUnsub = []; _syncPausada = true;
+      }, 60000);
+    } else {
+      clearTimeout(_syncOcultoT);
+      if(_syncPausada) _syncRefrescar('vuelve a primer plano');
+    }
+  });
+  window.addEventListener('online', function(){ if(_syncOn && _syncModo==='delta') setTimeout(function(){ _syncRefrescar('conexión recuperada'); }, 1500); });
+  // Cupo diario agotado: nada se pierde (todo sigue en este aparato y en sus copias); se avisa y se reintenta solo.
+  function _syncCupoAgotado(tipo){
+    _syncCupo = tipo;
+    try{ auditLog({phase:'cupo', tipo:tipo}); }catch(_){}
+    _syncStatus('⚠ Firebase: cupo gratuito de '+tipo+' de hoy agotado. Tus datos siguen guardados en este aparato; se suben solos cuando se renueve (≈ 02:00, 03:00 de noviembre a marzo).', 'var(--stamp)');
+    if(tipo==='lecturas'){ try{ _syncEstadoGuardar(true); }catch(_){} try{ _syncUnsub.forEach(u=>{ try{u();}catch(_){} }); }catch(_){} _syncUnsub = []; }
+    clearTimeout(_syncReintentoT);
+    _syncReintentoT = setTimeout(function(){
+      _syncReintentoT = null; _syncCupo = '';
+      if(!_fbUser) return;
+      if(tipo==='lecturas'){ _syncDetener(); _syncArrancar(); } else _syncSchedulePush();
+    }, 30*60*1000);
+    try{ renderSyncPanel(); }catch(_){}
+  }
+  function _syncFalloSubida(e){
+    console.warn('[sync] push', e);
+    if(e && e.code==='resource-exhausted'){ _syncCupoAgotado('escrituras'); return; }
+    _syncStatus('⚠ Error al subir: '+((e && (e.message||e.code))||e)+' — se reintenta en 1 minuto (tus datos siguen en este aparato)', 'var(--stamp)');
+    setTimeout(function(){ try{ _syncSchedulePush(); }catch(_){} }, 60000);
+  }
+  // Consumo aproximado de ESTE aparato hoy (la consola de Firebase suma además el otro aparato y la propia consola).
+  function _syncConsumo(){ try{ const o = JSON.parse(localStorage.getItem('bitacora_sync_consumo')||'{}'); return o.d===todayStr() ? o : {d:todayStr(), l:0, e:0}; }catch(_){ return {d:todayStr(), l:0, e:0}; } }
+  let _syncConsumoT = null, _syncConsumoMem = null;
+  function _syncConsumoSumar(campo, n){
+    if(!_syncConsumoMem || _syncConsumoMem.d!==todayStr()) _syncConsumoMem = _syncConsumo();
+    _syncConsumoMem[campo] = (_syncConsumoMem[campo]||0) + n;
+    clearTimeout(_syncConsumoT); _syncConsumoT = setTimeout(function(){ try{ localStorage.setItem('bitacora_sync_consumo', JSON.stringify(_syncConsumoMem)); }catch(_){} }, 1500);
+  }
+  function _syncCuentaLectura(n){ _syncConsumoSumar('l', n); }
+  function _syncCuentaEscritura(n){ _syncConsumoSumar('e', n); }
+
+  // ═══ v41.8.1 — SEGURO POR PÁGINAS ═══
+  // Una vez por semana (por aparato) se compara la base entera con la nube, pero por PÁGINAS de 500 documentos, en segundo
+  // plano y con un tope de 12.000 lecturas por día: si no termina, sigue al día siguiente donde quedó. Así el seguro nunca
+  // puede agotar el cupo gratuito, por grande que sea la base (leerla de golpe dejará de caber en 50.000/día con ~45.000
+  // documentos). Lo que la nube tiene distinto se aplica con el mismo manejador de la escucha; lo que este aparato cree
+  // subido y la nube NO tiene, se vuelve a subir.
+  const SYNC_VERIF_TOPE_DIA = 12000, SYNC_VERIF_PAGINA = 500;
+  const _syncManejadores = {};
+  let _syncVerifToken = 0, _syncVerifT = null;
+  function _syncVerifEstado(){ try{ return JSON.parse(localStorage.getItem('bitacora_sync_verif')||'null') || {}; }catch(_){ return {}; } }
+  function _syncVerifGuardar(o){ try{ localStorage.setItem('bitacora_sync_verif', JSON.stringify(o)); }catch(_){} }
+  function _syncVerificarProgramar(ms){ clearTimeout(_syncVerifT); _syncVerifT = setTimeout(function(){ _syncVerificar().catch(function(e){ console.warn('[sync] verificación', e); }); }, ms==null ? 30000 : ms); }
+  async function _syncVerificar(){
+    if(!_syncOn || !_fbUser || !_syncInitialPushed || _syncModo!=='delta' || _syncCupo) return;
+    const v = _syncVerifEstado(), hoy = todayStr();
+    const enCurso = v.uid===_fbUser.uid && v.col!=null;
+    if(!enCurso && _syncFull && (Date.now()-_syncFull) < SYNC_FULL_CADA_MS) return;
+    if(v.dia!==hoy){ v.dia = hoy; v.n = 0; }
+    if(!enCurso){ v.uid = _fbUser.uid; v.col = 0; v.cur = null; v.ini = Date.now(); v.total = 0; }
+    const tok = ++_syncVerifToken, base = _fbDb.collection('users').doc(_fbUser.uid);
+    try{
+      while(v.col < SYNC_COLS.length){
+        if(tok!==_syncVerifToken || !_syncOn || _syncModo!=='delta' || _syncCupo || document.hidden){ _syncVerifGuardar(v); return; }
+        if(v.n >= SYNC_VERIF_TOPE_DIA){ _syncVerifGuardar(v); return; }   // sigue mañana, donde quedó
+        const col = SYNC_COLS[v.col];
+        let q = base.collection(col).orderBy('_id').limit(SYNC_VERIF_PAGINA);
+        if(v.cur!=null) q = q.startAfter(v.cur);
+        const snap = await q.get();
+        const leidos = Math.max(1, snap.size); v.n += leidos; v.total = (v.total||0) + snap.size; _syncCuentaLectura(leidos);
+        const desde = v.cur, hasta = snap.size ? String(snap.docs[snap.docs.length-1].data()._id) : null, fin = snap.size < SYNC_VERIF_PAGINA;
+        if(snap.size){ const man = _syncManejadores[col]; if(man) man({ metadata:{fromCache:false}, size:snap.size, docChanges:()=>snap.docs.map(d=>({type:'added', doc:d})) }); }
+        // lo que este aparato cree subido en ese tramo de ids y la nube no tiene → se olvida «subido» para que vuelva a subir
+        const enNube = new Set(snap.docs.map(d=>String(d.data()._id)));
+        let faltan = 0;
+        Object.keys(_syncLastPushed[col]||{}).forEach(function(id){
+          if((desde==null || id > desde) && (fin || id <= hasta) && !enNube.has(id) && (_syncArr(col)||[]).some(e=>String(e.id)===id)){ delete _syncLastPushed[col][id]; faltan++; }
+        });
+        if(faltan){ try{ auditLog({phase:'verificacion', col:col, faltaban:faltan}); }catch(_){} _syncSchedulePush(); }
+        if(fin){ v.col++; v.cur = null; } else v.cur = hasta;
+        _syncVerifGuardar(v);
+        await new Promise(function(r){ setTimeout(r, 1500); });
+      }
+      _syncFull = Date.now(); v.ult = _syncFull; v.ultDocs = v.total; delete v.col; delete v.cur;
+      _syncVerifGuardar(v); _syncEstadoGuardar(true);
+      try{ auditLog({phase:'verificacion', fin:true, docs:v.total}); }catch(_){}
+      try{ renderSyncPanel(); }catch(_){}
+    }catch(e){
+      _syncVerifGuardar(v);
+      if(e && e.code==='resource-exhausted') _syncCupoAgotado('lecturas'); else console.warn('[sync] verificación', e);
+    }
+  }
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden && _syncOn && _syncModo==='delta'){ const v=_syncVerifEstado(); if(v.col!=null) _syncVerificarProgramar(5000); } });
+
   function syncResincronizarTodo(){
     if(!_fbUser) return;
     _syncForzarCompleto = true;
@@ -31092,13 +31361,18 @@ function cabApp() {
     _syncInitialPushed = false;
     // ¿Se puede escuchar solo lo que cambió?
     const hoy = todayStr();
+    // v41.8.1 — antes: completa la PRIMERA apertura de CADA día y la escucha se quedaba sobre la base entera, que se cobraba
+    // entera otra vez en cada reconexión (3 picos de ~19.000 lecturas el 18-oct; 1,1 M en 30 días con 50.000/día gratis).
+    // Ahora la completa es un seguro semanal (todo aparato al día escribe `_srv`, así que «solo cambios» no se pierde nada).
+    const ultFull = est ? (est.full || (est.dia ? Date.parse(est.dia+'T12:00:00') : 0)) : 0;
     const puedeDelta = !_syncForzarCompleto && _syncTsDisponible() && est && est.h && est.ck
-      && SYNC_COLS.every(c=> est.ck[c] > 0 && est.h[c]) && est.dia === hoy && (data.records||[]).length > 0;
+      && SYNC_COLS.every(c=> est.ck[c] > 0 && est.h[c]) && (data.records||[]).length > 0;
+    // (el seguro semanal ya no relee la base de golpe: lo hace _syncVerificar por páginas, con tope diario)
     _syncForzarCompleto = false;
     if(puedeDelta){
       _syncModo = 'delta';
       _syncLastPushed = {}; SYNC_COLS.forEach(c=>{ _syncLastPushed[c] = Object.assign({}, est.h[c]); });
-      _syncCk = Object.assign({}, est.ck); _syncDia = est.dia;
+      _syncCk = Object.assign({}, est.ck); _syncDia = est.dia; _syncFull = ultFull;
       _syncSinLapidas = true;
     } else {
       _syncModo = 'completo';
@@ -31112,7 +31386,8 @@ function cabApp() {
       const consulta = _syncModo==='delta'
         ? base.collection(col).where('_srv','>', firebase.firestore.Timestamp.fromMillis(_syncCk[col]))
         : base.collection(col);
-      const unsub = consulta.onSnapshot(snap=>{
+      const manejar = snap=>{
+        if(!snap.metadata.fromCache && !snap.docChanges().length) _syncCuentaLectura(1);   // v41.8.1: mínimo por consulta
         _syncApplying=true;
         let toco=false;
         const esInicial = _fotoInicial; _fotoInicial = false;
@@ -31132,11 +31407,19 @@ function cabApp() {
           // v39.3: hora de servidor más reciente vista en esta colección (punto de control).
           try{ const sv = d._srv && typeof d._srv.toMillis==='function' ? d._srv.toMillis() : 0; if(sv > (srvVisto[col]||0)) srvVisto[col] = sv; }catch(_){}
           const localEnt0 = porId.get(id) || null;
+          _syncCuentaLectura(1);   // v41.8.1: consumo aproximado de este aparato
           if(d._deleted){
             if(localEnt0){ aBorrar.add(id); porId.delete(id); toco=true; }
             delete _syncLastPushed[col][id];
+            // v41.8.1 — lápida de un boleto: su casilla se limpia en la reconciliación de este mismo ciclo.
+            if(col==='records') _coherenciaBorrados().add(id);
+            if(_idsPrev && _idsPrev[col]) _idsPrev[col].delete(id);
+            _bajasQuitar(col, id);
             return;
           }
+          // v41.8.1 — lo borraste en este aparato y su lápida aún no sube: la nube no lo devuelve.
+          // (se anota como «está en la nube» para que la próxima subida le mande su lápida)
+          if(!localEnt0 && _bajasTiene(col, id)){ try{ _syncLastPushed[col][id] = _h53(d.j); }catch(_){} return; }
           // La entidad viene como texto JSON en `j` (formato robusto). Se parsea y se le
           // pega el _lm del documento. El id ya viene dentro del JSON con su tipo correcto.
           // Se sanea lo que llega de la nube: otro dispositivo (o una cuenta comprometida)
@@ -31204,20 +31487,27 @@ function cabApp() {
               // como cambio). Si no se pudo leer, se usa lo más reciente visto; si tampoco hay,
               // no se fija y la próxima apertura vuelve a ser completa (lado seguro).
               SYNC_COLS.forEach(c=>{ const base0 = t0 || srvVisto[c] || 0; if(base0) _syncCk[c] = base0 - SYNC_MARGEN_MS; });
-              if(SYNC_COLS.every(c=>_syncCk[c]>0)) _syncDia = todayStr();
-              _syncEstadoGuardar();
+              if(SYNC_COLS.every(c=>_syncCk[c]>0)){ _syncDia = todayStr(); _syncFull = Date.now(); }
+              _syncEstadoGuardar(true);
+              // v41.8.1 — la escucha sobre la base ENTERA se cierra: cada reconexión la volvía a cobrar entera.
+              if(_syncFull) setTimeout(function(){ _syncRefrescar('fin de la completa'); }, 2500);
             });
           } else {
             _syncEstadoGuardar();
+            _syncVerificarProgramar();   // v41.8.1: el seguro por páginas, si toca
           }
           _syncStatus('Subiendo tus datos…', '#1565C0');
-          _syncPushDirty().then(()=>{ _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46'); renderSyncPanel(); })
-                          .catch(e=>{ console.warn('[sync] push inicial', e); });
-        } else {
+          _syncPushDirty().then(()=>{ if(!_syncCupo) _syncStatus('✓ Sincronizado · '+new Date().toLocaleTimeString(), '#065F46'); renderSyncPanel(); })
+                          .catch(e=>{ _syncFalloSubida(e); });
+        } else if(!_syncCupo){
           _syncStatus('✓ Sincronizado', '#065F46');
         }
         // El render() ya no va aquí por-snapshot: lo agrupa _syncApplyCommit() cuando hubo cambios.
-      }, err=>{ console.warn('[sync] snapshot', col, err); _syncStatus('⚠ Error de sync: '+(err.code||err.message), 'var(--stamp)'); });
+      };
+      _syncManejadores[col] = manejar;   // v41.8.1: la verificación por páginas aplica lo que lee con este mismo manejador
+      const unsub = consulta.onSnapshot(manejar, err=>{ console.warn('[sync] snapshot', col, err);
+        if(err && err.code==='resource-exhausted'){ _syncCupoAgotado('lecturas'); return; }   // v41.8.1
+        _syncStatus('⚠ Error de sync: '+(err.code||err.message), 'var(--stamp)'); });
       _syncUnsub.push(unsub);
     });
     renderSyncPanel();
@@ -31272,12 +31562,12 @@ function cabApp() {
       el.innerHTML = `
         <div style="background:#D1FAE5; border:1px solid #6EE7B7; border-radius:8px; padding:10px 14px; margin-bottom:10px;">
           <div style="font-size:13px; color:#065F46;">☁ Sesión activa: <strong>${escapeHtml(_fbUser.email||'—')}</strong></div>
-          <div id="syncEstado" style="font-size:12px; margin-top:2px; color:#065F46;">✓ Sincronizado</div>
+          <div id="syncEstado" style="font-size:12px; margin-top:2px; color:${_syncUltimoColor||'#065F46'};">${escapeHtml(_syncUltimoTxt||'✓ Sincronizado')}</div>
         </div>
         <p class="note" style="margin:0 0 8px;">Tus <strong>${nRecs}</strong> boletos y <strong>${nLotes}</strong> lotes se sincronizan solos con la nube. Inicia sesión con el MISMO correo en tu otro dispositivo y verás los mismos datos.</p>
-        <p class="field-help" style="margin:0 0 8px;">Modo de esta sesión: <strong>${_syncModo==='delta' ? 'solo cambios' : 'completo'}</strong>${_syncModo==='delta' ? ' — solo se descargan los cambios desde la última sincronización completa de hoy' : ' — la primera apertura del día descarga todo'}.</p>
+        <p class="field-help" style="margin:0 0 8px;">Modo de esta sesión: <strong>${_syncModo==='delta' ? 'solo cambios' : 'completo'}</strong>${_syncModo==='delta' ? ' — solo se descargan los cambios desde el último punto' : ' — se descarga todo una vez y luego pasa a «solo cambios»'}. Revisión completa contra la nube (seguro semanal, por páginas y con tope de ${SYNC_VERIF_TOPE_DIA.toLocaleString('en-US')} lecturas al día): ${(function(){ const v=_syncVerifEstado(); return v.col!=null ? 'en curso ('+(v.total||0).toLocaleString('en-US')+' documentos revisados)' : (_syncFull ? 'la última '+_hace(_syncFull)+', la próxima en '+Math.max(0, Math.ceil((_syncFull+SYNC_FULL_CADA_MS-Date.now())/86400000))+' día(s)' : 'pendiente'); })()}. Lecturas de este aparato hoy ≈ ${(_syncConsumo().l||0).toLocaleString('en-US')} de 50.000 · escrituras ≈ ${(_syncConsumo().e||0).toLocaleString('en-US')} de 20.000 (gratis por día, sumando todos los aparatos).</p>
         <div class="btn-row" style="gap:6px;">
-          <button class="btn-ghost" id="btnSyncTodo" style="font-size:12px;" title="Vuelve a descargar toda la base desde la nube (unas 13.000 lecturas)">↻ Resincronizar todo</button>
+          <button class="btn-ghost" id="btnSyncTodo" style="font-size:12px;" title="Vuelve a descargar toda la base desde la nube (una lectura por documento: hoy unas ${(nRecs+nLotes).toLocaleString('en-US')})">↻ Resincronizar todo</button>
           <button class="btn-ghost" id="btnSyncOut" style="font-size:12px;">Cerrar sesión en este dispositivo</button>
         </div>`;
       _syncEl('btnSyncOut').addEventListener('click', syncSignOut);
@@ -32460,7 +32750,8 @@ function cabApp() {
       // todo taco iniciado con la pistola quedaba sin punto de venta y no entraba en el
       // análisis por kiosco. El descuento NO se hereda (se congela mal en 50 boletos).
       var _ctx = (typeof getCtxCompraVigente==='function') ? (getCtxCompraVigente()||{}) : {};
-      lote=Object.assign({ id:nuevoId() }, selloCreacion(), { serie:serie, juegoId:juego.id, paridad:(autoParidad(serie)||'impar'), punto:(_ctx.punto||''), ciudad:(_ctx.ciudad||''), tamanoLote:tamano, posiciones:blankLote(tamano), modo:'sueltos' }); data.lotes.push(lote); }
+      // v41.8.1 — se prepara pero NO entra aún en los datos: si el boleto se congela o se rechaza, no queda un taco vacío.
+      lote=Object.assign({ id:nuevoId() }, selloCreacion(), { serie:serie, juegoId:juego.id, paridad:(autoParidad(serie)||'impar'), punto:(_ctx.punto||''), ciudad:(_ctx.ciudad||''), tamanoLote:tamano, posiciones:blankLote(tamano), modo:'sueltos' }); }
     // DEDUP: un boleto (serie+posición) es único; solo existe uno. Si esa posición ya está
     // registrada, NO se vuelve a insertar (inflaría la contabilidad). Se edita a mano si hace falta.
     var prev=lote.posiciones[pos];
@@ -32468,7 +32759,7 @@ function cabApp() {
     // v40.6 — el código del boleto es su huella: si ya existe en CUALQUIER taco (p. ej. uno que
     // llegó de otro aparato con la misma serie), es el mismo boleto y no se duplica.
     if(!yaReg && m.code){ var _mc=String(m.code); yaReg=(data.records||[]).some(function(r){ return r.qrCode && String(r.qrCode)===_mc; }); }
-    if(yaReg){ activeLoteId=lote.id; _pistolCommit();
+    if(yaReg){ if(!_loteNuevo) activeLoteId=lote.id; _pistolCommit();
       qrSetEstado(serie+' · pos '+padPos(pos)+' ya registrado');
       try{ mkPintar({pos:padPos(pos), txt:'Ya registrado · no se duplica', serie:serie, cls:'dup'}); }catch(_){}
       try{ toast('⚠ Ya registrado: '+serie+' pos '+padPos(pos)+' — no se duplica'); }catch(_){}
@@ -32538,6 +32829,7 @@ function cabApp() {
     if(PREFIJOS_CAUTOS.indexOf(String(m.prefijo))>=0 && m.message) rec.textoPortal=String(m.message).slice(0,300);
     if(m.seguridad) rec.qrSeg=m.seguridad;
     if(desc>0) rec.costoNominal=nominal;
+    if(_loteNuevo) data.lotes.push(lote);   // v41.8.1: ahora sí, con su primer boleto
     data.records.push(rec);
     lote.posiciones[pos]={ estado:(gano?'gano':'no-gano'), recordId:id };
     lote.actualizadoEn=new Date().toISOString();
