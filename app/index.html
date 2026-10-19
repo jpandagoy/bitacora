@@ -2605,6 +2605,13 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   @media (max-width:600px){ .so-fondo{ align-items:flex-end; padding:0; } .so-hoja{ border-radius:20px 20px 0 0; max-height:92%; width:100%; } }
   /* El encabezado común («Analizando» de raspaditas) no aplica en Sorteos: se oculta como en QR y Puntos. */
   body[data-tab-activo="sorteos"] .folio{ display:none; }
+  /* v41.9.1 · detalle de un sorteo con su boletín oficial */
+  .so-tabla tbody tr[data-res]{ cursor:pointer; } .so-tabla tbody tr[data-res]:hover td{ background:color-mix(in srgb, var(--so-cur) 7%, transparent); }
+  .so-tabla tr[data-res]:focus-visible{ outline:2px solid var(--stamp); outline-offset:-2px; }
+  .so-resdet{ border:1px solid var(--line); border-radius:14px; padding:12px; background:var(--paper); display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .so-bols{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
+  .so-bolw{ margin:0; display:flex; flex-direction:column; gap:6px; min-width:0; }
+  .so-bol-img{ display:block; width:100%; max-width:640px; height:auto; border-radius:10px; border:1px solid var(--line); background:var(--white); }
 </style>
 </head>
 <body>
@@ -4905,7 +4912,14 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   // grandes, rendimiento, pruebas de azar) y aviso aparte en Cobros. Datos en data.sorteos con sincronización AISLADA
   // (colección «sorteos»): si la nube la rechaza, las raspaditas sincronizan igual. Atajo 9. La pistola de raspaditas
   // desvía a Sorteos los códigos de sorteo (lector y cámara).
-  const APP_VERSION = { num: '41.9', fecha: '2026-10-19' };
+  // v41.9.1 — SORTEOS · RESULTADOS AL DÍA (pedido de JP: «solo veo los viejos»). La tabla era una foto fija de los
+  // boletines hasta el 17-oct. Ahora la app guarda cada resultado nuevo que publica la API de la Lotería (la API solo
+  // muestra el último: 1.ª suerte de Lotería, número y sueldo del Lotto, bolillas y mascota del Pozo y la Revancha) al
+  // abrirse y cada 30 min, con «🔄 Actualizar» para pedirlo en el acto; los sorteos jugados que la app no alcanzó a ver
+  // aparecen igual (su resultado está en el boletín). Tocar un sorteo abre su detalle: números con su fuente, premio
+  // principal, tus boletos de ese sorteo y el BOLETÍN OFICIAL (imagen de la Lotería; Pega: la imagen con sus números y su
+  // boletín). Desde el detalle de un boleto, «📜 Resultado y boletín de este sorteo».
+  const APP_VERSION = { num: '41.9.1', fecha: '2026-10-19' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -21846,6 +21860,10 @@ function cabApp() {
     const arr = () => (data.sorteos || (data.sorteos = []));
     const boletos = () => arr().filter(x => x && x.tipo === 'boleto');
     const esperaRaspes = () => arr().filter(x => x && x.tipo === 'raspe');
+    // v41.9.1 · resultados de sorteos nuevos guardados desde la API (la API solo muestra el ÚLTIMO de cada juego: si no se
+    // guarda al verlo, se pierde). Viven en la misma colección aislada «sorteos» (viajan a los demás aparatos) y no cuentan
+    // como boletos: todas las cifras filtran por tipo.
+    const resultados = () => arr().filter(x => x && x.tipo === 'res');
     const enAmb = j => ui.amb === 'todos' || j === ui.amb || (ui.amb === 'pozo' && j === 'revancha');
     const filtrados = () => boletos().filter(b => enAmb(b.juego));
     const raspesEspera = () => esperaRaspes().filter(z => enAmb(z.juego));
@@ -21885,7 +21903,7 @@ function cabApp() {
     // ── API pública de la Lotería (vía Worker /sorteos-api): fechas, precios, pozos anunciados ──
     let api = {};
     try{ api = JSON.parse(localStorage.getItem(API_KEY) || '{}'); }catch(_){ api = {}; }
-    const fechaApi = s => { const m = String(s || '').match(/^(\d{2})\/(\d{2})\/(\d{4})/); return m ? `${m[3]}-${m[2]}-${m[1]}` : null; };
+    const fechaApi = s => { const t = String(s || ''); const m = t.match(/^(\d{2})\/(\d{2})\/(\d{4})/); if (m) return `${m[3]}-${m[2]}-${m[1]}`; const i = t.match(/^\d{4}-\d{2}-\d{2}/); return i ? i[0] : null; };   // v41.9.1: + AAAA-MM-DD (Pega)
     const numApi = v => parseFloat(String(v ?? '').replace(',', '.')) || 0;
     function infoApi(j, n){
       const r = api[API_RUTA[j]]; if (!r) return null;
@@ -21909,6 +21927,30 @@ function cabApp() {
       return 1;
     }
     let apiPidiendo = false;
+    let resNuevos = 0;           // v41.9.1: cuántos resultados nuevos guardó la última consulta
+    // Lo que se guarda sale TAL CUAL de la API, validado por forma (5 cifras Lotería, 6 Lotto, 10–11 bolillas Pozo); lo que
+    // no cuadra no se guarda. No se guarda lo que ya está en la historia empaquetada (boletines hasta el 17-oct).
+    const HIST_ULT = {loteria:H.lot[H.lot.length-1][0], lotto:H.lto[H.lto.length-1][0], pozo:H.pozo[H.pozo.length-1][0]};
+    function guardarResultado(j, js){
+      if (!js || typeof js !== 'object') return 0;
+      const n = parseInt(js.numeroSorteo, 10); if (!(n > 0)) return 0;
+      if (HIST_ULT[j] && n <= HIST_ULT[j]) return 0;
+      const id = 'X' + j + '-' + n; if (arr().some(x => x && x.id === id)) return 0;
+      const o = {id, tipo:'res', juego:j, sorteo:n, fuente:'api', creadoEn:selloCreacion().creadoEn};
+      const i = infoApi(j, n); if (i && i.fecha) o.fecha = i.fecha;
+      if (j === 'loteria'){ const c = String((js.ultimoResultadoLoteria || {}).combinacion1 || ''); if (!/^\d{5}$/.test(c)) return 0; o.s1 = c; }
+      if (j === 'lotto'){
+        const c = String((js.ultimoResultadoLotto || {}).combinacion1 || ''); if (!/^\d{6}$/.test(c)) return 0; o.s1 = c;
+        const su = (js.premiosEspeciales || []).find(p => p && /sueldo/i.test(String(p.nombre || '')));
+        if (su && /^\d{6}$/.test(String(su.combinacion))){ o.sueldo = String(su.combinacion); o.sueldoNombre = String(su.nombre).replace(/[^\w $,.áéíóúñÁÉÍÓÚÑ]/g, '').slice(0, 60); }
+      }
+      if (j === 'pozo' || j === 'revancha'){
+        const c = String((js.ultimoResultadoPozo || {}).combinacion2 || ''); if (!/^(\d{2}){10,11}$/.test(c)) return 0;
+        o.bolillas = c.match(/\d{2}/g).map(Number);
+        if (/^\d{1,2}$/.test(String(js.mascota || ''))) o.mascota = String(js.mascota).padStart(2, '0');
+      }
+      arr().push(o); return 1;
+    }
     async function refrescarApi(forzar){
       if (apiPidiendo || workerViejo || !navigator.onLine) return;
       if (!forzar && api._t && Date.now() - api._t < 30 * 60 * 1000) return;
@@ -21926,6 +21968,16 @@ function cabApp() {
           }
         }
         api = nuevo; try{ localStorage.setItem(API_KEY, JSON.stringify(api)); }catch(_){}
+        // v41.9.1 · último resultado de Lotería, Lotto, Pozo y Revancha: se guarda si es nuevo. Pega no tiene este dato en
+        // la API (la Lotería publica sus números solo como imagen): sus sorteos nuevos salen de «sorteosJugados» con su imagen.
+        let nRes = 0;
+        for (const j of ['loteria','lotto','pozo','revancha']){
+          try{
+            const res = await fetch(ep + '/sorteos-api?r=' + API_RUTA[j] + '/cache/ultimoResultado', {signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined});
+            if (res.ok) nRes += guardarResultado(j, await res.json());
+          }catch(_){}
+        }
+        resNuevos = nRes; if (nRes) save();
         // corrige fechas y precios estimados por calendario
         let toco = false;
         boletos().forEach(b => { const i = infoApi(b.juego, b.sorteo); if (i && i.fecha && (b.fechaEst || b.fecha !== i.fecha)){ b.fecha = i.fecha; b.fechaEst = false; toco = true; } });
@@ -21933,6 +21985,17 @@ function cabApp() {
         pintarSiVisible();
       }catch(e){ console.warn('[SO] api', e && e.message); }
       finally{ apiPidiendo = false; }
+    }
+
+    // v41.9.1 · botón «🔄 Actualizar» de Resultados: consulta ya la API (fechas, jugados, último resultado) y el portal.
+    async function actualizarRes(btn){
+      if (!navigator.onLine) return toast('Sin conexión: no se puede consultar a la Lotería ahora.');
+      if (workerViejo) return toast('El Worker de Cloudflare no sabe consultar sorteos (hace falta la versión 2.3).');
+      if (btn){ btn.disabled = true; btn.textContent = 'Actualizando…'; }
+      await refrescarApi(true);
+      ultimaVuelta = 0; verificar();
+      render();
+      toast(resNuevos ? `${resNuevos} resultado${resNuevos === 1 ? '' : 's'} nuevo${resNuevos === 1 ? '' : 's'} guardado${resNuevos === 1 ? '' : 's'}.` : 'Al día: ya tenías el último resultado publicado de cada juego.');
     }
 
     // ── Registro: tanda de pistoleo ──
@@ -22193,6 +22256,7 @@ function cabApp() {
         <div class="so-fila so-sub"><label>Número <input class="so-in mono" data-campo="numero" data-id="${e_(b.id)}" value="${e_(b.numero || '')}" placeholder="opcional" style="width:${b.juego==='pozo'||b.juego==='revancha'?'13em':'7.5em'};height:32px"></label>
           ${b.juego === 'lotto' ? `<label>Sueldo <input class="so-in mono" data-campo="sueldo" data-id="${e_(b.id)}" value="${e_(b.sueldo || '')}" placeholder="opcional" style="width:7.5em;height:32px"></label>` : ''}
           ${b.juego === 'loteria' ? `<label>Fracción <input class="so-in mono" data-campo="fraccion" data-id="${e_(b.id)}" value="${e_(b.fraccion || '')}" placeholder="opc." style="width:4.5em;height:32px"></label>` : ''}</div>
+        <div class="so-fila"><button type="button" class="so-btn sm" data-ver-res="${b.juego}-${b.sorteo}">📜 Resultado y boletín de este sorteo</button></div>
         <div class="so-l">Premios</div>
         ${b.premios == null ? `<div class="so-nota">Sorteo: ${verificable(b) ? ((b.verif || {}).estado === 'no_jugado' ? 'el portal aún no carga el resultado; se reintenta cada hora.' : 'se consulta al portal en la próxima vuelta.') : `se verifica solo el ${fdia(masDias(b.fecha,1))} desde las 00:00.`}</div>` : b.premios.length ? prem(b.premios, 'sorteo') : '<div class="so-nota">Sorteo: sin premio.</div>'}
         ${ZONAS[b.juego] ? raspes + (faltaRaspe(b) ? `<div class="so-nota">Zona de raspe ${(b.raspes || []).length + 1} de ${ZONAS[b.juego]}: sin escanear. Al rasparla, escanea su Data Matrix; se une sola por la serie.</div>` : '') : ''}
@@ -22245,19 +22309,83 @@ function cabApp() {
     }
 
     // ── Análisis (plegado) ──
+    // v41.9.1 · RESULTADOS: antes era una foto fija de los boletines hasta el 17-oct sin forma de actualizarse ni de ver un
+    // sorteo. Ahora une tres fuentes, sin inventar nada: (1) la historia reconstruida de los boletines; (2) los resultados que
+    // la app guardó de la API desde entonces; (3) los sorteos jugados que lista la API aunque no se haya visto su resultado
+    // (sus números están en el boletín oficial, que se muestra al tocar el sorteo). «🔄 Actualizar» consulta en el acto.
+    const BOLETIN = {loteria:n => `boletines/T1${n}.jpg`, lotto:n => `boletines/T2${n}.jpg`, pozo:n => `boletines/T5${n}.jpg`, revancha:n => `boletines/T17${n}.jpg`, pega:n => `pega3/T-${n}.jpg`};
+    const urlBol = (j, n) => 'https://ventas-api.loteria.com.ec/uploads/' + BOLETIN[j](n);
+    const HIST = {loteria:H.lot, lotto:H.lto, pozo:H.pozo, pega:H.pega};
+    function filasRes(j){
+      const hist = HIST[j], m = new Map(hist.map(r => [r[0], {j, n:r[0], f:r[1], h:r}]));
+      resultados().filter(x => x.juego === j).forEach(x => { if (!m.has(x.sorteo)) m.set(x.sorteo, {j, n:x.sorteo, f:x.fecha || null, x}); });
+      const ult = hist[hist.length-1][0];
+      ((api[API_RUTA[j]] || {}).jug || []).forEach(o => { const n = parseInt(o.sorteo, 10); if (n > ult && !m.has(n)) m.set(n, {j, n, f:fechaApi(o.fecha)}); });
+      return [...m.values()].sort((a,b) => b.n - a.n);
+    }
+    // Revancha del mismo día que un Pozo (la API no da el número en los jugados: se empareja por fecha).
+    const revDe = f => { const o = ((api[API_RUTA.revancha] || {}).jug || []).find(x => fechaApi(x.fecha) === f); return o ? parseInt(o.sorteo, 10) : null; };
+    const bolasHtml = L => (L || []).map(x => `<span class="so-bola">${String(x).padStart(2,'0')}</span>`).join('');
+    function numerosRes(r, corto){
+      const h = r.h, x = r.x, mut = t => `<span class="mut">${t}</span>`;
+      if (r.j === 'pozo'){ const b = h ? h[3] : x && x.bolillas; return b ? `${corto ? b.map(v => String(v).padStart(2,'0')).join(' ') : bolasHtml(b)}${h && h[4] ? ` · ${e_(h[4])}` : x && x.mascota ? ` · mascota ${e_(x.mascota)}` : ''}` : mut('en el boletín oficial'); }
+      if (r.j === 'pega') return h ? `Pega 2 <b>${e_(h[2]||'—')}</b> · Pega 3 <b>${e_(h[3]||'—')}</b> · Pega 4 <b>${e_(h[4]||'—')}</b>` : mut('en la imagen oficial del sorteo');
+      if (h) return `<b>${e_(h[2])}</b> · ${e_(h[3]||'')} · ${e_(h[4]||'')}`;
+      if (x) return `<b>${e_(x.s1)}</b>${r.j === 'lotto' && x.sueldo ? ` · sueldo ${e_(x.sueldo)}` : ''} · ${mut('2.ª y 3.ª en el boletín')}`;
+      return mut('en el boletín oficial');
+    }
+    const fuenteRes = r => r.h ? 'boletín (historia)' : r.x ? 'API oficial' : 'solo boletín';
+    const claveRes = r => r.j + '-' + r.n;
     function bloqueResultados(){
-      const fila = (j, r) => j === 'pozo' ? `<tr><td>💰 Pozo ${r[0]}</td><td>${r[1]?fdia(r[1]):'—'}</td><td class="mono">${(r[3]||[]).map(x=>String(x).padStart(2,'0')).join(' ')}</td></tr>`
-        : j === 'pega' ? `<tr><td>🍀 Pega · ${r[0]}</td><td>${r[1]?fdia(r[1]):'—'}</td><td class="mono">Pega 2 <b>${e_(r[2]||'—')}</b> · Pega 3 <b>${e_(r[3]||'—')}</b> · Pega 4 <b>${e_(r[4]||'—')}</b></td></tr>`
-        : `<tr><td>${ICO[j]} ${NOMBRE[j]} ${r[0]}</td><td>${r[1]?fdia(r[1]):'—'}</td><td class="mono"><b>${e_(r[2])}</b> · ${e_(r[3]||'')} · ${e_(r[4]||'')}</td></tr>`;
       const n = ui.amb === 'todos' ? 3 : 8, rows = [];
-      if (enAmb('loteria')) rows.push(...H.lot.slice(-n).reverse().map(r => fila('loteria', r)));
-      if (enAmb('lotto')) rows.push(...H.lto.slice(-n).reverse().map(r => fila('lotto', r)));
-      if (enAmb('pozo')) rows.push(...H.pozo.slice(-(ui.amb === 'todos' ? 2 : 8)).reverse().map(r => fila('pozo', r)));
-      if (enAmb('pega')) rows.push(...H.pega.slice(-(ui.amb === 'todos' ? 2 : 8)).reverse().map(r => fila('pega', r)));
+      const fila = r => `<tr data-res="${claveRes(r)}" tabindex="0" class="${ui.res === claveRes(r) ? 'sel' : ''}" aria-label="Ver ${e_(NOMBRE[r.j])} ${r.n}"><td>${ICO[r.j]} ${r.j === 'pega' ? 'Pega · ' + r.n : NOMBRE[r.j] + ' ' + r.n}${r.h ? '' : `<div class="mut" style="font-size:10.5px">${fuenteRes(r)}</div>`}</td><td>${fdia(r.f)}</td><td class="mono">${numerosRes(r, true)}</td></tr>`;
+      if (enAmb('loteria')) rows.push(...filasRes('loteria').slice(0, n).map(fila));
+      if (enAmb('lotto')) rows.push(...filasRes('lotto').slice(0, n).map(fila));
+      if (enAmb('pozo')) rows.push(...filasRes('pozo').slice(0, ui.amb === 'todos' ? 2 : 8).map(fila));
+      if (enAmb('pega')) rows.push(...filasRes('pega').slice(0, ui.amb === 'todos' ? 2 : 8).map(fila));
       const cabT = ui.amb === 'pozo' ? 'Bolillas' : ui.amb === 'pega' ? 'Números del día' : ui.amb === 'todos' ? '1.ª · 2.ª · 3.ª suerte / bolillas / Pega' : '1.ª · 2.ª · 3.ª suerte';
       const desde = {loteria:'Lotería desde el sorteo 6641', lotto:'Lotto desde el 2578', pozo:'Pozo y Revancha desde 2022', pega:'Pega desde jun-2023'};
-      return `<div class="so-card"><h3 class="so-h3">📜 Resultados reconstruidos · ${nomAmb()}</h3><div class="so-scroll"><table class="so-tabla"><thead><tr><th>Sorteo</th><th>Fecha</th><th>${cabT}</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
-        <div class="so-nota">De los boletines oficiales hasta el 17-oct-2026 (${Object.entries(desde).filter(([j]) => enAmb(j)).map(([,t]) => t).join(' · ')}). Tus boletos se verifican uno por uno en el portal.</div></div>`;
+      const rev = api._t ? new Date(api._t) : null;
+      return `<div class="so-card"><div class="so-fila"><h3 class="so-h3">📜 Resultados · ${nomAmb()}</h3><span class="so-sp"></span>
+          <span class="mut" style="font-size:11.5px">${rev ? `revisado ${rev.toLocaleDateString('es-EC')} ${rev.toLocaleTimeString('es-EC', {hour:'2-digit', minute:'2-digit'})}` : 'sin revisar aún'}</span>
+          <button type="button" class="so-btn sm" data-act-res>🔄 Actualizar</button></div>
+        <div class="so-scroll"><table class="so-tabla"><thead><tr><th>Sorteo</th><th>Fecha</th><th>${cabT}</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>
+        ${ui.res ? detalleRes(ui.res) : ''}
+        <div class="so-nota">${notaRes(desde)}</div></div>`;
+    }
+    // La nota nombra SOLO los juegos del ámbito (regla de JP: un filtro nunca muestra otro juego).
+    function notaRes(desde){
+      const guarda = {loteria:'la 1.ª suerte de Lotería', lotto:'el número y el sueldo del Lotto', pozo:'las bolillas y la mascota del Pozo y la Revancha'};
+      const g = Object.entries(guarda).filter(([j]) => enAmb(j)).map(([,t]) => t);
+      const soloImg = [enAmb('loteria') || enAmb('lotto') ? 'la 2.ª y 3.ª suerte' : '', enAmb('pega') ? 'los números de Pega' : ''].filter(Boolean);
+      return `Toca un sorteo para ver su detalle y el boletín oficial. Historia de los boletines hasta el 17-oct-2026 (${Object.entries(desde).filter(([j]) => enAmb(j)).map(([,t]) => t).join(' · ')})`
+        + (g.length ? `; desde entonces la app guarda cada resultado oficial nuevo (${g.join('; ')}) al abrirse y cada 30 min` : '')
+        + `.${soloImg.length ? ' ' + soloImg.join(' y ').replace(/^./, c => c.toUpperCase()) + ' solo están en la imagen oficial.' : ''} Tus boletos se verifican uno por uno en el portal.`;
+    }
+    function detalleRes(clave){
+      const m = String(clave).match(/^(loteria|lotto|pozo|revancha|pega)-(\d+)$/); if (!m) return '';
+      const j = m[1], n = +m[2];
+      let r = j === 'revancha' ? null : filasRes(j).find(o => o.n === n);
+      if (!r){ const x = resultados().find(o => o.juego === j && o.sorteo === n); const i = infoApi(j, n); r = {j, n, f:(x && x.fecha) || (i && i.fecha) || null, x}; }
+      const i = infoApi(j, n), rv = j === 'pozo' && r.f ? revDe(r.f) : null;
+      const mios = boletos().filter(b => (b.juego === j && b.sorteo === n) || (rv && b.juego === 'revancha' && b.sorteo === rv));
+      const linea = (t, v) => `<div class="so-fila"><span class="so-l" style="min-width:7.5em">${t}</span><span class="mono">${v}</span></div>`;
+      let nums = '';
+      if (r.h && (j === 'loteria' || j === 'lotto')) nums = linea('1.ª suerte', `<b>${e_(r.h[2])}</b>`) + linea('2.ª suerte', e_(r.h[3] || '—')) + linea('3.ª suerte', e_(r.h[4] || '—'));
+      else if (r.x && (j === 'loteria' || j === 'lotto')) nums = linea('1.ª suerte', `<b>${e_(r.x.s1)}</b>`) + (r.x.sueldo ? linea(e_(r.x.sueldoNombre || 'Sueldo'), e_(r.x.sueldo)) : '') + linea('2.ª y 3.ª', '<span class="mut">en el boletín</span>');
+      else if (j === 'pozo' || j === 'revancha'){ const b = r.h ? r.h[3] : r.x && r.x.bolillas; nums = b ? `<div class="so-fila">${bolasHtml(b)}</div>` + (r.h && r.h[4] ? linea('Mascota', e_(r.h[4])) : r.x && r.x.mascota ? linea('Mascota', 'n.º ' + e_(r.x.mascota)) : '') : linea('Bolillas', '<span class="mut">en el boletín</span>'); }
+      else if (j === 'pega') nums = r.h ? linea('Pega 2', `<b>${e_(r.h[2] || '—')}</b>`) + linea('Pega 3', `<b>${e_(r.h[3] || '—')}</b>`) + linea('Pega 4', `<b>${e_(r.h[4] || '—')}</b>`) : linea('Números', '<span class="mut">en la imagen oficial (abajo)</span>');
+      if (!nums) nums = linea('Números', '<span class="mut">en el boletín</span>');
+      const img = (jj, nn, t) => `<figure class="so-bolw"><figcaption class="so-l">${t}</figcaption><a href="${urlBol(jj, nn)}" target="_blank" rel="noopener noreferrer" title="Abrir en tamaño completo"><img data-bol src="${urlBol(jj, nn)}" alt="${t}" loading="lazy" class="so-bol-img"></a></figure>`;
+      const imgs = j === 'pega' ? img('pega', n, `Números del sorteo ${n}`).replace('pega3/T-', 'pega3/U-').replace('pega3/T-', 'pega3/U-') + img('pega', n, `Boletín · Pega ${n}`)
+        : img(j, n, `Boletín oficial · ${NOMBRE[j]} ${n}`) + (rv ? img('revancha', rv, `Boletín oficial · Revancha ${rv}`) : '');
+      return `<div class="so-resdet" id="soResDet" aria-label="Detalle del sorteo">
+        <div class="so-fila"><b>${ICO[j]} ${j === 'pega' ? 'Pega · sorteo ' + n : NOMBRE[j] + ' ' + n}${rv ? ' + Revancha ' + rv : ''}</b><span class="so-pil e-sin">${fdia(r.f)}</span><span class="so-sp"></span><button type="button" class="so-btn sm" data-cerrar-res aria-label="Cerrar detalle del sorteo">✕</button></div>
+        ${nums}
+        ${i && i.premio ? linea('Premio principal', j === 'loteria' && i.fracciones > 1 ? `${usd(i.premio, 0)} al guachito · ${usd(i.premio * i.fracciones, 0)} al entero (${i.fracciones} fracciones)` : usd(i.premio, 0)) : ''}
+        <div class="so-nota">Fuente de los números: ${fuenteRes(r)}. El boletín es la imagen oficial del sorteo (toca para verla completa).</div>
+        ${mios.length ? `<div class="so-l">Tus boletos de este sorteo</div>${mios.map(b => `<div class="so-fila"><span class="mono" style="font-size:12px">${nombreSorteo(b)} · serie ${e_(b.serie)}</span>${pilC(b)}${netoB(b) ? `<b class="mono">${usd(netoB(b))}</b>` : ''}</div>`).join('')}` : ''}
+        <div class="so-bols">${imgs}</div></div>`;
     }
     function bloqueLoteria(){
       const lista = (ui.lotLista || '').match(/\d{5}/g) || [], N = Math.min(ui.lotN, lista.length), el = [], uT = new Set(), uB = new Set();
@@ -22276,7 +22404,7 @@ function cabApp() {
       const W = 520, Hh = 110, xs = serie.map(s => s[0]), x0 = Math.min(...xs), x1 = Math.max(...xs);
       const X = v => 30 + (v - x0) / (x1 - x0 || 1) * (W - 40), Y = v => Hh - 18 - v / 0.6 * (Hh - 30);
       return `<div class="so-card"><h3 class="so-h3">💰 Pozo y Revancha: cuánto devuelve el próximo sorteo</h3>
-        ${p ? `<div class="so-grid2"><div class="so-kpi"><span class="so-l">Pozo ${p.n} · $1</span><span class="v">${pct(retPozo(p.premio))}</span><span class="d">pozo ${usd(p.premio,0)} · sin pozo 15.3 %</span></div>${rv && rv.premio ? `<div class="so-kpi"><span class="so-l">Revancha ${p.rev} · $0.50</span><span class="v ${retRev(rv.premio) > retPozo(p.premio) ? 'pos' : ''}">${pct(retRev(rv.premio))}</span><span class="d">pozo ${usd(rv.premio,0)}${retRev(rv.premio) > retPozo(p.premio) ? ' · hoy rinde más que el Pozo' : ''}</span></div>` : ''}</div>` : '<div class="so-nota">El pozo del próximo sorteo llega de la API de la Lotería (Worker 2.3).</div>'}
+        ${p ? `<div class="so-grid2"><div class="so-kpi"><span class="so-l">Pozo ${p.n} · $1</span><span class="v">${pct(retPozo(p.premio))}</span><span class="d">pozo ${usd(p.premio,0)} · sin pozo 15.3 %</span></div>${rv && rv.premio ? `<div class="so-kpi"><span class="so-l">Revancha ${p.rev} · $0.50</span><span class="v ${retRev(rv.premio) > retPozo(p.premio) ? 'pos' : ''}">${pct(retRev(rv.premio))}</span><span class="d">pozo ${usd(rv.premio,0)}${retRev(rv.premio) > retPozo(p.premio) ? ' · hoy rinde más que el Pozo' : ''}</span></div>` : ''}</div>` : '<div class="so-nota">El pozo del próximo sorteo llega de la API oficial (Worker 2.3).</div>'}
         <svg viewBox="0 0 ${W} ${Hh}" width="100%" role="img" aria-label="Retorno del Pozo por sorteo"><line x1="30" x2="${W-10}" y1="${Y(.5)}" y2="${Y(.5)}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="2" y="${Y(.5)+3}">50 %</text><text x="2" y="${Y(0)+3}">0 %</text>
         <path d="${serie.map((s,i) => (i?'L':'M') + X(s[0]).toFixed(1) + ' ' + Y(s[1]).toFixed(1)).join(' ')}" fill="none" stroke="var(--stamp)" stroke-width="2"/>${serie.map(s => `<circle cx="${X(s[0]).toFixed(1)}" cy="${Y(s[1]).toFixed(1)}" r="2.4" fill="var(--stamp)"><title>${s[0]}: ${pct(s[1])}</title></circle>`).join('')}
         <text x="30" y="${Hh-3}">${x0}</text><text x="${W-40}" y="${Hh-3}">${x1}</text></svg>
@@ -22400,8 +22528,13 @@ function cabApp() {
       enlazado = true;
       const raiz = document.getElementById('soRaiz');
       raiz.addEventListener('click', ev => {
-        const t = ev.target.closest('button, tr[data-b]'); if (!t) return;
+        const t = ev.target.closest('button, tr[data-b], tr[data-res]'); if (!t) return;
         if (t.matches('tr[data-b]')){ ui.sel = ui.sel === t.dataset.b ? null : t.dataset.b; return render(); }
+        // v41.9.1 · resultados: tocar un sorteo abre su detalle y el boletín; «Actualizar» consulta la API en el acto
+        if (t.matches('tr[data-res]')){ ui.res = ui.res === t.dataset.res ? null : t.dataset.res; render(); if (ui.res) document.getElementById('soResDet')?.scrollIntoView({behavior:'smooth', block:'nearest'}); return; }
+        if (t.hasAttribute('data-cerrar-res')){ const k = ui.res; ui.res = null; render(); document.querySelector(`tr[data-res="${k}"]`)?.focus(); return; }
+        if (t.hasAttribute('data-ver-res')){ ui.res = t.dataset.verRes; ui.analisis = true; render(); setTimeout(() => document.getElementById('soResDet')?.scrollIntoView({behavior:'smooth', block:'start'}), 50); return; }
+        if (t.hasAttribute('data-act-res')){ return actualizarRes(t); }
         const p = t.parentElement;
         if (t.dataset.amb){ ui.amb = t.dataset.amb; ui.sel = null; guardarUi(); return render(); }
         if (t.dataset.etapa){ ui.etapa = t.dataset.etapa; ui.sel = null; guardarUi(); return render(); }
@@ -22420,6 +22553,8 @@ function cabApp() {
         if (p && p.id === 'soPegDias'){ ui.pega.dias = +t.dataset.d; guardarUi(); return render(); }
       });
       raiz.addEventListener('toggle', ev => { if (ev.target.id === 'soAnalisis') ui.analisis = ev.target.open; }, true);
+      // v41.9.1 · un boletín que la Lotería aún no publica (sorteo de hoy) no deja una imagen rota: lo dice.
+      raiz.addEventListener('error', ev => { const im = ev.target; if (im && im.matches && im.matches('img[data-bol]')){ const f = im.closest('figure'); if (f) f.innerHTML = `<figcaption class="so-l">${e_(im.alt)}</figcaption><div class="so-nota">La Lotería aún no publica esta imagen (suele estar lista unas horas después del sorteo).</div>`; } }, true);
       raiz.addEventListener('change', ev => {
         const t = ev.target;
         if (t.dataset.campo){ const b = boletos().find(x => x.id === t.dataset.id); if (b){ const v = String(t.value || '').replace(/[^\d ]/g, '').trim().slice(0, 40); if (v) b[t.dataset.campo] = v; else delete b[t.dataset.campo]; save(); } }
@@ -22435,6 +22570,8 @@ function cabApp() {
         const a = document.activeElement;
         if (ev.key === 'Enter' && a && a.id === 'soCodBarra'){ ev.preventDefault(); ev.stopPropagation(); return abrirRegistro(a.value); }
         if (ev.key === 'Enter' && a && a.matches('tr[data-b]')){ ui.sel = a.dataset.b; render(); return; }
+        if (ev.key === 'Enter' && a && a.matches('tr[data-res]')){ ev.preventDefault(); ui.res = a.dataset.res; render(); document.querySelector(`tr[data-res="${a.dataset.res}"]`)?.focus(); return; }
+        if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && a && a.matches('tr[data-res]')){ const f = [...raiz.querySelectorAll('tr[data-res]')], i = f.indexOf(a); f[Math.max(0, Math.min(f.length - 1, i + (ev.key === 'ArrowDown' ? 1 : -1)))]?.focus(); ev.preventDefault(); ev.stopPropagation(); return; }
         if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && a && a.matches('tr[data-b]')){ const f = [...raiz.querySelectorAll('tr[data-b]')], i = f.indexOf(a); f[Math.max(0, Math.min(f.length - 1, i + (ev.key === 'ArrowDown' ? 1 : -1)))]?.focus(); ev.preventDefault(); ev.stopPropagation(); return; }
         const g = a && a.closest && a.closest('#soCiclo, #soAmb, #soExtra');
         if (g && (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft')){ const bs = [...g.querySelectorAll('button')], i = bs.indexOf(a.closest('button')); bs[(i + (ev.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length].click(); setTimeout(() => document.querySelector('#' + g.id + ' button.on')?.focus(), 20); ev.preventDefault(); ev.stopPropagation(); }
@@ -22465,6 +22602,7 @@ function cabApp() {
         }
         if (!visible()) return;
         const a = document.activeElement, campo = a && /INPUT|TEXTAREA|SELECT/.test(a.tagName);
+        if (ev.key === 'Escape' && ui.res && !campo){ const k = ui.res; ui.res = null; render(); document.querySelector(`tr[data-res="${k}"]`)?.focus(); ev.stopPropagation(); return; }   // v41.9.1
         if (ev.key === 'Escape' && ui.sel && !campo){ ui.sel = null; render(); ev.stopPropagation(); return; }
         if ((ev.key === 'r' || ev.key === 'R') && !campo && !ev.ctrlKey && !ev.metaKey && !ev.altKey){ try{ if (superficieActiva()) return; }catch(_){} ev.preventDefault(); abrirRegistro(); }
       }, true);
@@ -22496,7 +22634,7 @@ function cabApp() {
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultimaVuelta > 15 * 60 * 1000) verificar(); });
 
     return { render, esCodigoSorteo, recibirCodigo, avisoCobros, syncArrancar, syncDetener, syncProgramar, verificar, leerCodigo, etapa,
-      get estado(){ return {workerViejo, nubeBloqueada, boletos:boletos().length, raspesEspera:esperaRaspes().length}; } };
+      get estado(){ return {workerViejo, nubeBloqueada, boletos:boletos().length, raspesEspera:esperaRaspes().length, resultados:resultados().map(x => x.juego + '-' + x.sorteo)}; } };
   })();
 
   // v41.9: tras pintar Cobros, un aviso aparte con lo que te deben de sorteos (no se mezcla con las cifras de raspaditas).
