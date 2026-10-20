@@ -2611,6 +2611,56 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   .so-resdet{ border:1px solid var(--line); border-radius:14px; padding:12px; background:var(--paper); display:flex; flex-direction:column; gap:8px; min-width:0; }
   .so-bols{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
   .so-bolw{ margin:0; display:flex; flex-direction:column; gap:6px; min-width:0; }
+  /* v41.10 · propuesta A «Bandeja en línea»: código completo, bandeja, edición en bloque */
+  .so-cod{ font:700 13px 'Courier New',ui-monospace,monospace; letter-spacing:.03em; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .so-cod .b1{ color:var(--silver-dark); } .so-cod .b2{ color:var(--ink); } .so-cod .sep{ color:var(--silver); padding:0 3px; }
+  .so-cod mark{ background:color-mix(in srgb, var(--stamp) 30%, transparent); color:inherit; border-radius:3px; }
+  .so-ana{ display:grid; grid-template-columns:repeat(6,auto); gap:2px 10px; justify-content:start; font-size:11px; color:var(--silver-dark); }
+  .so-ana b{ font:800 13px 'Courier New',monospace; color:var(--ink); }
+  .so-band{ border:2px dashed var(--stamp); border-radius:16px; background:color-mix(in srgb, var(--stamp) 5%, transparent); padding:12px; display:flex; flex-direction:column; gap:10px; }
+  .so-band .so-pistola{ border:0; padding:0; background:transparent; }
+  .so-ficha{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:12.5px; }
+  .so-chip{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:var(--white); border-radius:999px; padding:4px 11px; font-size:12.5px; font-weight:700; min-height:32px; color:var(--ink); }
+  .so-chip input{ border:0; background:transparent; width:5.2em; font:inherit; text-align:right; padding:0; color:var(--ink); }
+  .so-chip input.largo{ width:11em; text-align:left; } .so-chip input:focus{ outline:none; } .so-chip:focus-within{ border-color:var(--stamp); }
+  .so-brows{ display:flex; flex-direction:column; gap:6px; }
+  .so-brow{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1.7fr) auto auto; gap:10px; align-items:center; border:1px solid var(--line); background:var(--white); border-radius:12px; padding:8px 10px; }
+  .so-brow.nuevo{ animation:soLlega .9s ease-out; }
+  @keyframes soLlega{ from{ box-shadow:0 0 0 3px var(--stamp); } to{ box-shadow:0 0 0 0 transparent; } }
+  .so-brow .q{ font-size:12px; } .so-brow .q b{ font-size:12.5px; }
+  .so-est{ font-size:12px; line-height:1.35; } .so-est b{ font-weight:800; }
+  .so-spin{ display:inline-block; width:10px; height:10px; border:2px solid var(--so-cur); border-right-color:transparent; border-radius:50%; animation:soGira .8s linear infinite; vertical-align:-1px; }
+  @keyframes soGira{ to{ transform:rotate(360deg); } }
+  .so .cur{ color:var(--so-cur); }
+  .so-busca{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .so-busca input{ font:700 14px 'Courier New',monospace; width:16em; max-width:100%; }
+  .so-tabla td.chk, .so-tabla th.chk{ width:28px; padding-right:0; }
+  .so-tabla input[type=checkbox], .so-chkg{ width:17px; height:17px; accent-color:var(--stamp); }
+  .so-tabla tr.marc td{ background:color-mix(in srgb, var(--stamp) 11%, transparent); }
+  .so-dock{ position:sticky; bottom:12px; z-index:30; display:flex; gap:8px; align-items:center; flex-wrap:wrap; background:var(--ink); color:var(--paper); border-radius:16px; padding:10px 12px; box-shadow:0 12px 30px -10px rgba(0,0,0,.55); }
+  .so-dock .so-btn{ border-color:color-mix(in srgb, var(--paper) 40%, transparent); color:var(--paper); }
+  .so-dock .so-btn.pri{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .so .so-btn.peligro{ border-color:var(--so-neg); color:#fff; background:var(--so-neg); }
+  .so-pop{ border:1px solid var(--line); background:var(--white); border-radius:16px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 18px 40px -16px rgba(0,0,0,.5); }
+  .so-antes{ display:grid; grid-template-columns:auto 1fr; gap:4px 12px; font-size:12.5px; } .so-antes b{ font-family:'Courier New',monospace; }
+  .so-alc{ display:flex; flex-direction:column; gap:6px; }
+  .so-alc label{ display:flex; gap:8px; align-items:center; font-size:13px; border:1px solid var(--line); border-radius:10px; padding:7px 10px; background:var(--paper); }
+  .so-alc label.on{ border-color:var(--stamp); } .so-alc input[type=radio]{ accent-color:var(--stamp); }
+  .so-rango{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:12.5px; } .so-rango input{ width:7.5em; font:700 13px 'Courier New',monospace; }
+  .so-confirma{ border:2px solid var(--so-neg); border-radius:14px; padding:12px; background:color-mix(in srgb, var(--so-neg) 8%, transparent); display:flex; flex-direction:column; gap:8px; }
+  @container so (max-width: 760px){
+    .so-brow{ grid-template-columns:minmax(0,1fr) auto; }
+    .so-brow .q{ grid-column:1 / -1; order:2; } .so-brow .so-est{ grid-column:1 / -1; order:3; }
+    .so-brow .cst{ order:1; } .so-brow .x{ order:1; }
+    .so-dock{ bottom:64px; }
+    .so-ana{ grid-template-columns:repeat(3,auto); }
+    .so-tabla .oc2{ display:none; }   /* teléfono: Premio y ✎ se ven en el detalle del boleto (tocar la fila) */
+  }
+  .so-tabla td.so-envuelve{ white-space:normal; }
+  /* Como el preview: la tabla de boletos en letra normal; solo el código y los montos van en monoespaciada
+     (la letra global de las tablas partía «Compra 1 · 28 %» en tres líneas). */
+  .so .so-tabla td{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
+  .so .so-tabla td.n:not(.so-envuelve){ font-family:'Courier New',ui-monospace,monospace; }
   .so-bol-img{ display:block; width:100%; max-width:640px; height:auto; border-radius:10px; border:1px solid var(--line); background:var(--white); }
 </style>
 </head>
@@ -4919,7 +4969,15 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   // aparecen igual (su resultado está en el boletín). Tocar un sorteo abre su detalle: números con su fuente, premio
   // principal, tus boletos de ese sorteo y el BOLETÍN OFICIAL (imagen de la Lotería; Pega: la imagen con sus números y su
   // boletín). Desde el detalle de un boleto, «📜 Resultado y boletín de este sorteo».
-  const APP_VERSION = { num: '41.9.1', fecha: '2026-10-19' };
+  // v41.10 — SORTEOS = propuesta A «Bandeja en línea» (aprobada por JP el 19-oct). Sin ventana de registro: la pistola es
+  // una bandeja; cada lectura se guarda AL INSTANTE en la compra abierta y, si el sorteo ya se jugó, se consulta en el acto
+  // y el resultado aparece en la misma fila (como la zona de raspe); los sorteos futuros dicen qué día se verifican solos.
+  // Ficha de la compra en 3 chips (punto, descuento, fecha) que vale para toda la compra, con Deshacer; «✓ Terminar compra».
+  // CÓDIGO COMPLETO en dos bloques de 9 (602034791 · 001820105) en la lista, la bandeja y el detalle (con su desglose), y
+  // buscador por cualquier parte del código. Editar y eliminar: casillas por boleto y por sorteo, Espacio/Ctrl+A, barra
+  // flotante «✎ Ajustar…» (marcados, su compra, el sorteo, el juego o un rango de series; «qué va a pasar»; un Deshacer) y
+  // «🗑 Eliminar» con confirmación; el detalle edita descuento, punto, fecha de compra, número, sueldo y fracción.
+  const APP_VERSION = { num: '41.10', fecha: '2026-10-19' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -21852,7 +21910,17 @@ function cabApp() {
     let ui = {amb:'todos', etapa:'porjugar', sel:null, lotLista:'', lotN:10, pega:{v:'p4', num:'1234', ex:1, comb:0, dias:90}, analisis:false};
     try{ Object.assign(ui, JSON.parse(localStorage.getItem(UI_KEY) || '{}')); ui.sel = null; }catch(_){}
     const guardarUi = () => { try{ localStorage.setItem(UI_KEY, JSON.stringify({amb:ui.amb, etapa:ui.etapa, lotN:ui.lotN, pega:ui.pega})); }catch(_){} };
-    let reg = null;              // tanda de pistoleo abierta
+    let reg = null;              // (v41.9: tanda de la ventana de registro; desde v41.10 ya no se abre)
+    // v41.10 · propuesta A «Bandeja en línea» (aprobada por JP el 19-oct). La ventana de registro sobraba: dos cajas para lo
+    // mismo, nada se guardaba hasta «Guardar tanda» y un texto fijo decía «se verifica desde las 00:00» incluso de sorteos ya
+    // jugados. Ahora cada lectura se guarda AL INSTANTE en la compra abierta (por aparato, `bitacora_so_compra`) y se verifica
+    // en línea. La compra guarda su ficha (punto, descuento, fecha) y la lista de lecturas que se ven en la bandeja.
+    const COMPRA_KEY = 'bitacora_so_compra';
+    let compra = null; try{ compra = JSON.parse(localStorage.getItem(COMPRA_KEY) || 'null'); }catch(_){ compra = null; }
+    const guardarCompra = () => { try{ compra ? localStorage.setItem(COMPRA_KEY, JSON.stringify(compra)) : localStorage.removeItem(COMPRA_KEY); }catch(_){} };
+    const consultandoIds = new Set();      // boletos/raspes que se están consultando en este momento (para el estado en línea)
+    const marc = new Set();                // boletos marcados (edición en bloque)
+    let pop = null, confirma = false, q = '', alc = 'marcados', rDesde = '', rHasta = '', cambio = {desc:'', punto:'', fechaCompra:''};
     let workerViejo = false;     // el Worker desplegado aún no sabe consultar sorteos (< 2.3)
     let nubeBloqueada = false;   // la nube rechazó la colección «sorteos» (reglas sin publicar)
 
@@ -22062,6 +22130,28 @@ function cabApp() {
     }
     const limpiarFilas = L => (Array.isArray(L) ? L : []).slice(0, 12).map(p => ({cat:String(p.cat || '').slice(0, 80), bruto:+p.bruto || 0, ret:+p.ret || 0, neto:+p.neto || 0}));
     let verificando = false, ultimaVuelta = 0;
+    // v41.10 · una consulta (boleto o zona de raspe) y cómo se guarda su respuesta: la usan la vuelta y la bandeja.
+    async function consultarUno(it){
+      const obj = it.boleto ? it.b : it.z, code = obj.codigo, modo = it.boleto ? 'sorteo' : 'raspe', hora = 60 * 60 * 1000;
+      let r; try{ r = await consultar(code, modo); }catch(e){ return workerViejo ? 'corta' : null; }
+      if (r.code && String(r.code) !== String(code)) return null;   // respuesta cruzada: no se guarda nada
+      const v = it.boleto ? (obj.verif || (obj.verif = {n:0})) : obj;
+      v.n = (v.n || 0) + 1; v.ultima = Date.now();
+      if (r.status === 'ganado'){ obj.premios = limpiarFilas(r.premios); if (!obj.premios.length && r.amount) obj.premios = [{cat:'Premio', bruto:+r.amount, ret:0, neto:+r.amount}]; v.estado = 'verificado'; return 'cambio'; }
+      if (r.status === 'sin_premio'){ obj.premios = []; v.estado = 'verificado'; return 'cambio'; }
+      if (r.status === 'no_jugado'){ v.estado = 'no_jugado'; return 'cambio'; }
+      if (r.status === 'invalido'){ v.estado = 'invalido'; v.ultima = Date.now() + 23 * hora; return 'cambio'; }
+      if (r.status === 'portal_caido') return 'corta';
+      return null;
+    }
+    // Lo leído de un sorteo ya jugado (o una zona de raspe) se consulta EN EL ACTO y su resultado aparece en la misma fila.
+    async function verificarUno(it){
+      if (!it || workerViejo || !navigator.onLine || /[?&]sinred=1/.test(location.search)) return pintarSiVisible();
+      const id = it.boleto ? it.b.id : it.z.codigo;
+      consultandoIds.add(id); pintarSiVisible();
+      try{ const r = await consultarUno(it); if (r === 'cambio') save(); }
+      finally{ consultandoIds.delete(id); pintarSiVisible(); try{ if (document.querySelector('.tab.active')?.dataset.tab === 'cobros') renderCobros(); }catch(_){} }
+    }
     async function verificar(){
       if (verificando || workerViejo || !navigator.onLine || !data || !Array.isArray(data.sorteos) || /[?&]sinred=1/.test(location.search)) return;
       verificando = true; ultimaVuelta = Date.now();
@@ -22073,16 +22163,9 @@ function cabApp() {
         esperaRaspes().forEach(z => { if (z.premios == null && ahora - (z.ultima || 0) > 5 * 60 * 1000) colaR.push({z}); });
         const colaB = boletos().filter(b => b.premios == null && b.cobro == null && verificable(b) && ahora - ((b.verif || {}).ultima || 0) > hora);
         for (const it of colaR.concat(colaB.map(b => ({b, boleto:true}))).slice(0, 40)){
-          const obj = it.boleto ? it.b : it.z, code = obj.codigo, modo = it.boleto ? 'sorteo' : 'raspe';
-          let r; try{ r = await consultar(code, modo); }catch(e){ if (workerViejo) break; continue; }
-          if (r.code && String(r.code) !== String(code)) continue;   // respuesta cruzada: no se guarda nada
-          const v = it.boleto ? (obj.verif || (obj.verif = {n:0})) : obj;
-          v.n = (v.n || 0) + 1; v.ultima = Date.now();
-          if (r.status === 'ganado'){ obj.premios = limpiarFilas(r.premios); if (!obj.premios.length && r.amount) obj.premios = [{cat:'Premio', bruto:+r.amount, ret:0, neto:+r.amount}]; v.estado = 'verificado'; cambios++; }
-          else if (r.status === 'sin_premio'){ obj.premios = []; v.estado = 'verificado'; cambios++; }
-          else if (r.status === 'no_jugado'){ v.estado = 'no_jugado'; cambios++; }
-          else if (r.status === 'invalido'){ v.estado = 'invalido'; v.ultima = Date.now() + 23 * hora; cambios++; }
-          else if (r.status === 'portal_caido') break;
+          const r = await consultarUno(it);
+          if (r === 'corta') break;
+          if (r === 'cambio') cambios++;
           await new Promise(res => setTimeout(res, 350));
         }
       }finally{
@@ -22207,7 +22290,176 @@ function cabApp() {
       const amb = [['todos','🌐 Todos'],['loteria','🎟️ Lotería'],['lotto','🔢 Lotto'],['pozo','💰 Pozo'],['pega','🍀 Pega']];
       return `<div class="k-head"><span class="tag">20</span><h2>Sorteos</h2><span class="sp"></span><div class="k-ambito so-amb" id="soAmb" role="radiogroup" aria-label="Ámbito">${amb.map(([k,t]) => `<button type="button" role="radio" aria-checked="${ui.amb===k}" data-amb="${k}" class="${ui.amb===k?'on':''}">${t}</button>`).join('')}</div></div>`;
     }
-    const pistola = () => `<div class="so-pistola"><span style="font-size:20px" aria-hidden="true">🔫</span><input class="so-in" id="soCodBarra" placeholder="Pistola lista · boleto (18) o raspe (28)" aria-label="Código escaneado" inputmode="numeric" autocomplete="off"><button type="button" class="so-btn pri" data-agregar>Agregar</button><span class="so-nota so-tecl">Enter agrega · <span class="so-kbd">R</span> abre el registro</span></div>`;
+    // ── v41.10 · CÓDIGO COMPLETO en dos bloques de 9 (pedido de JP: «602034791 / 001820105»): juego·sorteo | serie·verificador.
+    // Antes la tabla mostraba solo la serie y era difícil encontrar un boleto. Resalta lo que se busca (cruza los bloques).
+    function codHtml(c, qq){
+      c = String(c || ''); qq = String(qq || '').replace(/\D/g, '');
+      const i = qq.length >= 3 ? c.indexOf(qq) : -1; let out = '', abierto = false;
+      for (let k = 0; k < c.length; k++){
+        if (k === 9 || k === 18){ if (abierto) out += '</mark>'; out += '</span><span class="sep">·</span><span class="b2">'; if (abierto) out += '<mark>'; }
+        if (i >= 0 && k === i){ out += '<mark>'; abierto = true; }
+        out += e_(c[k]);
+        if (abierto && k === i + qq.length - 1){ out += '</mark>'; abierto = false; }
+      }
+      return `<span class="so-cod" title="${e_(c)}"><span class="b1">${out}</span></span>`;
+    }
+    function anatomia(c){ const L = leerCodigo(c); if (!L.ok) return '';
+      return `<div class="so-ana"><span>tipo</span><span>juego</span><span>sorteo</span><span>clase</span><span>serie</span><span>verif.</span>
+        <b>${c[0]}</b><b>${c.slice(1,3)} ${NOMBRE[L.juego]}</b><b>${c.slice(3,8)}</b><b>${c[8]} ${L.tipo}</b><b>${c.slice(9,17)}</b><b>${c.slice(-1)}</b></div>`; }
+    // «Compra N»: numeradas por su momento (el id es 'C' + hora en base 36), iguales en todos los aparatos.
+    function numCompra(id){
+      const ids = [...new Set(boletos().map(b => b.compra).filter(Boolean).concat(compra ? [compra.id] : []))].sort((a,b) => (parseInt(String(a).slice(1), 36) || 0) - (parseInt(String(b).slice(1), 36) || 0));
+      const k = ids.indexOf(id); return k >= 0 ? k + 1 : '?';
+    }
+    const nombreCompra = id => `Compra ${numCompra(id)}`;
+    const costoDe = (b, d) => Math.round((+b.precio || 0) * (DESC_OK[b.juego] ? 1 - (d ?? (+b.desc || 0)) / 100 : 1) * 100) / 100;
+    const ciudadDe = p => { try{ const c = mtCiudadDe(p); return c && c.c ? c.c : null; }catch(_){ return null; } };
+    // ── Captura en línea: cada lectura se guarda al instante y se verifica en el acto si el sorteo ya se jugó ──
+    function abrirCompra(){ if (!compra) compra = {id:'C' + Date.now().toString(36), desc:'', punto:'', fechaCompra:hoy(), lect:[]}; return compra; }
+    function anotarLect(l){ compra.lect = [l].concat(compra.lect || []).slice(0, 60); guardarCompra(); pintarSiVisible(); setTimeout(() => document.getElementById('soCodBarra')?.focus(), 20); }
+    function leer(raw){
+      const cod = String(raw || '').replace(/\D/g, ''); if (!cod) return;
+      const c = abrirCompra(), lect = {cod, t:Date.now()};
+      const i = leerCodigo(cod);
+      if (!i.ok){ lect.estado = 'malo'; lect.msg = i.motivo; return anotarLect(lect); }
+      if (!enAmb(i.juego)){ ui.amb = 'todos'; guardarUi(); toast(`Cambié el filtro a «Todos» para mostrar el ${NOMBRE[i.juego]} que acabas de leer.`); }
+      if (i.tipo === 'raspe'){
+        const dueño = boletos().find(b => b.juego === i.juego && b.sorteo === i.sorteo && b.serie === i.serie);
+        const ya = (dueño && (dueño.raspes || []).some(z => z.codigo === i.codigo)) || esperaRaspes().some(z => z.codigo === i.codigo);
+        if (ya){ lect.estado = 'repetido'; lect.raspe = true; lect.id = dueño ? dueño.id : 'R' + i.codigo; return anotarLect(lect); }
+        const z = {codigo:i.codigo, premios:null, estado:'pendiente', n:0, ultima:0};
+        let it;
+        if (dueño){ (dueño.raspes || (dueño.raspes = [])).push(z); lect.id = dueño.id; it = {z, b:dueño}; }
+        else { const r = {id:'R' + i.codigo, tipo:'raspe', juego:i.juego, sorteo:i.sorteo, serie:i.serie, creadoEn:selloCreacion().creadoEn, ...z}; arr().push(r); lect.id = r.id; it = {z:r}; }
+        lect.estado = 'raspe'; lect.rcod = i.codigo; save(); anotarLect(lect); verificarUno(it); return;
+      }
+      const dup = boletos().find(b => b.codigo === i.codigo);
+      if (dup){ lect.estado = 'repetido'; lect.id = dup.id; return anotarLect(lect); }
+      const fecha = (infoApi(i.juego, i.sorteo) || {}).fecha || fechaCalendario(i.juego, i.sorteo);
+      const d = DESC_OK[i.juego] ? Math.max(0, Math.min(60, +c.desc || 0)) : 0, punto = String(c.punto || '').trim().slice(0, 80) || null;
+      const b = {id:'S' + i.codigo, tipo:'boleto', codigo:i.codigo, juego:i.juego, sorteo:i.sorteo, serie:i.serie, fecha, fechaEst:!infoApi(i.juego, i.sorteo),
+        precio:precioLista(i.juego, i.sorteo, fecha), desc:d, costo:0, punto, ciudad:punto ? ciudadDe(punto) : null, compra:c.id, fechaCompra:c.fechaCompra || hoy(),
+        creadoEn:selloCreacion().creadoEn, premios:null, verif:{n:0, ultima:0, estado:'pendiente'}, raspes:[], cobro:null};
+      b.costo = costoDe(b);
+      // raspes que esperaban a su boleto (misma serie): se unen y su registro suelto se retira
+      esperaRaspes().filter(z => z.juego === b.juego && z.sorteo === b.sorteo && z.serie === b.serie).forEach(z => {
+        b.raspes.push({codigo:z.codigo, premios:z.premios ?? null, estado:z.estado || 'pendiente', n:z.n || 0, ultima:z.ultima || 0});
+        const k = arr().indexOf(z); if (k >= 0){ arr().splice(k, 1); anotarBaja(z.id); }
+      });
+      arr().push(b); lect.estado = 'boleto'; lect.id = b.id; save(); anotarLect(lect);
+      if (verificable(b)) verificarUno({b, boleto:true});
+    }
+    const objDe = id => arr().find(x => x && x.id === id);
+    function estadoLectura(l){
+      if (l.estado === 'malo') return `<span class="neg"><b>✗ No se guardó.</b> ${e_(l.msg)}</span>`;
+      const o = objDe(l.id);
+      if (l.estado === 'repetido') return l.raspe ? `<span class="amb"><b>Esa zona de raspe ya estaba registrada.</b> No se duplica.</span>`
+        : `<span class="amb"><b>Ya estaba registrado</b>${o ? ` (${nombreCompra(o.compra)}, ${fdia(o.fechaCompra)})` : ''}. No se duplica.</span>`;
+      if (!o) return `<span class="mut">Quitado.</span>`;
+      if (l.estado === 'raspe'){
+        const z = o.tipo === 'raspe' ? o : (o.raspes || []).find(x => x.codigo === l.rcod);
+        const res = !z ? '' : consultandoIds.has(l.rcod) ? ' <span class="so-spin"></span> consultando el portal…' : z.premios == null ? (workerViejo ? ' Se consultará cuando el Worker 2.3 esté desplegado.' : ' Se consulta con la casilla «raspe».') : netoP(z.premios) ? ` <b class="pos">Premio ${usd(netoP(z.premios))}</b> · ${e_(z.premios.map(p => p.cat).join(', '))}` : ' Sin premio.';
+        return o.tipo === 'raspe' ? `<span class="amb"><b>🧩 Zona de raspe</b> de la serie ${e_(o.serie)}: espera a que leas su boleto.</span>${res}`
+          : `<span class="pos"><b>🧩 Zona de raspe</b> unida a ${codHtml(o.codigo)}.</span>${res}`;
+      }
+      const b = o;
+      if (consultandoIds.has(b.id)) return `<span class="cur"><span class="so-spin"></span> <b>Sorteo ya jugado:</b> consultando el portal…</span>`;
+      if (b.premios) return netoP(b.premios) > 0 ? `<span class="pos"><b>🏆 Premio ${usd(netoP(b.premios))}</b> · ${e_(b.premios.map(p => String(p.cat).toLowerCase()).join(', '))}${faltaRaspe(b) ? ' · falta raspar su zona' : ''}</span>`
+        : `<span class="mut"><b>✗ Sin premio en el sorteo</b>${faltaRaspe(b) ? ' · aún puede premiar su zona de raspe' : ''}</span>`;
+      if (verificable(b)){
+        if (workerViejo) return `<span class="amb"><b>🌙 Sorteo jugado.</b> Se consultará cuando el Worker 2.3 esté desplegado.</span>`;
+        if (!navigator.onLine) return `<span class="amb"><b>🌙 Sorteo jugado.</b> Sin conexión: se consulta al volver la red.</span>`;
+        if ((b.verif || {}).estado === 'no_jugado') return `<span class="amb"><b>🌙 Sorteo jugado.</b> El portal aún no publica el resultado; reintento cada hora.</span>`;
+        return `<span class="amb"><b>🌙 Sorteo jugado.</b> Se consulta al portal en la próxima vuelta.</span>`;
+      }
+      const est = b.fechaEst ? ' <span class="mut">(fecha estimada por calendario)</span>' : '';
+      return b.fecha === hoy() ? `<span class="cur"><b>⏳ Se juega hoy.</b> Se verifica sola el ${fdia(masDias(b.fecha,1))} desde las 00:00.${est}</span>`
+        : `<span class="cur"><b>⏳ Se juega el ${fdia(b.fecha)}.</b> Se verifica sola el ${fdia(masDias(b.fecha,1))} desde las 00:00.${est}</span>`;
+    }
+    function bandeja(){
+      const c = compra;
+      const lects = c ? (c.lect || []).filter(l => { const L = leerCodigo(l.cod); return !L.ok || enAmb(L.juego); }) : [];
+      const deCompra = c ? boletos().filter(b => b.compra === c.id) : [];
+      const filas = lects.map(l => { const L = leerCodigo(l.cod), o = objDe(l.id), esBol = L.ok && L.tipo === 'boleto' && l.estado === 'boleto' && o;
+        return `<div class="so-brow${Date.now() - l.t < 1200 ? ' nuevo' : ''}"><div>${codHtml(l.cod)}</div>
+          <div class="q">${L.ok ? `${ICO[L.juego]} <b>${NOMBRE[L.juego]} ${L.sorteo}</b> · ${L.tipo === 'raspe' ? 'zona de raspe' : 'serie ' + L.serie}` : '—'}</div>
+          <div class="so-est">${estadoLectura(l)}</div><div class="cst mono">${esBol ? usd(o.costo) : ''}</div>
+          <div class="x">${esBol ? `<button type="button" class="so-btn sm" data-quitar-lect="${e_(o.id)}" aria-label="Quitar este boleto de la compra">✕</button>` : ''}</div></div>`; }).join('');
+      return `<div class="so-band" aria-label="Bandeja de captura">
+        <div class="so-pistola"><span style="font-size:20px" aria-hidden="true">🔫</span><input class="so-in" id="soCodBarra" placeholder="Pistola lista · dispara al boleto o a su zona de raspe" aria-label="Código escaneado" inputmode="numeric" autocomplete="off"><button type="button" class="so-btn pri" data-agregar>Agregar</button><span class="so-nota so-tecl">Enter agrega · se guarda al instante · <span class="so-kbd">/</span> vuelve aquí</span></div>
+        ${c ? `<div class="so-ficha"><span class="so-l">${nombreCompra(c.id)} · en curso</span>
+          <label class="so-chip">📍 <input class="largo" id="soFPunto" list="soPuntosLista" placeholder="punto (opcional)" value="${e_(c.punto)}" aria-label="Punto de esta compra"></label>
+          <label class="so-chip">🏷️ <input id="soFDesc" type="number" min="0" max="60" step="0.5" placeholder="0" value="${e_(c.desc)}" aria-label="Descuento de esta compra"> %</label>
+          <label class="so-chip">📅 <input id="soFFecha" type="date" value="${e_(c.fechaCompra)}" style="width:9.5em" aria-label="Fecha de compra"></label>
+          <span class="so-nota">se aplica a toda esta compra, también a lo ya leído</span><span class="so-sp"></span>
+          <b class="mono">${deCompra.length} boleto${deCompra.length===1?'':'s'} · ${usd(deCompra.reduce((a,b) => a + (+b.costo || 0), 0))}</b><button type="button" class="so-btn sm ok" data-cerrar-compra>✓ Terminar compra</button></div>
+          <datalist id="soPuntosLista">${puntosConocidos().map(p => `<option value="${e_(p)}"></option>`).join('')}</datalist>
+          <div class="so-brows">${filas}</div>` : `<div class="so-nota">Cada lectura se <b>guarda al instante</b> en una compra nueva. Si el sorteo ya se jugó, el resultado aparece aquí mismo; si no, te dice qué día se verifica sola. El punto y el descuento se ponen una vez, cuando quieras.</div>`}</div>`;
+    }
+    // ── Edición en bloque: alcance, «qué va a pasar» y un solo Deshacer ──
+    const primerMarcado = () => boletos().find(x => x.id === (ui.sel || [...marc][0]));
+    function alcance(){
+      const L = filtrados(), b = primerMarcado();
+      if (alc === 'marcados') return L.filter(x => marc.has(x.id));
+      if (alc === 'compra') return b ? L.filter(x => x.compra === b.compra) : [];
+      if (alc === 'sorteo') return b ? L.filter(x => x.juego === b.juego && x.sorteo === b.sorteo) : [];
+      if (alc === 'juego') return b ? L.filter(x => x.juego === b.juego) : [];
+      if (alc === 'rango'){ const a = rDesde.replace(/\D/g, ''), z = rHasta.replace(/\D/g, ''); if (a.length !== 8 || z.length !== 8) return []; const [lo, hi] = a <= z ? [a, z] : [z, a]; return L.filter(x => x.serie >= lo && x.serie <= hi); }
+      return [];
+    }
+    function nuevoDe(b){ const d = cambio.desc === '' ? null : Math.max(0, Math.min(60, +cambio.desc || 0));
+      return {desc:d != null && DESC_OK[b.juego] ? d : b.desc, punto:cambio.punto !== '' ? (cambio.punto.trim().slice(0, 80) || null) : b.punto, fechaCompra:/^\d{4}-\d{2}-\d{2}$/.test(cambio.fechaCompra) ? cambio.fechaCompra : b.fechaCompra}; }
+    function aplicarCambios(){
+      const L = alcance(); if (!L.length) return toast('No hay boletos en ese alcance.');
+      const antes = L.map(b => ({b, desc:b.desc, punto:b.punto, ciudad:b.ciudad, fechaCompra:b.fechaCompra, costo:b.costo})), t0 = L.reduce((a,b) => a + (+b.costo || 0), 0);
+      L.forEach(b => { const n = nuevoDe(b); if (n.punto !== b.punto) b.ciudad = n.punto ? ciudadDe(n.punto) : null; Object.assign(b, n); b.costo = costoDe(b); });
+      const t1 = L.reduce((a,b) => a + b.costo, 0);
+      pop = null; cambio = {desc:'', punto:'', fechaCompra:''}; save(); render();
+      toastUndo(`Cambiado en ${L.length} boleto${L.length===1?'':'s'}: costo ${usd(t0)} → ${usd(t1)}.`, () => { antes.forEach(x => Object.assign(x.b, {desc:x.desc, punto:x.punto, ciudad:x.ciudad, fechaCompra:x.fechaCompra, costo:x.costo})); save(); render(); });
+    }
+    function eliminar(L){
+      L = L.filter(Boolean); if (!L.length) return;
+      const antes = L.map(b => [b, arr().indexOf(b)]).filter(x => x[1] >= 0).sort((a,b) => b[1] - a[1]);
+      antes.forEach(([b, i]) => { arr().splice(i, 1); anotarBaja(b.id); marc.delete(b.id); });
+      if (L.some(b => b.id === ui.sel)) ui.sel = null; confirma = false; pop = null; save(); render();
+      toastUndo(`Eliminado${L.length===1?'':'s'} ${L.length} boleto${L.length===1?'':'s'} (con sus raspes).`, () => {
+        antes.slice().reverse().forEach(([b, i]) => { arr().splice(Math.min(i, arr().length), 0, b); sEst.bajas = (sEst.bajas || []).filter(x => x !== b.id); });
+        sGuardar(); save(); render(); });
+    }
+    function popAjuste(){
+      const L = alcance(), t0 = L.reduce((a,b) => a + (+b.costo || 0), 0), t1 = L.reduce((a,b) => a + costoDe(b, nuevoDe(b).desc), 0);
+      const base = primerMarcado();
+      const nAlc = k => { const g = alc; alc = k; const n = alcance().length; alc = g; return n; };
+      const op = (k, t) => `<label class="${alc===k?'on':''}"><input type="radio" name="soAlc" value="${k}" ${alc===k?'checked':''}> ${t}<span class="so-sp mut mono">${nAlc(k)}</span></label>`;
+      return `<div class="so-pop" id="soAjuste" role="dialog" aria-label="Ajustar boletos">
+        <div class="so-fila"><b>✎ Ajustar descuento, punto o fecha de compra</b><span class="so-sp"></span><button type="button" class="so-btn sm" data-pop-x aria-label="Cerrar">✕</button></div>
+        <div class="so-l">¿A qué boletos?</div>
+        <div class="so-alc">${op('marcados','Los marcados')}${base ? op('compra', `Toda su compra (${nombreCompra(base.compra)})`) + op('sorteo', `Todo el sorteo (${NOMBRE[base.juego]} ${base.sorteo})`) + op('juego', `Todo el juego (${NOMBRE[base.juego]})`) : ''}${op('rango','Un rango de series')}</div>
+        ${alc === 'rango' ? `<div class="so-rango">de la serie <input class="so-in" id="soRDesde" maxlength="8" inputmode="numeric" value="${e_(rDesde)}" placeholder="00182001"> a la <input class="so-in" id="soRHasta" maxlength="8" inputmode="numeric" value="${e_(rHasta)}" placeholder="00182010"></div>` : ''}
+        <div class="so-l">¿Qué cambia? (lo vacío no se toca)</div>
+        <div class="so-fila"><label class="so-sub">Descuento <input class="so-in" id="soCDesc" type="number" min="0" max="60" step="0.5" value="${e_(cambio.desc)}" placeholder="—" style="width:5.5em"> %</label>
+          <label class="so-sub">Punto <input class="so-in" id="soCPunto" list="soPuntosLista2" value="${e_(cambio.punto)}" placeholder="—" style="width:11em"></label>
+          <label class="so-sub">Fecha de compra <input class="so-in" id="soCFecha" type="date" value="${e_(cambio.fechaCompra)}"></label></div>
+        <datalist id="soPuntosLista2">${puntosConocidos().map(p => `<option value="${e_(p)}"></option>`).join('')}</datalist>
+        <div class="so-l">Qué va a pasar</div>
+        <div class="so-antes"><span>Boletos</span><b>${L.length}</b><span>Costo total</span><b>${usd(t0)} → ${usd(t1)}</b>${L.some(b => !DESC_OK[b.juego]) ? '<span>Ojo</span><span class="so-nota">Revancha no lleva descuento de compra: se deja igual.</span>' : ''}</div>
+        <div class="so-fila"><button type="button" class="so-btn pri" data-aplicar ${L.length ? '' : 'disabled'}>Aplicar a ${L.length} boleto${L.length===1?'':'s'}</button><button type="button" class="so-btn" data-pop-x>Cancelar</button><span class="so-nota">Un solo Deshacer para todo.</span></div></div>`;
+    }
+    function confirmaBorrar(L){ return `<div class="so-confirma" role="alertdialog" aria-label="Confirmar eliminación"><b>¿Eliminar ${L.length} boleto${L.length===1?'':'s'}?</b><div class="so-nota">Se van también sus zonas de raspe y sus premios anotados. Podrás deshacerlo justo después.</div>
+      <div class="so-fila"><button type="button" class="so-btn peligro" data-borrar-ya>Eliminar ${L.length} boleto${L.length===1?'':'s'}</button><button type="button" class="so-btn" data-borrar-no>Conservar</button></div></div>`; }
+    function dock(){
+      const L = filtrados().filter(b => marc.has(b.id)); if (!L.length) return '';
+      return `<div class="so-dock" role="toolbar" aria-label="Acciones con los marcados"><b>${L.length} marcado${L.length===1?'':'s'}</b><span class="mono" style="font-size:12px;opacity:.8">costo ${usd(L.reduce((a,b) => a + (+b.costo || 0), 0))}</span><span class="so-sp"></span>
+        <button type="button" class="so-btn sm pri" data-ajustar>✎ Ajustar…</button><button type="button" class="so-btn sm peligro" data-borrar-marc>🗑 Eliminar</button><button type="button" class="so-btn sm" data-desmarcar>Quitar marcas</button></div>`;
+    }
+    const busca = L => { const qq = q.replace(/\D/g, ''); return qq.length >= 3 ? L.filter(b => String(b.codigo).includes(qq) || (b.raspes || []).some(z => String(z.codigo).includes(qq))) : L; };
+    function buscador(){
+      const qq = q.replace(/\D/g, ''), L = busca(filtrados());
+      return `<div class="so-busca"><span class="so-l">Buscar código</span><input class="so-in" id="soBusca" inputmode="numeric" placeholder="cualquier parte: 820105, 00182010…" value="${e_(q)}" aria-label="Buscar por código o serie">${qq.length >= 3 ? `<span class="so-nota">${L.length} de ${filtrados().length} boletos de ${nomAmb()} tienen «${e_(qq)}»</span><button type="button" class="so-btn sm" data-limpia>✕ Limpiar</button>` : '<span class="so-nota">busca en el código completo, también en sus raspes</span>'}</div>`;
+    }
+    function avisoSinDesc(){ const s = filtrados().filter(b => DESC_OK[b.juego] && !b.desc); return s.length ? `<div class="so-aviso">${s.length} boleto${s.length===1?'':'s'} sin descuento de compra anotado (${[...new Set(s.map(b => nombreCompra(b.compra)))].join(', ')}). Si los compraste con descuento, márcalos y ajústalo.</div><button type="button" class="so-btn sm" data-marcar-sindesc>☑ Marcar los ${s.length} sin descuento</button>` : ''; }
+    function copilotoA(){ return `<div class="so-panel"><b>🧭 Para corregir</b><div class="so-nota">Marca boletos (casilla, <span class="so-kbd">Espacio</span>, o la casilla del sorteo) y usa <b>✎ Ajustar…</b> para el descuento, el punto o la fecha de compra de todos a la vez. O toca un boleto para editarlo solo.</div>${avisoSinDesc()}</div>`; }
+
     function avisos(){
       const a = [];
       if (workerViejo) a.push(`<div class="so-aviso">⚠ El Worker de Cloudflare todavía no sabe consultar sorteos (hace falta la versión 2.3). Tus boletos quedan registrados y se verificarán solos cuando esté desplegado.</div>`);
@@ -22225,14 +22477,21 @@ function cabApp() {
       if (ult.length){ const u = ult[0], f = new Date((u.verif || {}).ultima || 0); t += ` <span class="mut">Última verificación: ${nombreSorteo(u)} el ${f.toLocaleDateString('es-EC')} ${f.toLocaleTimeString('es-EC', {hour:'2-digit', minute:'2-digit'})}.</span>`; }
       return `<div class="so-aviso cur">${t}</div>`;
     }
+    // v41.10 · filas con el CÓDIGO COMPLETO, la compra (n.º, descuento, punto), casillas para marcar y ✎ para editar.
     function filaBoleto(b){
-      const sor = b.premios == null ? '<span class="mut">pendiente</span>' : b.premios.length ? usd(netoP(b.premios)) : '—';
-      const ras = !ZONAS[b.juego] ? '<span class="mut">no tiene</span>' : (b.raspes || []).length ? ((b.raspes.some(z => z.premios == null) ? '<span class="mut">consultando</span> ' : '') + (netoRaspes(b) ? usd(netoRaspes(b)) : '—') + (faltaRaspe(b) ? ' <span class="mut">+1 zona</span>' : '')) : '<span class="amb">sin escanear</span>';
-      const num = b.numero ? `<span class="mono">${e_(b.numero)}</span>` : '<span class="mut">—</span>';
-      return `<tr data-b="${e_(b.id)}" class="${ui.sel===b.id?'sel':''}" tabindex="0"><td class="so-bol" style="white-space:nowrap">${ICO[b.juego]} <b>${NOMBRE[b.juego]} ${b.sorteo}</b>${b.fechaEst ? ' <span class="mut" title="fecha estimada por calendario">≈</span>' : ''}<div class="mut" style="font-size:11px">${fdia(b.fecha)} · <span class="mono">${e_(b.serie)}</span></div></td>
-        <td class="oc">${num}</td><td class="n">${sor}</td><td class="n oc">${ras}</td><td class="n"><b>${netoB(b) ? usd(netoB(b)) : '—'}</b></td><td>${pilC(b)}</td></tr>`;
+      const qq = q.replace(/\D/g, '');
+      const ras = !ZONAS[b.juego] ? '—' : (b.raspes || []).length ? ((b.raspes.some(z => z.premios == null) ? '<span class="mut">consultando</span> ' : '') + (netoRaspes(b) ? usd(netoRaspes(b)) : '—') + (faltaRaspe(b) ? ' <span class="mut">+1 zona</span>' : '')) : '<span class="amb">sin raspar</span>';
+      return `<tr data-b="${e_(b.id)}" tabindex="0" class="${ui.sel===b.id?'sel':''} ${marc.has(b.id)?'marc':''}"><td class="chk"><input type="checkbox" data-marc="${e_(b.id)}" ${marc.has(b.id)?'checked':''} aria-label="Marcar"></td>
+        <td>${codHtml(b.codigo, qq)}${b.numero ? `<div class="mut mono" style="font-size:11px">número ${e_(b.numero)}</div>` : ''}</td>
+        <td class="oc so-envuelve" style="font-size:12px;max-width:9em">${nombreCompra(b.compra)}${DESC_OK[b.juego] ? (b.desc ? ` · ${b.desc} %` : ' · <span class="amb">sin desc.</span>') : ''}${b.punto ? '<br><span class="mut">' + e_(b.punto) + '</span>' : ''}</td>
+        <td class="n oc">${usd(b.costo)}</td><td class="n oc2">${b.premios == null ? '<span class="mut">pendiente</span>' : b.premios.length ? usd(netoP(b.premios)) : '—'}</td>
+        <td class="n oc so-envuelve">${ras}</td><td class="n"><b>${netoB(b) ? usd(netoB(b)) : '—'}</b></td><td>${pilCorta(b)}</td>
+        <td class="oc2"><button type="button" class="so-btn sm" data-editar="${e_(b.id)}" aria-label="Editar">✎</button></td></tr>`;
     }
-    const tablaBoletos = L => `<div class="so-scroll"><table class="so-tabla"><thead><tr><th>Boleto · fecha · serie</th><th class="oc">Número</th><th class="n">Sorteo</th><th class="n oc">Raspe</th><th class="n">Neto</th><th>Estado</th></tr></thead><tbody>${L.sort((a,b) => a.fecha.localeCompare(b.fecha) || String(a.serie).localeCompare(String(b.serie))).map(filaBoleto).join('')}</tbody></table></div>`;
+    // Estado corto en la tabla (la píldora larga «Esperando resultado» desbordaba la lista con el código completo).
+    const CORTO = {porjugar:'Por jugar', esperando:'Esperando', premio:'Con premio', entregado:'Entregado', cobrado:'Cobrado', sinpremio:'Sin premio'};
+    const pilCorta = b => { const k = etapa(b), e = ETAPA[k]; return `<span class="so-pil ${e[2]}" style="white-space:nowrap" title="${e[1]}">${e[0]}<span class="pilt"> ${CORTO[k]}</span></span>`; };
+    const tablaBoletos = L => `<div class="so-scroll"><table class="so-tabla"><thead><tr><th class="chk"></th><th>Código completo</th><th class="oc">Compra</th><th class="n oc">Costo</th><th class="n oc2">Premio</th><th class="n oc">Raspe</th><th class="n">Neto</th><th>Estado</th><th class="oc2"></th></tr></thead><tbody>${L.sort((a,b) => String(a.codigo).localeCompare(String(b.codigo))).map(filaBoleto).join('')}</tbody></table></div>`;
     // 14 % esperado según el reverso de los boletos (para cotejar lo que dice el portal)
     function retEsperada(b, p, o){
       const c = String(p.cat || '').toUpperCase();
@@ -22250,22 +22509,28 @@ function cabApp() {
           <span></span><span class="mut" style="font-size:11px">bruto ${usd(p.bruto)} · 14 % ${usd(p.ret)} ${cuadra ? '<span class="pos">✓ cuadra con el reverso</span>' : '<span class="neg">revisar: no cuadra con el reverso</span>'}</span><span></span></div>`; }).join('');
       const k = etapa(b);
       const raspes = (b.raspes || []).map(z => z.premios == null ? `<div class="so-nota">Zona de raspe ${e_(z.codigo.slice(-6))}: consultando el premio.</div>` : z.premios.length ? prem(z.premios, 'raspe') : `<div class="so-nota">Zona de raspe ${e_(z.codigo.slice(-6))}: sin premio.</div>`).join('');
+      const nCompra = boletos().filter(x => x.compra === b.compra).length;
       return `<div class="so-panel" aria-label="Detalle del boleto">
         <div class="so-fila"><b>${ICO[b.juego]} ${nombreSorteo(b)}</b>${pilC(b)}<span class="so-sp"></span><button type="button" class="so-btn sm" data-cerrar-det aria-label="Cerrar detalle">✕</button></div>
-        <div class="mono mut" style="font-size:11px;overflow-wrap:anywhere">${e_(b.codigo)}<br>serie ${e_(b.serie)} · ${fdia(b.fecha)}${b.fechaEst ? ' (fecha estimada)' : ''} · caduca ${fdia(caduca(b))}</div>
-        <div class="so-fila so-sub"><label>Número <input class="so-in mono" data-campo="numero" data-id="${e_(b.id)}" value="${e_(b.numero || '')}" placeholder="opcional" style="width:${b.juego==='pozo'||b.juego==='revancha'?'13em':'7.5em'};height:32px"></label>
-          ${b.juego === 'lotto' ? `<label>Sueldo <input class="so-in mono" data-campo="sueldo" data-id="${e_(b.id)}" value="${e_(b.sueldo || '')}" placeholder="opcional" style="width:7.5em;height:32px"></label>` : ''}
-          ${b.juego === 'loteria' ? `<label>Fracción <input class="so-in mono" data-campo="fraccion" data-id="${e_(b.id)}" value="${e_(b.fraccion || '')}" placeholder="opc." style="width:4.5em;height:32px"></label>` : ''}</div>
+        <div style="font-size:15px">${codHtml(b.codigo)}</div>${anatomia(b.codigo)}
+        ${(b.raspes || []).map(z => `<div class="so-nota">Raspe: ${codHtml(z.codigo)}</div>`).join('')}
+        <div class="mut" style="font-size:11.5px">${fdia(b.fecha)}${b.fechaEst ? ' (fecha estimada)' : ''} · caduca ${fdia(caduca(b))}</div>
         <div class="so-fila"><button type="button" class="so-btn sm" data-ver-res="${b.juego}-${b.sorteo}">📜 Resultado y boletín de este sorteo</button></div>
         <div class="so-l">Premios</div>
         ${b.premios == null ? `<div class="so-nota">Sorteo: ${verificable(b) ? ((b.verif || {}).estado === 'no_jugado' ? 'el portal aún no carga el resultado; se reintenta cada hora.' : 'se consulta al portal en la próxima vuelta.') : `se verifica solo el ${fdia(masDias(b.fecha,1))} desde las 00:00.`}</div>` : b.premios.length ? prem(b.premios, 'sorteo') : '<div class="so-nota">Sorteo: sin premio.</div>'}
         ${ZONAS[b.juego] ? raspes + (faltaRaspe(b) ? `<div class="so-nota">Zona de raspe ${(b.raspes || []).length + 1} de ${ZONAS[b.juego]}: sin escanear. Al rasparla, escanea su Data Matrix; se une sola por la serie.</div>` : '') : ''}
         ${b.premios == null && netoRaspes(b) ? '<div class="so-nota">El premio del raspe se cobra junto con el boleto después del sorteo (al cobrar se entrega el boleto entero).</div>' : ''}
-        <div class="so-fila"><span class="so-l">Costo</span><span class="mono">${usd(b.costo)}</span><span class="mut" style="font-size:11.5px">${DESC_OK[b.juego] ? (b.desc ? `lista ${usd(b.precio)} · descuento de compra ${b.desc} %` : 'descuento de compra: no registrado') : 'sin descuento de compra'}${b.punto ? ' · ' + e_(b.punto) : ''}</span></div>
         ${k === 'premio' ? `<div class="so-fila"><button type="button" class="so-btn ok" data-cobrar="${e_(b.id)}">💵 Cobrado</button><button type="button" class="so-btn" data-entregar="${e_(b.id)}">📦 Entregado al punto</button></div><div class="so-nota">Hasta $2,000 en puntos autorizados. Se cobra el boleto entero: sorteo + raspe juntos. También aparece en 💰 Cobros.</div>` : ''}
         ${k === 'entregado' ? `<button type="button" class="so-btn ok" data-cobrar="${e_(b.id)}">💵 Me pagó</button>` : ''}
         ${k === 'cobrado' ? `<button type="button" class="so-btn sm" data-revertir="${e_(b.id)}">↩ Revertir cobro</button>` : ''}
-        <div class="so-fila"><span class="so-sp"></span><button type="button" class="so-btn sm" data-borrar="${e_(b.id)}">🗑 Quitar este boleto</button></div>
+        <div class="so-card" style="padding:12px"><div class="so-l">Editar este boleto</div>
+          <div class="so-fila"><label class="so-sub">Descuento de compra <input class="so-in" data-ed="desc" data-id="${e_(b.id)}" type="number" min="0" max="60" step="0.5" value="${+b.desc || 0}" style="width:5.5em" ${DESC_OK[b.juego] ? '' : 'disabled'}> %</label>
+          <label class="so-sub">Punto <input class="so-in" data-ed="punto" data-id="${e_(b.id)}" list="soPuntosLista3" value="${e_(b.punto || '')}" placeholder="ej. GRANADOS PLAZA" style="width:12em"></label>
+          <label class="so-sub">Fecha de compra <input class="so-in" data-ed="fechaCompra" data-id="${e_(b.id)}" type="date" value="${e_(b.fechaCompra || '')}"></label></div>
+          <datalist id="soPuntosLista3">${puntosConocidos().map(p => `<option value="${e_(p)}"></option>`).join('')}</datalist>
+          <div class="so-fila"><label class="so-sub">Número <input class="so-in mono" data-campo="numero" data-id="${e_(b.id)}" value="${e_(b.numero || '')}" placeholder="opcional" style="width:${b.juego==='pozo'||b.juego==='revancha'?'13em':'7.5em'}"></label>${b.juego === 'lotto' ? `<label class="so-sub">Sueldo <input class="so-in mono" data-campo="sueldo" data-id="${e_(b.id)}" value="${e_(b.sueldo || '')}" placeholder="opcional" style="width:7.5em"></label>` : ''}${b.juego === 'loteria' ? `<label class="so-sub">Fracción <input class="so-in mono" data-campo="fraccion" data-id="${e_(b.id)}" value="${e_(b.fraccion || '')}" placeholder="opc." style="width:4.5em"></label>` : ''}</div>
+          <div class="so-nota">Se guarda al salir de cada campo. Costo ahora: <b>${usd(b.costo)}</b> (lista ${usd(b.precio)}${DESC_OK[b.juego] && b.desc ? ' − ' + b.desc + ' %' : ''}).</div></div>
+        <div class="so-fila"><button type="button" class="so-btn sm" data-marcar-compra="${e_(b.id)}">☑ Marcar su compra (${nCompra})</button><span class="so-sp"></span><button type="button" class="so-btn sm" data-borrar-uno="${e_(b.id)}" style="color:var(--so-neg);border-color:var(--so-neg)">🗑 Eliminar</button></div>
       </div>`;
     }
     const vacioAmb = () => ui.amb === 'pega' ? 'Aún no tienes jugadas de Pega. Se registrarán escaneando el QR del recibo («código de validación de premios»); falta un recibo de ejemplo para confirmar su formato en el portal.' : `No hay boletos de ${nomAmb()} en esta vista.`;
@@ -22466,18 +22731,23 @@ function cabApp() {
       const et = ['porjugar','esperando','premio','entregado','cobrado'];
       const sub = {porjugar:'se verifican solos', esperando:'el portal aún no carga', premio:'por cobrar', entregado:'te deben en el punto', cobrado:'cerrados'};
       const monto = k => L.filter(b => etapa(b) === k).reduce((a,b) => a + (k === 'porjugar' ? (+b.costo || 0) : netoB(b)), 0);
-      const extras = [['sinpremio','✗ Sin premio'], ...(conRaspe ? [['sinraspe','🧩 Zonas sin raspar']] : []), ['caducan','⌛ Caducan en 30 días']];
-      const cuentaX = k => k === 'sinpremio' ? L.filter(b => etapa(b) === 'sinpremio').length : k === 'sinraspe' ? L.filter(faltaRaspe).length : L.filter(b => etapa(b) === 'premio' && diasEntre(hoy(), caduca(b)) <= 30).length;
-      const listaEt = ui.etapa === 'sinraspe' ? L.filter(faltaRaspe) : ui.etapa === 'caducan' ? L.filter(b => etapa(b) === 'premio' && diasEntre(hoy(), caduca(b)) <= 30) : L.filter(b => etapa(b) === ui.etapa);
+      // v41.10: «☰ Todos» (de la propuesta A) para ver y corregir todos los boletos del ámbito; «Caducan» se conserva.
+      const extras = [['sinpremio','✗ Sin premio'], ...(conRaspe ? [['sinraspe','🧩 Zonas sin raspar']] : []), ['caducan','⌛ Caducan en 30 días'], ['todos','☰ Todos']];
+      const cuentaX = k => k === 'sinpremio' ? L.filter(b => etapa(b) === 'sinpremio').length : k === 'sinraspe' ? L.filter(faltaRaspe).length : k === 'todos' ? L.length : L.filter(b => etapa(b) === 'premio' && diasEntre(hoy(), caduca(b)) <= 30).length;
+      const listaEt = busca(ui.etapa === 'todos' ? L : ui.etapa === 'sinraspe' ? L.filter(faltaRaspe) : ui.etapa === 'caducan' ? L.filter(b => etapa(b) === 'premio' && diasEntre(hoy(), caduca(b)) <= 30) : L.filter(b => etapa(b) === ui.etapa));
       const grupos = {}; listaEt.forEach(b => { const k = b.juego + b.sorteo; (grupos[k] = grupos[k] || {b0:b, l:[]}).l.push(b); });
-      const lista = Object.values(grupos).sort((a,b) => a.b0.fecha.localeCompare(b.b0.fecha)).map(g => `<div class="so-sorteo"><div class="so-fila"><b>${ICO[g.b0.juego]} ${nombreSorteo(g.b0)}</b>${(g.b0.precio >= 3 && g.b0.juego === 'loteria') ? '<span class="so-pil e-sin">🎄 extraordinario</span>' : ''}<span class="so-pil e-sin">${fdia(g.b0.fecha)}</span><span class="so-sp mut" style="font-size:12px">${g.l.length} boleto${g.l.length>1?'s':''}${g.l.some(b=>netoB(b))?' · '+usd(g.l.reduce((a,b)=>a+netoB(b),0)):''}</span></div>${tablaBoletos(g.l)}</div>`).join('')
-        || `<div class="so-card"><div class="so-nota">${L.length ? `Nada de ${nomAmb()} en esta etapa${ui.etapa === 'esperando' ? ': todo lo jugado ya está verificado.' : '.'}` : vacioAmb()}</div></div>`;
+      const lista = Object.values(grupos).sort((a,b) => a.b0.fecha.localeCompare(b.b0.fecha)).map(g => `<div class="so-sorteo"><div class="so-fila"><input type="checkbox" class="so-chkg" data-marc-grupo="${g.b0.juego}|${g.b0.sorteo}" ${g.l.every(b => marc.has(b.id)) ? 'checked' : ''} aria-label="Marcar todo el sorteo"><b>${ICO[g.b0.juego]} ${nombreSorteo(g.b0)}</b>${(g.b0.precio >= 3 && g.b0.juego === 'loteria') ? '<span class="so-pil e-sin">🎄 extraordinario</span>' : ''}<span class="so-pil e-sin">${fdia(g.b0.fecha)}</span><span class="so-sp mut" style="font-size:12px">${g.l.length} boleto${g.l.length>1?'s':''}${g.l.some(b=>netoB(b))?' · '+usd(g.l.reduce((a,b)=>a+netoB(b),0)):''}</span></div>${tablaBoletos(g.l)}</div>`).join('')
+        || `<div class="so-card"><div class="so-nota">${q.replace(/\D/g, '').length >= 3 ? `Ningún boleto de ${nomAmb()} en esta etapa tiene «${e_(q.replace(/\D/g, ''))}».` : L.length ? `Nada de ${nomAmb()} en esta etapa${ui.etapa === 'esperando' ? ': todo lo jugado ya está verificado.' : '.'}` : vacioAmb()}</div></div>`;
       const esp = raspesEspera();
       const selB = ui.sel ? L.find(b => b.id === ui.sel) : null;
-      return `<div class="so">${cab()}${avisos()}${pistola()}
+      const marcL = L.filter(b => marc.has(b.id));
+      const der = (confirma ? confirmaBorrar(confirma === 'uno' ? [selB] : marcL) : '') + (pop === 'ajuste' ? popAjuste() : '') + (selB ? panelBoleto(selB) : (pop ? '' : copilotoA() + copiloto(ui.etapa === 'todos' ? 'porjugar' : ui.etapa, c)));
+      return `<div class="so">${cab()}${avisos()}${bandeja()}
         <div class="so-ciclo" id="soCiclo" role="tablist" aria-label="Etapas del boleto">${et.map(k => `<button type="button" class="so-etapa${ui.etapa===k?' on':''}" data-etapa="${k}" role="tab" aria-selected="${ui.etapa===k}"><span class="t">${ETAPA[k][0]} ${ETAPA[k][1]}</span><b>${L.filter(b => etapa(b) === k).length}</b><span class="d">${[k==='porjugar'?usd(monto(k))+' jugados':k==='esperando'?'':usd(monto(k)), sub[k]].filter(Boolean).join(' · ')}</span></button>`).join('')}</div>
         <div class="so-extra" id="soExtra">${extras.map(([k,t]) => `<button type="button" data-etapa="${k}" class="${ui.etapa===k?'on':''}">${t} · ${cuentaX(k)}</button>`).join('')}${esp.length ? `<button type="button" data-etapa="premio" title="raspes con premio cuyo boleto aún no está registrado">🧩 ${esp.length} raspe${esp.length>1?'s':''} esperando su boleto · ${usd(esp.reduce((a,z)=>a+netoP(z.premios),0))}</button>` : ''}</div>
-        <div class="so-det"><div class="so-col">${lista}</div><div class="so-col">${selB ? panelBoleto(selB) : copiloto(ui.etapa, c)}</div></div>
+        ${buscador()}
+        <div class="so-det"><div class="so-col">${lista}</div><div class="so-col">${der}</div></div>
+        ${dock()}
         <details class="so-card" id="soAnalisis"${ui.analisis ? ' open' : ''}><summary style="cursor:pointer;font-weight:800">📊 Análisis de ${nomAmb()}: resultados, antes de comprar y rendimiento</summary><div class="so-col" style="margin-top:12px">${bloqueResultados()}${herramientas()}${bloqueRend()}${bloqueAzar()}</div></details></div>`;
     }
     function hojaHtml(){
@@ -22528,8 +22798,12 @@ function cabApp() {
       enlazado = true;
       const raiz = document.getElementById('soRaiz');
       raiz.addEventListener('click', ev => {
+        // v41.10 · casillas para marcar (una, un sorteo) — antes que la fila, para no abrir el detalle al marcar
+        if (ev.target.matches && ev.target.matches('input[type=checkbox][data-marc]')){ ev.target.checked ? marc.add(ev.target.dataset.marc) : marc.delete(ev.target.dataset.marc); return render(); }
+        if (ev.target.matches && ev.target.matches('input[type=checkbox][data-marc-grupo]')){ const [j, n] = ev.target.dataset.marcGrupo.split('|'); filtrados().filter(b => b.juego === j && b.sorteo === +n).forEach(b => ev.target.checked ? marc.add(b.id) : marc.delete(b.id)); return render(); }
+        if (ev.target.matches && ev.target.matches('input[name=soAlc]')){ alc = ev.target.value; return render(); }
         const t = ev.target.closest('button, tr[data-b], tr[data-res]'); if (!t) return;
-        if (t.matches('tr[data-b]')){ ui.sel = ui.sel === t.dataset.b ? null : t.dataset.b; return render(); }
+        if (t.matches('tr[data-b]')){ if (ev.target.closest('input')) return; ui.sel = ui.sel === t.dataset.b ? null : t.dataset.b; pop = null; confirma = false; return render(); }
         // v41.9.1 · resultados: tocar un sorteo abre su detalle y el boletín; «Actualizar» consulta la API en el acto
         if (t.matches('tr[data-res]')){ ui.res = ui.res === t.dataset.res ? null : t.dataset.res; render(); if (ui.res) document.getElementById('soResDet')?.scrollIntoView({behavior:'smooth', block:'nearest'}); return; }
         if (t.hasAttribute('data-cerrar-res')){ const k = ui.res; ui.res = null; render(); document.querySelector(`tr[data-res="${k}"]`)?.focus(); return; }
@@ -22538,7 +22812,22 @@ function cabApp() {
         const p = t.parentElement;
         if (t.dataset.amb){ ui.amb = t.dataset.amb; ui.sel = null; guardarUi(); return render(); }
         if (t.dataset.etapa){ ui.etapa = t.dataset.etapa; ui.sel = null; guardarUi(); return render(); }
-        if (t.hasAttribute('data-agregar')){ const v = document.getElementById('soCodBarra').value; return abrirRegistro(v); }
+        if (t.hasAttribute('data-agregar')){ const el = document.getElementById('soCodBarra'), v = el.value; el.value = ''; return v.trim() ? leer(v) : el.focus(); }
+        // v41.10 · bandeja, edición y eliminación
+        if (t.hasAttribute('data-cerrar-compra')){ if (compra){ const n = boletos().filter(b => b.compra === compra.id).length, nom = nombreCompra(compra.id); compra = null; guardarCompra(); toast(`${nom} terminada: ${n} boleto${n===1?'':'s'}. Lo siguiente que leas abre otra compra.`); } return render(); }
+        if (t.dataset.quitarLect){ return eliminar([boletos().find(b => b.id === t.dataset.quitarLect)]); }
+        if (t.hasAttribute('data-limpia')){ q = ''; return render(); }
+        if (t.dataset.editar){ ui.sel = t.dataset.editar; pop = null; confirma = false; render(); setTimeout(() => document.querySelector('[data-ed="desc"]:not([disabled]), [data-ed="punto"]')?.focus(), 20); return; }
+        if (t.dataset.marcarCompra){ const b = boletos().find(x => x.id === t.dataset.marcarCompra); if (b){ filtrados().filter(x => x.compra === b.compra).forEach(x => marc.add(x.id)); toast(`Marcada ${nombreCompra(b.compra)}: ${marc.size} boleto${marc.size===1?'':'s'}.`); } return render(); }
+        if (t.hasAttribute('data-marcar-sindesc')){ filtrados().filter(b => DESC_OK[b.juego] && !b.desc).forEach(b => marc.add(b.id)); ui.etapa = 'todos'; guardarUi(); return render(); }
+        if (t.hasAttribute('data-ajustar')){ pop = 'ajuste'; alc = 'marcados'; confirma = false; render(); setTimeout(() => document.getElementById('soCDesc')?.focus(), 20); return; }
+        if (t.hasAttribute('data-pop-x')){ pop = null; return render(); }
+        if (t.hasAttribute('data-aplicar')) return aplicarCambios();
+        if (t.hasAttribute('data-borrar-marc')){ confirma = 'marc'; pop = null; return render(); }
+        if (t.dataset.borrarUno){ confirma = 'uno'; pop = null; return render(); }
+        if (t.hasAttribute('data-borrar-ya')){ return eliminar(confirma === 'uno' ? [boletos().find(b => b.id === ui.sel)] : filtrados().filter(b => marc.has(b.id))); }
+        if (t.hasAttribute('data-borrar-no')){ confirma = false; return render(); }
+        if (t.hasAttribute('data-desmarcar')){ marc.clear(); return render(); }
         if (t.hasAttribute('data-cerrar-det')){ ui.sel = null; return render(); }
         if (t.dataset.cobrar){ const b = boletos().find(x => x.id === t.dataset.cobrar); if (b){ const antes = {cobro:b.cobro, fechaCobro:b.fechaCobro}; b.cobro = 'cobrado'; b.fechaCobro = hoy(); save(); render(); toastUndo('Marcado como cobrado.', () => { Object.assign(b, antes); save(); render(); }); } return; }
         if (t.dataset.entregar){ const b = boletos().find(x => x.id === t.dataset.entregar); if (b){ b.cobro = 'entregado'; b.fechaEntrega = hoy(); save(); render(); toastUndo('Entregado al punto: te deben el dinero.', () => { b.cobro = null; delete b.fechaEntrega; save(); render(); }); } return; }
@@ -22558,18 +22847,40 @@ function cabApp() {
       raiz.addEventListener('change', ev => {
         const t = ev.target;
         if (t.dataset.campo){ const b = boletos().find(x => x.id === t.dataset.id); if (b){ const v = String(t.value || '').replace(/[^\d ]/g, '').trim().slice(0, 40); if (v) b[t.dataset.campo] = v; else delete b[t.dataset.campo]; save(); } }
+        // v41.10 · editar un boleto: descuento, punto o fecha de compra (con Deshacer; el costo se recalcula)
+        if (t.dataset.ed){ const b = boletos().find(x => x.id === t.dataset.id); if (!b) return; const k = t.dataset.ed, antes = {desc:b.desc, punto:b.punto, ciudad:b.ciudad, fechaCompra:b.fechaCompra, costo:b.costo};
+          if (k === 'desc') b.desc = DESC_OK[b.juego] ? Math.max(0, Math.min(60, +t.value || 0)) : 0;
+          if (k === 'punto'){ b.punto = String(t.value || '').trim().slice(0, 80) || null; b.ciudad = b.punto ? ciudadDe(b.punto) : null; }
+          if (k === 'fechaCompra'){ if (!/^\d{4}-\d{2}-\d{2}$/.test(t.value)) return render(); b.fechaCompra = t.value; }
+          b.costo = costoDe(b);
+          if (antes[k] === b[k]) return;
+          save(); render(); toastUndo('Guardado.', () => { Object.assign(b, antes); save(); render(); }); }
+        // la ficha de la compra en curso vale para toda la compra, también lo ya leído
+        if (t.id === 'soFDesc' || t.id === 'soFPunto' || t.id === 'soFFecha'){ if (!compra) return; const k = {soFDesc:'desc', soFPunto:'punto', soFFecha:'fechaCompra'}[t.id];
+          if (k === 'fechaCompra' && !/^\d{4}-\d{2}-\d{2}$/.test(t.value)) return render();
+          compra[k] = t.value; guardarCompra();
+          const L = boletos().filter(b => b.compra === compra.id), antes = L.map(b => [b, {desc:b.desc, punto:b.punto, ciudad:b.ciudad, fechaCompra:b.fechaCompra, costo:b.costo}]);
+          L.forEach(b => { if (k === 'desc') b.desc = DESC_OK[b.juego] ? Math.max(0, Math.min(60, +t.value || 0)) : 0; if (k === 'punto'){ b.punto = String(t.value).trim().slice(0, 80) || null; b.ciudad = b.punto ? ciudadDe(b.punto) : null; } if (k === 'fechaCompra') b.fechaCompra = t.value; b.costo = costoDe(b); });
+          save(); render(); if (L.length) toastUndo(`Aplicado a los ${L.length} boleto${L.length===1?'':'s'} de ${nombreCompra(compra.id)}.`, () => { antes.forEach(([b, a]) => Object.assign(b, a)); save(); render(); }); }
       });
       let tIn = null;
       raiz.addEventListener('input', ev => {
         const id = ev.target.id;
         const rp = ms => { clearTimeout(tIn); tIn = setTimeout(render, ms); };
         if (id === 'soLotLista'){ ui.lotLista = ev.target.value; rp(500); }
+        if (id === 'soBusca'){ q = ev.target.value; rp(250); }
+        if (id === 'soCDesc' || id === 'soCPunto' || id === 'soCFecha'){ cambio[{soCDesc:'desc', soCPunto:'punto', soCFecha:'fechaCompra'}[id]] = ev.target.value; rp(300); }
+        if (id === 'soRDesde'){ rDesde = ev.target.value; rp(300); } if (id === 'soRHasta'){ rHasta = ev.target.value; rp(300); }
         if (id === 'soPegNum' || id === 'soPegEx' || id === 'soPegComb'){ const k = {soPegNum:'num', soPegEx:'ex', soPegComb:'comb'}[id]; ui.pega[k] = k === 'num' ? ev.target.value : (+ev.target.value || 0); guardarUi(); rp(450); }
       });
       raiz.addEventListener('keydown', ev => {
         const a = document.activeElement;
-        if (ev.key === 'Enter' && a && a.id === 'soCodBarra'){ ev.preventDefault(); ev.stopPropagation(); return abrirRegistro(a.value); }
+        if (ev.key === 'Enter' && a && a.id === 'soCodBarra'){ ev.preventDefault(); ev.stopPropagation(); const v = a.value; a.value = ''; return leer(v); }
         if (ev.key === 'Enter' && a && a.matches('tr[data-b]')){ ui.sel = a.dataset.b; render(); return; }
+        // v41.10 · teclado de la lista: Espacio marca, Supr elimina (con confirmación), Ctrl+A marca lo visible
+        if (ev.key === ' ' && a && a.matches('tr[data-b]')){ ev.preventDefault(); ev.stopPropagation(); const id = a.dataset.b; marc.has(id) ? marc.delete(id) : marc.add(id); render(); document.querySelector(`tr[data-b="${id}"]`)?.focus(); return; }
+        if (ev.key === 'Delete' && a && a.matches('tr[data-b]')){ ev.preventDefault(); if (!marc.size) marc.add(a.dataset.b); confirma = 'marc'; pop = null; return render(); }
+        if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 'a' && a && a.matches('tr[data-b]')){ ev.preventDefault(); ev.stopPropagation(); raiz.querySelectorAll('tr[data-b]').forEach(tr => marc.add(tr.dataset.b)); return render(); }
         if (ev.key === 'Enter' && a && a.matches('tr[data-res]')){ ev.preventDefault(); ui.res = a.dataset.res; render(); document.querySelector(`tr[data-res="${a.dataset.res}"]`)?.focus(); return; }
         if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && a && a.matches('tr[data-res]')){ const f = [...raiz.querySelectorAll('tr[data-res]')], i = f.indexOf(a); f[Math.max(0, Math.min(f.length - 1, i + (ev.key === 'ArrowDown' ? 1 : -1)))]?.focus(); ev.preventDefault(); ev.stopPropagation(); return; }
         if ((ev.key === 'ArrowDown' || ev.key === 'ArrowUp') && a && a.matches('tr[data-b]')){ const f = [...raiz.querySelectorAll('tr[data-b]')], i = f.indexOf(a); f[Math.max(0, Math.min(f.length - 1, i + (ev.key === 'ArrowDown' ? 1 : -1)))]?.focus(); ev.preventDefault(); ev.stopPropagation(); return; }
@@ -22603,8 +22914,12 @@ function cabApp() {
         if (!visible()) return;
         const a = document.activeElement, campo = a && /INPUT|TEXTAREA|SELECT/.test(a.tagName);
         if (ev.key === 'Escape' && ui.res && !campo){ const k = ui.res; ui.res = null; render(); document.querySelector(`tr[data-res="${k}"]`)?.focus(); ev.stopPropagation(); return; }   // v41.9.1
+        if (ev.key === 'Escape' && confirma && !campo){ confirma = false; render(); ev.stopPropagation(); return; }   // v41.10: Esc por capas
+        if (ev.key === 'Escape' && pop){ pop = null; render(); ev.stopPropagation(); return; }
         if (ev.key === 'Escape' && ui.sel && !campo){ ui.sel = null; render(); ev.stopPropagation(); return; }
-        if ((ev.key === 'r' || ev.key === 'R') && !campo && !ev.ctrlKey && !ev.metaKey && !ev.altKey){ try{ if (superficieActiva()) return; }catch(_){} ev.preventDefault(); abrirRegistro(); }
+        if (ev.key === 'Escape' && marc.size && !campo){ marc.clear(); render(); ev.stopPropagation(); return; }
+        // «/» (y R, como antes) llevan a la bandeja: ya no hay ventana de registro
+        if ((ev.key === '/' || ev.key === 'r' || ev.key === 'R') && !campo && !ev.ctrlKey && !ev.metaKey && !ev.altKey){ try{ if (superficieActiva()) return; }catch(_){} ev.preventDefault(); document.getElementById('soCodBarra')?.focus(); }
       }, true);
     }
 
@@ -22627,7 +22942,7 @@ function cabApp() {
       el.querySelector('#soIrSorteos').onclick = () => { ui.etapa = 'premio'; guardarUi(); goTab('sorteos'); };
     }
     // La pistola de raspaditas recibió un código de sorteo: se registra aquí.
-    function recibirCodigo(code){ goTab('sorteos'); setTimeout(() => abrirRegistro(code), 60); }
+    function recibirCodigo(code){ goTab('sorteos'); setTimeout(() => leer(code), 60); }   // v41.10: directo a la bandeja
     // Vueltas de verificación: al abrir, al volver a primer plano y cada hora.
     setTimeout(() => { refrescarApi(); verificar(); }, 4000);
     setInterval(() => { refrescarApi(); verificar(); }, 60 * 60 * 1000);
