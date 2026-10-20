@@ -2615,16 +2615,39 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   .so-cod{ font:700 13px 'Courier New',ui-monospace,monospace; letter-spacing:.03em; white-space:nowrap; font-variant-numeric:tabular-nums; }
   .so-cod .b1{ color:var(--silver-dark); } .so-cod .b2{ color:var(--ink); } .so-cod .sep{ color:var(--silver); padding:0 3px; }
   .so-cod mark{ background:color-mix(in srgb, var(--stamp) 30%, transparent); color:inherit; border-radius:3px; }
-  .so-ana{ display:grid; grid-template-columns:repeat(6,auto); gap:2px 10px; justify-content:start; font-size:11px; color:var(--silver-dark); }
-  .so-ana b{ font:800 13px 'Courier New',monospace; color:var(--ink); }
+  .so-ana{ display:flex; flex-wrap:wrap; gap:6px 14px; font-size:11px; color:var(--silver-dark); }
+  .so-ana-p{ display:flex; flex-direction:column; gap:1px; } .so-ana-p i{ font-style:normal; }
+  .so-ana b{ font:800 13px 'Courier New',monospace; color:var(--ink); white-space:nowrap; }
   .so-band{ border:2px dashed var(--stamp); border-radius:16px; background:color-mix(in srgb, var(--stamp) 5%, transparent); padding:12px; display:flex; flex-direction:column; gap:10px; }
   .so-band .so-pistola{ border:0; padding:0; background:transparent; }
   .so-ficha{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-size:12.5px; }
   .so-chip{ display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:var(--white); border-radius:999px; padding:4px 11px; font-size:12.5px; font-weight:700; min-height:32px; color:var(--ink); }
   .so-chip input{ border:0; background:transparent; width:5.2em; font:inherit; text-align:right; padding:0; color:var(--ink); }
   .so-chip input.largo{ width:11em; text-align:left; } .so-chip input:focus{ outline:none; } .so-chip:focus-within{ border-color:var(--stamp); }
+  /* v41.10.2 · chips de la ficha (visto por JP: las flechas del número tapaban el «28» y el calendario no se veía en
+     oscuro). Sin flechas, altura y línea base iguales en los 3, campo de fecha con su ícono visible en los dos temas. */
+  .so-chip{ height:36px; padding:0 12px; gap:7px; line-height:1; }
+  .so-chip input{ height:24px; line-height:24px; font-weight:700; }
+  .so-chip input[type=number]{ width:3.4em; -moz-appearance:textfield; appearance:textfield; }
+  .so-chip input[type=number]::-webkit-inner-spin-button, .so-chip input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
+  .so-chip input[type=date]{ width:auto; min-width:8.6em; text-align:left; color-scheme:light; }
+  body.theme-arcade .so-chip input[type=date]{ color-scheme:dark; }
+  .so-chip .u{ color:var(--silver-dark); font-weight:700; }
+  .so-ficha .so-tot{ display:inline-flex; gap:10px; align-items:center; margin-left:auto; }
+  .so-sonido{ box-shadow:none; }
+  .so-son-lista{ display:flex; flex-direction:column; gap:6px; }
+  .so-son-fila{ display:flex; gap:10px; align-items:center; justify-content:space-between; border:1px solid var(--line); border-radius:10px; padding:6px 10px; background:var(--paper); font-size:13px; }
+  .so-son-cortes{ display:grid; grid-template-columns:repeat(3, auto 7em); gap:8px 10px; align-items:center; justify-content:start; font-size:12.5px; color:var(--silver-dark); }
+  .so-son-cortes .so-in{ width:7em; }
+  .so input[type=number], .so-fondo input[type=number]{ -moz-appearance:textfield; appearance:textfield; }
+  .so input[type=number]::-webkit-inner-spin-button, .so input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
+  body.theme-arcade .so .so-btn.peligro{ color:#2B0606; }
+  .so-ed{ display:grid; grid-template-columns:6.4em minmax(0,1fr); gap:8px 10px; align-items:center; font-size:12.5px; color:var(--silver-dark); }
+  .so-ed .so-in{ width:100%; height:34px; } .so-ed .con-u{ display:flex; gap:6px; align-items:center; } .so-ed .con-u .so-in{ width:6em; }
+  body.theme-arcade .so input[type=date]{ color-scheme:dark; }
   .so-brows{ display:flex; flex-direction:column; gap:6px; }
-  .so-brow{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1.7fr) auto auto; gap:10px; align-items:center; border:1px solid var(--line); background:var(--white); border-radius:12px; padding:8px 10px; }
+  .so-brow{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1.8fr) 4.6em 34px; gap:10px; align-items:center; border:1px solid var(--line); background:var(--white); border-radius:12px; padding:8px 10px; }
+  .so-brow .cst{ text-align:right; } .so-brow .x{ display:flex; justify-content:flex-end; }
   .so-brow.nuevo{ animation:soLlega .9s ease-out; }
   @keyframes soLlega{ from{ box-shadow:0 0 0 3px var(--stamp); } to{ box-shadow:0 0 0 0 transparent; } }
   .so-brow .q{ font-size:12px; } .so-brow .q b{ font-size:12.5px; }
@@ -2649,12 +2672,13 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   .so-rango{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; font-size:12.5px; } .so-rango input{ width:7.5em; font:700 13px 'Courier New',monospace; }
   .so-confirma{ border:2px solid var(--so-neg); border-radius:14px; padding:12px; background:color-mix(in srgb, var(--so-neg) 8%, transparent); display:flex; flex-direction:column; gap:8px; }
   @container so (max-width: 760px){
-    .so-brow{ grid-template-columns:minmax(0,1fr) auto; }
-    .so-brow .q{ grid-column:1 / -1; order:2; } .so-brow .so-est{ grid-column:1 / -1; order:3; }
-    .so-brow .cst{ order:1; } .so-brow .x{ order:1; }
+    /* teléfono: código · costo · ✕ en la 1.ª línea; juego y estado debajo, a todo el ancho */
+    .so-brow{ grid-template-columns:minmax(0,1fr) auto 34px; row-gap:4px; }
+    .so-brow .q{ grid-column:1 / -1; grid-row:2; } .so-brow .so-est{ grid-column:1 / -1; grid-row:3; }
+    .so-brow .q:empty{ display:none; }
     .so-dock{ bottom:64px; }
-    .so-ana{ grid-template-columns:repeat(3,auto); }
-    .so-tabla .oc2{ display:none; }   /* teléfono: Premio y ✎ se ven en el detalle del boleto (tocar la fila) */
+    .so-tabla .oc2{ display:none; }
+    .so-son-cortes{ grid-template-columns:auto 7em; }   /* teléfono: Premio y ✎ se ven en el detalle del boleto (tocar la fila) */
   }
   .so-tabla td.so-envuelve{ white-space:normal; }
   /* Como el preview: la tabla de boletos en letra normal; solo el código y los montos van en monoespaciada
@@ -4979,7 +5003,12 @@ button.ix-row:hover{ background:color-mix(in srgb, var(--cur) 7%, transparent); 
   // «🗑 Eliminar» con confirmación; el detalle edita descuento, punto, fecha de compra, número, sueldo y fracción.
   // v41.10.1 — Sorteos: en la columna Compra, «28 %», «Compra 1» y «sin desc.» ya no se parten (el «%» quedaba solo en
   // otra línea en la pantalla de JP): espacios que no se cortan.
-  const APP_VERSION = { num: '41.10.1', fecha: '2026-10-19' };
+  // v41.10.2 — Sorteos: (1) BUG: al llegar el resultado de una lectura, la bandeja se repintaba y borraba lo que la pistola
+  // estaba escribiendo → las primeras cifras del boleto siguiente se perdían («No se guardó»); ahora se conserva lo escrito.
+  // Lecturas incompletas lo dicen («llegaron 15 cifras… vuelve a dispararle»). (2) Chips de la ficha alineados (sin flechas
+  // encima del número, calendario visible en oscuro). (3) Sonidos al pistolear: el catálogo de la Pistola QR (clic al leer,
+  // 4 niveles de premio, sin premio, aviso, voz del monto) con sus cortes ajustables en «🔊 Sonido».
+  const APP_VERSION = { num: '41.10.2', fecha: '2026-10-19' };
   window.PV_SEED=[["Camilo Ponce Enriquez", "Camilo Ponce Enríquez"], ["Plaza Sur Ricaurte", "Cuenca"], ["Racar Plazar", "Cuenca"], ["Cc Multiplaza Miraflores", "Cuenca"], ["Cc Plaza De Las Americas", "Cuenca"], ["Terminal Terrestre Cuenca", "Cuenca"], ["Cesar Peralta", "Cuenca"], ["El Arenal Express", "Cuenca"], ["Cc Shopping Batan", "Cuenca"], ["Zamora", "Cuenca"], ["El Sagrario", "Cuenca"], ["Monay Shopping Center", "Cuenca"], ["Cuenca", "Cuenca"], ["Cuenca 984", "Cuenca"], ["Presidente 614", "Cuenca"], ["Benigno Malo", "Cuenca"], ["Coral Cuenca Sucre", "Cuenca"], ["Cc Milenium Plaza", "Cuenca"], ["Cc El Vergel", "Cuenca"], ["Calle General Torres", "Cuenca"], ["Coral America", "Cuenca"], ["Cc. Mall Del Rio", "Cuenca"], ["Cc Mall Del Rio", "Cuenca"], ["Gualaceo", "Gualaceo"], ["Aki Guaranda", "Guaranda"], ["Aki Tulcán", "Tulcán"], ["Azogues Matovelle", "Azogues"], ["Azogues 1", "Azogues"], ["Biblian", "Biblián"], ["Cañar", "Cañar"], ["La Troncal", "La Troncal"], ["Hiper La Troncal", "La Troncal"], ["Cc Shopping Riobamba", "Riobamba"], ["Cc Multiplaza Riobamba", "Riobamba"], ["Villarroel Y Carabobo #29-39", "Riobamba"], ["Supervisor Riobamba", "Riobamba"], ["Riobamba", "Riobamba"], ["Parque Sucre", "Riobamba"], ["Sup. Sta. Maria Riobamba", "Riobamba"], ["La Mana", "La Maná"], ["Malteria", "Latacunga"], ["Latacunga Express", "Latacunga"], ["Sup.sta. Maria Latacunga", "Latacunga"], ["Arenillas", "Arenillas"], ["Pañora Huaquillas", "Huaquillas"], ["Huaquillas", "Huaquillas"], ["Machala", "Machala"], ["Pañora Machala", "Machala"], ["Machala 2", "Machala"], ["Gran Piazza Machala", "Machala"], ["T. Terrestre Machala", "Machala"], ["Cc Shopping Machala", "Machala"], ["Pañora Pasaje", "Pasaje"], ["Cc Shopping Mini Plus Pasaje", "Pasaje"], ["Piña", "Piñas"], ["Santa Rosa", "Santa Rosa"], ["Atacames", "Atacames"], ["Multiplaza Esmeraldas", "Esmeraldas"], ["Calle Sucre", "Esmeraldas"], ["Santa Maria Esmeraldas", "Esmeraldas"], ["Esmeraldas", "Esmeraldas"], ["Terminal T. Esmeraldas", "Esmeraldas"], ["Quininde", "Quinindé"], ["Aki Quinindé", "Quinindé"], ["San Lorenzo", "San Lorenzo"], ["Pañora Balao", "Balao"], ["Pañora Ponce Enriquez", "Balao"], ["Mi Comisariato Balzar", "Balzar"], ["Calle 9 De Octubre", "Balzar"], ["Colimes", "Colimes"], ["Laurel", "Daule"], ["Cc Shopping Daule", "Daule"], ["Aki Daule", "Daule"], ["Daule", "Daule"], ["Loma De Sargentillo", "Daule"], ["Cc Tia El Camino", "Daule"], ["Plaza Tia La Joya", "Durán"], ["Plaza Milann", "Durán"], ["Coral Via Salitre", "Durán"], ["Piazza Villa Club", "Durán"], ["Mercado Nueva Aurora", "Durán"], ["Cc El Dorado Local 244b-c", "Durán"], ["Cc El Dorado Pb A2", "Durán"], ["Tia Mucho Lote 2", "Durán"], ["Hiper Mucho Lote Ii", "Durán"], ["Buijo Historico", "Durán"], ["Cc Village Plaza", "Durán"], ["Cc Riocentro Entre Rios", "Durán"], ["Piazza Samborondón", "Durán"], ["Stand Bro Puntilla", "Durán"], ["Pharmacys Entrerios", "Durán"], ["Tiendas Bro Puntilla", "Durán"], ["Super Aki Primavera", "Durán"], ["Eloy Alfaro 1", "Durán"], ["Cc Plaza Tia", "Durán"], ["Gran Aki Durán Centro", "Durán"], ["Shell Select Duran", "Durán"], ["Altoque Duran", "Durán"], ["Cc Shopping Duran", "Durán"], ["Mi Comisariato", "El Empalme"], ["El Empalme 2", "El Empalme"], ["Pichincha", "El Empalme"], ["El Triunfo Express", "El Triunfo"], ["Plaza Comercial Tia 2 El Maestro", "Guayaquil"], ["Altoque Metropolis", "Guayaquil"], ["T. Terrestre Pascuales", "Guayaquil"], ["Aki Mucho Lote", "Guayaquil"], ["Polaris", "Guayaquil"], ["Hiper Via Daule", "Guayaquil"], ["Cc Mall Del Norte", "Guayaquil"], ["Plaza Tia - Bastion Popular", "Guayaquil"], ["Coral Via Daule", "Guayaquil"], ["Cc Mall Del Fortin - Ipb - 108c", "Guayaquil"], ["Cc Mall El Fortin", "Guayaquil"], ["Paseo Shopping Via Daule", "Guayaquil"], ["Entrada De La 8", "Guayaquil"], ["Plaza Pycca 9", "Guayaquil"], ["Altoque Guayacanes", "Guayaquil"], ["Al toque Guayacanes", "Guayaquil"], ["Sauces 6", "Guayaquil"], ["Cc Riocentro Norte Pb A16", "Guayaquil"], ["Florida Norte", "Guayaquil"], ["Cc Riocentro Norte", "Guayaquil"], ["Mi Comisariato Florida", "Guayaquil"], ["Sauces 9", "Guayaquil"], ["Albotec", "Guayaquil"], ["Sauces 7", "Guayaquil"], ["Cc La Rotonda", "Guayaquil"], ["Metrovia Terminal Rio Daule", "Guayaquil"], ["Pharmacys Alborada 2", "Guayaquil"], ["Cc City Mall 1", "Guayaquil"], ["Cc City Mall 2", "Guayaquil"], ["Cc City Mall", "Guayaquil"], ["T. Terrestre Guayaquil 3 (puerta 2)", "Guayaquil"], ["T. Terrestre Guayaquil 1 (boleteria)", "Guayaquil"], ["T. Terrestre Guayaquil (juanjo Naranjo)", "Guayaquil"], ["Bingo Garzota", "Guayaquil"], ["T. Terrestre Guayaquil", "Guayaquil"], ["Martha De Roldos C18d", "Guayaquil"], ["Mi Comisariato Juan T.marengo", "Guayaquil"], ["Plaza La Garzota", "Guayaquil"], ["Sup. Sta. Maria Garzota", "Guayaquil"], ["La Garzota", "Guayaquil"], ["Aeropuerto J.j De Olmedo", "Guayaquil"], ["Altoque Garzota", "Guayaquil"], ["Al toque Garzota", "Guayaquil"], ["Megamaxi Ciudad Colon", "Guayaquil"], ["Plaza Tia El Trébol", "Guayaquil"], ["Altoque Perimetral", "Guayaquil"], ["Pharmacys Orellana", "Guayaquil"], ["Pharmacys Urdesa", "Guayaquil"], ["Pharmacys Portal Al Sol", "Guayaquil"], ["Cc Mall Del Sol 4", "Guayaquil"], ["Cc Mall Del Sol 1", "Guayaquil"], ["Cc Mall Del Sol 2", "Guayaquil"], ["Cc Mall Del Sol", "Guayaquil"], ["Cc Mall Del Sol 3", "Guayaquil"], ["Tryp Wyndham", "Guayaquil"], ["Omnihospital", "Guayaquil"], ["Mapasingue Dos", "Guayaquil"], ["C.c Plaza Ceibos", "Guayaquil"], ["Pharmacys Plaza Milan", "Guayaquil"], ["Shell Select Abu Dabi", "Guayaquil"], ["Shell Select Cordova", "Guayaquil"], ["Altoque El Bosque", "Guayaquil"], ["Shell Select Pascuales", "Guayaquil"], ["Shell Select Kennedy", "Guayaquil"], ["Shell Select Ceibos", "Guayaquil"], ["Shell Select Beneficencia", "Guayaquil"], ["Shell Select Labrador", "Guayaquil"], ["9 De Octubre 732", "Guayaquil"], ["Shell Select Marina", "Guayaquil"], ["Altoque America", "Guayaquil"], ["World Trade Center", "Guayaquil"], ["Plaza Orellana", "Guayaquil"], ["Mi Comisariato Av. Pedro Menendez", "Guayaquil"], ["Cc San Marino", "Guayaquil"], ["Cc Alban Borja", "Guayaquil"], ["Supercines Orellana", "Guayaquil"], ["Tiendas Bro Roca", "Guayaquil"], ["Tiendas Bro La Joya", "Guayaquil"], ["Urdesa", "Guayaquil"], ["Plaza Quil", "Guayaquil"], ["Cc Policentro", "Guayaquil"], ["Shell Select Amazonas", "Guayaquil"], ["Pharmacys Kennedy", "Guayaquil"], ["Cc Riocentro Ceibos", "Guayaquil"], ["Hospital Alfredo Paulson", "Guayaquil"], ["Puerto Santa Ana", "Guayaquil"], ["Cc Riocentro Ceibos 2", "Guayaquil"], ["Cc Coral Ceibos", "Guayaquil"], ["Hiper Via A La Costa", "Guayaquil"], ["Laguna Plaza", "Guayaquil"], ["Bamboo Plaza", "Guayaquil"], ["Puerto Azul", "Guayaquil"], ["Buho Market", "Guayaquil"], ["9 De Octubre Y Machala", "Guayaquil"], ["9 De Octubre Boulevard", "Guayaquil"], ["Victor Manuel Rendon", "Guayaquil"], ["Plaza San Eduardo", "Guayaquil"], ["Velez Y P. Moncayo", "Guayaquil"], ["Bingo 9 De Octubre", "Guayaquil"], ["9 Octubre Y Boyaca", "Guayaquil"], ["9 De Octubre 427", "Guayaquil"], ["Plaza De La Suerte", "Guayaquil"], ["Velez", "Guayaquil"], ["Malecon 2000 Rotonda", "Guayaquil"], ["Boyaca", "Guayaquil"], ["Unicentro Shopping", "Guayaquil"], ["Mercado Central", "Guayaquil"], ["Pedro Carbo Y Sucre", "Guayaquil"], ["Bahia", "Guayaquil"], ["Hiper Via A La Costa Km 20", "Guayaquil"], ["Portete 2", "Guayaquil"], ["C. S. Emelec", "Guayaquil"], ["Portete 1500", "Guayaquil"], ["Pharmacys Alcivar", "Guayaquil"], ["Cc Centro Sur", "Guayaquil"], ["Pharmacys Plaza Alcivar", "Guayaquil"], ["25 Y B", "Guayaquil"], ["Cristo Del Consuelo", "Guayaquil"], ["Cc Mall Del Sur", "Guayaquil"], ["Q Y La 22", "Guayaquil"], ["Al toque domingo comin", "Guayaquil"], ["Altoque Domingo Comin", "Guayaquil"], ["Chongon", "Guayaquil"], ["Cc Riocentro Sur", "Guayaquil"], ["Gran Aki Domingo Comín", "Guayaquil"], ["La Floresta", "Guayaquil"], ["Guasmo Sur", "Guayaquil"], ["Coop Union De Bananeros", "Guayaquil"], ["Plaza Tia", "Milagro"], ["Milagro Central", "Milagro"], ["Milagro", "Milagro"], ["Cc Paseo Shopping Milagro", "Milagro"], ["Tt Milagro", "Milagro"], ["Hiper Naranjal", "Naranjal"], ["Pañora Naranjal Calle Bolivar", "Naranjal"], ["Naranjal", "Naranjal"], ["Pañora Naranjal Panamericana", "Naranjal"], ["Pañora Marcelino Maridueña", "Naranjito"], ["Pedro Carbo Express", "Pedro Carbo"], ["General Villamil Ply", "Playas"], ["Cc Shopping Playas", "Playas"], ["Posorja", "Posorja"], ["Salitre", "Salitre"], ["Samborondón", "Samborondón"], ["Julio Miguel Aguinaga", "Atuntaqui"], ["Cristobal De Troya", "Ibarra"], ["P. Moncayo", "Ibarra"], ["Sup.sta Maria Ibarra", "Ibarra"], ["Ibarra", "Ibarra"], ["Ibarra 3", "Ibarra"], ["Terminal T. Ibarra", "Ibarra"], ["Jacinto Collahuazo", "Otavalo"], ["Otavalo", "Otavalo"], ["Cariamanga", "Cariamanga"], ["Valle", "Loja"], ["Loja", "Loja"], ["Cc La Casona", "Loja"], ["San Juan", "Babahoyo"], ["Babahoyo", "Babahoyo"], ["T. Terrestre Babahoyo", "Babahoyo"], ["Cc Shopping Babahoyo", "Babahoyo"], ["Manga Del Cura", "Buena Fe"], ["Buena Fe Express", "Buena Fe"], ["Mocache", "Mocache"], ["Cc Shopping Quevedo", "Quevedo"], ["Tt Quevedo", "Quevedo"], ["Quevedo Express", "Quevedo"], ["Shopping Center", "Quevedo"], ["Quevedo", "Quevedo"], ["7 De Octubre 1516", "Quevedo"], ["Parque De La Familia", "Quevedo"], ["San Carlos", "Quevedo"], ["Quinsaloma", "Quinsaloma"], ["Valencia", "Valencia"], ["Sucre Y 24 Mayo", "Ventanas"], ["Ventanas", "Ventanas"], ["Vinces Central", "Vinces"], ["Vinces 2", "Vinces"], ["Cc Shopping Bahia", "Bahía de Caráquez"], ["Calceta", "Calceta"], ["Chone", "Chone"], ["El Carmen 3", "El Carmen"], ["Cc Popular El Carmen", "El Carmen"], ["Jipijapa", "Jipijapa"], ["Junin", "Junín"], ["Cc Mall Del Pacifico 2", "Manta"], ["Cc Mall Del Pacifico", "Manta"], ["Manta", "Manta"], ["Mercado Manta", "Manta"], ["Av. 16 Manta", "Manta"], ["Antiguo Tarqui", "Manta"], ["Nuevo Tarqui", "Manta"], ["Casanova Manta", "Manta"], ["Terminal Terrestre Manta", "Manta"], ["Cc Shopping Manta", "Manta"], ["Cc Coral Manta", "Manta"], ["Montecristi", "Montecristi"], ["Montecristi Metropolitana", "Montecristi"], ["Pajan", "Paján"], ["Pedernales Express", "Pedernales"], ["Aki Pedernales", "Pedernales"], ["Picoaza Calle Comercio", "Portoviejo"], ["Sup. Sta. Maria Portoviejo", "Portoviejo"], ["Multiplaza Portoviejo", "Portoviejo"], ["Portomercados", "Portoviejo"], ["Cc Plaza Del Sol Manabi", "Portoviejo"], ["Cc Mega Plaza Del Sol Portoviejo", "Portoviejo"], ["Portoviejo", "Portoviejo"], ["Calle Pedro Gual", "Portoviejo"], ["Portoviejo P. Moreira", "Portoviejo"], ["Portoviejo Municipal", "Portoviejo"], ["Cc1", "Portoviejo"], ["Zona Bancaria", "Portoviejo"], ["Casanova Portoviejo", "Portoviejo"], ["Cc Shopping Portoviejo #77 Pa", "Portoviejo"], ["Tt Portoviejo", "Portoviejo"], ["Aki 15 De Abril", "Portoviejo"], ["Puerto Lopez", "Puerto López"], ["Rocafuerte Express", "Rocafuerte"], ["Santa Ana", "Santa Ana"], ["Macas", "Macas"], ["El Coca", "El Coca"], ["Sacha", "La Joya de los Sachas"], ["Barrio Mexico", "Puyo"], ["Hiper Cayambe", "Cayambe"], ["Cayambe", "Cayambe"], ["Sup. Sta. Maria Cayambe 1", "Cayambe"], ["Parque Central Cayambe", "Cayambe"], ["Machachi", "Machachi"], ["Equinoccial", "Quito"], ["Pomasqui", "Quito"], ["Bicentenario", "Quito"], ["Carcelen", "Quito"], ["Coral Carapungo", "Quito"], ["Av Vicente Paredes", "Quito"], ["Coral Carapungo Esp#2", "Quito"], ["Av Diego Vasquez", "Quito"], ["Super Aki Cangahua", "Quito"], ["Plaza Marianitas", "Quito"], ["La Planada", "Quito"], ["Carapungo", "Quito"], ["Cc Vaccari Plaza", "Quito"], ["Calderon", "Quito"], ["Calle Punin Calderon", "Quito"], ["Llano Chico", "Quito"], ["Cc El Condado 2", "Quito"], ["Cc Gran Aki Carapungo", "Quito"], ["Angel Ludueña", "Quito"], ["Sta Maria Condado", "Quito"], ["Cc Portal Shopping Express", "Quito"], ["Cc Portal Shopping", "Quito"], ["La Florida", "Quito"], ["Sta María Ofelia", "Quito"], ["Cotocollao", "Quito"], ["Real Audiencia", "Quito"], ["Cc Gran Aki Molineros", "Quito"], ["Comité Del Pueblo", "Quito"], ["San Isidro", "Quito"], ["Sup. Sta Maria Comité Del Pueblo", "Quito"], ["Aki Molineros", "Quito"], ["Parque Ingles. Uio", "Quito"], ["Santa Maria Eden", "Quito"], ["Megakiwy Eloy Alfaro", "Quito"], ["Kennedy", "Quito"], ["Sup .sta Maria Occidental", "Quito"], ["Cc Plaza Aeropuerto", "Quito"], ["Tia La Luz", "Quito"], ["Sup. Sta Maria La Luz", "Quito"], ["La Luz Av. Francisco", "Quito"], ["El Inca", "Quito"], ["Al toque el Bosque", "Quito"], ["El Inca Express", "Quito"], ["Parque Diego De Topia", "Quito"], ["Cc El Bosque", "Quito"], ["Cc Elbosque", "Quito"], ["Sup. Sta Maria 6 Diciembre", "Quito"], ["Av Rio Coca", "Quito"], ["Supermaxi Eloy Alfaro", "Quito"], ["Cc Riocentro 6 De Diciembre", "Quito"], ["Cc Granados Plaza", "Quito"], ["Coral La Y", "Quito"], ["Edificio Ritz", "Quito"], ["Santa Maria Iñaquito", "Quito"], ["Cc Ccnu", "Quito"], ["Cc Plaza De Las Américas Av. República", "Quito"], ["Cc Quicentro Norte 1", "Quito"], ["Quicentro Norte 2", "Quito"], ["Sup. Sta. Maria Naciones Unidas", "Quito"], ["Cc El Caracol", "Quito"], ["Cc Quicentro Norte", "Quito"], ["Cc Cci", "Quito"], ["Corea", "Quito"], ["La Carolina", "Quito"], ["Mariana De Jesus", "Quito"], ["Cc Mall El Jardin", "Quito"], ["La Pradera", "Quito"], ["Av. Almagro Y Rep", "Quito"], ["Cc Multicentro", "Quito"], ["Bingo Circasiana", "Quito"], ["Sta María Santa Clara", "Quito"], ["Av. Cristobal Colon", "Quito"], ["Plaza Foch", "Quito"], ["Mercury", "Quito"], ["Salesiana", "Quito"], ["Cc Scala Shopping 1", "Quito"], ["Cc Ventura Mall", "Quito"], ["Sta. Maria Tumbaco", "Quito"], ["Tejar", "Quito"], ["Coral Tumbaco", "Quito"], ["Plaza Del Teatro", "Quito"], ["Olmedo Express", "Quito"], ["Centro Historico", "Quito"], ["Distrito Comercial", "Quito"], ["Cc Coral Magdalena", "Quito"], ["Rodrigo De Chavez", "Quito"], ["Sta Maria Villaflora", "Quito"], ["Chilibulo", "Quito"], ["La Michelena", "Quito"], ["Cc El Recreo", "Quito"], ["Cc Atahualpa 30", "Quito"], ["Cc El Recreo (happy Time)", "Quito"], ["Cc El Recreo 4", "Quito"], ["Cc El Recreo Etapa 2", "Quito"], ["Sector Ajavi", "Quito"], ["Huigra", "Quito"], ["Sup. Sta Maria Biloxi", "Quito"], ["Plaza Solanda", "Quito"], ["La Armenia", "Quito"], ["Solanda", "Quito"], ["Sup. Sta. Maria Chillogallo", "Quito"], ["Chillogallo", "Quito"], ["Cc Quicentro Sur", "Quito"], ["Cc Quicentro Sur 1", "Quito"], ["Cc Quicentro Sur 2", "Quito"], ["Conocoto", "Quito"], ["Plataforma Gubernamental Sur", "Quito"], ["Av. Garcia Moreno Conocoto", "Quito"], ["San Gabriel", "Quito"], ["Martha Bucaram", "Quito"], ["Plaza Del Valle Express", "Quito"], ["Sup. Sta Maria Quitumbe", "Quito"], ["Doral", "Quito"], ["Cc San Luis", "Quito"], ["Santa Maria Panasur", "Quito"], ["Sup. Sta. Maria Av. Ecuatoriana", "Quito"], ["Cc. Hipermarket Los Chillos", "Quito"], ["Nueva Aurora", "Quito"], ["San Pedro", "Quito"], ["Cc River Mall", "Quito"], ["Sta Maria Sangolqui", "Quito"], ["Agapanthus", "Quito"], ["Tabacundo", "Tabacundo"], ["Av. Septima Libertad", "La Libertad"], ["Cc Shopping La Libertad", "La Libertad"], ["Abdon Calderon. Libertad", "La Libertad"], ["Montañita", "Montañita"], ["Salinas", "Salinas"], ["Supermaxi Salinas", "Salinas"], ["Libertad", "Salinas"], ["Hiper Ballenita", "Santa Elena"], ["T. Terrestre Santa Elena 2", "Santa Elena"], ["Tt. Santa Elena", "Santa Elena"], ["Supervisor Peninsula", "Santa Elena"], ["Santa Elena Centro", "Santa Elena"], ["La Concordia", "La Concordia"], ["Av Quevedo", "Santo Domingo"], ["Vía Colectora", "Santo Domingo"], ["Cc Gran Aki Sto Do", "Santo Domingo"], ["Av. Cuenca Y 3 De Julio", "Santo Domingo"], ["Cc Shopping Santo Domingo", "Santo Domingo"], ["Urb Los Rosales", "Santo Domingo"], ["Rio Lelia", "Santo Domingo"], ["Supermaxi Santo Domingo", "Santo Domingo"], ["Av. Ambato Y Babahoyo Santo Domingo", "Santo Domingo"], ["Santo Domingo", "Santo Domingo"], ["Tsachila", "Santo Domingo"], ["Av. Chone", "Santo Domingo"], ["Calle Cocaniguas", "Santo Domingo"], ["15 De Septiembre", "Santo Domingo"], ["Lago Agrio Express", "Lago Agrio"], ["Izamba", "Ambato"], ["Sup. Sta Maria Ambato", "Ambato"], ["Cc Multiplaza Tungurahua Isla #03", "Ambato"], ["Manuela Cañizares", "Ambato"], ["Ambato 2", "Ambato"], ["Ambato", "Ambato"], ["Yahuira", "Ambato"], ["Cc Shopping Ambato", "Ambato"], ["Cc Mall De Los Andes", "Ambato"], ["Aki El Condor", "Ambato"], ["Pelileo", "Pelileo"], ["Parque Central", "Pelileo"]];
   // Generador de id ÚNICO y estable. Antes se usaba Date.now()+_rndAnalisis(), que al sumar el
   // azar a un número de 13 dígitos perdía casi toda la precisión decimal y provocaba colisiones
@@ -22146,12 +22175,47 @@ function cabApp() {
       if (r.status === 'portal_caido') return 'corta';
       return null;
     }
+    // ── v41.10.2 · SONIDOS (pedido de JP: «al igual que el módulo de QR»). Mismas funciones de la pistola: clic al leer, 4
+    // niveles de premio (bajo · medio · alto · mayor), clic seco «sin premio», aviso doble (mal leído, repetido, portal sin
+    // resultado) y la voz del monto si está activada en Exportar › Preferencias. Los juegos de sorteo no tienen tabla de
+    // premios en «Juegos», así que sus 3 cortes se fijan aquí (por aparato) y se pueden cambiar; por defecto: hasta $10 ·
+    // hasta $100 · hasta $1,999.99 · desde $2,000 (lo que ya no se cobra en un punto de venta).
+    const SON_KEY = 'bitacora_so_sonido', SON_DEF = [10, 100, 1999.99];
+    let sonCortes = SON_DEF.slice(); try{ const c = JSON.parse(localStorage.getItem(SON_KEY) || 'null'); if (Array.isArray(c) && c.length === 3 && c.every(x => +x > 0)) sonCortes = c.map(Number).sort((a,b) => a - b); }catch(_){}
+    const juegoSonido = () => ({nombre:'Sorteos', umbralesSonido:sonCortes.slice()});
+    function sonar(tipo, monto){
+      try{ if (window.__soEspiaSonido) window.__soEspiaSonido(tipo, monto); }catch(_){}   // gancho de las pruebas (no hace nada en uso normal)
+      try{
+        if (tipo === 'lectura') return typeof playCapturaSound === 'function' && playCapturaSound();
+        if (tipo === 'premio'){ if (typeof playWinSound === 'function') playWinSound(monto, juegoSonido()); if (typeof decirMonto === 'function') decirMonto(monto); return; }
+        if (tipo === 'sin') return typeof playSinPremioSound === 'function' && playSinPremioSound();
+        if (tipo === 'aviso') return typeof playAvisoSound === 'function' && playAvisoSound();
+      }catch(_){}
+    }
+    function nivelSonido(m){ return m > sonCortes[2] ? 'mayor' : m > sonCortes[1] ? 'alto' : m > sonCortes[0] ? 'medio' : 'bajo'; }
+    function panelSonido(){
+      const f = v => usd(v), N = [['bajo', `🔉 Bajo · hasta ${f(sonCortes[0])}`, sonCortes[0]], ['medio', `🔊 Medio · hasta ${f(sonCortes[1])}`, sonCortes[1]], ['alto', `🎺 Alto · hasta ${f(sonCortes[2])}`, sonCortes[2]], ['mayor', `🎉 Mayor · más de ${f(sonCortes[2])}`, sonCortes[2] * 2]];
+      return `<div class="so-pop so-sonido" id="soSonido" role="dialog" aria-label="Sonidos de la bandeja">
+        <div class="so-fila"><b>🔊 Sonidos al pistolear</b><span class="so-sp"></span><button type="button" class="so-btn sm" data-son-x aria-label="Cerrar">✕</button></div>
+        <div class="so-nota">Los mismos de la Pistola QR. Suenan con lo que lees en la bandeja: un clic al leer y, cuando llega el resultado, el nivel del premio. ${typeof vozActiva !== 'undefined' && vozActiva ? 'La voz dice el monto (activada en Exportar › Preferencias).' : 'La voz del monto se activa en Exportar › Preferencias.'}</div>
+        <div class="so-son-lista">${N.map(([k, t, m]) => `<div class="so-son-fila"><span>${t}</span><button type="button" class="so-btn sm" data-son-prueba="${m}" aria-label="Escuchar el nivel ${k}">▶ Escuchar</button></div>`).join('')}
+          <div class="so-son-fila"><span>✗ Sin premio</span><button type="button" class="so-btn sm" data-son-tipo="sin">▶ Escuchar</button></div>
+          <div class="so-son-fila"><span>⚠ Aviso (mal leído, repetido, portal sin resultado)</span><button type="button" class="so-btn sm" data-son-tipo="aviso">▶ Escuchar</button></div></div>
+        <div class="so-l">Cortes del nivel (en dólares netos)</div>
+        <div class="so-son-cortes"><label for="soSon0">bajo hasta $</label><input class="so-in" id="soSon0" type="number" inputmode="decimal" min="0.01" step="0.01" value="${sonCortes[0]}"><label for="soSon1">medio hasta $</label><input class="so-in" id="soSon1" type="number" inputmode="decimal" min="0.01" step="0.01" value="${sonCortes[1]}"><label for="soSon2">alto hasta $</label><input class="so-in" id="soSon2" type="number" inputmode="decimal" min="0.01" step="0.01" value="${sonCortes[2]}"></div>
+        <div class="so-fila"><button type="button" class="so-btn sm pri" data-son-todos>▶ Escuchar los 4 niveles</button><button type="button" class="so-btn sm" data-son-def>↺ Cortes por defecto</button><span class="so-nota">En el teléfono, «Escuchar» también activa el audio.</span></div></div>`;
+    }
+    let sonAbierto = false;
     // Lo leído de un sorteo ya jugado (o una zona de raspe) se consulta EN EL ACTO y su resultado aparece en la misma fila.
     async function verificarUno(it){
       if (!it || workerViejo || !navigator.onLine || /[?&]sinred=1/.test(location.search)) return pintarSiVisible();
       const id = it.boleto ? it.b.id : it.z.codigo;
       consultandoIds.add(id); pintarSiVisible();
-      try{ const r = await consultarUno(it); if (r === 'cambio') save(); }
+      try{ const r = await consultarUno(it); if (r === 'cambio') save();
+        // v41.10.2 · el sonido del resultado (solo de lo que se lee en la bandeja, no de la vuelta automática)
+        const o = it.boleto ? it.b : it.z;
+        if (Array.isArray(o.premios)) netoP(o.premios) > 0 ? sonar('premio', netoP(o.premios)) : sonar('sin');
+        else if (r === 'cambio') sonar('aviso'); }
       finally{ consultandoIds.delete(id); pintarSiVisible(); try{ if (document.querySelector('.tab.active')?.dataset.tab === 'cobros') renderCobros(); }catch(_){} }
     }
     async function verificar(){
@@ -22306,8 +22370,8 @@ function cabApp() {
       return `<span class="so-cod" title="${e_(c)}"><span class="b1">${out}</span></span>`;
     }
     function anatomia(c){ const L = leerCodigo(c); if (!L.ok) return '';
-      return `<div class="so-ana"><span>tipo</span><span>juego</span><span>sorteo</span><span>clase</span><span>serie</span><span>verif.</span>
-        <b>${c[0]}</b><b>${c.slice(1,3)} ${NOMBRE[L.juego]}</b><b>${c.slice(3,8)}</b><b>${c[8]} ${L.tipo}</b><b>${c.slice(9,17)}</b><b>${c.slice(-1)}</b></div>`; }
+      const par = (t, v) => `<span class="so-ana-p"><i>${t}</i><b>${v}</b></span>`;
+      return `<div class="so-ana">${par('tipo', c[0])}${par('juego', c.slice(1,3) + ' ' + NOMBRE[L.juego])}${par('sorteo', c.slice(3,8))}${par('clase', c[8] + ' ' + L.tipo)}${par('serie', c.slice(9,17))}${par('verif.', c.slice(-1))}</div>`; }
     // «Compra N»: numeradas por su momento (el id es 'C' + hora en base 36), iguales en todos los aparatos.
     function numCompra(id){
       const ids = [...new Set(boletos().map(b => b.compra).filter(Boolean).concat(compra ? [compra.id] : []))].sort((a,b) => (parseInt(String(a).slice(1), 36) || 0) - (parseInt(String(b).slice(1), 36) || 0));
@@ -22323,12 +22387,15 @@ function cabApp() {
       const cod = String(raw || '').replace(/\D/g, ''); if (!cod) return;
       const c = abrirCompra(), lect = {cod, t:Date.now()};
       const i = leerCodigo(cod);
-      if (!i.ok){ lect.estado = 'malo'; lect.msg = i.motivo; return anotarLect(lect); }
+      if (!i.ok){ lect.estado = 'malo';
+        lect.msg = cod.length < 18 || (cod.length > 18 && cod.length < 28) ? `Lectura incompleta: llegaron ${cod.length} cifras (un boleto tiene 18 y una zona de raspe 28). Vuelve a dispararle.` : i.motivo;
+        sonar('aviso'); return anotarLect(lect); }
+      sonar('lectura');
       if (!enAmb(i.juego)){ ui.amb = 'todos'; guardarUi(); toast(`Cambié el filtro a «Todos» para mostrar el ${NOMBRE[i.juego]} que acabas de leer.`); }
       if (i.tipo === 'raspe'){
         const dueño = boletos().find(b => b.juego === i.juego && b.sorteo === i.sorteo && b.serie === i.serie);
         const ya = (dueño && (dueño.raspes || []).some(z => z.codigo === i.codigo)) || esperaRaspes().some(z => z.codigo === i.codigo);
-        if (ya){ lect.estado = 'repetido'; lect.raspe = true; lect.id = dueño ? dueño.id : 'R' + i.codigo; return anotarLect(lect); }
+        if (ya){ sonar('aviso'); lect.estado = 'repetido'; lect.raspe = true; lect.id = dueño ? dueño.id : 'R' + i.codigo; return anotarLect(lect); }
         const z = {codigo:i.codigo, premios:null, estado:'pendiente', n:0, ultima:0};
         let it;
         if (dueño){ (dueño.raspes || (dueño.raspes = [])).push(z); lect.id = dueño.id; it = {z, b:dueño}; }
@@ -22336,7 +22403,7 @@ function cabApp() {
         lect.estado = 'raspe'; lect.rcod = i.codigo; save(); anotarLect(lect); verificarUno(it); return;
       }
       const dup = boletos().find(b => b.codigo === i.codigo);
-      if (dup){ lect.estado = 'repetido'; lect.id = dup.id; return anotarLect(lect); }
+      if (dup){ sonar('aviso'); lect.estado = 'repetido'; lect.id = dup.id; return anotarLect(lect); }
       const fecha = (infoApi(i.juego, i.sorteo) || {}).fecha || fechaCalendario(i.juego, i.sorteo);
       const d = DESC_OK[i.juego] ? Math.max(0, Math.min(60, +c.desc || 0)) : 0, punto = String(c.punto || '').trim().slice(0, 80) || null;
       const b = {id:'S' + i.codigo, tipo:'boleto', codigo:i.codigo, juego:i.juego, sorteo:i.sorteo, serie:i.serie, fecha, fechaEst:!infoApi(i.juego, i.sorteo),
@@ -22383,18 +22450,19 @@ function cabApp() {
       const lects = c ? (c.lect || []).filter(l => { const L = leerCodigo(l.cod); return !L.ok || enAmb(L.juego); }) : [];
       const deCompra = c ? boletos().filter(b => b.compra === c.id) : [];
       const filas = lects.map(l => { const L = leerCodigo(l.cod), o = objDe(l.id), esBol = L.ok && L.tipo === 'boleto' && l.estado === 'boleto' && o;
-        return `<div class="so-brow${Date.now() - l.t < 1200 ? ' nuevo' : ''}"><div>${codHtml(l.cod)}</div>
-          <div class="q">${L.ok ? `${ICO[L.juego]} <b>${NOMBRE[L.juego]} ${L.sorteo}</b> · ${L.tipo === 'raspe' ? 'zona de raspe' : 'serie ' + L.serie}` : '—'}</div>
+        return `<div class="so-brow${Date.now() - l.t < 1200 ? ' nuevo' : ''}"><div>${L.ok ? codHtml(l.cod) : `<span class="so-cod" title="${e_(l.cod)}"><span class="b2">${e_(l.cod)}</span></span>`}</div>
+          <div class="q">${L.ok ? `${ICO[L.juego]} <b>${NOMBRE[L.juego]} ${L.sorteo}</b> · ${L.tipo === 'raspe' ? 'zona de raspe' : 'serie ' + L.serie}` : ''}</div>
           <div class="so-est">${estadoLectura(l)}</div><div class="cst mono">${esBol ? usd(o.costo) : ''}</div>
           <div class="x">${esBol ? `<button type="button" class="so-btn sm" data-quitar-lect="${e_(o.id)}" aria-label="Quitar este boleto de la compra">✕</button>` : ''}</div></div>`; }).join('');
       return `<div class="so-band" aria-label="Bandeja de captura">
-        <div class="so-pistola"><span style="font-size:20px" aria-hidden="true">🔫</span><input class="so-in" id="soCodBarra" placeholder="Pistola lista · dispara al boleto o a su zona de raspe" aria-label="Código escaneado" inputmode="numeric" autocomplete="off"><button type="button" class="so-btn pri" data-agregar>Agregar</button><span class="so-nota so-tecl">Enter agrega · se guarda al instante · <span class="so-kbd">/</span> vuelve aquí</span></div>
+        <div class="so-pistola"><span style="font-size:20px" aria-hidden="true">🔫</span><input class="so-in" id="soCodBarra" placeholder="Pistola lista · dispara al boleto o a su zona de raspe" aria-label="Código escaneado" inputmode="numeric" autocomplete="off"><button type="button" class="so-btn pri" data-agregar>Agregar</button><button type="button" class="so-btn sm" data-son aria-expanded="${sonAbierto}" title="Sonidos al pistolear (los mismos de la Pistola QR)">🔊 Sonido</button><span class="so-nota so-tecl">Enter agrega · se guarda al instante · <span class="so-kbd">/</span> vuelve aquí</span></div>
+        ${sonAbierto ? panelSonido() : ''}
         ${c ? `<div class="so-ficha"><span class="so-l">${nombreCompra(c.id)} · en curso</span>
           <label class="so-chip">📍 <input class="largo" id="soFPunto" list="soPuntosLista" placeholder="punto (opcional)" value="${e_(c.punto)}" aria-label="Punto de esta compra"></label>
-          <label class="so-chip">🏷️ <input id="soFDesc" type="number" min="0" max="60" step="0.5" placeholder="0" value="${e_(c.desc)}" aria-label="Descuento de esta compra"> %</label>
-          <label class="so-chip">📅 <input id="soFFecha" type="date" value="${e_(c.fechaCompra)}" style="width:9.5em" aria-label="Fecha de compra"></label>
-          <span class="so-nota">se aplica a toda esta compra, también a lo ya leído</span><span class="so-sp"></span>
-          <b class="mono">${deCompra.length} boleto${deCompra.length===1?'':'s'} · ${usd(deCompra.reduce((a,b) => a + (+b.costo || 0), 0))}</b><button type="button" class="so-btn sm ok" data-cerrar-compra>✓ Terminar compra</button></div>
+          <label class="so-chip" title="Descuento de compra (no es el 14 % de los premios)">🏷️ <input id="soFDesc" type="number" inputmode="decimal" min="0" max="60" step="0.5" placeholder="0" value="${e_(c.desc)}" aria-label="Descuento de esta compra"><span class="u">%</span></label>
+          <label class="so-chip">📅 <input id="soFFecha" type="date" value="${e_(c.fechaCompra)}" aria-label="Fecha de compra"></label>
+          <span class="so-nota">se aplica a toda esta compra, también a lo ya leído</span>
+          <span class="so-tot"><b class="mono">${deCompra.length} boleto${deCompra.length===1?'':'s'} · ${usd(deCompra.reduce((a,b) => a + (+b.costo || 0), 0))}</b><button type="button" class="so-btn sm ok" data-cerrar-compra>✓ Terminar compra</button></span></div>
           <datalist id="soPuntosLista">${puntosConocidos().map(p => `<option value="${e_(p)}"></option>`).join('')}</datalist>
           <div class="so-brows">${filas}</div>` : `<div class="so-nota">Cada lectura se <b>guarda al instante</b> en una compra nueva. Si el sorteo ya se jugó, el resultado aparece aquí mismo; si no, te dice qué día se verifica sola. El punto y el descuento se ponen una vez, cuando quieras.</div>`}</div>`;
     }
@@ -22526,11 +22594,15 @@ function cabApp() {
         ${k === 'entregado' ? `<button type="button" class="so-btn ok" data-cobrar="${e_(b.id)}">💵 Me pagó</button>` : ''}
         ${k === 'cobrado' ? `<button type="button" class="so-btn sm" data-revertir="${e_(b.id)}">↩ Revertir cobro</button>` : ''}
         <div class="so-card" style="padding:12px"><div class="so-l">Editar este boleto</div>
-          <div class="so-fila"><label class="so-sub">Descuento de compra <input class="so-in" data-ed="desc" data-id="${e_(b.id)}" type="number" min="0" max="60" step="0.5" value="${+b.desc || 0}" style="width:5.5em" ${DESC_OK[b.juego] ? '' : 'disabled'}> %</label>
-          <label class="so-sub">Punto <input class="so-in" data-ed="punto" data-id="${e_(b.id)}" list="soPuntosLista3" value="${e_(b.punto || '')}" placeholder="ej. GRANADOS PLAZA" style="width:12em"></label>
-          <label class="so-sub">Fecha de compra <input class="so-in" data-ed="fechaCompra" data-id="${e_(b.id)}" type="date" value="${e_(b.fechaCompra || '')}"></label></div>
+          <div class="so-ed">
+            <label for="soEdDesc" title="Descuento de compra (no es el 14 % de los premios)">Descuento</label><span class="con-u"><input class="so-in" id="soEdDesc" data-ed="desc" data-id="${e_(b.id)}" type="number" inputmode="decimal" min="0" max="60" step="0.5" value="${+b.desc || 0}" ${DESC_OK[b.juego] ? '' : 'disabled'}><span>%</span></span>
+            <label for="soEdPunto">Punto</label><input class="so-in" id="soEdPunto" data-ed="punto" data-id="${e_(b.id)}" list="soPuntosLista3" value="${e_(b.punto || '')}" placeholder="opcional">
+            <label for="soEdFecha">Comprado el</label><input class="so-in" id="soEdFecha" data-ed="fechaCompra" data-id="${e_(b.id)}" type="date" value="${e_(b.fechaCompra || '')}">
+            <label for="soEdNum">Número</label><input class="so-in mono" id="soEdNum" data-campo="numero" data-id="${e_(b.id)}" value="${e_(b.numero || '')}" placeholder="opcional">
+            ${b.juego === 'lotto' ? `<label for="soEdSueldo">Sueldo</label><input class="so-in mono" id="soEdSueldo" data-campo="sueldo" data-id="${e_(b.id)}" value="${e_(b.sueldo || '')}" placeholder="opcional">` : ''}
+            ${b.juego === 'loteria' ? `<label for="soEdFr">Fracción</label><input class="so-in mono" id="soEdFr" data-campo="fraccion" data-id="${e_(b.id)}" value="${e_(b.fraccion || '')}" placeholder="opcional">` : ''}
+          </div>
           <datalist id="soPuntosLista3">${puntosConocidos().map(p => `<option value="${e_(p)}"></option>`).join('')}</datalist>
-          <div class="so-fila"><label class="so-sub">Número <input class="so-in mono" data-campo="numero" data-id="${e_(b.id)}" value="${e_(b.numero || '')}" placeholder="opcional" style="width:${b.juego==='pozo'||b.juego==='revancha'?'13em':'7.5em'}"></label>${b.juego === 'lotto' ? `<label class="so-sub">Sueldo <input class="so-in mono" data-campo="sueldo" data-id="${e_(b.id)}" value="${e_(b.sueldo || '')}" placeholder="opcional" style="width:7.5em"></label>` : ''}${b.juego === 'loteria' ? `<label class="so-sub">Fracción <input class="so-in mono" data-campo="fraccion" data-id="${e_(b.id)}" value="${e_(b.fraccion || '')}" placeholder="opc." style="width:4.5em"></label>` : ''}</div>
           <div class="so-nota">Se guarda al salir de cada campo. Costo ahora: <b>${usd(b.costo)}</b> (lista ${usd(b.precio)}${DESC_OK[b.juego] && b.desc ? ' − ' + b.desc + ' %' : ''}).</div></div>
         <div class="so-fila"><button type="button" class="so-btn sm" data-marcar-compra="${e_(b.id)}">☑ Marcar su compra (${nCompra})</button><span class="so-sp"></span><button type="button" class="so-btn sm" data-borrar-uno="${e_(b.id)}" style="color:var(--so-neg);border-color:var(--so-neg)">🗑 Eliminar</button></div>
       </div>`;
@@ -22788,8 +22860,13 @@ function cabApp() {
     function render(){
       const raiz = document.getElementById('soRaiz'); if (!raiz) return;
       const foco = document.activeElement && raiz.contains(document.activeElement) ? document.activeElement.id : null;
+      // v41.10.2 · BUG visto por JP («034791001820091»): al llegar el resultado de una lectura, la bandeja se repintaba y la
+      // caja de la pistola nacía VACÍA; si la pistola estaba a media ráfaga, las primeras cifras del código siguiente se
+      // perdían y quedaba «No se guardó». Ahora se conserva lo escrito (y dónde iba el cursor) en todo campo con id.
+      const escritos = {}; raiz.querySelectorAll('input[id], textarea[id]').forEach(el => { if (el.type !== 'checkbox' && el.type !== 'radio') escritos[el.id] = [el.value, el === document.activeElement ? el.selectionStart : null]; });
       raiz.innerHTML = html();
-      if (foco){ const el = document.getElementById(foco); if (el){ el.focus(); try{ if (el.setSelectionRange && el.type !== 'number') el.setSelectionRange(el.value.length, el.value.length); }catch(_){} } }
+      Object.entries(escritos).forEach(([id, [v, pos]]) => { const el = document.getElementById(id); if (el && el.value !== v && (id === 'soCodBarra' || el === document.getElementById(foco))) el.value = v; });
+      if (foco){ const el = document.getElementById(foco); if (el){ el.focus(); try{ if (el.setSelectionRange && el.type !== 'number' && el.type !== 'date') el.setSelectionRange(el.value.length, el.value.length); }catch(_){} } }
       if (!enlazado) enlazar();
       refrescarApi(); if (Date.now() - ultimaVuelta > 10 * 60 * 1000) setTimeout(verificar, 600);
     }
@@ -22819,6 +22896,13 @@ function cabApp() {
         if (t.hasAttribute('data-cerrar-compra')){ if (compra){ const n = boletos().filter(b => b.compra === compra.id).length, nom = nombreCompra(compra.id); compra = null; guardarCompra(); toast(`${nom} terminada: ${n} boleto${n===1?'':'s'}. Lo siguiente que leas abre otra compra.`); } return render(); }
         if (t.dataset.quitarLect){ return eliminar([boletos().find(b => b.id === t.dataset.quitarLect)]); }
         if (t.hasAttribute('data-limpia')){ q = ''; return render(); }
+        // v41.10.2 · panel de sonidos
+        if (t.hasAttribute('data-son')){ try{ desbloquearAudio(); }catch(_){} sonAbierto = !sonAbierto; return render(); }
+        if (t.hasAttribute('data-son-x')){ sonAbierto = false; render(); return document.getElementById('soCodBarra')?.focus(); }
+        if (t.dataset.sonPrueba){ try{ desbloquearAudio(); }catch(_){} return sonar('premio', +t.dataset.sonPrueba); }
+        if (t.dataset.sonTipo){ try{ desbloquearAudio(); }catch(_){} return sonar(t.dataset.sonTipo); }
+        if (t.hasAttribute('data-son-todos')){ try{ desbloquearAudio(); }catch(_){} [sonCortes[0], sonCortes[1], sonCortes[2], sonCortes[2] * 2].forEach((m, k) => setTimeout(() => sonar('premio', m), k * 900)); return; }
+        if (t.hasAttribute('data-son-def')){ sonCortes = SON_DEF.slice(); try{ localStorage.removeItem(SON_KEY); }catch(_){} toast('Cortes de sonido por defecto.'); return render(); }
         if (t.dataset.editar){ ui.sel = t.dataset.editar; pop = null; confirma = false; render(); setTimeout(() => document.querySelector('[data-ed="desc"]:not([disabled]), [data-ed="punto"]')?.focus(), 20); return; }
         if (t.dataset.marcarCompra){ const b = boletos().find(x => x.id === t.dataset.marcarCompra); if (b){ filtrados().filter(x => x.compra === b.compra).forEach(x => marc.add(x.id)); toast(`Marcada ${nombreCompra(b.compra)}: ${marc.size} boleto${marc.size===1?'':'s'}.`); } return render(); }
         if (t.hasAttribute('data-marcar-sindesc')){ filtrados().filter(b => DESC_OK[b.juego] && !b.desc).forEach(b => marc.add(b.id)); ui.etapa = 'todos'; guardarUi(); return render(); }
@@ -22858,6 +22942,9 @@ function cabApp() {
           if (antes[k] === b[k]) return;
           save(); render(); toastUndo('Guardado.', () => { Object.assign(b, antes); save(); render(); }); }
         // la ficha de la compra en curso vale para toda la compra, también lo ya leído
+        if (t.id === 'soSon0' || t.id === 'soSon1' || t.id === 'soSon2'){ const v = [0,1,2].map(k => +document.getElementById('soSon' + k).value);
+          if (v.some(x => !(x > 0)) || !(v[0] < v[1] && v[1] < v[2])){ toast('Los cortes deben ser mayores que 0 y crecientes (bajo < medio < alto).'); return render(); }
+          sonCortes = v; try{ localStorage.setItem(SON_KEY, JSON.stringify(v)); }catch(_){} return render(); }
         if (t.id === 'soFDesc' || t.id === 'soFPunto' || t.id === 'soFFecha'){ if (!compra) return; const k = {soFDesc:'desc', soFPunto:'punto', soFFecha:'fechaCompra'}[t.id];
           if (k === 'fechaCompra' && !/^\d{4}-\d{2}-\d{2}$/.test(t.value)) return render();
           compra[k] = t.value; guardarCompra();
@@ -22918,6 +23005,7 @@ function cabApp() {
         if (ev.key === 'Escape' && ui.res && !campo){ const k = ui.res; ui.res = null; render(); document.querySelector(`tr[data-res="${k}"]`)?.focus(); ev.stopPropagation(); return; }   // v41.9.1
         if (ev.key === 'Escape' && confirma && !campo){ confirma = false; render(); ev.stopPropagation(); return; }   // v41.10: Esc por capas
         if (ev.key === 'Escape' && pop){ pop = null; render(); ev.stopPropagation(); return; }
+        if (ev.key === 'Escape' && sonAbierto){ sonAbierto = false; render(); document.getElementById('soCodBarra')?.focus(); ev.stopPropagation(); return; }
         if (ev.key === 'Escape' && ui.sel && !campo){ ui.sel = null; render(); ev.stopPropagation(); return; }
         if (ev.key === 'Escape' && marc.size && !campo){ marc.clear(); render(); ev.stopPropagation(); return; }
         // «/» (y R, como antes) llevan a la bandeja: ya no hay ventana de registro
@@ -22951,7 +23039,8 @@ function cabApp() {
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - ultimaVuelta > 15 * 60 * 1000) verificar(); });
 
     return { render, esCodigoSorteo, recibirCodigo, avisoCobros, syncArrancar, syncDetener, syncProgramar, verificar, leerCodigo, etapa,
-      get estado(){ return {workerViejo, nubeBloqueada, boletos:boletos().length, raspesEspera:esperaRaspes().length, resultados:resultados().map(x => x.juego + '-' + x.sorteo)}; } };
+      get estado(){ return {workerViejo, nubeBloqueada, boletos:boletos().length, raspesEspera:esperaRaspes().length, resultados:resultados().map(x => x.juego + '-' + x.sorteo),
+        sonidos:[typeof playCapturaSound, typeof playWinSound, typeof playSinPremioSound, typeof playAvisoSound, typeof decirMonto].every(t => t === 'function')}; } };
   })();
 
   // v41.9: tras pintar Cobros, un aviso aparte con lo que te deben de sorteos (no se mezcla con las cifras de raspaditas).
